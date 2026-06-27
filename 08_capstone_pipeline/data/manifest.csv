@@ -1,0 +1,21 @@
+image_filename,caption,category,split
+galaxy_001.png,Spiral galaxy with bright core and blue arms,astronomy,train
+galaxy_002.png,Elliptical galaxy in deep space,astronomy,train
+galaxy_003.png,Barred spiral galaxy NGC 1300,astronomy,train
+galaxy_004.png,Irregular galaxy with star formation,astronomy,test
+cell_001.png,Human red blood cells under microscope,biology,train
+cell_002.png,Neural cells with visible dendrites,biology,train
+cell_003.png,Plant cells showing cell walls,biology,train
+cell_004.png,Bacteria colony on agar plate,biology,test
+landscape_001.png,Mountain range with snow-capped peaks,geography,train
+landscape_002.png,Desert landscape with sand dunes,geography,train
+landscape_003.png,Tropical rainforest canopy,geography,train
+landscape_004.png,Coastal cliff formations,geography,test
+circuit_001.png,Integrated circuit board close-up,engineering,train
+circuit_002.png,Electronic components on PCB,engineering,train
+circuit_003.png,Microprocessor architecture diagram,engineering,train
+circuit_004.png,LED matrix circuit layout,engineering,test
+weather_001.png,Cumulus clouds in blue sky,meteorology,train
+weather_002.png,Hurricane satellite view,meteorology,train
+weather_003.png,Lightning strike over city,meteorology,train
+weather_004.png,Tornado funnel cloud formation,meteorology,test

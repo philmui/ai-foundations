@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 360" font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:21px;font-weight:700;fill:#0f172a;}
+      .cap{font-size:14px;font-weight:700;fill:#334155;}
+      .sub{font-size:12px;fill:#64748b;}
+      .mono{font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace;fill:#1e3a8a;}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="40" class="title">Multimodal means more than one kind of input</text>
+  <text x="30" y="64" class="sub">A modern AI model learns from the picture and the words at the same time.</text>
+
+  <!-- IMAGE side -->
+  <text x="100" y="120" class="cap" text-anchor="middle" fill="#2563eb">Image (pixels)</text>
+  <rect x="40" y="135" width="120" height="90" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <circle cx="80" cy="170" r="14" fill="#1d4ed8"/>
+  <rect x="105" y="180" width="40" height="30" rx="4" fill="#60a5fa"/>
+  <text x="100" y="248" class="sub" text-anchor="middle">a grid of numbers</text>
+
+  <!-- TEXT side -->
+  <text x="100" y="288" class="cap" text-anchor="middle" fill="#0d9488">Text (caption)</text>
+  <rect x="40" y="300" width="120" height="40" rx="8" fill="#ccfbf1" stroke="#0d9488" stroke-width="2"/>
+  <text x="100" y="325" class="mono" text-anchor="middle" fill="#0f766e">"a spiral galaxy"</text>
+
+  <!-- arrows to model -->
+  <line x1="170" y1="180" x2="360" y2="210" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="170" y1="320" x2="360" y2="240" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- model -->
+  <rect x="370" y="170" width="170" height="110" rx="12" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+  <text x="455" y="218" class="cap" text-anchor="middle" fill="#b45309">AI Model</text>
+  <text x="455" y="242" class="sub" text-anchor="middle">looks at both together</text>
+
+  <!-- arrow to understanding -->
+  <line x1="540" y1="225" x2="640" y2="225" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- shared understanding -->
+  <rect x="650" y="170" width="160" height="110" rx="12" fill="#fce7f3" stroke="#db2777" stroke-width="2.5"/>
+  <text x="730" y="212" class="cap" text-anchor="middle" fill="#be185d">Shared meaning</text>
+  <text x="730" y="236" class="sub" text-anchor="middle">"this picture and</text>
+  <text x="730" y="254" class="sub" text-anchor="middle">these words match"</text>
+</svg>

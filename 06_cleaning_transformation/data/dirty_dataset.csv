@@ -1,0 +1,81 @@
+prompt_id,prompt_text,response_text,model,temperature,tokens_used,rating,category,date
+1,Write a haiku about AI,   Circuits pulse and think,GPT-4,0.7,45,4.2,creative,2024-01-15
+2,Explain quantum computing,Quantum mechanics uses superposition...,gpt-4,0.5,234,4.8,technical,01/16/2024
+3,Translate 'hello' to Spanish,Hola,Claude-3,0.3,12,5.0,language,2024-01-17
+4,Write a haiku about AI,   Circuits pulse and think,GPT-4,0.7,45,4.2,creative,2024-01-15
+5,Summarize climate change,Climate change refers to long-term...,GPT4,0.6,,4.5,science,2024-01-18
+6,Debug this Python code,The error is on line 3...,Claude-3-Opus,0.8,156,4.9,coding,01/19/2024
+7,,Machine learning is a subset of AI...,GPT-3.5,0.5,89,3.8,technical,2024-01-20
+8,What is photosynthesis?,Plants convert light energy...,gpt-4,0.4,123,4.6,science,2024-01-21
+9,Recommend a book,I recommend 'Sapiens' by...,claude-3,2.5,67,4.1,general,2024-01-22
+10,Write a poem about nature,,GPT-4,0.9,0,3.5,creative,01/23/2024
+11,Explain blockchain,Blockchain is a distributed ledger...,GPT-4,0.5,198,4.7,technical,2024-01-24
+12,Translate 'goodbye' to French,Au revoir,Claude3,0.3,14,5.0,language,2024-01-25
+13,What is machine learning?,ML is a method of data analysis...,   gpt-4   ,0.6,145,4.4,technical,01/26/2024
+14,Calculate 15% tip on $50,The tip would be $7.50,GPT-3.5,0.2,28,4.0,math,2024-01-27
+15,Write a haiku about AI,   Circuits pulse and think,GPT-4,0.7,45,4.2,creative,2024-01-15
+16,Explain neural networks,Neural networks are computing systems...,Claude-3,0.7,267,4.9,technical,2024-01-28
+17,Translate 'thank you' to Japanese,Arigato,gpt4,0.3,15,4.8,language,01/29/2024
+18,Summarize World War II,,GPT-4,0.6,0,3.2,history,2024-01-30
+19,Debug Java code,The issue is with the null pointer...,Claude-3-Opus,0.8,189,4.7,coding,2024-01-31
+20,What is DNA?,,GPT-3.5,0.5,134,4.3,science,02/01/2024
+21,Recommend a restaurant,Try the Italian place on 5th...,gpt-4,0.7,52,4.0,general,2024-02-02
+22,Write a story about robots,In a future where robots...,GPT-4,0.9,312,4.6,creative,2024-02-03
+23,Explain relativity,Einstein's theory describes...,Claude-3,0.6,256,4.9,science,02/04/2024
+24,Translate 'good morning' to German,Guten Morgen,GPT4,0.3,16,5.0,language,2024-02-05
+25,What is recursion?,Recursion is when a function calls itself...,gpt-4,0.5,98,4.5,coding,2024-02-06
+26,Calculate compound interest,Using the formula A = P(1+r/n)^(nt)...,GPT-3.5,0.2,145,4.2,math,02/07/2024
+27,,The mitochondria is the powerhouse...,Claude-3,0.5,87,4.1,science,2024-02-08
+28,Debug SQL query,Missing JOIN clause between tables...,gpt-4,0.8,176,4.8,coding,2024-02-09
+29,Write a poem about space,Beyond the atmosphere so vast...,GPT-4,0.9,234,4.4,creative,02/10/2024
+30,Explain cryptocurrency,Digital currency using cryptography...,Claude3,0.6,223,4.6,technical,2024-02-11
+31,Translate 'I love you' to Italian,Ti amo,GPT-4,0.3,13,5.0,language,2024-02-12
+32,What is evolution?,Evolution is the change in heritable...,gpt-4,0.5,198,4.7,science,02/13/2024
+33,Recommend a movie,   Check out 'Inception'...,GPT-3.5,0.7,45,3.9,general,2024-02-14
+34,Write a haiku about code,Functions compile clean...,Claude-3,0.7,42,4.3,creative,2024-02-15
+35,Explain data structures,Arrays store elements in contiguous...,GPT-4,0.6,287,4.8,coding,02/16/2024
+36,Calculate mortgage payment,,gpt-4,0.2,0,3.5,math,2024-02-17
+37,What is entropy?,Entropy measures disorder in a system...,Claude-3-Opus,0.5,167,4.6,science,2024-02-18
+38,Debug React component,The state is not updating because...,GPT4,0.8,198,4.9,coding,02/19/2024
+39,Write a story about time travel,Sarah stepped into the machine...,GPT-4,0.9,445,4.5,creative,2024-02-20
+40,Explain cloud computing,Cloud computing delivers computing services...,claude-3,0.6,234,4.7,technical,2024-02-21
+41,Translate 'beautiful' to French,Belle,GPT-3.5,0.3,12,4.8,language,02/22/2024
+42,What is gravity?,Gravity is a force that attracts...,gpt-4,0.4,123,4.5,science,2024-02-23
+43,Recommend a podcast,,Claude-3,0.7,0,3.7,general,2024-02-24
+44,Write a poem about music,Melodies drift through the air...,GPT-4,0.9,187,4.4,creative,02/25/2024
+45,Explain algorithms,An algorithm is a step-by-step procedure...,   GPT4   ,0.6,212,4.8,coding,2024-02-26
+46,Calculate standard deviation,Using the formula sqrt(Σ(x-μ)²/n)...,GPT-3.5,0.2,234,4.3,math,02/27/2024
+47,What is osmosis?,Osmosis is the movement of water...,Claude-3,0.5,134,4.6,science,2024-02-28
+48,Debug Python function,   The loop index is off by one...,gpt-4,0.8,145,4.7,coding,2024-02-29
+49,Write a haiku about ocean,Waves crash on the shore...,GPT-4,0.7,43,4.2,creative,03/01/2024
+50,Explain APIs,An API is an interface that allows...,Claude3,0.6,198,4.9,technical,2024-03-02
+51,Translate 'friend' to Spanish,Amigo,gpt-4,0.3,11,5.0,language,03/03/2024
+52,What is mitosis?,Mitosis is cell division that produces...,GPT-4,0.5,176,4.7,science,2024-03-04
+53,Recommend a video game,Try 'Elden Ring' if you like...,GPT-3.5,0.7,67,4.1,general,03/05/2024
+54,Write a story about dragons,The ancient dragon stirred...,Claude-3,0.9,389,4.6,creative,2024-03-06
+55,Explain databases,,gpt-4,0.6,0,3.8,technical,2024-03-07
+56,Calculate probability,Using combinations: C(n,k) = n!/(k!(n-k)!)...,GPT4,0.2,198,4.4,math,03/08/2024
+57,What is metabolism?,Metabolism is the set of chemical reactions...,Claude-3-Opus,0.5,145,4.6,science,2024-03-09
+58,Debug CSS layout,The flexbox container needs...,gpt-4,0.8,123,4.8,coding,03/10/2024
+59,Write a poem about winter,Snowflakes fall so softly...,GPT-4,0.9,156,4.3,creative,2024-03-11
+60,Explain encryption,Encryption converts plaintext to ciphertext...,   claude-3   ,0.6,267,4.9,technical,03/12/2024
+61,Translate 'water' to Chinese,水 (shuǐ),GPT-3.5,0.3,18,4.7,language,2024-03-13
+62,What is photosynthesis?,Plants convert light energy...,gpt-4,0.4,123,4.6,science,2024-01-21
+63,Recommend a TV show,Watch 'Breaking Bad' for...,GPT-4,0.7,54,4.2,general,03/14/2024
+64,,Version control tracks changes to files...,Claude-3,0.6,189,4.5,coding,2024-03-15
+65,Calculate derivative,Using power rule: d/dx(x^n) = nx^(n-1)...,gpt-4,0.2,167,4.6,math,03/16/2024
+66,What is immunity?,The immune system defends against pathogens...,GPT4,0.5,198,4.7,science,2024-03-17
+67,Debug JavaScript async,The promise chain is missing a catch...,Claude-3-Opus,0.8,234,4.9,coding,03/18/2024
+68,Write a haiku about rain,Droplets tap the glass...,GPT-4,0.7,41,4.1,creative,2024-03-19
+69,Explain virtualization,Virtualization creates virtual versions...,gpt-4,0.6,245,4.8,technical,03/20/2024
+70,Translate 'peace' to Arabic,سلام (salām),Claude3,0.3,19,4.9,language,2024-03-21
+71,What is friction?,Friction is a force that opposes motion...,GPT-3.5,0.4,134,4.4,science,03/22/2024
+72,Recommend a restaurant,Try the Italian place on 5th...,gpt-4,0.7,52,4.0,general,2024-02-02
+73,Write a story about magic,In a world where magic flows...,GPT-4,3.0,412,4.7,creative,2024-03-23
+74,Explain microservices,Microservices architecture structures...,Claude-3,0.6,289,4.8,technical,03/24/2024
+75,Calculate integral,Using substitution method: ∫u du...,gpt-4,0.2,178,4.5,math,2024-03-25
+76,,Photosynthesis occurs in chloroplasts...,GPT4,0.5,0,3.9,science,2024-03-26
+77,Debug TypeScript types,The interface needs to extend...,Claude-3-Opus,0.8,156,4.9,coding,03/27/2024
+78,Write a poem about dreams,In slumber's gentle embrace...,GPT-4,0.9,198,4.4,creative,2024-03-28
+79,Explain containerization,Containers package applications with...,gpt-4,0.6,256,4.9,technical,03/29/2024
+80,Translate 'hope' to Korean,희망 (huimang),Claude-3,0.3,17,4.8,language,2024-03-30

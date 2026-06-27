@@ -1,0 +1,13 @@
+[project]
+name = "module-03-thinking-in-arrays"
+version = "0.1.0"
+description = "Module 3: Thinking in Arrays (Tensors)"
+requires-python = ">=3.10"
+dependencies = [
+    "python-dotenv>=1.0.0",
+    "numpy>=1.26.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

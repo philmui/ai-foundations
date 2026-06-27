@@ -1,0 +1,14 @@
+[project]
+name = "module-07-images-as-data"
+version = "0.1.0"
+description = "Module 7: Images as Data (OpenCV)"
+requires-python = ">=3.10"
+dependencies = [
+    "python-dotenv>=1.0.0",
+    "numpy>=1.26.0",
+    "opencv-python>=4.8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

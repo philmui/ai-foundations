@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 360" font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:21px;font-weight:700;fill:#0f172a;}
+      .cap{font-size:14px;font-weight:700;fill:#334155;}
+      .sub{font-size:12px;fill:#64748b;}
+      .mono{font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace;fill:#1e3a8a;}
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="420" y="40" text-anchor="middle" class="title">OpenCV speaks BGR; convert it to RGB</text>
+
+  <!-- TOP: OpenCV BGR order -->
+  <g transform="translate(120, 90)">
+    <text x="200" y="-10" text-anchor="middle" class="cap">OpenCV gives you: [B, G, R]</text>
+
+    <!-- Blue channel -->
+    <rect x="0" y="10" width="120" height="80" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+    <text x="60" y="55" text-anchor="middle" class="cap" fill="#2563eb">Blue</text>
+
+    <!-- Green channel -->
+    <rect x="140" y="10" width="120" height="80" rx="6" fill="#ccfbf1" stroke="#0d9488" stroke-width="2.5"/>
+    <text x="200" y="55" text-anchor="middle" class="cap" fill="#0d9488">Green</text>
+
+    <!-- Red channel -->
+    <rect x="280" y="10" width="120" height="80" rx="6" fill="#fce7f3" stroke="#db2777" stroke-width="2.5"/>
+    <text x="340" y="55" text-anchor="middle" class="cap" fill="#db2777">Red</text>
+
+    <!-- Small wrong thumbnail -->
+    <g transform="translate(440, 20)">
+      <rect x="0" y="0" width="60" height="60" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+      <text x="30" y="75" text-anchor="middle" class="sub">wrong</text>
+      <text x="30" y="88" text-anchor="middle" class="sub">(looks blue)</text>
+    </g>
+  </g>
+
+  <!-- Conversion arrow -->
+  <g transform="translate(420, 185)">
+    <line x1="0" y1="0" x2="0" y2="50" stroke="#334155" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+    <rect x="-150" y="15" width="300" height="24" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <text x="0" y="33" text-anchor="middle" class="mono" font-size="11px">cv2.cvtColor(img, cv2.COLOR_BGR2RGB)</text>
+  </g>
+
+  <!-- BOTTOM: Standard RGB order -->
+  <g transform="translate(120, 250)">
+    <text x="200" y="-10" text-anchor="middle" class="cap">What you want: [R, G, B]</text>
+
+    <!-- Red channel -->
+    <rect x="0" y="10" width="120" height="80" rx="6" fill="#fce7f3" stroke="#db2777" stroke-width="2.5"/>
+    <text x="60" y="55" text-anchor="middle" class="cap" fill="#db2777">Red</text>
+
+    <!-- Green channel -->
+    <rect x="140" y="10" width="120" height="80" rx="6" fill="#ccfbf1" stroke="#0d9488" stroke-width="2.5"/>
+    <text x="200" y="55" text-anchor="middle" class="cap" fill="#0d9488">Green</text>
+
+    <!-- Blue channel -->
+    <rect x="280" y="10" width="120" height="80" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+    <text x="340" y="55" text-anchor="middle" class="cap" fill="#2563eb">Blue</text>
+
+    <!-- Small correct thumbnail -->
+    <g transform="translate(440, 20)">
+      <rect x="0" y="0" width="60" height="60" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+      <text x="30" y="75" text-anchor="middle" class="sub">correct</text>
+    </g>
+  </g>
+</svg>

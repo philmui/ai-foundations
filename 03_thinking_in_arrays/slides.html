@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3: Thinking in Arrays (Tensors)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16162a;
+  --bg-code: #0d0d1a;
+  --text-primary: #fafafa;
+  --text-secondary: #ccc;
+  --text-muted: rgba(250, 250, 250, 0.4);
+  --accent: #e94560;
+  --accent-hover: #ff6b81;
+  --green: #4ade80;
+  --blue: #60a5fa;
+  --border: #2d2d44;
+  --code-text: #fafafa;
+  --svg-text: #eee;
+  --svg-stroke: #888;
+  --svg-fill-light: #2d2d44;
+  --svg-fill-accent: rgba(233, 69, 96, 0.15);
+  --shadow: rgba(0, 0, 0, 0.3);
+  --toggle-bg: #2d2d44;
+  --toggle-knob: #fafafa;
+}
+
+[data-theme="light"] {
+  --bg-primary: #fafafa;
+  --bg-secondary: #f0f0f5;
+  --bg-code: #1a1a2e;
+  --text-primary: #1a1a2e;
+  --text-secondary: #555;
+  --text-muted: #999;
+  --accent: #e94560;
+  --accent-hover: #d63851;
+  --green: #16a34a;
+  --blue: #2563eb;
+  --border: #e0e0e0;
+  --code-text: #fafafa;
+  --svg-text: #333;
+  --svg-stroke: #444;
+  --svg-fill-light: #f8f9fa;
+  --svg-fill-accent: rgba(233, 69, 96, 0.1);
+  --shadow: rgba(0, 0, 0, 0.08);
+  --toggle-bg: #e0e0e0;
+  --toggle-knob: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.slide-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.slide {
+  display: none;
+  width: 100%;
+  min-height: calc(100vh - 40px);
+  padding: 1.5rem 5rem 2.5rem 5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+}
+
+.slide.active {
+  display: block;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+p, li {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.kicker {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.lead {
+  font-size: 1.4rem;
+  color: var(--text-secondary);
+  margin-top: -1rem;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.code {
+  font-family: 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+  background: var(--svg-fill-accent);
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  font-size: 0.95em;
+  color: var(--accent);
+}
+
+pre {
+  font-family: 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+  background: var(--bg-code);
+  color: var(--code-text);
+  padding: 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-left: 4px solid var(--accent);
+}
+
+.svg-container {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+.card {
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--accent);
+}
+
+.footer {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer-left {
+  color: var(--text-muted);
+}
+
+.slide-number {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.highlight {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.formula {
+  font-size: 1.8rem;
+  text-align: center;
+  padding: 1.5rem;
+  background: var(--svg-fill-accent);
+  border-radius: 8px;
+  margin: 2rem 0;
+  font-weight: 700;
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  background: var(--toggle-bg);
+  border: none;
+  border-radius: 2rem;
+  width: 56px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  transition: background 0.3s ease;
+}
+
+.theme-toggle::after {
+  content: '';
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--toggle-knob);
+  transition: transform 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+[data-theme="light"] .theme-toggle::after {
+  transform: translateX(28px);
+}
+
+.theme-toggle-icon {
+  position: fixed;
+  top: 1.5rem;
+  right: 5rem;
+  z-index: 1000;
+  font-size: 1.2rem;
+  line-height: 28px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle light mode"></button>
+<span class="theme-toggle-icon" id="themeIcon">🌙</span>
+<div class="slide-container">
+
+<!-- Slide 1: Title -->
+<div class="slide active" data-slide="1">
+  <p class="kicker">AI Research Foundations · Data Foundations Track · Module 3</p>
+  <h1>Thinking in Arrays<br>(Tensors)</h1>
+  <p class="lead">From Python lists to NumPy N-dimensional arrays — the foundation of all numerical AI.</p>
+  <div class="formula">
+    Text → Tokens → <span class="highlight">One-Hot Matrix</span> → Embeddings
+  </div>
+</div>
+
+<!-- Slide 2: Why Python Lists Fail -->
+<div class="slide" data-slide="2">
+  <p class="kicker">The Problem</p>
+  <h2>Why Python Lists Fail for AI</h2>
+  <div class="cols">
+    <div>
+      <h3>Python List: Scattered Memory</h3>
+      <ul>
+        <li>References to objects</li>
+        <li>Non-contiguous memory</li>
+        <li>CPU cache misses</li>
+        <li>Python object overhead</li>
+      </ul>
+    </div>
+    <div class="svg-container">
+      <svg width="400" height="280" viewBox="0 0 400 280">
+        <!-- Python list representation -->
+        <text x="20" y="30" fill="#fafafa" font-size="16" font-weight="700">Python List</text>
+        <rect x="20" y="50" width="60" height="40" fill="none" stroke="#e94560" stroke-width="2"/>
+        <text x="50" y="75" fill="#e94560" font-size="14" text-anchor="middle">ref</text>
+        <rect x="20" y="100" width="60" height="40" fill="none" stroke="#e94560" stroke-width="2"/>
+        <text x="50" y="125" fill="#e94560" font-size="14" text-anchor="middle">ref</text>
+        <rect x="20" y="150" width="60" height="40" fill="none" stroke="#e94560" stroke-width="2"/>
+        <text x="50" y="175" fill="#e94560" font-size="14" text-anchor="middle">ref</text>
+
+        <!-- Scattered objects -->
+        <line x1="80" y1="70" x2="170" y2="50" stroke="#888" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <circle cx="200" cy="50" r="25" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="1.5"/>
+        <text x="200" y="55" fill="#fafafa" font-size="14" text-anchor="middle">obj</text>
+
+        <line x1="80" y1="120" x2="170" y2="180" stroke="#888" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <circle cx="200" cy="200" r="25" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="1.5"/>
+        <text x="200" y="205" fill="#fafafa" font-size="14" text-anchor="middle">obj</text>
+
+        <line x1="80" y1="170" x2="270" y2="120" stroke="#888" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <circle cx="300" cy="120" r="25" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="1.5"/>
+        <text x="300" y="125" fill="#fafafa" font-size="14" text-anchor="middle">obj</text>
+
+        <text x="20" y="255" fill="#ccc" font-size="13">❌ Scattered across RAM</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: NumPy Arrays -->
+<div class="slide" data-slide="3">
+  <p class="kicker">The Solution</p>
+  <h2>NumPy ndarray: Contiguous Memory</h2>
+  <div class="cols">
+    <div>
+      <h3>NumPy Array: Fast & Efficient</h3>
+      <ul>
+        <li>Contiguous memory block</li>
+        <li>Raw numeric data</li>
+        <li>CPU cache friendly</li>
+        <li>50-100x faster</li>
+        <li>SIMD vectorization</li>
+      </ul>
+    </div>
+    <div class="svg-container">
+      <svg width="400" height="280" viewBox="0 0 400 280">
+        <!-- NumPy array representation -->
+        <text x="20" y="30" fill="#fafafa" font-size="16" font-weight="700">NumPy Array</text>
+        <rect x="20" y="50" width="360" height="60" fill="rgba(233,69,96,0.1)" stroke="#e94560" stroke-width="2"/>
+
+        <!-- Contiguous values -->
+        <rect x="30" y="60" width="60" height="40" fill="#e94560"/>
+        <text x="60" y="85" fill="#1a1a2e" font-size="14" text-anchor="middle" font-weight="700">1.0</text>
+
+        <rect x="100" y="60" width="60" height="40" fill="#e94560"/>
+        <text x="130" y="85" fill="#1a1a2e" font-size="14" text-anchor="middle" font-weight="700">2.0</text>
+
+        <rect x="170" y="60" width="60" height="40" fill="#e94560"/>
+        <text x="200" y="85" fill="#1a1a2e" font-size="14" text-anchor="middle" font-weight="700">3.0</text>
+
+        <rect x="240" y="60" width="60" height="40" fill="#e94560"/>
+        <text x="270" y="85" fill="#1a1a2e" font-size="14" text-anchor="middle" font-weight="700">4.0</text>
+
+        <rect x="310" y="60" width="60" height="40" fill="#e94560"/>
+        <text x="340" y="85" fill="#1a1a2e" font-size="14" text-anchor="middle" font-weight="700">5.0</text>
+
+        <line x1="20" y1="135" x2="380" y2="135" stroke="#e94560" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <text x="200" y="155" fill="#fafafa" font-size="14" text-anchor="middle">Contiguous in RAM</text>
+
+        <text x="20" y="190" fill="#ccc" font-size="13">✓ CPU loads entire chunk into cache</text>
+        <text x="20" y="210" fill="#ccc" font-size="13">✓ SIMD: process 4-8 values at once</text>
+        <text x="20" y="230" fill="#ccc" font-size="13">✓ 50-100x faster than Python lists</text>
+
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <polygon points="0 0, 10 3, 0 6" fill="#e94560" />
+          </marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Creating Arrays -->
+<div class="slide" data-slide="4">
+  <p class="kicker">Getting Started</p>
+  <h2>Creating NumPy Arrays</h2>
+  <pre># From Python list
+arr = np.array([1, 2, 3, 4, 5])
+
+# All zeros
+zeros = np.zeros(5)          # [0. 0. 0. 0. 0.]
+
+# All ones
+ones = np.ones(5)            # [1. 1. 1. 1. 1.]
+
+# Range of values
+range_arr = np.arange(0, 10, 2)  # [0 2 4 6 8]
+
+# Evenly spaced
+linspace = np.linspace(0, 1, 5)  # [0.   0.25 0.5  0.75 1.  ]</pre>
+</div>
+
+<!-- Slide 5: The .shape Property -->
+<div class="slide" data-slide="5">
+  <p class="kicker">Understanding Dimensions</p>
+  <h2>The .shape Property</h2>
+  <div class="cols">
+    <div>
+      <h3>What .shape tells you</h3>
+      <pre>arr_1d = np.array([1, 2, 3, 4, 5])
+arr_1d.shape  # (5,)
+# 1D with 5 elements
+
+arr_2d = np.array([[1, 2, 3],
+                   [4, 5, 6]])
+arr_2d.shape  # (2, 3)
+# 2 rows × 3 columns
+
+arr_3d = np.zeros((2, 3, 4))
+arr_3d.shape  # (2, 3, 4)
+# 2 matrices of 3×4 each</pre>
+    </div>
+    <div class="svg-container">
+      <svg width="350" height="400" viewBox="0 0 350 400">
+        <!-- 1D Array -->
+        <text x="20" y="30" fill="#fafafa" font-size="14" font-weight="700">1D: shape = (5,)</text>
+        <rect x="20" y="45" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+        <rect x="65" y="45" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+        <rect x="110" y="45" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+        <rect x="155" y="45" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+        <rect x="200" y="45" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+
+        <!-- 2D Array -->
+        <text x="20" y="115" fill="#fafafa" font-size="14" font-weight="700">2D: shape = (2, 3)</text>
+        <rect x="20" y="130" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+        <rect x="65" y="130" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+        <rect x="110" y="130" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+        <rect x="20" y="165" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+        <rect x="65" y="165" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+        <rect x="110" y="165" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+        <text x="20" y="215" fill="#ccc" font-size="13">2 rows × 3 columns</text>
+
+        <!-- 3D Array hint -->
+        <text x="20" y="255" fill="#fafafa" font-size="14" font-weight="700">3D: shape = (2, 3, 4)</text>
+        <!-- First layer -->
+        <g opacity="1">
+          <rect x="20" y="270" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+          <rect x="55" y="270" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+          <rect x="90" y="270" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+          <rect x="125" y="270" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+          <rect x="20" y="300" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+          <rect x="55" y="300" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+          <rect x="90" y="300" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+          <rect x="125" y="300" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+          <rect x="20" y="330" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+          <rect x="55" y="330" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+          <rect x="90" y="330" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+          <rect x="125" y="330" width="30" height="25" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="1"/>
+        </g>
+        <!-- Second layer (offset) -->
+        <g opacity="0.6">
+          <rect x="35" y="285" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+          <rect x="70" y="285" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+          <rect x="105" y="285" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+          <rect x="140" y="285" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+          <rect x="35" y="315" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+          <rect x="70" y="315" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+          <rect x="105" y="315" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+          <rect x="140" y="315" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+          <rect x="35" y="345" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+          <rect x="70" y="345" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+          <rect x="105" y="345" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+          <rect x="140" y="345" width="30" height="25" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="1"/>
+        </g>
+        <text x="20" y="380" fill="#ccc" font-size="13">2 layers × 3 rows × 4 columns</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Rank-1 vs Rank-2 -->
+<div class="slide" data-slide="6">
+  <p class="kicker">Common Pitfall</p>
+  <h2>Rank-1 vs Rank-2: The Shape Bug</h2>
+  <div class="svg-container">
+    <svg width="900" height="300" viewBox="0 0 900 300">
+      <!-- Rank-1 (1D) -->
+      <text x="20" y="30" fill="#fafafa" font-size="16" font-weight="700">Rank-1 (1D)</text>
+      <text x="20" y="55" fill="#ccc" font-size="13">shape = (5,)</text>
+      <rect x="20" y="75" width="40" height="40" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="40" y="100" fill="#fafafa" font-size="14" text-anchor="middle">1</text>
+      <rect x="65" y="75" width="40" height="40" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="85" y="100" fill="#fafafa" font-size="14" text-anchor="middle">2</text>
+      <rect x="110" y="75" width="40" height="40" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="130" y="100" fill="#fafafa" font-size="14" text-anchor="middle">3</text>
+      <rect x="155" y="75" width="40" height="40" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="175" y="100" fill="#fafafa" font-size="14" text-anchor="middle">4</text>
+      <rect x="200" y="75" width="40" height="40" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="220" y="100" fill="#fafafa" font-size="14" text-anchor="middle">5</text>
+
+      <!-- Rank-2 column -->
+      <text x="320" y="30" fill="#fafafa" font-size="16" font-weight="700">Rank-2 Column</text>
+      <text x="320" y="55" fill="#ccc" font-size="13">shape = (5, 1)</text>
+      <rect x="320" y="75" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="340" y="95" fill="#fafafa" font-size="14" text-anchor="middle">1</text>
+      <rect x="320" y="110" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="340" y="130" fill="#fafafa" font-size="14" text-anchor="middle">2</text>
+      <rect x="320" y="145" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="340" y="165" fill="#fafafa" font-size="14" text-anchor="middle">3</text>
+      <rect x="320" y="180" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="340" y="200" fill="#fafafa" font-size="14" text-anchor="middle">4</text>
+      <rect x="320" y="215" width="40" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="340" y="235" fill="#fafafa" font-size="14" text-anchor="middle">5</text>
+
+      <!-- Rank-2 row -->
+      <text x="450" y="30" fill="#fafafa" font-size="16" font-weight="700">Rank-2 Row</text>
+      <text x="450" y="55" fill="#ccc" font-size="13">shape = (1, 5)</text>
+      <rect x="450" y="75" width="40" height="40" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="470" y="100" fill="#fafafa" font-size="14" text-anchor="middle">1</text>
+      <rect x="495" y="75" width="40" height="40" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="515" y="100" fill="#fafafa" font-size="14" text-anchor="middle">2</text>
+      <rect x="540" y="75" width="40" height="40" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="560" y="100" fill="#fafafa" font-size="14" text-anchor="middle">3</text>
+      <rect x="585" y="75" width="40" height="40" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="605" y="100" fill="#fafafa" font-size="14" text-anchor="middle">4</text>
+      <rect x="630" y="75" width="40" height="40" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
+      <text x="650" y="100" fill="#fafafa" font-size="14" text-anchor="middle">5</text>
+
+      <rect x="20" y="265" width="650" height="30" fill="rgba(233,69,96,0.1)" stroke="#e94560" stroke-width="1" rx="4"/>
+      <text x="345" y="285" fill="#e94560" font-size="14" text-anchor="middle" font-weight="700">⚠️  All three have 5 elements but different shapes!</text>
+    </svg>
+  </div>
+  <pre># Fix the shape bug with reshape
+arr = np.array([1, 2, 3, 4, 5])      # shape: (5,)
+column = arr.reshape(-1, 1)          # shape: (5, 1)
+row = arr.reshape(1, -1)             # shape: (1, 5)</pre>
+</div>
+
+<!-- Slide 7: Reshaping -->
+<div class="slide" data-slide="7">
+  <p class="kicker">Transforming Dimensions</p>
+  <h2>Reshaping Arrays</h2>
+  <div class="cols">
+    <div>
+      <pre># Start with 1D
+arr = np.arange(12)
+# [0 1 2 3 4 5 6 7 8 9 10 11]
+# shape: (12,)
+
+# Reshape to 3×4
+arr.reshape(3, 4)
+# [[ 0  1  2  3]
+#  [ 4  5  6  7]
+#  [ 8  9 10 11]]
+# shape: (3, 4)
+
+# Reshape to 4×3
+arr.reshape(4, 3)
+# shape: (4, 3)
+
+# Use -1 to infer dimension
+arr.reshape(2, -1)
+# shape: (2, 6)</pre>
+    </div>
+    <div>
+      <h3>Key Rules</h3>
+      <ul>
+        <li>Total elements must stay the same</li>
+        <li>12 elements = (12,) or (3,4) or (2,6)</li>
+        <li>Use -1 to let NumPy infer one dimension</li>
+        <li>Reshaping doesn't copy data (fast!)</li>
+        <li>Data is read row-by-row by default</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 8: What is One-Hot Encoding? -->
+<div class="slide" data-slide="8">
+  <p class="kicker">Discrete → Continuous</p>
+  <h2>What is One-Hot Encoding?</h2>
+  <div class="cols">
+    <div>
+      <h3>The Problem</h3>
+      <p>Neural networks need numbers, not words.</p>
+      <p>How do we represent "cat"?</p>
+      <ul>
+        <li>Not as index: implies ordering</li>
+        <li>Not as hash: no meaning</li>
+        <li>One-hot: unique binary vector</li>
+      </ul>
+    </div>
+    <div class="svg-container">
+      <svg width="400" height="350" viewBox="0 0 400 350">
+        <!-- Vocabulary -->
+        <text x="20" y="25" fill="#fafafa" font-size="14" font-weight="700">Vocabulary</text>
+        <text x="20" y="50" fill="#ccc" font-size="13">0: the</text>
+        <text x="20" y="70" fill="#ccc" font-size="13">1: cat</text>
+        <text x="20" y="90" fill="#ccc" font-size="13">2: sat</text>
+        <text x="20" y="110" fill="#ccc" font-size="13">3: on</text>
+        <text x="20" y="130" fill="#ccc" font-size="13">4: mat</text>
+
+        <!-- Arrow -->
+        <line x1="120" y1="90" x2="180" y2="90" stroke="#e94560" stroke-width="2" marker-end="url(#arrow2)"/>
+        <text x="150" y="78" fill="#e94560" font-size="13" text-anchor="middle">encode</text>
+
+        <!-- One-hot vector -->
+        <text x="200" y="25" fill="#fafafa" font-size="14" font-weight="700">One-Hot Vector for "cat"</text>
+        <rect x="200" y="45" width="40" height="40" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="220" y="70" fill="#ccc" font-size="16" text-anchor="middle">0</text>
+        <rect x="245" y="45" width="40" height="40" fill="rgba(233,69,96,0.5)" stroke="#e94560" stroke-width="2"/>
+        <text x="265" y="70" fill="#fafafa" font-size="16" text-anchor="middle" font-weight="700">1</text>
+        <rect x="290" y="45" width="40" height="40" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="310" y="70" fill="#ccc" font-size="16" text-anchor="middle">0</text>
+        <rect x="335" y="45" width="40" height="40" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="355" y="70" fill="#ccc" font-size="16" text-anchor="middle">0</text>
+
+        <text x="200" y="110" fill="#ccc" font-size="13">index 0</text>
+        <text x="245" y="110" fill="#e94560" font-size="13" font-weight="700">index 1</text>
+        <text x="290" y="110" fill="#ccc" font-size="13">index 2</text>
+        <text x="335" y="110" fill="#ccc" font-size="13">index 3</text>
+
+        <rect x="20" y="165" width="360" height="60" fill="rgba(233,69,96,0.1)" stroke="#e94560" stroke-width="1" rx="4"/>
+        <text x="200" y="190" fill="#fafafa" font-size="13" text-anchor="middle">Binary vector with 1 at word's index</text>
+        <text x="200" y="210" fill="#fafafa" font-size="13" text-anchor="middle">All other positions are 0</text>
+
+        <defs>
+          <marker id="arrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <polygon points="0 0, 10 3, 0 6" fill="#e94560" />
+          </marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 9: One-Hot Encoding Workflow -->
+<div class="slide" data-slide="9">
+  <p class="kicker">From Text to Matrix</p>
+  <h2>One-Hot Encoding Workflow</h2>
+  <div class="svg-container">
+    <svg width="1000" height="320" viewBox="0 0 1000 320">
+      <!-- Step 1: Words -->
+      <rect x="20" y="45" width="180" height="100" fill="rgba(44,44,68,0.4)" stroke="#e94560" stroke-width="2" rx="8"/>
+      <text x="110" y="32" fill="#e94560" font-size="14" font-weight="700" text-anchor="middle">Step 1</text>
+      <text x="110" y="75" fill="#fafafa" font-size="16" text-anchor="middle" font-weight="700">Text</text>
+      <text x="110" y="100" fill="#ccc" font-size="13" text-anchor="middle">"the cat sat"</text>
+      <text x="110" y="120" fill="#ccc" font-size="13" text-anchor="middle">"on the mat"</text>
+
+      <!-- Arrow 1 -->
+      <line x1="210" y1="95" x2="250" y2="95" stroke="#e94560" stroke-width="2" marker-end="url(#arrow3)"/>
+      <text x="230" y="83" fill="#e94560" font-size="13" text-anchor="middle">split</text>
+
+      <!-- Step 2: Vocabulary -->
+      <rect x="260" y="45" width="180" height="100" fill="rgba(44,44,68,0.4)" stroke="#e94560" stroke-width="2" rx="8"/>
+      <text x="350" y="32" fill="#e94560" font-size="14" font-weight="700" text-anchor="middle">Step 2</text>
+      <text x="350" y="75" fill="#fafafa" font-size="16" text-anchor="middle" font-weight="700">Vocabulary</text>
+      <text x="350" y="100" fill="#ccc" font-size="13" text-anchor="middle">{"the": 0, "cat": 1,</text>
+      <text x="350" y="120" fill="#ccc" font-size="13" text-anchor="middle">"sat": 2, "on": 3, "mat": 4}</text>
+
+      <!-- Arrow 2 -->
+      <line x1="450" y1="95" x2="490" y2="95" stroke="#e94560" stroke-width="2" marker-end="url(#arrow3)"/>
+      <text x="470" y="83" fill="#e94560" font-size="13" text-anchor="middle">index</text>
+
+      <!-- Step 3: Indices -->
+      <rect x="500" y="45" width="180" height="100" fill="rgba(44,44,68,0.4)" stroke="#e94560" stroke-width="2" rx="8"/>
+      <text x="590" y="32" fill="#e94560" font-size="14" font-weight="700" text-anchor="middle">Step 3</text>
+      <text x="590" y="75" fill="#fafafa" font-size="16" text-anchor="middle" font-weight="700">Indices</text>
+      <text x="590" y="100" fill="#ccc" font-size="13" text-anchor="middle">[0, 1, 2]</text>
+      <text x="590" y="120" fill="#ccc" font-size="13" text-anchor="middle">[3, 0, 4]</text>
+
+      <!-- Arrow 3 -->
+      <line x1="690" y1="95" x2="730" y2="95" stroke="#e94560" stroke-width="2" marker-end="url(#arrow3)"/>
+      <text x="710" y="83" fill="#e94560" font-size="13" text-anchor="middle">encode</text>
+
+      <!-- Step 4: One-hot Matrix -->
+      <rect x="740" y="45" width="220" height="100" fill="rgba(44,44,68,0.4)" stroke="#e94560" stroke-width="2" rx="8"/>
+      <text x="850" y="32" fill="#e94560" font-size="14" font-weight="700" text-anchor="middle">Step 4</text>
+      <text x="850" y="75" fill="#fafafa" font-size="16" text-anchor="middle" font-weight="700">One-Hot Matrix</text>
+      <text x="850" y="100" fill="#ccc" font-size="13" text-anchor="middle" font-family="monospace">[[1,0,0,0,0], [0,1,0,0,0], ...]</text>
+      <text x="850" y="120" fill="#ccc" font-size="13" text-anchor="middle">6 words × 5 vocabulary</text>
+
+      <!-- Bottom explanation -->
+      <rect x="20" y="185" width="940" height="100" fill="rgba(233,69,96,0.1)" stroke="#e94560" stroke-width="1" rx="4"/>
+      <text x="490" y="215" fill="#fafafa" font-size="15" text-anchor="middle" font-weight="700">Result: Sparse Binary Matrix</text>
+      <text x="490" y="240" fill="#ccc" font-size="13" text-anchor="middle">Each row = one word (binary vector)</text>
+      <text x="490" y="260" fill="#ccc" font-size="13" text-anchor="middle">Each column = one vocabulary position</text>
+      <text x="490" y="280" fill="#ccc" font-size="13" text-anchor="middle">Exactly one "1" per row, all others "0"</text>
+
+      <defs>
+        <marker id="arrow3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <polygon points="0 0, 10 3, 0 6" fill="#e94560" />
+        </marker>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+<!-- Slide 10: The One-Hot Matrix -->
+<div class="slide" data-slide="10">
+  <p class="kicker">Visual Representation</p>
+  <h2>The One-Hot Matrix</h2>
+  <div class="cols">
+    <div>
+      <h3>Example: "the cat sat"</h3>
+      <pre>Vocabulary:
+0: cat, 1: mat, 2: on
+3: sat, 4: the
+
+One-hot matrix:
+[[0. 0. 0. 0. 1.]  ← "the"
+ [1. 0. 0. 0. 0.]  ← "cat"
+ [0. 0. 0. 1. 0.]] ← "sat"
+
+Shape: (3, 5)
+3 words × 5 vocabulary size</pre>
+    </div>
+    <div class="svg-container">
+      <svg width="400" height="300" viewBox="0 0 400 300">
+        <!-- Matrix visualization -->
+        <text x="100" y="20" fill="#ccc" font-size="13">cat</text>
+        <text x="140" y="20" fill="#ccc" font-size="13">mat</text>
+        <text x="180" y="20" fill="#ccc" font-size="13">on</text>
+        <text x="220" y="20" fill="#ccc" font-size="13">sat</text>
+        <text x="260" y="20" fill="#ccc" font-size="13">the</text>
+
+        <!-- Row 1: "the" -->
+        <text x="20" y="60" fill="#ccc" font-size="13">the</text>
+        <rect x="100" y="40" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="115" y="62" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+        <rect x="140" y="40" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="155" y="62" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+        <rect x="180" y="40" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="195" y="62" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+        <rect x="220" y="40" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="235" y="62" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+        <rect x="260" y="40" width="30" height="30" fill="rgba(233,69,96,0.5)" stroke="#e94560" stroke-width="2"/>
+        <text x="275" y="62" fill="#fafafa" font-size="14" text-anchor="middle" font-weight="700">1</text>
+
+        <!-- Row 2: "cat" -->
+        <text x="20" y="100" fill="#ccc" font-size="13">cat</text>
+        <rect x="100" y="80" width="30" height="30" fill="rgba(233,69,96,0.5)" stroke="#e94560" stroke-width="2"/>
+        <text x="115" y="102" fill="#fafafa" font-size="14" text-anchor="middle" font-weight="700">1</text>
+        <rect x="140" y="80" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="155" y="102" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+        <rect x="180" y="80" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="195" y="102" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+        <rect x="220" y="80" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="235" y="102" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+        <rect x="260" y="80" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="275" y="102" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+
+        <!-- Row 3: "sat" -->
+        <text x="20" y="140" fill="#ccc" font-size="13">sat</text>
+        <rect x="100" y="120" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="115" y="142" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+        <rect x="140" y="120" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="155" y="142" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+        <rect x="180" y="120" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="195" y="142" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+        <rect x="220" y="120" width="30" height="30" fill="rgba(233,69,96,0.5)" stroke="#e94560" stroke-width="2"/>
+        <text x="235" y="142" fill="#fafafa" font-size="14" text-anchor="middle" font-weight="700">1</text>
+        <rect x="260" y="120" width="30" height="30" fill="rgba(108,108,128,0.2)" stroke="#888" stroke-width="1"/>
+        <text x="275" y="142" fill="#ccc" font-size="14" text-anchor="middle">0</text>
+
+        <rect x="50" y="185" width="290" height="80" fill="rgba(233,69,96,0.1)" stroke="#e94560" stroke-width="1" rx="4"/>
+        <text x="195" y="210" fill="#fafafa" font-size="13" text-anchor="middle" font-weight="700">Sparse Matrix</text>
+        <text x="195" y="230" fill="#ccc" font-size="13" text-anchor="middle">Only 3 non-zero values</text>
+        <text x="195" y="250" fill="#ccc" font-size="13" text-anchor="middle">out of 15 total elements</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 11: Connection to LLM Embeddings -->
+<div class="slide" data-slide="11">
+  <p class="kicker">The Bigger Picture</p>
+  <h2>From One-Hot to LLM Embeddings</h2>
+  <div class="svg-container">
+    <svg width="900" height="300" viewBox="0 0 900 300">
+      <!-- Stage 1: One-hot -->
+      <rect x="20" y="65" width="220" height="140" fill="rgba(44,44,68,0.4)" stroke="#e94560" stroke-width="2" rx="8"/>
+      <text x="130" y="52" fill="#e94560" font-size="14" font-weight="700" text-anchor="middle">Stage 1: One-Hot</text>
+      <text x="130" y="105" fill="#fafafa" font-size="13" text-anchor="middle">"cat" →</text>
+      <text x="130" y="130" fill="#ccc" font-size="13" text-anchor="middle" font-family="monospace">[0, 0, 1, 0, 0, ..., 0]</text>
+      <text x="130" y="155" fill="#ccc" font-size="13" text-anchor="middle">50,000 dimensions</text>
+      <text x="130" y="180" fill="#e94560" font-size="13" text-anchor="middle">Sparse · No semantics</text>
+
+      <!-- Arrow 1 -->
+      <line x1="250" y1="135" x2="310" y2="135" stroke="#e94560" stroke-width="2" marker-end="url(#arrow4)"/>
+      <text x="280" y="123" fill="#e94560" font-size="13" text-anchor="middle">embed</text>
+
+      <!-- Stage 2: Embedding -->
+      <rect x="320" y="65" width="220" height="140" fill="rgba(44,44,68,0.4)" stroke="#e94560" stroke-width="2" rx="8"/>
+      <text x="430" y="52" fill="#e94560" font-size="14" font-weight="700" text-anchor="middle">Stage 2: Embedding</text>
+      <text x="430" y="105" fill="#fafafa" font-size="13" text-anchor="middle">"cat" →</text>
+      <text x="430" y="130" fill="#ccc" font-size="13" text-anchor="middle" font-family="monospace">[0.24, -0.81, 0.53, ..., 0.19]</text>
+      <text x="430" y="155" fill="#ccc" font-size="13" text-anchor="middle">768 dimensions</text>
+      <text x="430" y="180" fill="#e94560" font-size="13" text-anchor="middle">Dense · Semantic meaning</text>
+
+      <!-- Arrow 2 -->
+      <line x1="550" y1="135" x2="610" y2="135" stroke="#e94560" stroke-width="2" marker-end="url(#arrow4)"/>
+      <text x="580" y="123" fill="#e94560" font-size="13" text-anchor="middle">context</text>
+
+      <!-- Stage 3: Contextual -->
+      <rect x="620" y="65" width="240" height="140" fill="rgba(44,44,68,0.4)" stroke="#e94560" stroke-width="2" rx="8"/>
+      <text x="740" y="52" fill="#e94560" font-size="14" font-weight="700" text-anchor="middle">Stage 3: Contextual</text>
+      <text x="740" y="100" fill="#fafafa" font-size="13" text-anchor="middle">"cat" in "The cat sat"</text>
+      <text x="740" y="120" fill="#ccc" font-size="13" text-anchor="middle" font-family="monospace">[0.91, -0.23, ...]</text>
+      <text x="740" y="145" fill="#fafafa" font-size="13" text-anchor="middle">"cat" in "Cat Stevens"</text>
+      <text x="740" y="165" fill="#ccc" font-size="13" text-anchor="middle" font-family="monospace">[0.15, 0.78, ...]</text>
+      <text x="740" y="185" fill="#e94560" font-size="13" text-anchor="middle">Context-dependent vectors</text>
+
+      <!-- Bottom explanation -->
+      <rect x="20" y="235" width="840" height="50" fill="rgba(233,69,96,0.1)" stroke="#e94560" stroke-width="1" rx="4"/>
+      <text x="440" y="258" fill="#fafafa" font-size="14" text-anchor="middle" font-weight="700">One-hot → Embedding Layer → Transformer → Contextualized Vector</text>
+      <text x="440" y="276" fill="#ccc" font-size="13" text-anchor="middle">This is how LLMs understand language: from discrete tokens to rich semantic vectors</text>
+
+      <defs>
+        <marker id="arrow4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <polygon points="0 0, 10 3, 0 6" fill="#e94560" />
+        </marker>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+<!-- Slide 12: Lab Intro -->
+<div class="slide" data-slide="12">
+  <p class="kicker">Hands-On Exercise</p>
+  <h2>Lab: The Matrix</h2>
+  <div class="grid-3">
+    <div class="card">
+      <h3>Part 1: Arrays</h3>
+      <ul>
+        <li>Create NumPy arrays</li>
+        <li>Understand .shape</li>
+        <li>Fix shape bugs</li>
+        <li>Reshape arrays</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Part 2: One-Hot</h3>
+      <ul>
+        <li>Build vocabulary</li>
+        <li>Encode single words</li>
+        <li>Create full matrix</li>
+        <li>Analyze sparsity</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Part 3: Connect</h3>
+      <ul>
+        <li>Link to LLMs</li>
+        <li>Understand pipeline</li>
+        <li>See why embeddings</li>
+        <li>Future modules</li>
+      </ul>
+    </div>
+  </div>
+  <pre style="margin-top: 2rem;"># Run the lab
+python lab_the_matrix.py</pre>
+</div>
+
+<!-- Slide 13: Key Takeaways -->
+<div class="slide" data-slide="13">
+  <p class="kicker">Summary</p>
+  <h2>Key Takeaways</h2>
+  <div class="cols">
+    <div>
+      <h3>Core Concepts</h3>
+      <ul>
+        <li>NumPy arrays: 50-100x faster than Python lists</li>
+        <li>Contiguous memory enables vectorization</li>
+        <li>.shape property reveals dimensions</li>
+        <li>(n,) ≠ (n,1) ≠ (1,n) — always reshape explicitly</li>
+      </ul>
+    </div>
+    <div>
+      <h3>One-Hot Encoding</h3>
+      <ul>
+        <li>Converts discrete tokens → binary vectors</li>
+        <li>Sparse representation (99.96% zeros)</li>
+        <li>Foundation for neural network input</li>
+        <li>LLM pipeline: tokens → one-hot → embeddings</li>
+      </ul>
+    </div>
+  </div>
+  <div class="formula" style="margin-top: 2rem;">
+    Arrays + One-Hot = <span class="highlight">Data → Neural Networks</span>
+  </div>
+</div>
+
+<!-- Slide 14: Next Steps -->
+<div class="slide" data-slide="14">
+  <p class="kicker">What's Next</p>
+  <h2>Next Steps</h2>
+  <div class="card" style="margin-top: 2rem;">
+    <h3>Module 4: Dense Embeddings</h3>
+    <ul>
+      <li>From sparse one-hot → dense vectors</li>
+      <li>Word2Vec, GloVe, and contextual embeddings</li>
+      <li>Semantic similarity and vector arithmetic</li>
+      <li>Pre-trained language models</li>
+    </ul>
+  </div>
+  <div style="margin-top: 3rem;">
+    <h3>Continue Learning</h3>
+    <p>Run the lab to build your first one-hot matrix:</p>
+    <pre>cd module_03_thinking_in_arrays
+python lab_the_matrix.py</pre>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">© mui-group</div>
+<div class="slide-number"><span id="current-slide">1</span> / <span id="total-slides">14</span></div>
+
+<script>
+let currentSlide = 1;
+const totalSlides = document.querySelectorAll('.slide').length;
+document.getElementById('total-slides').textContent = totalSlides;
+
+function showSlide(n) {
+  const slides = document.querySelectorAll('.slide');
+  if (n > totalSlides) currentSlide = totalSlides;
+  if (n < 1) currentSlide = 1;
+
+  slides.forEach(slide => slide.classList.remove('active'));
+  slides[currentSlide - 1].classList.add('active');
+  document.getElementById('current-slide').textContent = currentSlide;
+}
+
+function nextSlide() {
+  currentSlide++;
+  if (currentSlide > totalSlides) currentSlide = totalSlides;
+  showSlide(currentSlide);
+}
+
+function prevSlide() {
+  currentSlide--;
+  if (currentSlide < 1) currentSlide = 1;
+  showSlide(currentSlide);
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') {
+    e.preventDefault();
+    nextSlide();
+  } else if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    prevSlide();
+  } else if (e.key === 'Home') {
+    e.preventDefault();
+    currentSlide = 1;
+    showSlide(currentSlide);
+  } else if (e.key === 'End') {
+    e.preventDefault();
+    currentSlide = totalSlides;
+    showSlide(currentSlide);
+  }
+});
+
+// Click navigation
+document.addEventListener('click', (e) => {
+  const width = window.innerWidth;
+  if (e.clientX > width / 2) {
+    nextSlide();
+  } else {
+    prevSlide();
+  }
+});
+
+// Initial setup
+showSlide(currentSlide);
+
+// Theme toggle system
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+  localStorage.setItem('slide-theme', theme);
+  updateSVGColors(theme);
+}
+
+function updateSVGColors(theme) {
+  const svgs = document.querySelectorAll('svg');
+  svgs.forEach(svg => {
+    svg.querySelectorAll('text').forEach(text => {
+      const currentFill = text.getAttribute('fill');
+      if (theme === 'light') {
+        if (currentFill === '#eee' || currentFill === '#fafafa' || currentFill === '#ccc' || currentFill === '#fff') {
+          text.setAttribute('data-dark-fill', currentFill);
+          text.setAttribute('fill', '#333');
+        } else if (currentFill === '#aaa' || currentFill === '#888') {
+          text.setAttribute('data-dark-fill', currentFill);
+          text.setAttribute('fill', '#777');
+        }
+      } else {
+        const darkFill = text.getAttribute('data-dark-fill');
+        if (darkFill) text.setAttribute('fill', darkFill);
+      }
+    });
+    svg.querySelectorAll('line, path, rect, circle, polyline, polygon').forEach(el => {
+      const currentStroke = el.getAttribute('stroke');
+      const currentFill = el.getAttribute('fill');
+      if (theme === 'light') {
+        if (currentStroke && ['#888', '#999', '#aaa', '#fafafa', '#fff'].includes(currentStroke)) {
+          el.setAttribute('data-dark-stroke', currentStroke);
+          el.setAttribute('stroke', '#444');
+        }
+        if (currentFill && ['#2d2d44', '#1a1a2e', '#16162a'].includes(currentFill)) {
+          el.setAttribute('data-dark-fill', currentFill);
+          el.setAttribute('fill', '#f8f9fa');
+        }
+      } else {
+        const ds = el.getAttribute('data-dark-stroke');
+        if (ds) el.setAttribute('stroke', ds);
+        const df = el.getAttribute('data-dark-fill');
+        if (df) el.setAttribute('fill', df);
+      }
+    });
+  });
+}
+
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  setTheme(current === 'light' ? 'dark' : 'light');
+});
+
+// Initialize: respect saved preference, else default dark
+const saved = localStorage.getItem('slide-theme');
+if (saved) {
+  setTheme(saved);
+} else {
+  setTheme('dark');
+}
+</script>
+</body>
+</html>

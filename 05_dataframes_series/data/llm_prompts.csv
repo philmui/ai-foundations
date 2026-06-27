@@ -1,0 +1,51 @@
+prompt_id,prompt_text,response_text,model,temperature,tokens_used,rating,category,timestamp
+1,"Write a Python function to calculate factorial","Here's a recursive implementation: def factorial(n): return 1 if n <= 1 else n * factorial(n-1)",gpt-4,0.2,145,4.8,coding,2026-06-01 09:15:23
+2,"Explain quantum entanglement in simple terms","Quantum entanglement is when two particles become connected so that the state of one instantly affects the other, regardless of distance.",claude-3,0.7,203,4.5,analysis,2026-06-01 10:22:15
+3,"Generate a creative story about a time-traveling cat","Whiskers discovered the portal under the old oak tree. One paw forward, and suddenly she was in ancient Egypt...",gemini-pro,0.9,487,4.2,creative,2026-06-01 11:05:44
+4,"Solve: 2x + 5 = 15","To solve for x: 2x + 5 = 15, subtract 5 from both sides: 2x = 10, divide by 2: x = 5",gpt-4,0.1,98,,math,2026-06-01 11:30:12
+5,"What are the benefits of meditation?","Meditation offers numerous benefits including reduced stress, improved focus, better emotional regulation, and enhanced self-awareness.",claude-3,0.5,178,4.6,analysis,2026-06-01 12:14:33
+6,"Create a CSS animation for a bouncing ball",".ball { animation: bounce 1s infinite; } @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-50px); } }",gpt-4,0.3,167,4.9,coding,2026-06-01 13:08:21
+7,"Describe the taste of coffee","Coffee has a complex flavor profile: bitter, slightly acidic, with notes of chocolate, caramel, or fruit depending on the roast and origin.",gemini-pro,0.8,142,3.8,creative,2026-06-01 14:22:09
+8,"How do neural networks learn?","Neural networks learn through backpropagation, adjusting weights based on the difference between predicted and actual outputs.",claude-3,0.4,215,4.7,analysis,2026-06-01 15:11:47
+9,"Write a haiku about programming","Code compiles at last / Zero bugs in console / Time to ship and rest",gpt-4,0.9,87,4.3,creative,2026-06-01 16:05:33
+10,"Calculate the area of a circle with radius 5","Using A = πr², with radius 5: A = π × 5² = π × 25 ≈ 78.54 square units",gemini-pro,0.1,112,4.4,math,2026-06-01 16:45:18
+11,"Explain the difference between AI and ML","AI is the broader concept of machines performing tasks that require human intelligence, while ML is a subset focused on learning from data.",claude-3,0.6,189,4.6,analysis,2026-06-02 08:30:15
+12,"Debug this code: print(Hello World)","The issue is missing quotes. Correct version: print('Hello World') or print(""Hello World"")",gpt-4,0.2,78,4.9,coding,2026-06-02 09:15:42
+13,"Write a poem about clouds","Whispers of white in azure sky / Drifting, dancing, floating by / Shapes that shift and rearrange / Beautiful, ephemeral, strange",gemini-pro,0.9,156,3.9,creative,2026-06-02 10:22:33
+14,"What is the Pythagorean theorem?","The Pythagorean theorem states that in a right triangle, a² + b² = c², where c is the hypotenuse.",claude-3,0.3,124,4.5,math,2026-06-02 11:08:27
+15,"Create a SQL query to find top 5 customers","SELECT customer_id, SUM(order_total) as total_spent FROM orders GROUP BY customer_id ORDER BY total_spent DESC LIMIT 5;",gpt-4,0.2,143,4.8,coding,2026-06-02 12:45:19
+16,"Describe the color blue without using color words","It's the feeling of a cool breeze, the depth of the ocean, the vastness of the sky, calm and infinite.",gemini-pro,0.8,98,,creative,2026-06-02 13:30:44
+17,"How does encryption work?","Encryption converts readable data into coded form using algorithms and keys, making it unreadable without the decryption key.",claude-3,0.4,167,4.7,analysis,2026-06-02 14:15:23
+18,"Find the derivative of x³","Using the power rule, the derivative of x³ is 3x²",gpt-4,0.1,67,4.6,math,2026-06-02 15:08:11
+19,"Write JavaScript to reverse a string","function reverseString(str) { return str.split('').reverse().join(''); }",gpt-4,0.3,89,4.7,coding,2026-06-02 16:22:45
+20,"Explain blockchain in one sentence","Blockchain is a distributed, immutable ledger that records transactions across a network of computers.",claude-3,0.5,134,4.4,analysis,2026-06-03 08:45:33
+21,"Create a metaphor for learning","Learning is like building a house: each lesson is a brick, mistakes are the mortar that holds them together.",gemini-pro,0.7,112,4.2,creative,2026-06-03 09:30:18
+22,"What is Big O notation?","Big O notation describes the time complexity of algorithms, showing how runtime grows relative to input size.",gpt-4,0.4,156,4.8,analysis,2026-06-03 10:15:42
+23,"Solve for x: 3x - 7 = 14","3x - 7 = 14, add 7 to both sides: 3x = 21, divide by 3: x = 7",claude-3,0.1,92,4.5,math,2026-06-03 11:08:27
+24,"Write a function to check if a number is prime","def is_prime(n): return n > 1 and all(n % i != 0 for i in range(2, int(n**0.5) + 1))",gpt-4,0.2,134,4.9,coding,2026-06-03 12:22:15
+25,"Describe the feeling of nostalgia","Nostalgia is a bittersweet ache, like viewing sunshine through rain, warmth tinged with the sadness of knowing we can't return.",gemini-pro,0.9,145,4.1,creative,2026-06-03 13:45:33
+26,"What is gradient descent?","Gradient descent is an optimization algorithm that iteratively adjusts parameters to minimize a cost function by moving in the direction of steepest descent.",claude-3,0.5,198,4.7,analysis,2026-06-03 14:30:44
+27,"Calculate 15% of 240","15% of 240 = 0.15 × 240 = 36",gpt-4,0.1,54,,math,2026-06-03 15:15:18
+28,"Create HTML for a navigation menu","<nav><ul><li><a href='#'>Home</a></li><li><a href='#'>About</a></li><li><a href='#'>Contact</a></li></ul></nav>",gpt-4,0.3,112,4.6,coding,2026-06-03 16:08:42
+29,"Write a story opening line","The last person on Earth sat alone in a room, when suddenly, there was a knock at the door.",gemini-pro,0.8,98,4.3,creative,2026-06-04 08:22:15
+30,"Explain the difference between Python lists and tuples","Lists are mutable (can be changed) and use brackets [], while tuples are immutable (cannot be changed) and use parentheses ().",claude-3,0.4,167,4.8,analysis,2026-06-04 09:15:33
+31,"Find the square root of 144","The square root of 144 is 12, because 12 × 12 = 144",gpt-4,0.1,72,4.4,math,2026-06-04 10:30:27
+32,"Debug: for i in range(10) print(i)","Missing colon after range(10). Correct version: for i in range(10): print(i)",gpt-4,0.2,89,4.7,coding,2026-06-04 11:22:44
+33,"Describe winter without mentioning cold","Bare trees reaching skyward, breath visible in air, world wrapped in crystalline silence, days shortened and nights lengthened.",gemini-pro,0.7,123,,creative,2026-06-04 12:08:18
+34,"What is overfitting in machine learning?","Overfitting occurs when a model learns training data too well, including noise, resulting in poor performance on new, unseen data.",claude-3,0.5,178,4.6,analysis,2026-06-04 13:15:42
+35,"Solve: 2(x + 3) = 18","2(x + 3) = 18, expand: 2x + 6 = 18, subtract 6: 2x = 12, divide by 2: x = 6",gpt-4,0.1,98,4.5,math,2026-06-04 14:30:33
+36,"Write Python to find the maximum value in a list","def find_max(lst): return max(lst) # or using loop: max_val = lst[0]; for x in lst: max_val = max(max_val, x); return max_val",gpt-4,0.3,156,4.8,coding,2026-06-04 15:22:15
+37,"Create a simile for time","Time flows like a river, constant and unstoppable, carrying us forward whether we paddle or drift.",gemini-pro,0.8,112,4.0,creative,2026-06-04 16:08:44
+38,"Explain API in simple terms","An API (Application Programming Interface) is like a restaurant menu: it shows what you can order (available functions) without needing to know how the kitchen (system) works.",claude-3,0.6,189,4.7,analysis,2026-06-05 08:45:27
+39,"What is the median of [3, 7, 2, 9, 5]?","First sort: [2, 3, 5, 7, 9]. The median is the middle value: 5",gpt-4,0.1,89,4.4,math,2026-06-05 09:30:18
+40,"Create CSS to center a div","Method 1: .container { display: flex; justify-content: center; align-items: center; } Method 2: .box { margin: 0 auto; }",gpt-4,0.2,134,4.9,coding,2026-06-05 10:15:42
+41,"Write about the sound of rain","Rain whispers secrets to the earth, a gentle percussion on rooftops, a rhythmic lullaby that soothes and cleanses.",gemini-pro,0.9,98,4.2,creative,2026-06-05 11:22:33
+42,"What is the difference between supervised and unsupervised learning?","Supervised learning uses labeled data to train models, while unsupervised learning finds patterns in unlabeled data without explicit guidance.",claude-3,0.4,178,4.8,analysis,2026-06-05 12:08:15
+43,"Calculate 7 factorial","7! = 7 × 6 × 5 × 4 × 3 × 2 × 1 = 5,040",gpt-4,0.1,78,,math,2026-06-05 13:15:44
+44,"Write a recursive function for Fibonacci","def fibonacci(n): return n if n <= 1 else fibonacci(n-1) + fibonacci(n-2)",gpt-4,0.2,98,4.7,coding,2026-06-05 14:30:27
+45,"Describe the concept of infinity","Infinity is endlessness, a horizon that recedes forever, a number larger than any number you can name, the ungraspable eternal.",gemini-pro,0.8,123,3.9,creative,2026-06-05 15:22:18
+46,"Explain tokenization in NLP","Tokenization is the process of breaking text into smaller units (tokens) like words or subwords, which are the basic building blocks for NLP models.",claude-3,0.5,167,4.6,analysis,2026-06-05 16:08:33
+47,"Find the area of a rectangle with length 8 and width 5","Area = length × width = 8 × 5 = 40 square units",gpt-4,0.1,67,4.5,math,2026-06-06 08:45:15
+48,"Debug: def add(a b): return a + b","Missing comma between parameters. Correct version: def add(a, b): return a + b",gpt-4,0.2,87,4.8,coding,2026-06-06 09:30:42
+49,"Write a closing line for a mystery story","As the door closed behind him, Sarah finally understood: the real mystery was never who did it, but why she had trusted him at all.",gemini-pro,0.9,145,4.3,creative,2026-06-06 10:15:27
+50,"What is cross-validation?","Cross-validation is a technique to assess model performance by splitting data into multiple folds, training on some and testing on others to ensure generalization.",claude-3,0.4,198,4.7,analysis,2026-06-06 11:22:18

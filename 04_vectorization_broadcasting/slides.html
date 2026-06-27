@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4: Vectorization & Broadcasting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16162a;
+            --bg-code: #0d0d1a;
+            --text-primary: #fafafa;
+            --text-secondary: #ccc;
+            --text-muted: rgba(250, 250, 250, 0.4);
+            --accent: #e94560;
+            --accent-hover: #ff6b81;
+            --green: #4ade80;
+            --blue: #60a5fa;
+            --border: #2d2d44;
+            --code-text: #fafafa;
+            --svg-text: #eee;
+            --svg-stroke: #888;
+            --svg-fill-light: #2d2d44;
+            --svg-fill-accent: rgba(233, 69, 96, 0.15);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --toggle-bg: #2d2d44;
+            --toggle-knob: #fafafa;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #fafafa;
+            --bg-secondary: #f0f0f5;
+            --bg-code: #1a1a2e;
+            --text-primary: #1a1a2e;
+            --text-secondary: #555;
+            --text-muted: #999;
+            --accent: #e94560;
+            --accent-hover: #d63851;
+            --green: #16a34a;
+            --blue: #2563eb;
+            --border: #e0e0e0;
+            --code-text: #fafafa;
+            --svg-text: #333;
+            --svg-stroke: #444;
+            --svg-fill-light: #f8f9fa;
+            --svg-fill-accent: rgba(233, 69, 96, 0.1);
+            --shadow: rgba(0, 0, 0, 0.08);
+            --toggle-bg: #e0e0e0;
+            --toggle-knob: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            padding: 2rem 5rem 3rem 5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        p, li {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        li::before {
+            content: "→ ";
+            color: var(--accent);
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 2rem;
+        }
+
+        .visual-box {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        code {
+            background: var(--bg-code);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            color: var(--code-text);
+        }
+
+        .equation {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 5rem;
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .spacer {
+            margin-bottom: 2rem;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .math-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            line-height: 2;
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 1000;
+            background: var(--toggle-bg);
+            border: none;
+            border-radius: 2rem;
+            width: 56px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 3px;
+            transition: background 0.3s ease;
+        }
+
+        .theme-toggle::after {
+            content: '';
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--toggle-knob);
+            transition: transform 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        [data-theme="light"] .theme-toggle::after {
+            transform: translateX(28px);
+        }
+
+        .theme-toggle-icon {
+            position: fixed;
+            top: 1.5rem;
+            right: 5rem;
+            z-index: 1000;
+            font-size: 1.2rem;
+            line-height: 28px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light mode"></button>
+    <span class="theme-toggle-icon" id="themeIcon">🌙</span>
+
+    <div class="slide-container" id="slides">
+
+        <!-- Slide 1: Title -->
+        <div class="slide">
+            <h1>Vectorization &<br>Broadcasting</h1>
+            <p class="subtitle">Module 4: AI Research Foundations</p>
+            <div class="spacer"></div>
+            <p>Learn to compute neural network operations without loops</p>
+        </div>
+
+        <!-- Slide 2: The Problem with Loops -->
+        <div class="slide">
+            <h2>The Problem with Loops</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Loop-Based Approach</h3>
+                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="50" y="30" width="80" height="40" fill="#e94560" opacity="0.3"/>
+                        <text x="90" y="55" fill="#fafafa" text-anchor="middle" font-size="14">Step 1</text>
+
+                        <rect x="50" y="90" width="80" height="40" fill="#e94560" opacity="0.3"/>
+                        <text x="90" y="115" fill="#fafafa" text-anchor="middle" font-size="14">Step 2</text>
+
+                        <rect x="50" y="150" width="80" height="40" fill="#e94560" opacity="0.3"/>
+                        <text x="90" y="175" fill="#fafafa" text-anchor="middle" font-size="14">Step 3</text>
+
+                        <rect x="50" y="210" width="80" height="40" fill="#e94560" opacity="0.3"/>
+                        <text x="90" y="235" fill="#fafafa" text-anchor="middle" font-size="14">Step N</text>
+
+                        <path d="M 90 70 L 90 90" stroke="#888" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <path d="M 90 130 L 90 150" stroke="#888" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <path d="M 90 190 L 90 210" stroke="#888" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                                <polygon points="0 0, 10 5, 0 10" fill="#888" />
+                            </marker>
+                        </defs>
+
+                        <text x="200" y="140" fill="#e94560" font-size="20" font-weight="bold">SLOW</text>
+                    </svg>
+                    <ul style="margin-top: 1rem;">
+                        <li>Sequential execution</li>
+                        <li>Python overhead per iteration</li>
+                        <li>No parallelism</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Vectorized Approach</h3>
+                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="50" y="30" width="80" height="40" fill="#e94560"/>
+                        <rect x="50" y="90" width="80" height="40" fill="#e94560"/>
+                        <rect x="50" y="150" width="80" height="40" fill="#e94560"/>
+                        <rect x="50" y="210" width="80" height="40" fill="#e94560"/>
+
+                        <text x="90" y="55" fill="#fafafa" text-anchor="middle" font-size="14">All</text>
+                        <text x="90" y="115" fill="#fafafa" text-anchor="middle" font-size="14">At</text>
+                        <text x="90" y="175" fill="#fafafa" text-anchor="middle" font-size="14">Once</text>
+                        <text x="90" y="235" fill="#fafafa" text-anchor="middle" font-size="14">!</text>
+
+                        <text x="200" y="140" fill="#e94560" font-size="20" font-weight="bold">FAST</text>
+                    </svg>
+                    <ul style="margin-top: 1rem;">
+                        <li>Parallel execution (SIMD)</li>
+                        <li>Optimized C implementation</li>
+                        <li>Better cache utilization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Element-wise Operations -->
+        <div class="slide">
+            <h2>Element-wise Operations</h2>
+            <p>Operations applied to corresponding elements</p>
+            <div class="spacer"></div>
+            <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- First array -->
+                <rect x="50" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="120" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="190" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="260" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <text x="80" y="117" fill="#fafafa" text-anchor="middle" font-size="22">1</text>
+                <text x="150" y="117" fill="#fafafa" text-anchor="middle" font-size="22">2</text>
+                <text x="220" y="117" fill="#fafafa" text-anchor="middle" font-size="22">3</text>
+                <text x="290" y="117" fill="#fafafa" text-anchor="middle" font-size="22">4</text>
+
+                <!-- Operator -->
+                <text x="360" y="117" fill="#e94560" text-anchor="middle" font-size="28" font-weight="bold">×</text>
+
+                <!-- Second array -->
+                <rect x="420" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="490" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="560" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="630" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <text x="450" y="117" fill="#fafafa" text-anchor="middle" font-size="20">10</text>
+                <text x="520" y="117" fill="#fafafa" text-anchor="middle" font-size="20">20</text>
+                <text x="590" y="117" fill="#fafafa" text-anchor="middle" font-size="20">30</text>
+                <text x="660" y="117" fill="#fafafa" text-anchor="middle" font-size="20">40</text>
+
+                <!-- Equals -->
+                <text x="360" y="210" fill="#e94560" text-anchor="middle" font-size="28" font-weight="bold">=</text>
+
+                <!-- Result array -->
+                <rect x="420" y="175" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                <rect x="490" y="175" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                <rect x="560" y="175" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                <rect x="630" y="175" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                <text x="450" y="212" fill="#fafafa" text-anchor="middle" font-size="20">10</text>
+                <text x="520" y="212" fill="#fafafa" text-anchor="middle" font-size="20">40</text>
+                <text x="590" y="212" fill="#fafafa" text-anchor="middle" font-size="20">90</text>
+                <text x="660" y="212" fill="#fafafa" text-anchor="middle" font-size="20">160</text>
+
+                <!-- Arrows showing correspondence -->
+                <path d="M 80 145 L 450 175" stroke="#e94560" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
+                <path d="M 150 145 L 520 175" stroke="#e94560" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
+                <path d="M 220 145 L 590 175" stroke="#e94560" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
+                <path d="M 290 145 L 660 175" stroke="#e94560" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
+            </svg>
+            <div class="spacer"></div>
+            <ul>
+                <li>Addition, subtraction, multiplication, division</li>
+                <li>Applied position by position</li>
+                <li>Arrays must have compatible shapes</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: Scalar Broadcasting -->
+        <div class="slide">
+            <h2>Scalar Broadcasting</h2>
+            <p>NumPy automatically expands scalars to match array shapes</p>
+            <div class="spacer"></div>
+            <svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg">
+                <!-- Scalar -->
+                <rect x="80" y="80" width="80" height="80" fill="#e94560" opacity="0.5" stroke="#e94560" stroke-width="3"/>
+                <text x="120" y="130" fill="#fafafa" text-anchor="middle" font-size="28" font-weight="bold">5</text>
+                <text x="120" y="185" fill="#ccc" text-anchor="middle" font-size="13">scalar</text>
+
+                <!-- Broadcast arrow -->
+                <path d="M 170 120 L 250 120" stroke="#e94560" stroke-width="3" marker-end="url(#arrowhead2)"/>
+                <text x="210" y="108" fill="#e94560" text-anchor="middle" font-size="14" font-weight="bold">broadcast</text>
+
+                <defs>
+                    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#e94560" />
+                    </marker>
+                </defs>
+
+                <!-- Broadcasted array -->
+                <rect x="280" y="60" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                <rect x="350" y="60" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                <rect x="420" y="60" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                <rect x="490" y="60" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                <text x="310" y="97" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
+                <text x="380" y="97" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
+                <text x="450" y="97" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
+                <text x="520" y="97" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
+
+                <!-- Times -->
+                <text x="400" y="180" fill="#fafafa" text-anchor="middle" font-size="28" font-weight="bold">×</text>
+
+                <!-- Original array -->
+                <rect x="280" y="210" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="350" y="210" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="420" y="210" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="490" y="210" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <text x="310" y="247" fill="#fafafa" text-anchor="middle" font-size="20">1</text>
+                <text x="380" y="247" fill="#fafafa" text-anchor="middle" font-size="20">2</text>
+                <text x="450" y="247" fill="#fafafa" text-anchor="middle" font-size="20">3</text>
+                <text x="520" y="247" fill="#fafafa" text-anchor="middle" font-size="20">4</text>
+
+                <!-- Equals -->
+                <text x="600" y="180" fill="#e94560" text-anchor="middle" font-size="28" font-weight="bold">=</text>
+
+                <!-- Result -->
+                <rect x="630" y="130" width="60" height="60" fill="#e94560" stroke="#e94560" stroke-width="2"/>
+                <rect x="630" y="200" width="60" height="60" fill="#e94560" stroke="#e94560" stroke-width="2"/>
+                <text x="660" y="167" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
+                <text x="660" y="237" fill="#fafafa" text-anchor="middle" font-size="20">10</text>
+
+                <rect x="700" y="130" width="60" height="60" fill="#e94560" stroke="#e94560" stroke-width="2"/>
+                <rect x="700" y="200" width="60" height="60" fill="#e94560" stroke="#e94560" stroke-width="2"/>
+                <text x="730" y="167" fill="#fafafa" text-anchor="middle" font-size="20">15</text>
+                <text x="730" y="237" fill="#fafafa" text-anchor="middle" font-size="20">20</text>
+            </svg>
+        </div>
+
+        <!-- Slide 5: The Dot Product -->
+        <div class="slide">
+            <h2>The Dot Product</h2>
+            <p>Sum of element-wise products</p>
+            <div class="spacer"></div>
+            <svg viewBox="0 0 900 350" xmlns="http://www.w3.org/2000/svg">
+                <!-- Vector 1 -->
+                <text x="50" y="80" fill="#fafafa" font-size="18">v₁ =</text>
+                <rect x="120" y="50" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="190" y="50" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="260" y="50" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <text x="150" y="87" fill="#fafafa" text-anchor="middle" font-size="20">1</text>
+                <text x="220" y="87" fill="#fafafa" text-anchor="middle" font-size="20">2</text>
+                <text x="290" y="87" fill="#fafafa" text-anchor="middle" font-size="20">3</text>
+
+                <!-- Vector 2 -->
+                <text x="50" y="180" fill="#fafafa" font-size="18">v₂ =</text>
+                <rect x="120" y="150" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="190" y="150" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="260" y="150" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
+                <text x="150" y="187" fill="#fafafa" text-anchor="middle" font-size="20">4</text>
+                <text x="220" y="187" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
+                <text x="290" y="187" fill="#fafafa" text-anchor="middle" font-size="20">6</text>
+
+                <!-- Calculation -->
+                <text x="450" y="130" fill="#fafafa" font-size="18">v₁ · v₂ =</text>
+
+                <text x="450" y="170" fill="#e94560" font-size="18">(1 × 4)</text>
+                <text x="560" y="170" fill="#fafafa" font-size="18">+</text>
+                <text x="600" y="170" fill="#e94560" font-size="18">(2 × 5)</text>
+                <text x="710" y="170" fill="#fafafa" font-size="18">+</text>
+                <text x="750" y="170" fill="#e94560" font-size="18">(3 × 6)</text>
+
+                <text x="480" y="210" fill="#fafafa" font-size="18">=</text>
+                <text x="520" y="210" fill="#e94560" font-size="20" font-weight="bold">4</text>
+                <text x="560" y="210" fill="#fafafa" font-size="18">+</text>
+                <text x="600" y="210" fill="#e94560" font-size="20" font-weight="bold">10</text>
+                <text x="650" y="210" fill="#fafafa" font-size="18">+</text>
+                <text x="690" y="210" fill="#e94560" font-size="20" font-weight="bold">18</text>
+
+                <text x="480" y="250" fill="#fafafa" font-size="18">=</text>
+                <text x="550" y="250" fill="#e94560" font-size="28" font-weight="bold">32</text>
+
+                <!-- Connection lines -->
+                <path d="M 150 115 L 460 155" stroke="#e94560" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+                <path d="M 150 155 L 460 155" stroke="#e94560" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+            </svg>
+            <div class="spacer"></div>
+            <div class="math-display">
+                <code>np.dot(v1, v2)</code>  or  <code>v1 @ v2</code>
+            </div>
+        </div>
+
+        <!-- Slide 6: Matrix Multiplication -->
+        <div class="slide">
+            <h2>Matrix Multiplication</h2>
+            <p>Shape requirement: <span class="highlight">(m, n) @ (n, p) → (m, p)</span></p>
+            <div class="spacer"></div>
+            <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Matrix A -->
+                <text x="50" y="120" fill="#fafafa" font-size="18">A =</text>
+                <rect x="100" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="150" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="200" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="100" y="120" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="150" y="120" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="200" y="120" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+
+                <text x="125" y="105" fill="#fafafa" text-anchor="middle" font-size="14">1</text>
+                <text x="175" y="105" fill="#fafafa" text-anchor="middle" font-size="14">2</text>
+                <text x="225" y="105" fill="#fafafa" text-anchor="middle" font-size="14">3</text>
+                <text x="125" y="145" fill="#fafafa" text-anchor="middle" font-size="14">4</text>
+                <text x="175" y="145" fill="#fafafa" text-anchor="middle" font-size="14">5</text>
+                <text x="225" y="145" fill="#fafafa" text-anchor="middle" font-size="14">6</text>
+
+                <text x="150" y="190" fill="#e94560" text-anchor="middle" font-size="13">(2, 3)</text>
+
+                <!-- Times -->
+                <text x="280" y="120" fill="#fafafa" text-anchor="middle" font-size="28">@</text>
+
+                <!-- Matrix B -->
+                <text x="330" y="120" fill="#fafafa" font-size="18">B =</text>
+                <rect x="380" y="60" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="430" y="60" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="380" y="100" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="430" y="100" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="380" y="140" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                <rect x="430" y="140" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+
+                <text x="405" y="85" fill="#fafafa" text-anchor="middle" font-size="14">10</text>
+                <text x="455" y="85" fill="#fafafa" text-anchor="middle" font-size="14">11</text>
+                <text x="405" y="125" fill="#fafafa" text-anchor="middle" font-size="14">20</text>
+                <text x="455" y="125" fill="#fafafa" text-anchor="middle" font-size="14">21</text>
+                <text x="405" y="165" fill="#fafafa" text-anchor="middle" font-size="14">30</text>
+                <text x="455" y="165" fill="#fafafa" text-anchor="middle" font-size="14">31</text>
+
+                <text x="415" y="205" fill="#e94560" text-anchor="middle" font-size="13">(3, 2)</text>
+
+                <!-- Equals -->
+                <text x="520" y="120" fill="#fafafa" text-anchor="middle" font-size="28">=</text>
+
+                <!-- Result -->
+                <text x="570" y="120" fill="#fafafa" font-size="18">C =</text>
+                <rect x="620" y="80" width="70" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                <rect x="690" y="80" width="70" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                <rect x="620" y="120" width="70" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                <rect x="690" y="120" width="70" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+
+                <text x="655" y="105" fill="#fafafa" text-anchor="middle" font-size="14">140</text>
+                <text x="725" y="105" fill="#fafafa" text-anchor="middle" font-size="14">146</text>
+                <text x="655" y="145" fill="#fafafa" text-anchor="middle" font-size="14">320</text>
+                <text x="725" y="145" fill="#fafafa" text-anchor="middle" font-size="14">335</text>
+
+                <text x="655" y="185" fill="#e94560" text-anchor="middle" font-size="13">(2, 2)</text>
+
+                <!-- Highlight matching dimension -->
+                <path d="M 200 190 Q 280 230 380 205" stroke="#e94560" stroke-width="2" fill="none"/>
+                <text x="280" y="260" fill="#e94560" text-anchor="middle" font-size="15" font-weight="bold">Inner dimensions must match!</text>
+            </svg>
+        </div>
+
+        <!-- Slide 7: Broadcasting Rules -->
+        <div class="slide">
+            <h2>Broadcasting Rules</h2>
+            <p>How NumPy aligns arrays of different shapes</p>
+            <div class="spacer"></div>
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Rule 1 -->
+                <rect x="50" y="50" width="700" height="100" fill="rgba(233, 69, 96, 0.1)" stroke="#e94560" stroke-width="2" rx="8"/>
+                <text x="70" y="88" fill="#e94560" font-size="22" font-weight="bold">Rule 1</text>
+                <text x="70" y="118" fill="#fafafa" font-size="16">Prepend 1s to smaller rank array</text>
+                <text x="70" y="140" fill="#ccc" font-size="13">Example: (3,) becomes (1, 3)</text>
+
+                <!-- Rule 2 -->
+                <rect x="50" y="170" width="700" height="100" fill="rgba(233, 69, 96, 0.1)" stroke="#e94560" stroke-width="2" rx="8"/>
+                <text x="70" y="208" fill="#e94560" font-size="22" font-weight="bold">Rule 2</text>
+                <text x="70" y="238" fill="#fafafa" font-size="16">Dimensions are compatible if equal OR one is 1</text>
+                <text x="70" y="260" fill="#ccc" font-size="13">Example: (2, 3) and (2, 1) are compatible</text>
+
+                <!-- Rule 3 -->
+                <rect x="50" y="290" width="700" height="100" fill="rgba(233, 69, 96, 0.1)" stroke="#e94560" stroke-width="2" rx="8"/>
+                <text x="70" y="328" fill="#e94560" font-size="22" font-weight="bold">Rule 3</text>
+                <text x="70" y="358" fill="#fafafa" font-size="16">Broadcast to larger shape by copying</text>
+                <text x="70" y="380" fill="#ccc" font-size="13">Example: (2, 1) broadcasts to (2, 3)</text>
+            </svg>
+        </div>
+
+        <!-- Slide 8: Broadcasting Examples -->
+        <div class="slide">
+            <h2>Broadcasting Examples</h2>
+            <div class="two-column">
+                <div>
+                    <h3>1D to 2D Broadcasting</h3>
+                    <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 2D array -->
+                        <rect x="50" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <rect x="100" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <rect x="150" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <rect x="50" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <rect x="100" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <rect x="150" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <text x="100" y="145" fill="#ccc" text-anchor="middle" font-size="13">(2, 3)</text>
+
+                        <!-- Plus -->
+                        <text x="230" y="80" fill="#e94560" text-anchor="middle" font-size="22">+</text>
+
+                        <!-- 1D array -->
+                        <rect x="260" y="60" width="50" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                        <rect x="310" y="60" width="50" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                        <text x="310" y="125" fill="#ccc" text-anchor="middle" font-size="13">(3,) → (1, 3) → (2, 3)</text>
+
+                        <!-- Arrow showing broadcast -->
+                        <path d="M 310 100 L 310 165" stroke="#e94560" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="325" y="135" fill="#e94560" font-size="13">repeat</text>
+                    </svg>
+                </div>
+                <div>
+                    <h3>Column Vector Broadcasting</h3>
+                    <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 2D array -->
+                        <rect x="50" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <rect x="100" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <rect x="150" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <rect x="50" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <rect x="100" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <rect x="150" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
+                        <text x="100" y="145" fill="#ccc" text-anchor="middle" font-size="13">(2, 3)</text>
+
+                        <!-- Plus -->
+                        <text x="220" y="80" fill="#e94560" text-anchor="middle" font-size="22">+</text>
+
+                        <!-- Column vector -->
+                        <rect x="260" y="40" width="50" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                        <rect x="260" y="80" width="50" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
+                        <text x="285" y="145" fill="#ccc" text-anchor="middle" font-size="13">(2, 1) → (2, 3)</text>
+
+                        <!-- Arrow showing broadcast -->
+                        <path d="M 310 60 L 360 60" stroke="#e94560" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="330" y="50" fill="#e94560" font-size="13">repeat</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <p style="text-align: center;">Broadcasting eliminates the need for explicit loops or tile operations</p>
+        </div>
+
+        <!-- Slide 9: The Artificial Neuron -->
+        <div class="slide">
+            <h2>The Artificial Neuron</h2>
+            <p>Mimics biological neurons: weighted sum + activation</p>
+            <div class="spacer"></div>
+            <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Inputs -->
+                <circle cx="100" cy="100" r="15" fill="#fafafa"/>
+                <text x="60" y="105" fill="#fafafa" font-size="14">x₁</text>
+
+                <circle cx="100" cy="180" r="15" fill="#fafafa"/>
+                <text x="60" y="185" fill="#fafafa" font-size="14">x₂</text>
+
+                <circle cx="100" cy="260" r="15" fill="#fafafa"/>
+                <text x="60" y="265" fill="#fafafa" font-size="14">x₃</text>
+
+                <!-- Neuron -->
+                <circle cx="400" cy="180" r="80" fill="rgba(233, 69, 96, 0.2)" stroke="#e94560" stroke-width="3"/>
+                <text x="400" y="170" fill="#fafafa" text-anchor="middle" font-size="14">Σ w·x + b</text>
+                <text x="400" y="200" fill="#e94560" text-anchor="middle" font-size="18" font-weight="bold">f(z)</text>
+
+                <!-- Weights on connections -->
+                <line x1="115" y1="100" x2="330" y2="150" stroke="#888" stroke-width="2"/>
+                <text x="200" y="115" fill="#e94560" font-size="14">w₁</text>
+
+                <line x1="115" y1="180" x2="320" y2="180" stroke="#888" stroke-width="2"/>
+                <text x="200" y="170" fill="#e94560" font-size="14">w₂</text>
+
+                <line x1="115" y1="260" x2="330" y2="210" stroke="#888" stroke-width="2"/>
+                <text x="200" y="250" fill="#e94560" font-size="14">w₃</text>
+
+                <!-- Bias -->
+                <text x="400" y="275" fill="#ccc" font-size="13">+ bias (b)</text>
+
+                <!-- Output -->
+                <line x1="480" y1="180" x2="600" y2="180" stroke="#888" stroke-width="3" marker-end="url(#arrowhead3)"/>
+                <defs>
+                    <marker id="arrowhead3" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#888" />
+                    </marker>
+                </defs>
+
+                <circle cx="650" cy="180" r="15" fill="#e94560"/>
+                <text x="690" y="185" fill="#fafafa" font-size="14">y</text>
+            </svg>
+        </div>
+
+        <!-- Slide 10: Forward Pass Math -->
+        <div class="slide">
+            <h2>Forward Pass Math</h2>
+            <div class="equation">
+                y = f(w · x + b)
+            </div>
+            <div class="spacer"></div>
+            <div class="visual-box">
+                <p style="margin-bottom: 2rem;"><span class="highlight">w</span> = weight vector (learned parameters)</p>
+                <p style="margin-bottom: 2rem;"><span class="highlight">x</span> = input vector (features)</p>
+                <p style="margin-bottom: 2rem;"><span class="highlight">b</span> = bias (learned offset)</p>
+                <p style="margin-bottom: 2rem;"><span class="highlight">w · x</span> = dot product (weighted sum)</p>
+                <p><span class="highlight">f( )</span> = activation function (e.g., ReLU, sigmoid)</p>
+            </div>
+            <div class="spacer"></div>
+            <p>For ReLU: <code>f(z) = max(0, z)</code></p>
+        </div>
+
+        <!-- Slide 11: Single Neuron to Layer -->
+        <div class="slide">
+            <h2>Single Neuron → Layer of Neurons</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Single Neuron</h3>
+                    <div class="math-display">
+                        y = f(w · x + b)<br><br>
+                        w: (n,)<br>
+                        x: (n,)<br>
+                        b: scalar<br>
+                        y: scalar
+                    </div>
+                </div>
+                <div>
+                    <h3>Layer of Neurons</h3>
+                    <div class="math-display">
+                        Y = f(W @ x + b)<br><br>
+                        W: (m, n)<br>
+                        x: (n,)<br>
+                        b: (m,)<br>
+                        Y: (m,)
+                    </div>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <p style="text-align: center;">Each row of <span class="highlight">W</span> is one neuron's weights<br>
+            Matrix multiplication computes all neurons in parallel!</p>
+        </div>
+
+        <!-- Slide 12: Speed Comparison -->
+        <div class="slide">
+            <h2>Speed Comparison: Loops vs Vectorized</h2>
+            <p>Computing 1000 neurons with 500 inputs each</p>
+            <div class="spacer"></div>
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Bar chart -->
+                <rect x="100" y="250" width="150" height="10" fill="#e94560"/>
+                <text x="175" y="238" fill="#fafafa" text-anchor="middle" font-size="16">Vectorized</text>
+                <text x="270" y="265" fill="#e94560" font-size="16" font-weight="bold">2 ms</text>
+
+                <rect x="100" y="150" width="600" height="50" fill="#fafafa" opacity="0.3"/>
+                <text x="400" y="118" fill="#fafafa" text-anchor="middle" font-size="16">For Loops</text>
+                <text x="720" y="180" fill="#fafafa" font-size="16" font-weight="bold">120 ms</text>
+
+                <!-- Speedup annotation -->
+                <text x="400" y="330" fill="#e94560" text-anchor="middle" font-size="26" font-weight="bold">60× FASTER</text>
+
+                <!-- Y-axis -->
+                <line x1="80" y1="100" x2="80" y2="310" stroke="#888" stroke-width="2"/>
+                <line x1="75" y1="100" x2="80" y2="100" stroke="#888" stroke-width="2"/>
+                <line x1="75" y1="200" x2="80" y2="200" stroke="#888" stroke-width="2"/>
+                <line x1="75" y1="300" x2="80" y2="300" stroke="#888" stroke-width="2"/>
+
+                <text x="60" y="105" fill="#ccc" text-anchor="end" font-size="13">150ms</text>
+                <text x="60" y="205" fill="#ccc" text-anchor="end" font-size="13">75ms</text>
+                <text x="60" y="305" fill="#ccc" text-anchor="end" font-size="13">0ms</text>
+            </svg>
+        </div>
+
+        <!-- Slide 13: Lab Introduction -->
+        <div class="slide">
+            <h2>Lab: The Forward Pass</h2>
+            <div class="spacer"></div>
+            <h3>What You'll Build</h3>
+            <ul>
+                <li>Element-wise operations and broadcasting</li>
+                <li>Dot products and matrix multiplication</li>
+                <li>Single neuron forward pass</li>
+                <li>Layer of neurons with ReLU activation</li>
+                <li>Speed comparison: vectorized vs loops</li>
+            </ul>
+            <div class="spacer"></div>
+            <h3>Key Skills</h3>
+            <ul>
+                <li>Using <code>@</code> operator for matrix multiplication</li>
+                <li>Understanding broadcasting rules</li>
+                <li>Implementing neural network operations without loops</li>
+                <li>Timing code execution</li>
+            </ul>
+        </div>
+
+        <!-- Slide 14: Key Takeaways -->
+        <div class="slide">
+            <h2>Key Takeaways</h2>
+            <div class="spacer"></div>
+            <ul>
+                <li>Vectorization eliminates loops and speeds up computation</li>
+                <li>Broadcasting extends arrays to compatible shapes automatically</li>
+                <li>Neural networks are chains of matrix multiplications</li>
+                <li>Single neuron: <code>y = f(w·x + b)</code></li>
+                <li>Layer of neurons: <code>Y = f(W @ x + b)</code></li>
+                <li>Modern deep learning frameworks use these same operations</li>
+                <li>GPUs accelerate matrix operations massively in parallel</li>
+            </ul>
+            <div class="spacer"></div>
+            <p style="text-align: center; font-size: 1.6rem; color: #e94560;">
+                You now understand the mathematical foundation of neural networks!
+            </p>
+        </div>
+
+    </div>
+
+    <div class="slide-number" id="slideNumber">1 / 14</div>
+    <div class="footer">© mui-group</div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const slideContainer = document.getElementById('slides');
+        const slideNumber = document.getElementById('slideNumber');
+
+        function updateSlide() {
+            slideContainer.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            slideNumber.textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                currentSlide = 0;
+                updateSlide();
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                currentSlide = totalSlides - 1;
+                updateSlide();
+            }
+        });
+
+        // Touch support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                prevSlide();
+            }
+        });
+
+        // Click to advance (right half of screen)
+        document.addEventListener('click', (e) => {
+            // Skip if clicking theme toggle
+            if (e.target.id === 'themeToggle' || e.target.closest('#themeToggle')) {
+                return;
+            }
+            if (e.clientX > window.innerWidth / 2) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        });
+    </script>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+            localStorage.setItem('slide-theme', theme);
+            updateSVGColors(theme);
+        }
+
+        function updateSVGColors(theme) {
+            const svgs = document.querySelectorAll('svg');
+            svgs.forEach(svg => {
+                svg.querySelectorAll('text').forEach(text => {
+                    const currentFill = text.getAttribute('fill');
+                    if (theme === 'light') {
+                        if (['#eee', '#fafafa', '#ccc', '#fff', '#ddd'].includes(currentFill)) {
+                            text.setAttribute('data-dark-fill', currentFill);
+                            text.setAttribute('fill', '#333');
+                        } else if (['#aaa', '#888', '#999'].includes(currentFill)) {
+                            text.setAttribute('data-dark-fill', currentFill);
+                            text.setAttribute('fill', '#777');
+                        }
+                    } else {
+                        const darkFill = text.getAttribute('data-dark-fill');
+                        if (darkFill) text.setAttribute('fill', darkFill);
+                    }
+                });
+                svg.querySelectorAll('line, path, rect, circle, polyline, polygon').forEach(el => {
+                    const currentStroke = el.getAttribute('stroke');
+                    const currentFill = el.getAttribute('fill');
+                    if (theme === 'light') {
+                        if (currentStroke && ['#888', '#999', '#aaa', '#fafafa', '#fff', '#666'].includes(currentStroke)) {
+                            el.setAttribute('data-dark-stroke', currentStroke);
+                            el.setAttribute('stroke', '#444');
+                        }
+                        if (currentFill && ['#2d2d44', '#1a1a2e', '#16162a', '#252540'].includes(currentFill)) {
+                            el.setAttribute('data-dark-fill', currentFill);
+                            el.setAttribute('fill', '#f8f9fa');
+                        }
+                    } else {
+                        const ds = el.getAttribute('data-dark-stroke');
+                        if (ds) el.setAttribute('stroke', ds);
+                        const df = el.getAttribute('data-dark-fill');
+                        if (df) el.setAttribute('fill', df);
+                    }
+                });
+            });
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            setTheme(current === 'light' ? 'dark' : 'light');
+        });
+
+        const saved = localStorage.getItem('slide-theme');
+        if (saved) {
+            setTheme(saved);
+        } else {
+            setTheme('dark');
+        }
+    </script>
+</body>
+</html>

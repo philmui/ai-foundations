@@ -1,0 +1,12 @@
+[project]
+name = "module-01-architecture-of-data"
+version = "0.1.0"
+description = "Module 1: The Architecture of Data - Lists, Dicts, & Complexity"
+requires-python = ">=3.10"
+dependencies = [
+    "python-dotenv>=1.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

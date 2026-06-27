@@ -1,0 +1,50 @@
+Neural networks learn representations from data by optimizing loss functions.
+Transformers use self-attention mechanisms to capture contextual relationships.
+Gradient descent iteratively updates model parameters to minimize error.
+Embeddings map discrete tokens into continuous vector spaces.
+Backpropagation computes gradients through computational graphs efficiently.
+Regularization techniques prevent overfitting on training datasets.
+Batch normalization stabilizes training by normalizing layer activations.
+Dropout randomly disables neurons during training to improve generalization.
+Learning rate schedules adjust step sizes during optimization.
+Cross-entropy loss measures prediction error for classification tasks.
+Convolutional layers extract spatial features from images hierarchically.
+Recurrent networks process sequential data with hidden state memory.
+Attention mechanisms weight input elements by their relevance dynamically.
+Residual connections enable training of very deep neural networks.
+Activation functions introduce nonlinearity into neural computations.
+Pooling operations downsample feature maps to reduce dimensionality.
+Word embeddings capture semantic similarity between text tokens.
+Transfer learning adapts pretrained models to new downstream tasks.
+Fine-tuning updates model weights on task-specific training data.
+Data augmentation artificially expands training sets to improve robustness.
+Hyperparameter tuning searches for optimal model configuration settings.
+Validation sets estimate model performance on unseen data distributions.
+Early stopping prevents overfitting by monitoring validation metrics.
+Ensemble methods combine multiple models to improve prediction accuracy.
+Reinforcement learning trains agents through reward-based feedback signals.
+Policy gradients optimize decision-making strategies in dynamic environments.
+Q-learning estimates action values to maximize cumulative rewards.
+Exploration strategies balance trying new actions versus exploiting knowledge.
+Generative models learn probability distributions of training data.
+Variational autoencoders encode data into latent representations efficiently.
+Generative adversarial networks train generators and discriminators competitively.
+Diffusion models iteratively denoise random inputs to generate samples.
+Language models predict next tokens based on preceding context.
+BERT uses bidirectional context to understand natural language deeply.
+GPT generates coherent text by predicting tokens autoregressively.
+Tokenization splits text into subword units for model processing.
+Positional encodings inject sequence order information into transformers.
+Multi-head attention processes input through parallel attention mechanisms.
+Feed-forward networks apply learned transformations to attention outputs.
+Layer normalization stabilizes training by normalizing across features.
+Beam search explores multiple decoding paths to generate better text.
+Temperature scaling adjusts output probability distributions for sampling.
+Top-k sampling restricts token selection to highest probability candidates.
+Perplexity measures language model uncertainty on held-out text.
+BLEU score evaluates machine translation quality by n-gram overlap.
+ROUGE metrics assess text summarization through recall measures.
+Semantic similarity quantifies meaning overlap between text segments.
+Named entity recognition identifies people, places, and organizations.
+Part-of-speech tagging labels words by their grammatical functions.
+Dependency parsing reveals syntactic relationships between sentence words.

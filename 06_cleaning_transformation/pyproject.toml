@@ -1,0 +1,13 @@
+[project]
+name = "module-06-cleaning-transformation"
+version = "0.1.0"
+description = "Module 6: Cleaning & Transformation"
+requires-python = ">=3.10"
+dependencies = [
+    "python-dotenv>=1.0.0",
+    "pandas>=2.1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

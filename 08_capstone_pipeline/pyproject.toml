@@ -1,0 +1,15 @@
+[project]
+name = "module-08-capstone-pipeline"
+version = "0.1.0"
+description = "Module 8: Capstone - The Research Pipeline"
+requires-python = ">=3.10"
+dependencies = [
+    "python-dotenv>=1.0.0",
+    "numpy>=1.26.0",
+    "pandas>=2.1.0",
+    "opencv-python>=4.8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

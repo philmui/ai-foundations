@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 360" font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:21px;font-weight:700;fill:#0f172a;}
+      .cap{font-size:14px;font-weight:700;fill:#334155;}
+      .sub{font-size:12px;fill:#64748b;}
+      .mono{font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace;fill:#1e3a8a;}
+      .label{font-size:13px;fill:#334155;}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="420" y="30" class="title" text-anchor="middle">A generator gives you one batch at a time</text>
+
+  <!-- TOP: Load everything at once -->
+  <text x="60" y="75" class="cap">Load everything at once: a lot of memory</text>
+
+  <!-- Big RAM box with warning color -->
+  <rect x="60" y="85" width="720" height="90" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+  <text x="420" y="110" class="label" text-anchor="middle" font-weight="700">RAM (all data loaded)</text>
+
+  <!-- Many small image icons inside -->
+  <rect x="80" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="97.5" y="142" class="mono" text-anchor="middle" font-size="10">img1</text>
+
+  <rect x="130" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="147.5" y="142" class="mono" text-anchor="middle" font-size="10">img2</text>
+
+  <rect x="180" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="197.5" y="142" class="mono" text-anchor="middle" font-size="10">img3</text>
+
+  <rect x="230" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="247.5" y="142" class="mono" text-anchor="middle" font-size="10">img4</text>
+
+  <text x="285" y="142" class="sub" font-size="16">...</text>
+
+  <rect x="320" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="337.5" y="142" class="mono" text-anchor="middle" font-size="10">img98</text>
+
+  <rect x="370" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="387.5" y="142" class="mono" text-anchor="middle" font-size="10">img99</text>
+
+  <rect x="420" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="437.5" y="142" class="mono" text-anchor="middle" font-size="10">img100</text>
+
+  <text x="475" y="142" class="sub" font-size="16">...</text>
+
+  <rect x="510" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="527.5" y="142" class="mono" text-anchor="middle" font-size="10">img998</text>
+
+  <rect x="560" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="577.5" y="142" class="mono" text-anchor="middle" font-size="10">img999</text>
+
+  <rect x="610" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="627.5" y="142" class="mono" text-anchor="middle" font-size="10">img1000</text>
+
+  <rect x="660" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="677.5" y="142" class="mono" text-anchor="middle" font-size="10">img1001</text>
+
+  <rect x="710" y="120" width="35" height="35" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="727.5" y="142" class="mono" text-anchor="middle" font-size="10">img1002</text>
+
+  <!-- BOTTOM: Generator approach -->
+  <text x="60" y="215" class="cap">Generator: one batch at a time, low memory</text>
+
+  <!-- Disk storage (waiting batches) -->
+  <rect x="60" y="225" width="200" height="90" rx="8" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="160" y="247" class="label" text-anchor="middle" font-weight="700">Disk (batches waiting)</text>
+  <text x="90" y="270" class="sub">batch 2</text>
+  <text x="90" y="290" class="sub">batch 3</text>
+  <text x="90" y="310" class="sub">...</text>
+
+  <!-- yield arrow -->
+  <line x1="270" y1="270" x2="340" y2="270" stroke="#0d9488" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="305" y="262" class="mono" fill="#0d9488" text-anchor="middle">yield</text>
+
+  <!-- Current batch in RAM (small) -->
+  <rect x="350" y="225" width="180" height="90" rx="8" fill="#ccfbf1" stroke="#0d9488" stroke-width="2.5"/>
+  <text x="440" y="247" class="label" text-anchor="middle" font-weight="700">RAM (current batch only)</text>
+
+  <!-- Batch 1 images -->
+  <rect x="370" y="260" width="30" height="30" rx="3" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="385" y="279" class="mono" text-anchor="middle" font-size="9">img1</text>
+
+  <rect x="410" y="260" width="30" height="30" rx="3" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="425" y="279" class="mono" text-anchor="middle" font-size="9">img2</text>
+
+  <rect x="450" y="260" width="30" height="30" rx="3" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="465" y="279" class="mono" text-anchor="middle" font-size="9">img3</text>
+
+  <rect x="490" y="260" width="30" height="30" rx="3" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="505" y="279" class="mono" text-anchor="middle" font-size="9">img4</text>
+
+  <text x="440" y="305" class="sub" text-anchor="middle">batch 1</text>
+
+  <!-- Arrow to model -->
+  <line x1="540" y1="270" x2="620" y2="270" stroke="#0d9488" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="580" y="262" class="sub" text-anchor="middle">to model</text>
+
+  <!-- Model box -->
+  <rect x="630" y="240" width="150" height="60" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+  <text x="705" y="265" class="label" text-anchor="middle" font-weight="700">Model</text>
+  <text x="705" y="285" class="sub" text-anchor="middle">processes batch 1</text>
+</svg>

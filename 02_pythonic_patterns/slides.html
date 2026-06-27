@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: Pythonic Patterns for AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fafafa;
+            --bg-secondary: #f0f0f5;
+            --bg-code: #1a1a2e;
+            --text-primary: #1a1a2e;
+            --text-secondary: #555;
+            --text-muted: #999;
+            --accent: #e94560;
+            --accent-hover: #d63851;
+            --green: #16a34a;
+            --blue: #2563eb;
+            --border: #e0e0e0;
+            --code-text: #fafafa;
+            --svg-text: #333;
+            --svg-stroke: #444;
+            --svg-fill-light: #f8f9fa;
+            --svg-fill-accent: rgba(233, 69, 96, 0.1);
+            --shadow: rgba(0, 0, 0, 0.08);
+            --toggle-bg: #e0e0e0;
+            --toggle-knob: #fff;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16162a;
+            --bg-code: #0d0d1a;
+            --text-primary: #fafafa;
+            --text-secondary: #ccc;
+            --text-muted: rgba(250, 250, 250, 0.4);
+            --accent: #e94560;
+            --accent-hover: #ff6b81;
+            --green: #4ade80;
+            --blue: #60a5fa;
+            --border: #2d2d44;
+            --code-text: #fafafa;
+            --svg-text: #eee;
+            --svg-stroke: #888;
+            --svg-fill-light: #2d2d44;
+            --svg-fill-accent: rgba(233, 69, 96, 0.15);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --toggle-bg: #2d2d44;
+            --toggle-knob: #fafafa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            min-height: 100vh;
+            max-height: 96vh;
+            overflow-y: auto;
+            padding: 2rem 5rem 3rem 5rem;
+            position: relative;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        .content-list {
+            list-style: none;
+            font-size: 1.4rem;
+            line-height: 2.2;
+            font-weight: 400;
+        }
+
+        .content-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .content-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 5rem;
+            right: 5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .slide-number {
+            font-weight: 600;
+        }
+
+        code {
+            font-family: 'Monaco', 'Courier New', monospace;
+            background: var(--bg-code);
+            color: var(--code-text);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .code-block {
+            background: var(--bg-code);
+            color: var(--code-text);
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .keyword {
+            color: var(--accent);
+        }
+
+        .string {
+            color: var(--green);
+        }
+
+        .comment {
+            color: var(--text-muted);
+        }
+
+        .svg-container {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comparison {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .comparison.bad {
+            border-left: 4px solid var(--accent);
+        }
+
+        .comparison.good {
+            border-left: 4px solid var(--green);
+        }
+
+        .title-slide {
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .title-slide h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 1000;
+            background: var(--toggle-bg);
+            border: none;
+            border-radius: 2rem;
+            width: 56px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 3px;
+            transition: background 0.3s ease;
+        }
+
+        .theme-toggle::after {
+            content: '';
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--toggle-knob);
+            transition: transform 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        [data-theme="dark"] .theme-toggle::after {
+            transform: translateX(28px);
+        }
+
+        .theme-toggle-icon {
+            position: fixed;
+            top: 1.5rem;
+            right: 5rem;
+            z-index: 1000;
+            font-size: 1.2rem;
+            line-height: 28px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+    <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <div class="slide-content">
+                <h1>Pythonic Patterns<br>for AI</h1>
+                <div class="subtitle">Comprehensions & Generators</div>
+                <div class="subtitle" style="margin-top: 3rem; font-size: 1.2rem;">Module 2: Data Foundations</div>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">1 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>The Problem: For Loops Are Slow</h2>
+                <div class="svg-container">
+                    <svg width="800" height="300" viewBox="0 0 800 300">
+                        <!-- For loop visualization -->
+                        <text x="20" y="40" font-family="Inter" font-size="18" fill="#1a1a2e" font-weight="600">Traditional For Loop:</text>
+
+                        <!-- Loop boxes -->
+                        <rect x="50" y="70" width="120" height="60" fill="#f5f5f5" stroke="#444" stroke-width="2"/>
+                        <text x="110" y="105" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle">Iteration 1</text>
+
+                        <path d="M 170 100 L 210 100" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+
+                        <rect x="210" y="70" width="120" height="60" fill="#f5f5f5" stroke="#444" stroke-width="2"/>
+                        <text x="270" y="105" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle">Iteration 2</text>
+
+                        <path d="M 330 100 L 370 100" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+
+                        <rect x="370" y="70" width="120" height="60" fill="#f5f5f5" stroke="#444" stroke-width="2"/>
+                        <text x="430" y="105" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle">Iteration 3</text>
+
+                        <text x="530" y="105" font-family="Inter" font-size="24" fill="#555">. . .</text>
+
+                        <!-- Problem indicators -->
+                        <text x="50" y="185" font-family="Inter" font-size="16" fill="#e94560">• Verbose syntax</text>
+                        <text x="50" y="215" font-family="Inter" font-size="16" fill="#e94560">• Manual iteration</text>
+                        <text x="50" y="245" font-family="Inter" font-size="16" fill="#e94560">• Harder to read</text>
+                        <text x="50" y="275" font-family="Inter" font-size="16" fill="#e94560">• Not vectorized</text>
+
+                        <defs>
+                            <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">2 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 3: List Comprehensions -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>List Comprehensions</h2>
+                <div class="svg-container">
+                    <svg width="900" height="250" viewBox="0 0 900 250">
+                        <!-- Syntax diagram -->
+                        <rect x="50" y="50" width="800" height="120" fill="#f5f5f5" stroke="#e94560" stroke-width="3" rx="8"/>
+
+                        <!-- Syntax breakdown -->
+                        <text x="80" y="100" font-family="Monaco" font-size="20" fill="#e94560" font-weight="600">[</text>
+                        <text x="110" y="100" font-family="Monaco" font-size="20" fill="#1a1a2e">expression</text>
+                        <text x="280" y="100" font-family="Monaco" font-size="20" fill="#e94560" font-weight="600">for</text>
+                        <text x="340" y="100" font-family="Monaco" font-size="20" fill="#1a1a2e">item</text>
+                        <text x="430" y="100" font-family="Monaco" font-size="20" fill="#e94560" font-weight="600">in</text>
+                        <text x="480" y="100" font-family="Monaco" font-size="20" fill="#1a1a2e">iterable</text>
+                        <text x="620" y="100" font-family="Monaco" font-size="20" fill="#e94560" font-weight="600">if</text>
+                        <text x="670" y="100" font-family="Monaco" font-size="20" fill="#1a1a2e">condition</text>
+                        <text x="820" y="100" font-family="Monaco" font-size="20" fill="#e94560" font-weight="600">]</text>
+
+                        <!-- Labels -->
+                        <text x="180" y="145" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">what to keep</text>
+                        <text x="385" y="145" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">loop through</text>
+                        <text x="720" y="145" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">optional filter</text>
+
+                        <!-- Example -->
+                        <text x="50" y="215" font-family="Monaco" font-size="16" fill="#1a1a2e">[x.lower() for x in words if len(x) > 3]</text>
+                    </svg>
+                </div>
+                <ul class="content-list">
+                    <li>Clean one-line transformations</li>
+                    <li>Built-in filtering capability</li>
+                    <li>More readable than loops</li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">3 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 4: Dict Comprehensions -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Dict Comprehensions</h2>
+                <div class="code-block">
+<span class="comment"># Build vocabulary from words</span>
+<span class="keyword">vocab</span> = {<span class="keyword">word</span>: <span class="keyword">words</span>.count(<span class="keyword">word</span>) <span class="keyword">for word in</span> set(<span class="keyword">words</span>)}
+
+<span class="comment"># Result:</span>
+{
+    <span class="string">'neural'</span>: 42,
+    <span class="string">'network'</span>: 38,
+    <span class="string">'learning'</span>: 56,
+    ...
+}
+                </div>
+                <ul class="content-list">
+                    <li>Perfect for building vocabularies</li>
+                    <li>Word counts in one line</li>
+                    <li>Key-value pair generation</li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">4 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 5: Code Example -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Cleaning Data in One Line</h2>
+                <div class="comparison bad">
+                    <div class="code-block" style="margin: 0;">
+<span class="comment"># Old way: 5 lines</span>
+cleaned = []
+<span class="keyword">for</span> line <span class="keyword">in</span> file:
+    line = line.strip().lower()
+    <span class="keyword">if</span> len(line) > 0:
+        cleaned.append(line)
+                    </div>
+                </div>
+                <div class="comparison good">
+                    <div class="code-block" style="margin: 0;">
+<span class="comment"># New way: 1 line</span>
+cleaned = [line.strip().lower() <span class="keyword">for</span> line <span class="keyword">in</span> file <span class="keyword">if</span> line.strip()]
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">5 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 6: Memory Problem -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>The Memory Problem</h2>
+                <div class="svg-container">
+                    <svg width="800" height="280" viewBox="0 0 800 280">
+                        <!-- RAM bar -->
+                        <rect x="100" y="50" width="600" height="80" fill="#f5f5f5" stroke="#444" stroke-width="3" rx="8"/>
+                        <text x="400" y="95" font-family="Inter" font-size="18" fill="#555" text-anchor="middle">Available RAM: 8 GB</text>
+
+                        <!-- File filling RAM -->
+                        <rect x="100" y="50" width="500" height="80" fill="#e94560" opacity="0.7" rx="8"/>
+                        <text x="350" y="95" font-family="Inter" font-size="18" fill="#fafafa" text-anchor="middle" font-weight="600">10 GB File Loaded</text>
+
+                        <!-- Warning icon -->
+                        <circle cx="50" cy="90" r="30" fill="#ff6b6b" opacity="0.2"/>
+                        <text x="50" y="105" font-family="Inter" font-size="40" fill="#ff6b6b" text-anchor="middle" font-weight="600">!</text>
+
+                        <!-- Problem description -->
+                        <text x="100" y="185" font-family="Inter" font-size="20" fill="#1a1a2e" font-weight="600">Loading entire file at once:</text>
+                        <text x="120" y="220" font-family="Inter" font-size="16" fill="#e94560">• Out of memory errors</text>
+                        <text x="120" y="250" font-family="Inter" font-size="16" fill="#e94560">• System crashes</text>
+                        <text x="450" y="220" font-family="Inter" font-size="16" fill="#e94560">• Cannot process large datasets</text>
+                        <text x="450" y="250" font-family="Inter" font-size="16" fill="#e94560">• Limits model training</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">6 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 7: Generators -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Generators: The <code>yield</code> Keyword</h2>
+                <div class="svg-container">
+                    <svg width="900" height="250" viewBox="0 0 900 250">
+                        <!-- Generator function flow -->
+                        <rect x="50" y="50" width="180" height="80" fill="#2563eb" opacity="0.15" stroke="#2563eb" stroke-width="3" rx="8"/>
+                        <text x="140" y="95" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">Generator</text>
+                        <text x="140" y="115" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">Function</text>
+
+                        <path d="M 230 90 L 290 90" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+
+                        <rect x="290" y="50" width="150" height="80" fill="#16a34a" opacity="0.15" stroke="#16a34a" stroke-width="3" rx="8"/>
+                        <text x="365" y="85" font-family="Monaco" font-size="18" fill="#1a1a2e" text-anchor="middle" font-weight="600">yield</text>
+                        <text x="365" y="110" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">Pause & Return</text>
+
+                        <path d="M 440 90 L 500 90" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+
+                        <rect x="500" y="50" width="150" height="80" fill="#eab308" opacity="0.2" stroke="#d97706" stroke-width="3" rx="8"/>
+                        <text x="575" y="95" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">Process</text>
+                        <text x="575" y="115" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">One Item</text>
+
+                        <path d="M 575 130 Q 575 180, 365 180 Q 155 180, 140 130" stroke="#2563eb" stroke-width="3" marker-end="url(#arrowblue)" fill="none"/>
+                        <text x="350" y="205" font-family="Inter" font-size="14" fill="#2563eb" text-anchor="middle">Resume</text>
+
+                        <defs>
+                            <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="code-block">
+<span class="keyword">def</span> <span class="string">line_generator</span>(filename):
+    <span class="keyword">for</span> line <span class="keyword">in</span> file:
+        <span class="keyword">yield</span> line  <span class="comment"># Pause here, return line</span>
+                </div>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">7 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 8: Lazy Evaluation -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Lazy Evaluation Explained</h2>
+                <div class="svg-container">
+                    <svg width="800" height="200" viewBox="0 0 800 200">
+                        <!-- Conveyor belt metaphor -->
+                        <text x="400" y="30" font-family="Inter" font-size="18" fill="#555" text-anchor="middle" font-style="italic">Conveyor Belt Metaphor</text>
+
+                        <!-- Belt -->
+                        <line x1="100" y1="100" x2="700" y2="100" stroke="#444" stroke-width="4"/>
+                        <line x1="100" y1="120" x2="700" y2="120" stroke="#444" stroke-width="4"/>
+
+                        <!-- Items on belt -->
+                        <circle cx="200" cy="110" r="20" fill="#2563eb" opacity="0.7"/>
+                        <text x="200" y="118" font-family="Inter" font-size="14" fill="#fafafa" text-anchor="middle" font-weight="600">1</text>
+
+                        <circle cx="300" cy="110" r="20" fill="#f5f5f5" stroke="#999" stroke-width="2"/>
+                        <text x="300" y="118" font-family="Inter" font-size="14" fill="#999" text-anchor="middle">2</text>
+
+                        <circle cx="400" cy="110" r="20" fill="#f5f5f5" stroke="#999" stroke-width="2"/>
+                        <text x="400" y="118" font-family="Inter" font-size="14" fill="#999" text-anchor="middle">3</text>
+
+                        <text x="500" y="115" font-family="Inter" font-size="20" fill="#999">. . .</text>
+
+                        <!-- Labels -->
+                        <text x="200" y="165" font-family="Inter" font-size="14" fill="#2563eb" text-anchor="middle" font-weight="600">Computed Now</text>
+                        <text x="350" y="165" font-family="Inter" font-size="14" fill="#666" text-anchor="middle">Computed Later</text>
+
+                        <text x="100" y="70" font-family="Inter" font-size="16" fill="#e94560" font-weight="600">Only compute when needed!</text>
+                    </svg>
+                </div>
+                <ul class="content-list">
+                    <li>Compute only when requested</li>
+                    <li>No upfront memory allocation</li>
+                    <li>Perfect for infinite streams</li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">8 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 9: Memory Comparison -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Generator vs List Memory</h2>
+                <div class="svg-container">
+                    <svg width="700" height="300" viewBox="0 0 700 300">
+                        <!-- Bar chart -->
+                        <text x="50" y="40" font-family="Inter" font-size="18" fill="#1a1a2e" font-weight="600">Memory Usage (MB)</text>
+
+                        <!-- Y-axis -->
+                        <line x1="100" y1="80" x2="100" y2="280" stroke="#444" stroke-width="2"/>
+                        <text x="85" y="90" font-family="Inter" font-size="14" fill="#555" text-anchor="end">500</text>
+                        <text x="85" y="180" font-family="Inter" font-size="14" fill="#555" text-anchor="end">250</text>
+                        <text x="85" y="270" font-family="Inter" font-size="14" fill="#555" text-anchor="end">0</text>
+
+                        <!-- X-axis -->
+                        <line x1="100" y1="280" x2="650" y2="280" stroke="#444" stroke-width="2"/>
+
+                        <!-- List bar -->
+                        <rect x="200" y="90" width="150" height="190" fill="#e94560" opacity="0.8"/>
+                        <text x="275" y="250" font-family="Inter" font-size="16" fill="#fafafa" text-anchor="middle" font-weight="600">480 MB</text>
+                        <text x="275" y="305" font-family="Inter" font-size="14" fill="#1a1a2e" text-anchor="middle">List</text>
+
+                        <!-- Generator bar -->
+                        <rect x="450" y="268" width="150" height="12" fill="#16a34a" opacity="0.8"/>
+                        <text x="525" y="253" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">2 KB</text>
+                        <text x="525" y="305" font-family="Inter" font-size="14" fill="#1a1a2e" text-anchor="middle">Generator</text>
+
+                        <!-- Savings indicator -->
+                        <text x="360" y="150" font-family="Inter" font-size="20" fill="#16a34a" font-weight="600">99.6% savings!</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">9 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 10: Building Data Stream -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Building a Data Stream</h2>
+                <div class="svg-container">
+                    <svg width="900" height="220" viewBox="0 0 900 220">
+                        <!-- Flowchart -->
+                        <rect x="50" y="60" width="140" height="70" fill="#2563eb" opacity="0.15" stroke="#2563eb" stroke-width="3" rx="8"/>
+                        <text x="120" y="100" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">File</text>
+
+                        <path d="M 190 95 L 240 95" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+
+                        <rect x="240" y="60" width="140" height="70" fill="#16a34a" opacity="0.15" stroke="#16a34a" stroke-width="3" rx="8"/>
+                        <text x="310" y="90" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">Generator</text>
+                        <text x="310" y="110" font-family="Monaco" font-size="13" fill="#555" text-anchor="middle">yield batch</text>
+
+                        <path d="M 380 95 L 430 95" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+
+                        <rect x="430" y="60" width="140" height="70" fill="#eab308" opacity="0.2" stroke="#d97706" stroke-width="3" rx="8"/>
+                        <text x="500" y="90" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">Batch</text>
+                        <text x="500" y="110" font-family="Inter" font-size="13" fill="#555" text-anchor="middle">32 samples</text>
+
+                        <path d="M 570 95 L 620 95" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+
+                        <rect x="620" y="60" width="140" height="70" fill="#8b5cf6" opacity="0.15" stroke="#7c3aed" stroke-width="3" rx="8"/>
+                        <text x="690" y="90" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">Process</text>
+                        <text x="690" y="110" font-family="Inter" font-size="13" fill="#555" text-anchor="middle">Train model</text>
+
+                        <!-- Loop back -->
+                        <path d="M 760 95 Q 820 95, 820 160 Q 820 190, 310 190 Q 310 180, 310 130" stroke="#2563eb" stroke-width="3" marker-end="url(#arrowblue)" fill="none" stroke-dasharray="5,5"/>
+                        <text x="560" y="210" font-family="Inter" font-size="14" fill="#2563eb" text-anchor="middle">Next batch</text>
+                    </svg>
+                </div>
+                <ul class="content-list">
+                    <li>Stream batches continuously</li>
+                    <li>Only one batch in memory</li>
+                    <li>Perfect for training loops</li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">10 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 11: PyTorch Connection -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Connection to PyTorch DataLoaders</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: #666;">Your Generator</h3>
+                        <div class="code-block" style="margin: 0;">
+<span class="keyword">def</span> <span class="string">line_generator</span>():
+    <span class="keyword">for</span> batch <span class="keyword">in</span> batches:
+        <span class="keyword">yield</span> batch
+
+<span class="keyword">for</span> batch <span class="keyword">in</span> line_generator():
+    process(batch)
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: #666;">PyTorch DataLoader</h3>
+                        <div class="code-block" style="margin: 0;">
+loader = DataLoader(
+    dataset,
+    batch_size=<span class="string">32</span>
+)
+
+<span class="keyword">for</span> batch <span class="keyword">in</span> loader:
+    model.train(batch)
+                        </div>
+                    </div>
+                </div>
+                <ul class="content-list" style="margin-top: 2rem;">
+                    <li>Both use lazy evaluation</li>
+                    <li>Both stream data efficiently</li>
+                    <li>Essential for large-scale training</li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">11 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 12: Lab Intro -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Lab: The Infinite Data Loader</h2>
+                <ul class="content-list">
+                    <li>Generate 10,000 line corpus</li>
+                    <li>Clean data with comprehensions</li>
+                    <li>Build vocabulary with dict</li>
+                    <li>Compare list vs generator memory</li>
+                    <li>Implement batch streaming</li>
+                    <li>Measure performance gains</li>
+                </ul>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: #e94560; color: #fafafa; border-radius: 8px;">
+                    <p style="font-size: 1.2rem; font-weight: 600;">Goal: Build a memory-efficient data pipeline</p>
+                </div>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">12 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 13: Key Takeaways -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Key Takeaways</h2>
+                <ul class="content-list">
+                    <li>Comprehensions clean code efficiently</li>
+                    <li><code>yield</code> enables lazy evaluation</li>
+                    <li>Generators stream without loading all</li>
+                    <li>Memory efficiency enables large datasets</li>
+                    <li>Pattern underpins PyTorch DataLoaders</li>
+                    <li>Essential for production AI systems</li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">13 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 14: Comparison Table -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>List vs Generator Summary</h2>
+                <div style="margin-top: 2rem;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 3px solid #1a1a2e;">
+                                <th style="text-align: left; padding: 1rem; font-size: 1.2rem;">Feature</th>
+                                <th style="text-align: left; padding: 1rem; font-size: 1.2rem;">List</th>
+                                <th style="text-align: left; padding: 1rem; font-size: 1.2rem;">Generator</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 1.1rem;">
+                            <tr style="border-bottom: 1px solid #ddd;">
+                                <td style="padding: 1rem; font-weight: 600;">Memory</td>
+                                <td style="padding: 1rem; color: #e94560;">Loads all data</td>
+                                <td style="padding: 1rem; color: #16a34a; font-weight: 500;">One item at a time</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #ddd;">
+                                <td style="padding: 1rem; font-weight: 600;">Speed</td>
+                                <td style="padding: 1rem;">Fast iteration</td>
+                                <td style="padding: 1rem; color: #16a34a; font-weight: 500;">Minimal overhead</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #ddd;">
+                                <td style="padding: 1rem; font-weight: 600;">Use Case</td>
+                                <td style="padding: 1rem;">Small datasets</td>
+                                <td style="padding: 1rem; color: #16a34a; font-weight: 500;">Large datasets</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 1rem; font-weight: 600;">Syntax</td>
+                                <td style="padding: 1rem;"><code>[...]</code></td>
+                                <td style="padding: 1rem;"><code>yield</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">14 / 15</span>
+            </div>
+        </div>
+
+        <!-- Slide 15: Resources -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Resources & Next Steps</h2>
+                <ul class="content-list">
+                    <li>Python docs: Comprehensions & Generators</li>
+                    <li>PyTorch DataLoader documentation</li>
+                    <li>Practice with real datasets</li>
+                    <li>Explore generator expressions</li>
+                    <li>Study itertools library patterns</li>
+                </ul>
+                <div style="margin-top: 3rem; padding: 1.5rem; background: #f5f5f5; border-radius: 8px; border-left: 4px solid #e94560;">
+                    <p style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Next Module:</p>
+                    <p style="font-size: 1.1rem; color: #666;">Thinking in Arrays with NumPy</p>
+                </div>
+            </div>
+            <div class="footer">
+                <span>© mui-group</span>
+                <span class="slide-number">15 / 15</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                showSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                showSlide(totalSlides - 1);
+            }
+        });
+
+        // Optional: click navigation
+        document.addEventListener('click', (e) => {
+            if (e.clientX > window.innerWidth / 2) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        });
+
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+            localStorage.setItem('slide-theme', theme);
+            updateSVGColors(theme);
+        }
+
+        function updateSVGColors(theme) {
+            const svgs = document.querySelectorAll('svg');
+            svgs.forEach(svg => {
+                svg.querySelectorAll('text').forEach(text => {
+                    const currentFill = text.getAttribute('fill');
+                    if (theme === 'dark') {
+                        if (currentFill === '#333' || currentFill === '#1a1a2e' || currentFill === '#555' || currentFill === '#444') {
+                            text.setAttribute('fill', '#eee');
+                            text.setAttribute('data-light-fill', currentFill);
+                        } else if (currentFill === '#777' || currentFill === '#666') {
+                            text.setAttribute('fill', '#aaa');
+                            text.setAttribute('data-light-fill', currentFill);
+                        }
+                    } else {
+                        const lightFill = text.getAttribute('data-light-fill');
+                        if (lightFill) text.setAttribute('fill', lightFill);
+                    }
+                });
+                svg.querySelectorAll('line, path, rect, circle, polyline, polygon').forEach(el => {
+                    const currentStroke = el.getAttribute('stroke');
+                    const currentFill = el.getAttribute('fill');
+                    if (theme === 'dark') {
+                        if (currentStroke && ['#444', '#555', '#333', '#1a1a2e'].includes(currentStroke)) {
+                            el.setAttribute('data-light-stroke', currentStroke);
+                            el.setAttribute('stroke', '#888');
+                        }
+                        if (currentFill && ['#f8f9fa', '#f0f0f5', '#fff', '#ffffff', '#fafafa'].includes(currentFill)) {
+                            el.setAttribute('data-light-fill', currentFill);
+                            el.setAttribute('fill', '#2d2d44');
+                        }
+                    } else {
+                        const ls = el.getAttribute('data-light-stroke');
+                        if (ls) el.setAttribute('stroke', ls);
+                        const lf = el.getAttribute('data-light-fill');
+                        if (lf) el.setAttribute('fill', lf);
+                    }
+                });
+            });
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+
+        const saved = localStorage.getItem('slide-theme');
+        if (saved) {
+            setTheme(saved);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 360" font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:21px;font-weight:700;fill:#0f172a;}
+      .cap{font-size:14px;font-weight:700;fill:#334155;}
+      .sub{font-size:12px;fill:#64748b;}
+      .mono{font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace;fill:#1e3a8a;}
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="420" y="30" text-anchor="middle" class="title">An image is a grid of numbers; a batch stacks several</text>
+  <text x="420" y="52" text-anchor="middle" class="sub">Shape notation: (Height, Width, Channels) for one image; (Batch, H, W, C) for many</text>
+
+  <!-- LEFT: Single image as 3D array -->
+  <g transform="translate(80, 90)">
+    <text x="80" y="-10" class="cap">Single Image</text>
+
+    <!-- Red channel -->
+    <rect x="0" y="20" width="120" height="90" rx="6" fill="#fce7f3" stroke="#db2777" stroke-width="2.5"/>
+    <text x="60" y="45" text-anchor="middle" class="cap" fill="#db2777">Red</text>
+    <text x="60" y="65" text-anchor="middle" class="mono">H x W</text>
+    <text x="60" y="95" text-anchor="middle" class="sub" font-size="10">480 x 640</text>
+
+    <!-- Green channel -->
+    <rect x="12" y="30" width="120" height="90" rx="6" fill="#ccfbf1" stroke="#0d9488" stroke-width="2.5"/>
+    <text x="72" y="55" text-anchor="middle" class="cap" fill="#0d9488">Green</text>
+    <text x="72" y="75" text-anchor="middle" class="mono">H x W</text>
+    <text x="72" y="105" text-anchor="middle" class="sub" font-size="10">480 x 640</text>
+
+    <!-- Blue channel -->
+    <rect x="24" y="40" width="120" height="90" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+    <text x="84" y="65" text-anchor="middle" class="cap" fill="#2563eb">Blue</text>
+    <text x="84" y="85" text-anchor="middle" class="mono">H x W</text>
+    <text x="84" y="115" text-anchor="middle" class="sub" font-size="10">480 x 640</text>
+
+    <!-- Arrow pointing to shape label -->
+    <path d="M 144,100 L 160,100" stroke="#334155" stroke-width="2" fill="none"/>
+    <path d="M 160,95 L 170,100 L 160,105 Z" fill="#334155"/>
+
+    <!-- Shape label -->
+    <rect x="175" y="85" width="85" height="32" rx="6" fill="#f8fafc" stroke="#2563eb" stroke-width="2"/>
+    <text x="217" y="107" text-anchor="middle" class="mono" fill="#2563eb">(480,640,3)</text>
+
+    <text x="80" y="165" text-anchor="middle" class="sub" font-size="10">3 channels stacked</text>
+  </g>
+
+  <!-- RIGHT: Batch of images as 4D array -->
+  <g transform="translate(420, 90)">
+    <text x="180" y="-10" class="cap">Batch of Images</text>
+
+    <!-- Image 4 (back) -->
+    <rect x="84" y="28" width="80" height="60" rx="5" fill="#dbeafe" stroke="#2563eb" stroke-width="2" opacity="0.4"/>
+
+    <!-- Image 3 -->
+    <rect x="72" y="34" width="80" height="60" rx="5" fill="#ccfbf1" stroke="#0d9488" stroke-width="2" opacity="0.5"/>
+
+    <!-- Image 2 -->
+    <rect x="60" y="40" width="80" height="60" rx="5" fill="#fce7f3" stroke="#db2777" stroke-width="2" opacity="0.7"/>
+
+    <!-- Image 1 (front) -->
+    <rect x="48" y="46" width="80" height="60" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+    <text x="88" y="80" text-anchor="middle" class="mono" font-size="10">224 x 224</text>
+    <text x="88" y="94" text-anchor="middle" class="mono" font-size="10">x 3</text>
+
+    <!-- Batch dimension label -->
+    <rect x="160" y="35" width="50" height="60" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
+    <text x="185" y="52" text-anchor="middle" class="cap" font-size="16" fill="#2563eb">B=4</text>
+    <text x="185" y="70" text-anchor="middle" class="sub" font-size="9">Batch</text>
+    <text x="185" y="82" text-anchor="middle" class="sub" font-size="9">dimension</text>
+
+    <!-- Arrow pointing to shape label -->
+    <path d="M 185,100 L 185,120" stroke="#334155" stroke-width="2" fill="none"/>
+    <path d="M 180,120 L 185,130 L 190,120 Z" fill="#334155"/>
+
+    <!-- Shape label -->
+    <rect x="130" y="135" width="110" height="32" rx="6" fill="#f8fafc" stroke="#2563eb" stroke-width="2.5"/>
+    <text x="185" y="157" text-anchor="middle" class="mono" font-size="13" fill="#2563eb">(4,224,224,3)</text>
+
+    <!-- Count indicator -->
+    <g transform="translate(230, 50)">
+      <circle cx="0" cy="0" r="4" fill="#2563eb"/>
+      <circle cx="0" cy="12" r="4" fill="#2563eb"/>
+      <circle cx="0" cy="24" r="4" fill="#2563eb"/>
+      <circle cx="0" cy="36" r="4" fill="#2563eb"/>
+      <text x="12" y="22" class="sub" font-size="10">4 images</text>
+    </g>
+  </g>
+
+  <!-- Bottom explanation -->
+  <g transform="translate(40, 250)">
+    <rect x="0" y="0" width="360" height="80" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="180" y="25" text-anchor="middle" class="cap" font-size="13">Single Image</text>
+    <text x="180" y="43" text-anchor="middle" class="mono" font-size="11">(H, W, C)</text>
+    <text x="180" y="58" text-anchor="middle" class="sub" font-size="10">Height x Width x Channels</text>
+    <text x="180" y="72" text-anchor="middle" class="sub" font-size="10">Example: (480, 640, 3)</text>
+  </g>
+
+  <g transform="translate(440, 250)">
+    <rect x="0" y="0" width="360" height="80" rx="6" fill="#f1f5f9" stroke="#2563eb" stroke-width="2"/>
+    <text x="180" y="25" text-anchor="middle" class="cap" font-size="13" fill="#2563eb">Batch of Images</text>
+    <text x="180" y="43" text-anchor="middle" class="mono" font-size="11" fill="#2563eb">(B, H, W, C)</text>
+    <text x="180" y="58" text-anchor="middle" class="sub" font-size="10">Batch x Height x Width x Channels</text>
+    <text x="180" y="72" text-anchor="middle" class="sub" font-size="10">Example: (4, 224, 224, 3) = 4 images</text>
+  </g>
+</svg>
