@@ -1,6 +1,5 @@
 # AI Research Foundations: Data Engineering & Representation
 
-**ASDRP Summer 2026 Mini-Course** · Instructor: Phil Mui · Block 1, Mon/Fri 5–6pm (Zoom)
 
 ---
 
