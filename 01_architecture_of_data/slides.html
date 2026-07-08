@@ -306,6 +306,99 @@
             color: var(--text-muted);
             pointer-events: none;
         }
+
+        /* Tutorial helpers */
+        .step-badge {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .lead {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Callout / insight box */
+        .callout {
+            border-left: 5px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: 1.25rem 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+            font-size: 1.3rem;
+        }
+
+        .callout.tip { border-left-color: var(--green); }
+        .callout.warn { border-left-color: var(--blue); }
+
+        .callout-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .callout.tip .callout-label { color: var(--green); }
+        .callout.warn .callout-label { color: var(--blue); }
+
+        /* Roadmap list on the agenda slide */
+        .roadmap li {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Data tables */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+            font-size: 1.25rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        td code, th code {
+            font-size: 1.05rem;
+        }
+
+        /* Two-up layout: explanation beside code */
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+            margin: 1.5rem 0;
+        }
+
+        .split pre { margin: 0; }
+
+        .smaller li, .smaller p { font-size: 1.3rem; }
+
+        pre.tight { font-size: 1rem; line-height: 1.45; }
     </style>
 </head>
 <body>
@@ -318,62 +411,81 @@
             <h1>The Architecture<br>of Data</h1>
             <p class="subtitle">Lists, Dictionaries & Complexity</p>
             <div class="spacer-large"></div>
-            <p style="font-size: 1.3rem; color: #666;">AI Research Foundations Minicourse</p>
+            <p style="font-size: 1.3rem; color: var(--text-secondary);">A step-by-step tutorial</p>
+            <p style="font-size: 1.3rem; color: var(--text-muted);">AI Research Foundations Minicourse</p>
             <div class="footer">© mui-group</div>
             <div class="nav-hint">Press → or click to advance</div>
         </div>
 
-        <!-- Slide 2: Why Data Structures Matter -->
+        <!-- Slide 2: Welcome / What this tutorial is -->
         <div class="slide">
-            <div class="slide-number">2 / 15</div>
-            <h2>Why Data Structures<br>Matter for AI</h2>
-            <ul>
-                <li>LLMs process millions of tokens per second</li>
-                <li>Wrong data structure = 1000x slower inference</li>
-                <li>GPT-4 vocabulary: <strong>100,000+ tokens</strong></li>
-                <li>Every token lookup must be instant</li>
-                <li>Data structure choice = AI system viability</li>
+            <div class="slide-number">2 / 24</div>
+            <h2>Welcome</h2>
+            <p class="lead">This tutorial walks you through the data structures that quietly power every AI system you have ever used.</p>
+            <p>By the end you will be able to:</p>
+            <ul class="smaller">
+                <li>Explain how Python lists and dictionaries work under the hood</li>
+                <li>Tell mutable objects apart from immutable ones, and know why it matters</li>
+                <li>Read an algorithm and describe its speed using Big O notation</li>
+                <li>Build a working tokenizer, the first step inside every language model</li>
             </ul>
-            <div class="spacer"></div>
-            <svg width="400" height="150" style="margin-top: 2rem;">
-                <!-- Visual metaphor: Fast path vs slow path -->
-                <rect x="10" y="20" width="180" height="40" fill="#e94560" opacity="0.3" rx="5"/>
-                <text x="100" y="48" text-anchor="middle" font-size="16" fill="#1a1a2e" font-weight="600">Fast: O(1)</text>
-
-                <rect x="210" y="20" width="180" height="110" fill="#1a1a2e" opacity="0.1" rx="5"/>
-                <text x="300" y="82" text-anchor="middle" font-size="16" fill="#555" font-weight="600">Slow: O(n)</text>
-
-                <line x1="100" y1="80" x2="100" y2="120" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
-                <line x1="300" y1="80" x2="250" y2="120" stroke="#666" stroke-width="2" opacity="0.5"/>
-                <line x1="300" y1="85" x2="270" y2="120" stroke="#666" stroke-width="2" opacity="0.5"/>
-                <line x1="300" y1="90" x2="290" y2="120" stroke="#666" stroke-width="2" opacity="0.5"/>
-                <line x1="300" y1="95" x2="310" y2="120" stroke="#666" stroke-width="2" opacity="0.5"/>
-                <line x1="300" y1="100" x2="330" y2="120" stroke="#666" stroke-width="2" opacity="0.5"/>
-                <line x1="300" y1="105" x2="350" y2="120" stroke="#666" stroke-width="2" opacity="0.5"/>
-
-                <defs>
-                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
-                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
-                    </marker>
-                </defs>
-            </svg>
+            <div class="callout tip">
+                <span class="callout-label">How to use these slides</span>
+                <p>Each concept comes with a small piece of code. Open the companion notebook <code>tutorial.ipynb</code> and run each snippet as you go. Learning by typing beats learning by reading.</p>
+            </div>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 3: Lists -->
+        <!-- Slide 3: The motivating problem -->
         <div class="slide">
-            <div class="slide-number">3 / 15</div>
+            <div class="slide-number">3 / 24</div>
+            <h2>Why should you care?</h2>
+            <p class="lead">Before you can train a model or fine-tune an LLM, you need to store and find data quickly.</p>
+            <p>Picture GPT-4, which knows over <strong>100,000 tokens</strong>. For every word it reads, it must:</p>
+            <ul class="smaller">
+                <li>Look the word up in its vocabulary</li>
+                <li>Find the matching token ID</li>
+                <li>Fetch the embedding vector for that ID</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>The same task can take <strong>microseconds</strong> or <strong>whole seconds</strong> depending only on which data structure you pick. That single choice can decide whether an AI system is usable or unusably slow.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 4: Roadmap -->
+        <div class="slide">
+            <div class="slide-number">4 / 24</div>
+            <h2>Our roadmap</h2>
+            <p class="lead">We build up one layer at a time, then put it all together in a hands-on lab.</p>
+            <ul class="roadmap">
+                <li><strong>1.</strong> Lists: ordered and indexed</li>
+                <li><strong>2.</strong> Dictionaries: instant key-value lookup</li>
+                <li><strong>3.</strong> Performance: measuring the difference</li>
+                <li><strong>4.</strong> Mutable vs immutable objects</li>
+                <li><strong>5.</strong> Nested dictionaries and JSON</li>
+                <li><strong>6.</strong> Big O notation</li>
+                <li><strong>7.</strong> Lab: build a tokenizer from scratch</li>
+            </ul>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ SECTION 1: LISTS ============ -->
+        <!-- Slide 5: Lists -->
+        <div class="slide">
+            <div class="slide-number">5 / 24</div>
+            <span class="step-badge">Part 1 · Lists</span>
             <h2>Lists: Ordered & Indexed</h2>
-            <ul>
-                <li>Sequential storage in memory</li>
-                <li>Access by index: <strong>O(1)</strong></li>
-                <li>Search by value: <strong>O(n)</strong></li>
-                <li>Good for: ordered sequences, iteration</li>
-                <li>Bad for: frequent lookups, existence checks</li>
+            <p>A list is an <strong>ordered, mutable sequence</strong>. Under the hood it is a dynamic array that stores references to objects, one after another.</p>
+            <ul class="smaller">
+                <li>Access by index is instant: <strong>O(1)</strong></li>
+                <li>Searching by value is slow: <strong>O(n)</strong></li>
+                <li>Great for: ordered sequences and iteration</li>
+                <li>Weak at: frequent lookups and existence checks</li>
             </ul>
             <div class="visual-container">
                 <svg width="700" height="150">
-                    <!-- List visualization -->
                     <rect x="0" y="40" width="80" height="60" fill="#1a1a2e" rx="5"/>
                     <text x="40" y="75" text-anchor="middle" font-size="20" fill="#fafafa" font-weight="600">5</text>
                     <text x="40" y="125" text-anchor="middle" font-size="14" fill="#555">[0]</text>
@@ -394,18 +506,20 @@
                     <text x="440" y="75" text-anchor="middle" font-size="20" fill="#fafafa" font-weight="600">42</text>
                     <text x="440" y="125" text-anchor="middle" font-size="14" fill="#e94560" font-weight="600">[4] ← Found!</text>
 
-                    <!-- Search arrows -->
                     <path d="M 40,20 L 40,35" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
                     <path d="M 140,20 L 140,35" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
                     <path d="M 240,20 L 240,35" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
                     <path d="M 340,20 L 340,35" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
                     <path d="M 440,20 L 440,35" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
 
-                    <text x="250" y="15" text-anchor="middle" font-size="16" fill="#666">Search for 42: must check 5 items</text>
+                    <text x="250" y="15" text-anchor="middle" font-size="16" fill="#666">Search for 42: Python must check every item in order</text>
 
                     <defs>
                         <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
                             <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+                        </marker>
+                        <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
                         </marker>
                     </defs>
                 </svg>
@@ -413,27 +527,62 @@
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 4: Dictionaries -->
+        <!-- Slide 6: Lists in code -->
         <div class="slide">
-            <div class="slide-number">4 / 15</div>
+            <div class="slide-number">6 / 24</div>
+            <span class="step-badge">Part 1 · Lists</span>
+            <h2>Working with lists</h2>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code>vocabulary <span class="keyword">=</span> [<span class="string">"hello"</span>, <span class="string">"world"</span>,
+              <span class="string">"neural"</span>, <span class="string">"network"</span>]
+
+<span class="comment"># Indexing is O(1)</span>
+vocabulary[<span class="number">0</span>]     <span class="comment"># "hello"</span>
+vocabulary[-<span class="number">1</span>]    <span class="comment"># "network"</span>
+
+<span class="comment"># Slicing makes a NEW list</span>
+vocabulary[:<span class="number">2</span>]    <span class="comment"># ["hello", "world"]</span>
+
+<span class="comment"># Mutating in place</span>
+vocabulary.<span class="keyword">append</span>(<span class="string">"transformer"</span>)
+
+<span class="comment"># Searching is O(n), slow!</span>
+<span class="string">"neural"</span> <span class="keyword">in</span> vocabulary  <span class="comment"># True (slow scan)</span></code></pre>
+                </div>
+                <div>
+                    <p class="smaller">A few habits to build:</p>
+                    <ul class="smaller">
+                        <li>Reach for a list when <strong>order matters</strong> or you plan to iterate over everything</li>
+                        <li>Remember that <code>x in my_list</code> quietly scans the whole list</li>
+                        <li>Slicing never changes the original, it returns a fresh copy</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ SECTION 2: DICTIONARIES ============ -->
+        <!-- Slide 7: Dictionaries -->
+        <div class="slide">
+            <div class="slide-number">7 / 24</div>
+            <span class="step-badge">Part 2 · Dictionaries</span>
             <h2>Dictionaries: Key-Value Pairs</h2>
-            <ul>
-                <li>Hash-based direct access</li>
-                <li>Lookup by key: <strong>O(1)</strong></li>
-                <li>Insert/Delete: <strong>O(1)</strong></li>
-                <li>Good for: mappings, fast lookups, caching</li>
-                <li>Critical for: tokenizers, embeddings, indexes</li>
+            <p>A dictionary stores <strong>key-value pairs</strong> using a <strong>hash table</strong>. Instead of scanning, it jumps straight to the answer.</p>
+            <ul class="smaller">
+                <li>Lookup by key: <strong>O(1)</strong> on average, no matter how big it grows</li>
+                <li>Insert and delete: <strong>O(1)</strong></li>
+                <li>Keys must be immutable (strings, numbers, tuples) and unique</li>
+                <li>Critical for: tokenizers, embeddings, caches, indexes</li>
             </ul>
             <div class="visual-container">
                 <svg width="700" height="180">
-                    <!-- Dictionary visualization with hash function -->
                     <text x="0" y="20" font-size="16" fill="#1a1a2e" font-weight="600">Hash Function</text>
                     <rect x="0" y="30" width="120" height="40" fill="none" stroke="#e94560" stroke-width="2" rx="5"/>
                     <text x="60" y="55" text-anchor="middle" font-size="14" fill="#1a1a2e" font-weight="600">hash("fox")</text>
 
                     <path d="M 120,50 L 180,50" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
 
-                    <!-- Dictionary storage -->
                     <g transform="translate(200, 0)">
                         <rect x="0" y="30" width="150" height="40" fill="#1a1a2e" rx="5"/>
                         <text x="10" y="55" font-size="16" fill="#16a34a" font-weight="600">"fox"</text>
@@ -457,111 +606,177 @@
                     </g>
 
                     <text x="450" y="90" font-size="18" fill="#e94560" font-weight="600">Instant lookup!</text>
-                    <text x="450" y="115" font-size="14" fill="#555">No need to search</text>
-                    <text x="450" y="135" font-size="14" fill="#555">all items</text>
+                    <text x="450" y="115" font-size="14" fill="#555">The hash points straight</text>
+                    <text x="450" y="135" font-size="14" fill="#555">to the right slot</text>
                 </svg>
             </div>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 5: Performance Comparison -->
+        <!-- Slide 8: How a hash table works -->
         <div class="slide">
-            <div class="slide-number">5 / 15</div>
-            <h2>Performance: List vs Dict</h2>
+            <div class="slide-number">8 / 24</div>
+            <span class="step-badge">Part 2 · Dictionaries</span>
+            <h2>How the magic works</h2>
+            <p class="lead">A hash function turns a key into a number. That number points directly to a storage slot, so there is no searching at all.</p>
+            <svg width="820" height="130" style="margin: 1rem 0;">
+                <g>
+                    <rect x="0" y="30" width="150" height="50" fill="#1a1a2e" opacity="0.2" rx="6"/>
+                    <text x="75" y="60" text-anchor="middle" font-size="15" fill="#1a1a2e">key: "hello"</text>
+                </g>
+                <text x="160" y="60" font-size="22" fill="#e94560">→</text>
+                <g>
+                    <rect x="195" y="30" width="180" height="50" fill="none" stroke="#e94560" stroke-width="2" rx="6"/>
+                    <text x="285" y="60" text-anchor="middle" font-size="15" fill="#1a1a2e">hash() → 5238423984</text>
+                </g>
+                <text x="385" y="60" font-size="22" fill="#e94560">→</text>
+                <g>
+                    <rect x="420" y="30" width="160" height="50" fill="none" stroke="#3b82f6" stroke-width="2" rx="6"/>
+                    <text x="500" y="60" text-anchor="middle" font-size="15" fill="#1a1a2e">index = hash % size</text>
+                </g>
+                <text x="590" y="60" font-size="22" fill="#e94560">→</text>
+                <g>
+                    <rect x="625" y="30" width="180" height="50" fill="#16a34a" opacity="0.25" rx="6"/>
+                    <text x="715" y="60" text-anchor="middle" font-size="15" fill="#1a1a2e">slot 0: ("hello", 1045)</text>
+                </g>
+            </svg>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code>token_dict <span class="keyword">=</span> {
+    <span class="string">"hello"</span>: <span class="number">1045</span>,
+    <span class="string">"neural"</span>: <span class="number">3421</span>,
+}
+
+token_dict[<span class="string">"neural"</span>]          <span class="comment"># 3421 (O(1))</span>
+token_dict.<span class="keyword">get</span>(<span class="string">"nope"</span>, -<span class="number">1</span>)   <span class="comment"># -1, no crash</span>
+token_dict[<span class="string">"new"</span>] <span class="keyword">=</span> <span class="number">99</span>          <span class="comment"># add in O(1)</span></code></pre>
+                </div>
+                <div>
+                    <div class="callout tip">
+                        <span class="callout-label">Use .get()</span>
+                        <p>Reading a missing key with <code>[ ]</code> raises a <code>KeyError</code>. Use <code>.get(key, default)</code> to return a fallback instead of crashing.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ SECTION 3: PERFORMANCE ============ -->
+        <!-- Slide 9: Performance Comparison -->
+        <div class="slide">
+            <div class="slide-number">9 / 24</div>
+            <span class="step-badge">Part 3 · Performance</span>
+            <h2>Measuring the difference</h2>
+            <p>Same data, two structures. As the collection grows, the list gets slower and slower while the dictionary stays flat.</p>
             <div class="chart-container">
-                <svg width="800" height="400">
-                    <!-- Bar chart comparing list vs dict performance -->
-                    <text x="0" y="30" font-size="18" fill="#1a1a2e" font-weight="600">Search Time (1000 lookups)</text>
+                <svg width="800" height="380">
+                    <text x="0" y="30" font-size="18" fill="#1a1a2e" font-weight="600">Worst-case search time (relative)</text>
 
-                    <!-- Y-axis -->
-                    <line x1="50" y1="80" x2="50" y2="350" stroke="#1a1a2e" stroke-width="2"/>
-                    <text x="10" y="90" font-size="14" fill="#555">0.1s</text>
-                    <text x="10" y="180" font-size="14" fill="#555">0.08s</text>
-                    <text x="10" y="270" font-size="14" fill="#555">0.04s</text>
-                    <text x="10" y="355" font-size="14" fill="#555">0s</text>
+                    <line x1="50" y1="60" x2="50" y2="330" stroke="#1a1a2e" stroke-width="2"/>
+                    <text x="10" y="70" font-size="14" fill="#555">high</text>
+                    <text x="10" y="335" font-size="14" fill="#555">0</text>
 
-                    <!-- X-axis -->
-                    <line x1="50" y1="350" x2="780" y2="350" stroke="#1a1a2e" stroke-width="2"/>
+                    <line x1="50" y1="330" x2="780" y2="330" stroke="#1a1a2e" stroke-width="2"/>
 
-                    <!-- Bars -->
-                    <!-- 100 items -->
-                    <rect x="100" y="250" width="80" height="100" fill="#555" opacity="0.5" rx="5"/>
-                    <text x="140" y="240" text-anchor="middle" font-size="13" fill="#555" font-weight="600">List</text>
-                    <text x="140" y="375" text-anchor="middle" font-size="14" fill="#1a1a2e">100 items</text>
+                    <rect x="100" y="290" width="80" height="40" fill="#555" opacity="0.5" rx="5"/>
+                    <text x="140" y="280" text-anchor="middle" font-size="13" fill="#555" font-weight="600">List</text>
+                    <text x="140" y="352" text-anchor="middle" font-size="14" fill="#1a1a2e">100 items</text>
+                    <rect x="200" y="315" width="80" height="15" fill="#e94560" rx="5"/>
+                    <text x="240" y="305" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">Dict</text>
 
-                    <rect x="200" y="320" width="80" height="30" fill="#e94560" rx="5"/>
-                    <text x="240" y="310" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">Dict</text>
+                    <rect x="350" y="180" width="80" height="150" fill="#555" opacity="0.5" rx="5"/>
+                    <text x="390" y="170" text-anchor="middle" font-size="13" fill="#555" font-weight="600">List</text>
+                    <text x="390" y="352" text-anchor="middle" font-size="14" fill="#1a1a2e">1,000 items</text>
+                    <rect x="450" y="315" width="80" height="15" fill="#e94560" rx="5"/>
+                    <text x="490" y="305" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">Dict</text>
 
-                    <!-- 1,000 items -->
-                    <rect x="350" y="150" width="80" height="200" fill="#555" opacity="0.5" rx="5"/>
-                    <text x="390" y="140" text-anchor="middle" font-size="13" fill="#555" font-weight="600">List</text>
-                    <text x="390" y="375" text-anchor="middle" font-size="14" fill="#1a1a2e">1,000 items</text>
-
-                    <rect x="450" y="320" width="80" height="30" fill="#e94560" rx="5"/>
-                    <text x="490" y="310" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">Dict</text>
-
-                    <!-- 10,000 items -->
-                    <rect x="600" y="80" width="80" height="270" fill="#555" opacity="0.5" rx="5"/>
-                    <text x="640" y="70" text-anchor="middle" font-size="13" fill="#555" font-weight="600">List</text>
-                    <text x="640" y="375" text-anchor="middle" font-size="14" fill="#1a1a2e">10,000 items</text>
-
-                    <rect x="700" y="320" width="80" height="30" fill="#e94560" rx="5"/>
-                    <text x="740" y="310" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">Dict</text>
+                    <rect x="600" y="70" width="80" height="260" fill="#555" opacity="0.5" rx="5"/>
+                    <text x="640" y="60" text-anchor="middle" font-size="13" fill="#555" font-weight="600">List</text>
+                    <text x="640" y="352" text-anchor="middle" font-size="14" fill="#1a1a2e">10,000 items</text>
+                    <rect x="700" y="315" width="80" height="15" fill="#e94560" rx="5"/>
+                    <text x="740" y="305" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">Dict</text>
                 </svg>
             </div>
-            <p style="margin-top: 1rem;"><strong>Dictionary stays constant</strong> while list search grows linearly!</p>
+            <p style="margin-top: 0.5rem;"><strong>The dictionary bar barely moves.</strong> That flat line is the whole point.</p>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 6: Mutable vs Immutable -->
+        <!-- Slide 10: Benchmark it yourself -->
         <div class="slide">
-            <div class="slide-number">6 / 15</div>
+            <div class="slide-number">10 / 24</div>
+            <span class="step-badge">Part 3 · Performance</span>
+            <h2>Try it yourself</h2>
+            <p>Do not take our word for it. Measure it with <code>time.perf_counter()</code>:</p>
+            <pre class="tight"><code><span class="keyword">import</span> time
+
+vocab_size <span class="keyword">=</span> <span class="number">100000</span>
+vocab_list <span class="keyword">=</span> [<span class="string">f"token_{i}"</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="keyword">range</span>(vocab_size)]
+vocab_dict <span class="keyword">=</span> {<span class="string">f"token_{i}"</span>: i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="keyword">range</span>(vocab_size)}
+
+target <span class="keyword">=</span> <span class="string">"token_99999"</span>   <span class="comment"># worst case: the very last item</span>
+
+start <span class="keyword">=</span> time.<span class="keyword">perf_counter</span>()
+target <span class="keyword">in</span> vocab_list           <span class="comment"># O(n): scans ~100,000 items</span>
+list_time <span class="keyword">=</span> time.<span class="keyword">perf_counter</span>() - start
+
+start <span class="keyword">=</span> time.<span class="keyword">perf_counter</span>()
+target <span class="keyword">in</span> vocab_dict           <span class="comment"># O(1): one hash lookup</span>
+dict_time <span class="keyword">=</span> time.<span class="keyword">perf_counter</span>() - start
+
+<span class="keyword">print</span>(list_time / dict_time)   <span class="comment"># often hundreds to thousands x</span></code></pre>
+            <div class="callout">
+                <span class="callout-label">Reading the result</span>
+                <p>The speedup is small for tiny collections but explodes as the data grows. This is exactly the gap that decides whether a model runs in real time.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ SECTION 4: MUTABILITY ============ -->
+        <!-- Slide 11: Mutable vs Immutable -->
+        <div class="slide">
+            <div class="slide-number">11 / 24</div>
+            <span class="step-badge">Part 4 · Mutability</span>
             <h2>Mutable vs Immutable</h2>
+            <p>Some objects can be changed after they are created. Others cannot. Knowing which is which prevents a whole category of bugs.</p>
             <div class="comparison-grid">
                 <div class="comparison-item">
                     <h3>Immutable</h3>
-                    <ul style="font-size: 1.3rem;">
+                    <ul class="smaller">
                         <li>Strings, tuples, numbers</li>
-                        <li>Cannot change in-place</li>
-                        <li>Operations create new objects</li>
-                        <li>Different memory address</li>
-                        <li>Safe for concurrent access</li>
+                        <li>Cannot change in place</li>
+                        <li>Any "change" makes a new object</li>
+                        <li>New memory address</li>
+                        <li>Safe to share freely</li>
                     </ul>
                 </div>
                 <div class="comparison-item">
                     <h3>Mutable</h3>
-                    <ul style="font-size: 1.3rem;">
-                        <li>Lists, dicts, sets</li>
-                        <li>Can modify in-place</li>
-                        <li>Same object, different content</li>
+                    <ul class="smaller">
+                        <li>Lists, dicts, sets, arrays, tensors</li>
+                        <li>Can change in place</li>
+                        <li>Same object, new contents</li>
                         <li>Same memory address</li>
-                        <li>Risk of side effects</li>
+                        <li>Risk of surprise side effects</li>
                     </ul>
                 </div>
             </div>
-            <svg width="800" height="150" style="margin-top: 2rem;">
-                <!-- Visual: memory addresses -->
+            <svg width="800" height="140" style="margin-top: 1rem;">
                 <g transform="translate(0, 0)">
-                    <text x="0" y="20" font-size="16" fill="#1a1a2e" font-weight="600">Immutable: str.upper()</text>
+                    <text x="0" y="20" font-size="16" fill="#1a1a2e" font-weight="600">Immutable: "hello" + " world"</text>
                     <rect x="0" y="30" width="150" height="50" fill="#1a1a2e" opacity="0.2" rx="5"/>
                     <text x="75" y="62" text-anchor="middle" font-size="14" fill="#1a1a2e">"hello"</text>
                     <text x="75" y="100" text-anchor="middle" font-size="13" fill="#555">id: 0x1A2B</text>
-
                     <text x="170" y="60" font-size="24" fill="#e94560">→</text>
-
-                    <rect x="200" y="30" width="150" height="50" fill="#e94560" opacity="0.3" rx="5"/>
-                    <text x="275" y="62" text-anchor="middle" font-size="14" fill="#1a1a2e">"HELLO"</text>
-                    <text x="275" y="100" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">id: 0x3C4D (new!)</text>
+                    <rect x="200" y="30" width="160" height="50" fill="#e94560" opacity="0.3" rx="5"/>
+                    <text x="280" y="62" text-anchor="middle" font-size="14" fill="#1a1a2e">"hello world"</text>
+                    <text x="280" y="100" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">id: 0x3C4D (new!)</text>
                 </g>
-
                 <g transform="translate(450, 0)">
-                    <text x="0" y="20" font-size="16" fill="#1a1a2e" font-weight="600">Mutable: list.append()</text>
+                    <text x="0" y="20" font-size="16" fill="#1a1a2e" font-weight="600">Mutable: list.append(4)</text>
                     <rect x="0" y="30" width="150" height="50" fill="#1a1a2e" opacity="0.2" rx="5"/>
                     <text x="75" y="62" text-anchor="middle" font-size="14" fill="#1a1a2e">[1, 2, 3]</text>
                     <text x="75" y="100" text-anchor="middle" font-size="13" fill="#555">id: 0x5E6F</text>
-
                     <text x="170" y="60" font-size="24" fill="#e94560">→</text>
-
                     <rect x="200" y="30" width="150" height="50" fill="#e94560" opacity="0.3" rx="5"/>
                     <text x="275" y="62" text-anchor="middle" font-size="14" fill="#1a1a2e">[1, 2, 3, 4]</text>
                     <text x="275" y="100" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">id: 0x5E6F (same!)</text>
@@ -570,57 +785,120 @@
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 7: id() Demo -->
+        <!-- Slide 12: id() demo -->
         <div class="slide">
-            <div class="slide-number">7 / 15</div>
-            <h2>Memory References with id()</h2>
-            <pre><code><span class="comment"># Immutable: String creates new object</span>
-original_str <span class="keyword">=</span> <span class="string">"hello"</span>
-<span class="keyword">print</span>(<span class="keyword">id</span>(original_str))  <span class="comment"># 140234567890</span>
+            <div class="slide-number">12 / 24</div>
+            <span class="step-badge">Part 4 · Mutability</span>
+            <h2>Proving it with id()</h2>
+            <p>The <code>id()</code> function returns an object's memory address. Watch what changes and what stays the same:</p>
+            <pre><code><span class="comment"># Mutable: the list changes in place</span>
+vocab <span class="keyword">=</span> [<span class="string">"hello"</span>, <span class="string">"world"</span>]
+<span class="keyword">print</span>(<span class="keyword">id</span>(vocab))     <span class="comment"># 140234568100</span>
+vocab.<span class="keyword">append</span>(<span class="string">"AI"</span>)
+<span class="keyword">print</span>(<span class="keyword">id</span>(vocab))     <span class="comment"># 140234568100 ← SAME object</span>
 
-modified_str <span class="keyword">=</span> original_str.<span class="keyword">upper</span>()
-<span class="keyword">print</span>(<span class="keyword">id</span>(modified_str))  <span class="comment"># 140234567999 ← Different!</span>
-
-<span class="comment"># Mutable: List modifies in-place</span>
-original_list <span class="keyword">=</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
-<span class="keyword">print</span>(<span class="keyword">id</span>(original_list))  <span class="comment"># 140234568100</span>
-
-original_list.<span class="keyword">append</span>(<span class="number">4</span>)
-<span class="keyword">print</span>(<span class="keyword">id</span>(original_list))  <span class="comment"># 140234568100 ← Same!</span></code></pre>
-            <p style="margin-top: 1.5rem;">Understanding memory behavior prevents bugs in data pipelines!</p>
+<span class="comment"># Immutable: the string is replaced, not edited</span>
+text <span class="keyword">=</span> <span class="string">"hello"</span>
+<span class="keyword">print</span>(<span class="keyword">id</span>(text))      <span class="comment"># 140234567890</span>
+text <span class="keyword">=</span> text + <span class="string">" world"</span>
+<span class="keyword">print</span>(<span class="keyword">id</span>(text))      <span class="comment"># 140234567999 ← DIFFERENT object</span></code></pre>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 8: Nested Dictionaries -->
+        <!-- Slide 13: Aliasing trap -->
         <div class="slide">
-            <div class="slide-number">8 / 15</div>
-            <h2>Nested Dictionaries</h2>
-            <p style="margin-bottom: 1.5rem;">Real AI APIs return complex nested structures:</p>
-            <pre style="font-size: 1rem;"><code>{
-  <span class="string">"id"</span>: <span class="string">"chatcmpl-123"</span>,
+            <div class="slide-number">13 / 24</div>
+            <span class="step-badge">Part 4 · Mutability</span>
+            <h2>The aliasing trap</h2>
+            <p>Assigning a mutable object to a new name does <strong>not</strong> copy it. Both names point to the same object, so a change through one is visible through the other.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code><span class="comment"># Both names, one list</span>
+a <span class="keyword">=</span> [<span class="string">"neural"</span>, <span class="string">"network"</span>]
+b <span class="keyword">=</span> a
+b.<span class="keyword">append</span>(<span class="string">"transformer"</span>)
+
+<span class="keyword">print</span>(a)
+<span class="comment"># ['neural','network','transformer']</span>
+<span class="comment"># a changed too! ⚠️</span>
+
+<span class="comment"># Fix: make a real copy</span>
+b <span class="keyword">=</span> a.<span class="keyword">copy</span>()   <span class="comment"># or list(a) or a[:]</span></code></pre>
+                </div>
+                <div>
+                    <div class="callout warn">
+                        <span class="callout-label">Why it matters for ML</span>
+                        <p>A preprocessing function that appends a pad token to its input will corrupt the original data on every call. Always ask: <em>am I mutating the original, or working on a copy?</em></p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ SECTION 5: NESTED DICTS ============ -->
+        <!-- Slide 14: Nested Dictionaries -->
+        <div class="slide">
+            <div class="slide-number">14 / 24</div>
+            <span class="step-badge">Part 5 · Nested data</span>
+            <h2>Nested Dictionaries & JSON</h2>
+            <p>Real AI APIs return dictionaries inside dictionaries inside lists. Learning to navigate them is a daily skill:</p>
+            <pre style="font-size: 1rem;"><code>api_response <span class="keyword">=</span> {
   <span class="string">"model"</span>: <span class="string">"gpt-4"</span>,
   <span class="string">"usage"</span>: {
-    <span class="string">"prompt_tokens"</span>: <span class="number">15</span>,
-    <span class="string">"completion_tokens"</span>: <span class="number">30</span>,
-    <span class="string">"total_tokens"</span>: <span class="number">45</span>
+    <span class="string">"prompt_tokens"</span>: <span class="number">56</span>,
+    <span class="string">"total_tokens"</span>: <span class="number">87</span>
   },
   <span class="string">"choices"</span>: [{
     <span class="string">"message"</span>: {
       <span class="string">"role"</span>: <span class="string">"assistant"</span>,
-      <span class="string">"content"</span>: <span class="string">"Hello! How can I help?"</span>
+      <span class="string">"content"</span>: <span class="string">"Data structures are fundamental to AI."</span>
     }
   }]
 }</code></pre>
-            <p style="margin-top: 1rem;">Access: <code>response["choices"][0]["message"]["content"]</code></p>
+            <p style="margin-top: 0.75rem;">Read one layer at a time: <code>api_response["choices"][0]["message"]["content"]</code></p>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 9: Big O Notation -->
+        <!-- Slide 15: Navigating nested data -->
         <div class="slide">
-            <div class="slide-number">9 / 15</div>
+            <div class="slide-number">15 / 24</div>
+            <span class="step-badge">Part 5 · Nested data</span>
+            <h2>Reading it safely</h2>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code><span class="comment"># Direct access</span>
+r[<span class="string">"model"</span>]
+<span class="comment"># "gpt-4"</span>
+
+r[<span class="string">"usage"</span>][<span class="string">"total_tokens"</span>]
+<span class="comment"># 87</span>
+
+r[<span class="string">"choices"</span>][<span class="number">0</span>][<span class="string">"message"</span>][<span class="string">"content"</span>]
+<span class="comment"># "Data structures are..."</span>
+
+<span class="comment"># Safe access with a default</span>
+r.<span class="keyword">get</span>(<span class="string">"temperature"</span>, <span class="string">"not set"</span>)</code></pre>
+                </div>
+                <div>
+                    <p class="smaller">Reading tips:</p>
+                    <ul class="smaller">
+                        <li>A <code>[0]</code> in the path means you hit a <strong>list</strong>, so grab an item by position first</li>
+                        <li>Chain <code>.get()</code> calls when a key might be missing to avoid a crash</li>
+                        <li><code>json.dumps(obj, indent=2)</code> pretty-prints the whole structure so you can see the shape</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ SECTION 6: BIG O ============ -->
+        <!-- Slide 16: Big O Notation -->
+        <div class="slide">
+            <div class="slide-number">16 / 24</div>
+            <span class="step-badge">Part 6 · Big O</span>
             <h2>Big O Notation</h2>
             <svg width="800" height="400" viewBox="0 0 800 400">
-                <!-- Big O complexity chart — redesigned for maximum contrast -->
+                <!-- Big O complexity chart - redesigned for maximum contrast -->
                 <text x="60" y="28" font-size="16" fill="#1a1a2e" font-weight="600">Algorithm Growth Rates</text>
 
                 <!-- Grid lines for readability -->
@@ -647,23 +925,23 @@ original_list.<span class="keyword">append</span>(<span class="number">4</span>)
                 <text x="550" y="340" font-size="13" fill="#777" text-anchor="middle">75</text>
                 <text x="700" y="340" font-size="13" fill="#777" text-anchor="middle">100</text>
 
-                <!-- O(n²) - Quadratic — rises steeply, dominates the chart -->
+                <!-- O(n²) - Quadratic - rises steeply, dominates the chart -->
                 <!-- Points: (100,320) (160,318) (220,312) (300,295) (400,255) (500,185) (580,120) (650,70) -->
                 <path d="M 100,320 C 200,318 300,300 400,260 C 480,225 560,140 700,60"
                       stroke="#1a1a2e" stroke-width="3.5" fill="none" stroke-linecap="round"/>
                 <text x="710" y="58" font-size="15" fill="#1a1a2e" font-weight="700">O(n²)</text>
 
-                <!-- O(n) - Linear — straight diagonal, clearly below quadratic -->
+                <!-- O(n) - Linear - straight diagonal, clearly below quadratic -->
                 <line x1="100" y1="320" x2="700" y2="160" stroke="#e94560" stroke-width="3" stroke-linecap="round"/>
                 <text x="710" y="164" font-size="15" fill="#e94560" font-weight="700">O(n)</text>
 
-                <!-- O(log n) - Logarithmic — rises quickly at first, then flattens -->
+                <!-- O(log n) - Logarithmic - rises quickly at first, then flattens -->
                 <!-- log curve: steep initially, levels off around y=260 -->
                 <path d="M 100,320 C 150,290 200,278 280,268 C 380,258 500,252 700,245"
                       stroke="#3b82f6" stroke-width="3" fill="none" stroke-linecap="round"/>
                 <text x="710" y="249" font-size="15" fill="#3b82f6" font-weight="700">O(log n)</text>
 
-                <!-- O(1) - Constant — perfectly flat at bottom -->
+                <!-- O(1) - Constant - perfectly flat at bottom -->
                 <line x1="100" y1="305" x2="700" y2="305" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
                 <text x="710" y="309" font-size="15" fill="#16a34a" font-weight="700">O(1)</text>
 
@@ -674,7 +952,7 @@ original_list.<span class="keyword">append</span>(<span class="number">4</span>)
                 <circle cx="400" cy="262" r="4" fill="#3b82f6" opacity="0.6"/>
                 <circle cx="400" cy="305" r="4" fill="#16a34a" opacity="0.6"/>
 
-                <!-- Legend — bottom row -->
+                <!-- Legend - bottom row -->
                 <g transform="translate(110, 375)">
                     <rect x="-4" y="-8" width="16" height="4" rx="2" fill="#16a34a"/>
                     <text x="20" y="-2" font-size="13" fill="#1a1a2e">O(1) Dict lookup</text>
@@ -692,53 +970,161 @@ original_list.<span class="keyword">append</span>(<span class="number">4</span>)
                     <text x="20" y="-2" font-size="13" fill="#1a1a2e">O(n²) Nested loops</text>
                 </g>
             </svg>
-            <p style="margin-top: 1rem;"><span style="color:#16a34a; font-weight:700;">Lower is better!</span> Flat lines scale efficiently. Notice how O(n²) explodes.</p>
+            <p style="margin-top: 1rem;"><span style="color:#16a34a; font-weight:700;">Lower is better!</span> Flat lines scale gracefully. Notice how O(n²) explodes.</p>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 10: Why This Matters for LLMs -->
+        <!-- Slide 17: Big O cheat sheet -->
         <div class="slide">
-            <div class="slide-number">10 / 15</div>
-            <h2>Why This Matters<br>for LLMs</h2>
-            <ul>
-                <li>GPT-4 tokenizer: <strong>100,000 vocabulary entries</strong></li>
-                <li>Process 1M tokens per request</li>
-                <li>Each token needs vocabulary lookup</li>
-            </ul>
-            <div class="spacer"></div>
-            <div style="background: #1a1a2e; padding: 2rem; border-radius: 8px; color: #fafafa;">
-                <p style="font-size: 1.3rem; margin-bottom: 1rem;">Performance Comparison:</p>
-                <p style="font-size: 1.5rem;"><strong class="accent">O(1) Dict:</strong> 1M lookups = <strong>0.1 seconds</strong></p>
-                <p style="font-size: 1.5rem;"><strong class="accent">O(n) List:</strong> 1M lookups = <strong>1,000+ seconds</strong></p>
-                <div class="spacer"></div>
-                <p style="font-size: 1.8rem; color: #e94560; font-weight: 600;">10,000x faster with dictionaries!</p>
+            <div class="slide-number">17 / 24</div>
+            <span class="step-badge">Part 6 · Big O</span>
+            <h2>A Big O cheat sheet</h2>
+            <p>Big O describes how work grows as the input <code>n</code> gets larger. Here is where common operations land, from best to worst:</p>
+            <table>
+                <thead>
+                    <tr><th>Complexity</th><th>Name</th><th>Example</th><th>Verdict</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>O(1)</code></td><td>Constant</td><td>Dict lookup, array index</td><td>Ideal for AI</td></tr>
+                    <tr><td><code>O(log n)</code></td><td>Logarithmic</td><td>Binary search</td><td>Excellent</td></tr>
+                    <tr><td><code>O(n)</code></td><td>Linear</td><td>List search, single loop</td><td>Often fine</td></tr>
+                    <tr><td><code>O(n log n)</code></td><td>Linearithmic</td><td>Efficient sorting</td><td>Good</td></tr>
+                    <tr><td><code>O(n²)</code></td><td>Quadratic</td><td>Nested loops</td><td>Avoid at scale</td></tr>
+                    <tr><td><code>O(2ⁿ)</code></td><td>Exponential</td><td>Brute-force branching</td><td>Impractical</td></tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <span class="callout-label">Why it matters for LLMs</span>
+                <p>GPT-4 processes up to a million tokens per request, each needing a vocabulary lookup. With <code>O(1)</code> dictionaries that is about <strong>0.1 seconds</strong>; with an <code>O(n)</code> list it would take <strong>hundreds of seconds</strong>.</p>
             </div>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 11: Lab Intro -->
+        <!-- ============ SECTION 7: THE LAB ============ -->
+        <!-- Slide 18: Lab intro + pipeline -->
         <div class="slide">
-            <div class="slide-number">11 / 15</div>
-            <h2>Lab: Building a<br>Tokenizer Dictionary</h2>
-            <ul>
-                <li>Load text corpus</li>
-                <li>Split into words (tokens)</li>
-                <li>Build vocabulary (unique words)</li>
-                <li>Assign integer IDs to each word</li>
-                <li>Create bidirectional mappings</li>
-                <li>Encode text to token sequences</li>
-                <li>Decode sequences back to text</li>
-            </ul>
-            <div class="spacer"></div>
-            <p><strong>Outcome:</strong> Understand how LLMs convert text to numbers!</p>
+            <div class="slide-number">18 / 24</div>
+            <span class="step-badge">Part 7 · The Lab</span>
+            <h2>Build a tokenizer<br>from scratch</h2>
+            <p class="lead">Time to put every idea together. A tokenizer is the first thing that happens to text inside a language model: words become numbers.</p>
+            <p>We will follow a five-step pipeline. Notice that a dictionary sits at the heart of it, giving us O(1) lookups at every stage.</p>
+            <svg width="900" height="120" style="margin-top: 1rem;">
+                <g transform="translate(0, 30)">
+                    <rect x="0" y="0" width="150" height="55" fill="#1a1a2e" rx="8"/>
+                    <text x="75" y="26" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">1. Raw text</text>
+                    <text x="75" y="44" text-anchor="middle" font-size="12" fill="#bbb">"Neural nets..."</text>
+                    <path d="M 150,28 L 185,28" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+
+                    <rect x="185" y="0" width="150" height="55" fill="#1a1a2e" rx="8"/>
+                    <text x="260" y="26" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">2. Split words</text>
+                    <text x="260" y="44" text-anchor="middle" font-size="12" fill="#bbb">['neural', ...]</text>
+                    <path d="M 335,28 L 370,28" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+
+                    <rect x="370" y="0" width="150" height="55" fill="#1a1a2e" rx="8"/>
+                    <text x="445" y="26" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">3. Count freq.</text>
+                    <text x="445" y="44" text-anchor="middle" font-size="12" fill="#bbb">Counter(...)</text>
+                    <path d="M 520,28 L 555,28" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+
+                    <rect x="555" y="0" width="150" height="55" fill="#e94560" rx="8"/>
+                    <text x="630" y="26" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">4. Assign IDs</text>
+                    <text x="630" y="44" text-anchor="middle" font-size="12" fill="#ffe0e6">word_to_id</text>
+                    <path d="M 705,28 L 740,28" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+
+                    <rect x="740" y="0" width="150" height="55" fill="#16a34a" rx="8"/>
+                    <text x="815" y="26" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">5. Encode /</text>
+                    <text x="815" y="44" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">decode</text>
+                </g>
+            </svg>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 12: Tokenizer Workflow -->
+        <!-- Slide 19: Steps 1-3 -->
         <div class="slide">
-            <div class="slide-number">12 / 15</div>
-            <h2>Tokenizer Workflow</h2>
-            <svg width="900" height="400">
+            <div class="slide-number">19 / 24</div>
+            <span class="step-badge">Part 7 · The Lab</span>
+            <h2>Steps 1&ndash;3: text to counts</h2>
+            <p>Lowercase the text, split it into words, then count how often each word appears using <code>collections.Counter</code>:</p>
+            <pre class="tight"><code><span class="keyword">import</span> re
+<span class="keyword">from</span> collections <span class="keyword">import</span> Counter
+
+<span class="keyword">def</span> <span class="keyword">tokenize_text</span>(text):
+    text <span class="keyword">=</span> text.<span class="keyword">lower</span>()
+    <span class="keyword">return</span> re.<span class="keyword">findall</span>(<span class="string">r"\b[a-z]+\b"</span>, text)   <span class="comment"># words only, no punctuation</span>
+
+words <span class="keyword">=</span> tokenize_text(corpus)      <span class="comment"># ['neural', 'networks', 'are', ...]</span>
+word_freq <span class="keyword">=</span> Counter(words)         <span class="comment"># {'neural': 12, 'networks': 9, ...}</span>
+
+word_freq.<span class="keyword">most_common</span>(<span class="number">3</span>)          <span class="comment"># [('neural', 12), ('networks', 9), ...]</span></code></pre>
+            <div class="callout tip">
+                <span class="callout-label">Why Counter?</span>
+                <p><code>Counter</code> is a specialized dictionary. Each <code>freq[word] += 1</code> is an O(1) operation, so counting the whole corpus is O(n) overall.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 20: Step 4 -->
+        <div class="slide">
+            <div class="slide-number">20 / 24</div>
+            <span class="step-badge">Part 7 · The Lab</span>
+            <h2>Step 4: assign token IDs</h2>
+            <p>Reserve a few <strong>special tokens</strong> first, then give every word an integer ID. Building the reverse map lets us decode later.</p>
+            <pre class="tight"><code><span class="comment"># Special tokens live at the start of every real tokenizer</span>
+SPECIAL_TOKENS <span class="keyword">=</span> {<span class="string">"[PAD]"</span>: <span class="number">0</span>, <span class="string">"[UNK]"</span>: <span class="number">1</span>, <span class="string">"[BOS]"</span>: <span class="number">2</span>, <span class="string">"[EOS]"</span>: <span class="number">3</span>}
+
+word_to_id <span class="keyword">=</span> SPECIAL_TOKENS.<span class="keyword">copy</span>()
+next_id <span class="keyword">=</span> <span class="keyword">len</span>(SPECIAL_TOKENS)
+
+<span class="keyword">for</span> word, freq <span class="keyword">in</span> word_freq.<span class="keyword">most_common</span>():   <span class="comment"># frequent words get smaller IDs</span>
+    <span class="keyword">if</span> word <span class="keyword">not in</span> word_to_id:
+        word_to_id[word] <span class="keyword">=</span> next_id
+        next_id += <span class="number">1</span>
+
+id_to_word <span class="keyword">=</span> {i: w <span class="keyword">for</span> w, i <span class="keyword">in</span> word_to_id.<span class="keyword">items</span>()}   <span class="comment"># reverse map</span></code></pre>
+            <table style="font-size: 1.1rem; margin-top: 0.5rem;">
+                <thead><tr><th>Token</th><th>Meaning</th></tr></thead>
+                <tbody>
+                    <tr><td><code>[PAD]</code></td><td>Fills short sequences so a batch is rectangular</td></tr>
+                    <tr><td><code>[UNK]</code></td><td>Stands in for any word not in the vocabulary</td></tr>
+                    <tr><td><code>[BOS] / [EOS]</code></td><td>Mark the beginning and end of a sequence</td></tr>
+                </tbody>
+            </table>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 21: Step 5 -->
+        <div class="slide">
+            <div class="slide-number">21 / 24</div>
+            <span class="step-badge">Part 7 · The Lab</span>
+            <h2>Step 5: encode and decode</h2>
+            <p>Wrap the two dictionaries in a small class. <code>encode</code> turns text into IDs; <code>decode</code> turns IDs back into text.</p>
+            <pre class="tight"><code><span class="keyword">class</span> <span class="keyword">SimpleTokenizer</span>:
+    <span class="keyword">def</span> <span class="keyword">__init__</span>(self, word_to_id, id_to_word):
+        self.word_to_id <span class="keyword">=</span> word_to_id
+        self.id_to_word <span class="keyword">=</span> id_to_word
+        self.unk_id <span class="keyword">=</span> word_to_id[<span class="string">"[UNK]"</span>]
+
+    <span class="keyword">def</span> <span class="keyword">encode</span>(self, text):                       <span class="comment"># text  → IDs</span>
+        <span class="keyword">return</span> [self.word_to_id.<span class="keyword">get</span>(w, self.unk_id) <span class="keyword">for</span> w <span class="keyword">in</span> tokenize_text(text)]
+
+    <span class="keyword">def</span> <span class="keyword">decode</span>(self, ids):                        <span class="comment"># IDs → text</span>
+        <span class="keyword">return</span> <span class="string">" "</span>.<span class="keyword">join</span>(self.id_to_word.<span class="keyword">get</span>(i, <span class="string">"[UNK]"</span>) <span class="keyword">for</span> i <span class="keyword">in</span> ids)
+
+tok <span class="keyword">=</span> SimpleTokenizer(word_to_id, id_to_word)
+tok.<span class="keyword">encode</span>(<span class="string">"Neural networks learn"</span>)     <span class="comment"># [5, 6, 14]</span>
+tok.<span class="keyword">decode</span>([<span class="number">5</span>, <span class="number">6</span>, <span class="number">14</span>])                  <span class="comment"># "neural networks learn"</span></code></pre>
+            <div class="callout tip">
+                <span class="callout-label">Notice the fallback</span>
+                <p>Both methods use <code>.get()</code> with a default so an unknown word maps to <code>[UNK]</code> instead of crashing. That is the aliasing and safe-lookup lesson paying off.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 22: Tokenizer Workflow recap -->
+        <div class="slide">
+            <div class="slide-number">22 / 24</div>
+            <span class="step-badge">Part 7 · The Lab</span>
+            <h2>The full workflow</h2>
+            <svg width="900" height="330">
                 <!-- Flowchart -->
                 <g transform="translate(50, 50)">
                     <rect x="0" y="0" width="180" height="60" fill="#1a1a2e" rx="8"/>
@@ -790,58 +1176,58 @@ original_list.<span class="keyword">append</span>(<span class="number">4</span>)
                 <path d="M 230,80 L 330,80" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
                 <path d="M 510,130 L 610,130" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
             </svg>
-            <p style="margin-top: 1rem; font-size: 1.2rem;">Dictionary operations enable <strong>O(1) lookups</strong> at every stage!</p>
+            <p style="margin-top: 1rem; font-size: 1.2rem;">A dictionary powers every stage, keeping each lookup at <strong>O(1)</strong>.</p>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 13: Key Takeaways -->
+        <!-- Slide 23: Key Takeaways -->
         <div class="slide">
-            <div class="slide-number">13 / 15</div>
-            <h2>Key Takeaways</h2>
-            <ul>
-                <li>Dictionaries provide <strong>O(1) lookup</strong> - essential for AI</li>
-                <li>Lists are O(n) - use for sequences, not lookups</li>
-                <li>Mutability affects memory and side effects</li>
-                <li>Tokenizers map words to IDs via dictionaries</li>
-                <li>Big O predicts scalability of AI systems</li>
-                <li>Nested dicts structure complex API responses</li>
-                <li>Data structure choice = system viability</li>
+            <div class="slide-number">23 / 24</div>
+            <h2>What you learned</h2>
+            <ul class="smaller">
+                <li>Lists keep <strong>order</strong> and are great for iteration, but searching them is O(n)</li>
+                <li>Dictionaries give <strong>O(1) lookup</strong> through hashing, the backbone of AI performance</li>
+                <li>Mutable objects change in place; immutable ones are replaced, and <code>id()</code> reveals which</li>
+                <li>Aliasing bugs come from sharing a mutable object by accident, so copy when in doubt</li>
+                <li>Nested dictionaries model real API responses; read them one layer at a time</li>
+                <li>Big O predicts how code scales, and O(1) vs O(n) can mean seconds vs hours</li>
+                <li>A tokenizer is just two dictionaries turning text into numbers and back</li>
             </ul>
-            <div class="spacer"></div>
-            <p style="font-size: 1.3rem; color: #e94560;"><strong>Master these fundamentals before building AI!</strong></p>
-            <div class="footer">© mui-group</div>
-        </div>
-
-        <!-- Slide 14: Resources & Next Steps -->
-        <div class="slide">
-            <div class="slide-number">14 / 15</div>
-            <h2>Resources & Next Steps</h2>
-            <div style="margin-top: 2rem;">
-                <p style="font-size: 1.4rem; margin-bottom: 1.5rem;"><strong>Explore Further:</strong></p>
-                <ul style="font-size: 1.3rem;">
-                    <li>Python collections module (Counter, defaultdict)</li>
-                    <li>Subword tokenization (BPE, WordPiece)</li>
-                    <li>Hash table implementation details</li>
-                    <li>Time complexity analysis tools</li>
-                </ul>
-                <div class="spacer-large"></div>
-                <p style="font-size: 1.4rem; margin-bottom: 1rem;"><strong>Next Module:</strong></p>
-                <p style="font-size: 1.3rem; color: #666;">Module 02: Pythonic Patterns for Data</p>
-                <p style="font-size: 1.2rem; color: #999;">List comprehensions, generators & functional patterns</p>
+            <div class="callout">
+                <span class="callout-label">The big idea</span>
+                <p>The right data structure is not a detail. It is what makes an AI system fast enough to be useful.</p>
             </div>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 15: Thank You -->
+        <!-- Slide 24: Practice + Next steps -->
         <div class="slide">
-            <div class="slide-number">15 / 15</div>
-            <h1 style="font-size: 4rem; margin-bottom: 2rem;">Questions?</h1>
-            <div class="spacer-large"></div>
-            <p style="font-size: 1.5rem; color: #666;">Run the lab script:</p>
-            <pre style="margin-top: 1rem;"><code>python lab_tokenizer_dictionary.py</code></pre>
-            <div class="spacer-large"></div>
-            <p style="font-size: 1.3rem; color: #999;">AI Research Foundations Minicourse</p>
-            <p style="font-size: 1.3rem; color: #999;">Module 01: The Architecture of Data</p>
+            <div class="slide-number">24 / 24</div>
+            <h2>Practice & next steps</h2>
+            <div class="split">
+                <div>
+                    <p class="smaller" style="margin-bottom: 0.75rem;"><strong>Try it yourself:</strong></p>
+                    <ul class="smaller">
+                        <li>Run the lab: <code>python lab_tokenizer_dictionary.py</code></li>
+                        <li>Add <code>[BOS]</code> and <code>[EOS]</code> around encoded text</li>
+                        <li>Build a <strong>character-level</strong> tokenizer</li>
+                        <li>Benchmark list vs dict at 100, 1K, 10K, 100K items</li>
+                    </ul>
+                    <p class="smaller" style="margin-top: 1rem;"><strong>Explore further:</strong></p>
+                    <ul class="smaller">
+                        <li><code>collections.Counter</code> and <code>defaultdict</code></li>
+                        <li>Subword tokenization: BPE, WordPiece</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="callout tip">
+                        <span class="callout-label">Next module</span>
+                        <p><strong>Module 02: Pythonic Patterns for Data</strong><br>List comprehensions, generators, and functional patterns that make this code cleaner and faster.</p>
+                    </div>
+                    <p class="smaller" style="color: var(--text-muted); margin-top: 1.5rem;">Questions? Bring them to the lab session.</p>
+                    <p class="smaller" style="color: var(--text-muted);">AI Research Foundations Minicourse<br>Module 01: The Architecture of Data</p>
+                </div>
+            </div>
             <div class="footer">© mui-group</div>
         </div>
     </div>
