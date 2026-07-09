@@ -46,5 +46,6 @@ Thumbs.db
 
 # Generated images (created by lab scripts / create_sample_images.py)
 */images/
+**/uv.lock
 07_images_as_data/sample_images/
 08_capstone_pipeline/images/
