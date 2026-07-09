@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 2: Pythonic Patterns for AI</title>
+    <title>Module 2: Pythonic Patterns for Data</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -79,7 +79,7 @@
             display: none;
             width: 90%;
             max-width: 1200px;
-            min-height: 100vh;
+            min-height: auto;
             max-height: 96vh;
             overflow-y: auto;
             padding: 2rem 5rem 3rem 5rem;
@@ -98,156 +98,173 @@
             to { opacity: 1; }
         }
 
-        .slide-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
+        /* Typography */
         h1 {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 700;
             line-height: 1.1;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             color: var(--text-primary);
-            letter-spacing: -0.02em;
         }
 
         h2 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 600;
+            line-height: 1.2;
             margin-bottom: 1.5rem;
             color: var(--text-primary);
-            letter-spacing: -0.02em;
         }
 
-        .subtitle {
+        p, li {
             font-size: 1.5rem;
+            line-height: 1.6;
             font-weight: 300;
-            color: var(--text-secondary);
-            margin-top: 1rem;
+            margin-bottom: 1rem;
         }
 
-        .content-list {
+        strong {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        ul {
             list-style: none;
-            font-size: 1.4rem;
-            line-height: 2.2;
-            font-weight: 400;
+            margin-left: 1.5rem;
         }
 
-        .content-list li {
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .content-list li:before {
-            content: "→";
-            position: absolute;
-            left: 0;
+        li::before {
+            content: "→ ";
             color: var(--accent);
             font-weight: 600;
+            margin-right: 0.5rem;
         }
 
-        .footer {
-            position: absolute;
-            bottom: 1.5rem;
-            left: 5rem;
-            right: 5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .slide-number {
-            font-weight: 600;
-        }
-
+        /* Code snippets */
         code {
             font-family: 'Monaco', 'Courier New', monospace;
             background: var(--bg-code);
             color: var(--code-text);
-            padding: 0.3rem 0.6rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 4px;
-            font-size: 0.9em;
+            font-size: 1.3rem;
         }
 
-        .code-block {
+        pre {
             background: var(--bg-code);
             color: var(--code-text);
             padding: 1.5rem;
             border-radius: 8px;
-            font-family: 'Monaco', 'Courier New', monospace;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin: 1.5rem 0;
             overflow-x: auto;
+            margin: 1.5rem 0;
+            font-size: 1.2rem;
+            line-height: 1.5;
         }
 
-        .keyword {
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: var(--accent); }
+        .string { color: var(--green); }
+        .number { color: var(--blue); }
+        .comment { color: var(--text-muted); font-style: italic; }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* Slide counter */
+        .slide-number {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* Accent color elements */
+        .accent {
             color: var(--accent);
         }
 
-        .string {
-            color: var(--green);
-        }
-
-        .comment {
+        /* Navigation instructions */
+        .nav-hint {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
             color: var(--text-muted);
+            font-weight: 300;
         }
 
-        .svg-container {
+        /* Visual elements */
+        .visual-container {
             margin: 2rem 0;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
+            align-items: center;
         }
 
-        .highlight {
-            color: var(--accent);
-            font-weight: 600;
+        .chart-container {
+            margin: 2rem 0;
         }
 
-        .two-column {
+        /* Grid layout for comparison slides */
+        .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
-            margin-top: 2rem;
+            margin: 2rem 0;
         }
 
-        .column {
-            display: flex;
-            flex-direction: column;
+        .comparison-item h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent);
         }
 
-        .comparison {
-            background: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            border: 1px solid var(--border);
-        }
-
-        .comparison.bad {
-            border-left: 4px solid var(--accent);
-        }
-
-        .comparison.good {
-            border-left: 4px solid var(--green);
-        }
-
-        .title-slide {
-            justify-content: center;
-            align-items: flex-start;
-        }
-
+        /* Title slide specific */
         .title-slide h1 {
-            font-size: 5rem;
+            font-size: 5.5rem;
             margin-bottom: 1rem;
         }
 
+        .title-slide .subtitle {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .title-slide .module-number {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Spacing utilities */
+        .spacer {
+            height: 2rem;
+        }
+
+        .spacer-large {
+            height: 4rem;
+        }
+
+        /* Theme toggle */
         .theme-toggle {
             position: fixed;
             top: 1.5rem;
@@ -289,6 +306,99 @@
             color: var(--text-muted);
             pointer-events: none;
         }
+
+        /* Tutorial helpers */
+        .step-badge {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .lead {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Callout / insight box */
+        .callout {
+            border-left: 5px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: 1.25rem 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+            font-size: 1.3rem;
+        }
+
+        .callout.tip { border-left-color: var(--green); }
+        .callout.warn { border-left-color: var(--blue); }
+
+        .callout-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .callout.tip .callout-label { color: var(--green); }
+        .callout.warn .callout-label { color: var(--blue); }
+
+        /* Roadmap list on the agenda slide */
+        .roadmap li {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Data tables */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+            font-size: 1.25rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        td code, th code {
+            font-size: 1.05rem;
+        }
+
+        /* Two-up layout: explanation beside code */
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+            margin: 1.5rem 0;
+        }
+
+        .split pre { margin: 0; }
+
+        .smaller li, .smaller p { font-size: 1.3rem; }
+
+        pre.tight { font-size: 1rem; line-height: 1.45; }
     </style>
 </head>
 <body>
@@ -297,510 +407,532 @@
     <div class="slide-container">
         <!-- Slide 1: Title -->
         <div class="slide active title-slide">
-            <div class="slide-content">
-                <h1>Pythonic Patterns<br>for AI</h1>
-                <div class="subtitle">Comprehensions & Generators</div>
-                <div class="subtitle" style="margin-top: 3rem; font-size: 1.2rem;">Module 2: Data Foundations</div>
-            </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">1 / 15</span>
-            </div>
+            <div class="module-number">MODULE 02</div>
+            <h1>Pythonic Patterns<br>for Data</h1>
+            <p class="subtitle">Comprehensions, Generators &amp; Memory-Efficient Streaming</p>
+            <div class="spacer-large"></div>
+            <p style="font-size: 1.3rem; color: var(--text-secondary);">A step-by-step tutorial</p>
+            <p style="font-size: 1.3rem; color: var(--text-muted);">AI Research Foundations Minicourse</p>
+            <div class="footer">© mui-group</div>
+            <div class="nav-hint">Press → or click to advance</div>
         </div>
 
-        <!-- Slide 2: The Problem -->
+        <!-- Slide 2: Welcome / What this tutorial is -->
         <div class="slide">
-            <div class="slide-content">
-                <h2>The Problem: For Loops Are Slow</h2>
-                <div class="svg-container">
-                    <svg width="800" height="300" viewBox="0 0 800 300">
-                        <!-- For loop visualization -->
-                        <text x="20" y="40" font-family="Inter" font-size="18" fill="#1a1a2e" font-weight="600">Traditional For Loop:</text>
+            <div class="slide-number">2 / 16</div>
+            <h2>Welcome</h2>
+            <p class="lead">This tutorial shows you how to write data code that is cleaner, faster, and able to process datasets bigger than your RAM.</p>
+            <p>By the end you will be able to:</p>
+            <ul class="smaller">
+                <li>Replace verbose for loops with list and dict comprehensions for data cleaning and vocabulary building</li>
+                <li>Write generator functions with <code>yield</code> to stream data one batch at a time</li>
+                <li>Explain the difference between eager and lazy evaluation, and when each matters</li>
+                <li>Apply streaming and batching to process files larger than available memory</li>
+                <li>Connect these patterns to how a PyTorch DataLoader feeds a training loop</li>
+            </ul>
+            <div class="callout tip">
+                <span class="callout-label">How to use these slides</span>
+                <p>Each concept comes with a small piece of code. Open the companion notebook <code>tutorial.ipynb</code> and run each snippet as you go. Learning by typing beats learning by reading.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                        <!-- Loop boxes -->
-                        <rect x="50" y="70" width="120" height="60" fill="#f5f5f5" stroke="#444" stroke-width="2"/>
-                        <text x="110" y="105" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle">Iteration 1</text>
+        <!-- Slide 3: The motivating problem -->
+        <div class="slide">
+            <div class="slide-number">3 / 16</div>
+            <h2>Why should you care?</h2>
+            <p class="lead">Real AI training corpora can be tens of gigabytes, far more than your laptop's RAM.</p>
+            <p>If you load the whole file at once, you crash before training even starts. The patterns in this module are exactly what lets real tools stream billions of samples through a model while keeping memory nearly constant:</p>
+            <ul class="smaller">
+                <li>Comprehensions for clean, fast transforms</li>
+                <li>Generators with <code>yield</code> to hand back one batch at a time</li>
+                <li>Lazy evaluation so nothing is computed until it is needed</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>These same ideas power tools like <strong>PyTorch DataLoader</strong> and <strong>Hugging Face datasets</strong>, letting them train on data far larger than memory.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                        <path d="M 170 100 L 210 100" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+        <!-- Slide 4: Roadmap -->
+        <div class="slide">
+            <div class="slide-number">4 / 16</div>
+            <h2>Our roadmap</h2>
+            <p class="lead">We build up one pattern at a time, then compose them into a memory-efficient data loader.</p>
+            <ul class="roadmap">
+                <li><strong>1.</strong> List comprehensions: cleaner data transforms</li>
+                <li><strong>2.</strong> Dict comprehensions: building vocabularies</li>
+                <li><strong>3.</strong> The memory problem at scale</li>
+                <li><strong>4.</strong> Generator functions with yield</li>
+                <li><strong>5.</strong> Lazy evaluation and generator expressions</li>
+                <li><strong>6.</strong> Building a batched data stream</li>
+                <li><strong>7.</strong> Connection to PyTorch DataLoader</li>
+            </ul>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                        <rect x="210" y="70" width="120" height="60" fill="#f5f5f5" stroke="#444" stroke-width="2"/>
-                        <text x="270" y="105" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle">Iteration 2</text>
+        <!-- ============ PART 1: LIST COMPREHENSIONS ============ -->
+        <!-- Slide 5 -->
+        <div class="slide">
+            <div class="slide-number">5 / 16</div>
+            <span class="step-badge">Part 1 · List Comprehensions</span>
+            <h2>Replace for loops with one expression</h2>
+            <p>A list comprehension collapses the build-an-empty-list, loop, filter, append pattern into a single line. An <code>if</code> clause keeps only the items you want. It makes intent obvious and runs faster than the equivalent loop.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code><span class="comment"># Old way (verbose for loop)</span>
+cleaned_lines_old <span class="keyword">=</span> []
+<span class="keyword">with</span> <span class="keyword">open</span>(filename, <span class="string">'r'</span>) <span class="keyword">as</span> f:
+    <span class="keyword">for</span> line <span class="keyword">in</span> f:
+        line <span class="keyword">=</span> line.<span class="keyword">strip</span>().<span class="keyword">lower</span>()
+        <span class="keyword">if</span> <span class="keyword">len</span>(line) &gt; <span class="number">0</span>:
+            cleaned_lines_old.<span class="keyword">append</span>(line)
 
-                        <path d="M 330 100 L 370 100" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
-
-                        <rect x="370" y="70" width="120" height="60" fill="#f5f5f5" stroke="#444" stroke-width="2"/>
-                        <text x="430" y="105" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle">Iteration 3</text>
-
-                        <text x="530" y="105" font-family="Inter" font-size="24" fill="#555">. . .</text>
-
-                        <!-- Problem indicators -->
-                        <text x="50" y="185" font-family="Inter" font-size="16" fill="#e94560">• Verbose syntax</text>
-                        <text x="50" y="215" font-family="Inter" font-size="16" fill="#e94560">• Manual iteration</text>
-                        <text x="50" y="245" font-family="Inter" font-size="16" fill="#e94560">• Harder to read</text>
-                        <text x="50" y="275" font-family="Inter" font-size="16" fill="#e94560">• Not vectorized</text>
-
+<span class="comment"># Pythonic way (list comprehension)</span>
+<span class="keyword">with</span> <span class="keyword">open</span>(filename, <span class="string">'r'</span>) <span class="keyword">as</span> f:
+    cleaned_lines <span class="keyword">=</span> [
+        line.<span class="keyword">strip</span>().<span class="keyword">lower</span>()
+        <span class="keyword">for</span> line <span class="keyword">in</span> f
+        <span class="keyword">if</span> <span class="keyword">len</span>(line.<span class="keyword">strip</span>()) &gt; <span class="number">0</span>
+    ]</code></pre>
+                </div>
+                <div>
+                    <svg width="380" height="230">
+                        <text x="0" y="20" font-size="14" fill="#555">6-line loop</text>
+                        <rect x="0" y="30" width="180" height="120" fill="#1a1a2e" opacity="0.2" rx="6"/>
+                        <text x="90" y="70" text-anchor="middle" font-size="13" fill="#1a1a2e">for line in f:</text>
+                        <text x="90" y="95" text-anchor="middle" font-size="13" fill="#1a1a2e">clean + filter</text>
+                        <text x="90" y="120" text-anchor="middle" font-size="13" fill="#1a1a2e">append(...)</text>
+                        <path d="M 190,90 L 235,90" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred5)"/>
+                        <rect x="245" y="60" width="130" height="60" fill="#16a34a" opacity="0.25" rx="6"/>
+                        <text x="310" y="85" text-anchor="middle" font-size="13" fill="#1a1a2e">[ expr for x</text>
+                        <text x="310" y="105" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="600">if keep ]</text>
+                        <text x="0" y="185" font-size="13" fill="#555">The if clause is the filter,</text>
+                        <text x="0" y="205" font-size="13" fill="#555">kept only when it is True.</text>
                         <defs>
-                            <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <marker id="arrowred5" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
                                 <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
                             </marker>
                         </defs>
                     </svg>
                 </div>
             </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">2 / 15</span>
+            <div class="callout warn">
+                <span class="callout-label">Watch the scale</span>
+                <p>Comprehensions are great for small datasets, but the list version still loads every cleaned line into RAM at once. Fine for thousands of lines, dangerous for millions.</p>
             </div>
+            <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 3: List Comprehensions -->
+        <!-- ============ PART 2: DICT COMPREHENSIONS ============ -->
+        <!-- Slide 6 -->
         <div class="slide">
-            <div class="slide-content">
-                <h2>List Comprehensions</h2>
-                <div class="svg-container">
-                    <svg width="900" height="250" viewBox="0 0 900 250">
-                        <!-- Syntax diagram -->
-                        <rect x="50" y="50" width="800" height="120" fill="#f5f5f5" stroke="#e94560" stroke-width="3" rx="8"/>
+            <div class="slide-number">6 / 16</div>
+            <span class="step-badge">Part 2 · Dict Comprehensions</span>
+            <h2>Build vocabularies in one line</h2>
+            <p>A dict comprehension has the same shape as a list comprehension but produces key/value pairs. In AI work you constantly build word-to-frequency maps and word-to-ID vocabularies.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code><span class="comment"># Old way: count words with a for loop</span>
+vocab_old <span class="keyword">=</span> {}
+<span class="keyword">for</span> word <span class="keyword">in</span> all_words:
+    <span class="keyword">if</span> word <span class="keyword">in</span> vocab_old:
+        vocab_old[word] += <span class="number">1</span>
+    <span class="keyword">else</span>:
+        vocab_old[word] <span class="keyword">=</span> <span class="number">1</span>
 
-                        <!-- Syntax breakdown -->
-                        <text x="80" y="100" font-family="Monaco" font-size="20" fill="#e94560" font-weight="600">[</text>
-                        <text x="110" y="100" font-family="Monaco" font-size="20" fill="#1a1a2e">expression</text>
-                        <text x="280" y="100" font-family="Monaco" font-size="20" fill="#e94560" font-weight="600">for</text>
-                        <text x="340" y="100" font-family="Monaco" font-size="20" fill="#1a1a2e">item</text>
-                        <text x="430" y="100" font-family="Monaco" font-size="20" fill="#e94560" font-weight="600">in</text>
-                        <text x="480" y="100" font-family="Monaco" font-size="20" fill="#1a1a2e">iterable</text>
-                        <text x="620" y="100" font-family="Monaco" font-size="20" fill="#e94560" font-weight="600">if</text>
-                        <text x="670" y="100" font-family="Monaco" font-size="20" fill="#1a1a2e">condition</text>
-                        <text x="820" y="100" font-family="Monaco" font-size="20" fill="#e94560" font-weight="600">]</text>
-
-                        <!-- Labels -->
-                        <text x="180" y="145" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">what to keep</text>
-                        <text x="385" y="145" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">loop through</text>
-                        <text x="720" y="145" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">optional filter</text>
-
-                        <!-- Example -->
-                        <text x="50" y="215" font-family="Monaco" font-size="16" fill="#1a1a2e">[x.lower() for x in words if len(x) > 3]</text>
-                    </svg>
+<span class="comment"># Pythonic way: dict comprehension</span>
+unique_words <span class="keyword">=</span> <span class="keyword">set</span>(all_words)
+vocab <span class="keyword">=</span> {word: all_words.<span class="keyword">count</span>(word)
+         <span class="keyword">for</span> word <span class="keyword">in</span> unique_words}</code></pre>
                 </div>
-                <ul class="content-list">
-                    <li>Clean one-line transformations</li>
-                    <li>Built-in filtering capability</li>
-                    <li>More readable than loops</li>
-                </ul>
-            </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">3 / 15</span>
-            </div>
-        </div>
-
-        <!-- Slide 4: Dict Comprehensions -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>Dict Comprehensions</h2>
-                <div class="code-block">
-<span class="comment"># Build vocabulary from words</span>
-<span class="keyword">vocab</span> = {<span class="keyword">word</span>: <span class="keyword">words</span>.count(<span class="keyword">word</span>) <span class="keyword">for word in</span> set(<span class="keyword">words</span>)}
-
-<span class="comment"># Result:</span>
-{
-    <span class="string">'neural'</span>: 42,
-    <span class="string">'network'</span>: 38,
-    <span class="string">'learning'</span>: 56,
-    ...
-}
-                </div>
-                <ul class="content-list">
-                    <li>Perfect for building vocabularies</li>
-                    <li>Word counts in one line</li>
-                    <li>Key-value pair generation</li>
-                </ul>
-            </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">4 / 15</span>
-            </div>
-        </div>
-
-        <!-- Slide 5: Code Example -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>Cleaning Data in One Line</h2>
-                <div class="comparison bad">
-                    <div class="code-block" style="margin: 0;">
-<span class="comment"># Old way: 5 lines</span>
-cleaned = []
-<span class="keyword">for</span> line <span class="keyword">in</span> file:
-    line = line.strip().lower()
-    <span class="keyword">if</span> len(line) > 0:
-        cleaned.append(line)
-                    </div>
-                </div>
-                <div class="comparison good">
-                    <div class="code-block" style="margin: 0;">
-<span class="comment"># New way: 1 line</span>
-cleaned = [line.strip().lower() <span class="keyword">for</span> line <span class="keyword">in</span> file <span class="keyword">if</span> line.strip()]
-                    </div>
-                </div>
-            </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">5 / 15</span>
-            </div>
-        </div>
-
-        <!-- Slide 6: Memory Problem -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>The Memory Problem</h2>
-                <div class="svg-container">
-                    <svg width="800" height="280" viewBox="0 0 800 280">
-                        <!-- RAM bar -->
-                        <rect x="100" y="50" width="600" height="80" fill="#f5f5f5" stroke="#444" stroke-width="3" rx="8"/>
-                        <text x="400" y="95" font-family="Inter" font-size="18" fill="#555" text-anchor="middle">Available RAM: 8 GB</text>
-
-                        <!-- File filling RAM -->
-                        <rect x="100" y="50" width="500" height="80" fill="#e94560" opacity="0.7" rx="8"/>
-                        <text x="350" y="95" font-family="Inter" font-size="18" fill="#fafafa" text-anchor="middle" font-weight="600">10 GB File Loaded</text>
-
-                        <!-- Warning icon -->
-                        <circle cx="50" cy="90" r="30" fill="#ff6b6b" opacity="0.2"/>
-                        <text x="50" y="105" font-family="Inter" font-size="40" fill="#ff6b6b" text-anchor="middle" font-weight="600">!</text>
-
-                        <!-- Problem description -->
-                        <text x="100" y="185" font-family="Inter" font-size="20" fill="#1a1a2e" font-weight="600">Loading entire file at once:</text>
-                        <text x="120" y="220" font-family="Inter" font-size="16" fill="#e94560">• Out of memory errors</text>
-                        <text x="120" y="250" font-family="Inter" font-size="16" fill="#e94560">• System crashes</text>
-                        <text x="450" y="220" font-family="Inter" font-size="16" fill="#e94560">• Cannot process large datasets</text>
-                        <text x="450" y="250" font-family="Inter" font-size="16" fill="#e94560">• Limits model training</text>
-                    </svg>
-                </div>
-            </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">6 / 15</span>
-            </div>
-        </div>
-
-        <!-- Slide 7: Generators -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>Generators: The <code>yield</code> Keyword</h2>
-                <div class="svg-container">
-                    <svg width="900" height="250" viewBox="0 0 900 250">
-                        <!-- Generator function flow -->
-                        <rect x="50" y="50" width="180" height="80" fill="#2563eb" opacity="0.15" stroke="#2563eb" stroke-width="3" rx="8"/>
-                        <text x="140" y="95" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">Generator</text>
-                        <text x="140" y="115" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">Function</text>
-
-                        <path d="M 230 90 L 290 90" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
-
-                        <rect x="290" y="50" width="150" height="80" fill="#16a34a" opacity="0.15" stroke="#16a34a" stroke-width="3" rx="8"/>
-                        <text x="365" y="85" font-family="Monaco" font-size="18" fill="#1a1a2e" text-anchor="middle" font-weight="600">yield</text>
-                        <text x="365" y="110" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">Pause & Return</text>
-
-                        <path d="M 440 90 L 500 90" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
-
-                        <rect x="500" y="50" width="150" height="80" fill="#eab308" opacity="0.2" stroke="#d97706" stroke-width="3" rx="8"/>
-                        <text x="575" y="95" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">Process</text>
-                        <text x="575" y="115" font-family="Inter" font-size="14" fill="#555" text-anchor="middle">One Item</text>
-
-                        <path d="M 575 130 Q 575 180, 365 180 Q 155 180, 140 130" stroke="#2563eb" stroke-width="3" marker-end="url(#arrowblue)" fill="none"/>
-                        <text x="350" y="205" font-family="Inter" font-size="14" fill="#2563eb" text-anchor="middle">Resume</text>
-
+                <div>
+                    <svg width="380" height="240">
+                        <text x="0" y="18" font-size="13" fill="#555">tokens streaming in</text>
+                        <rect x="0" y="28" width="60" height="34" fill="#1a1a2e" rx="5"/>
+                        <text x="30" y="50" text-anchor="middle" font-size="13" fill="#4ade80">fox</text>
+                        <rect x="70" y="28" width="60" height="34" fill="#1a1a2e" rx="5"/>
+                        <text x="100" y="50" text-anchor="middle" font-size="13" fill="#4ade80">dog</text>
+                        <rect x="140" y="28" width="60" height="34" fill="#1a1a2e" rx="5"/>
+                        <text x="170" y="50" text-anchor="middle" font-size="13" fill="#4ade80">fox</text>
+                        <path d="M 100,64 L 100,92" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred6)"/>
+                        <rect x="20" y="100" width="180" height="70" fill="#e94560" opacity="0.2" rx="6"/>
+                        <text x="110" y="125" text-anchor="middle" font-size="14" fill="#1a1a2e">{ "fox": 2,</text>
+                        <text x="110" y="150" text-anchor="middle" font-size="14" fill="#1a1a2e">"dog": 1 }</text>
+                        <path d="M 210,135 L 250,135" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrowblue6)"/>
+                        <rect x="255" y="100" width="120" height="70" fill="#3b82f6" opacity="0.2" rx="6"/>
+                        <text x="315" y="125" text-anchor="middle" font-size="13" fill="#1a1a2e">inverted</text>
+                        <text x="315" y="150" text-anchor="middle" font-size="13" fill="#1a1a2e">{id: word}</text>
+                        <text x="0" y="205" font-size="13" fill="#555">count map, then flip to id lookup</text>
                         <defs>
-                            <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-                                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/>
+                            <marker id="arrowred6" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                            </marker>
+                            <marker id="arrowblue6" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#3b82f6"/>
                             </marker>
                         </defs>
                     </svg>
                 </div>
-                <div class="code-block">
-<span class="keyword">def</span> <span class="string">line_generator</span>(filename):
-    <span class="keyword">for</span> line <span class="keyword">in</span> file:
-        <span class="keyword">yield</span> line  <span class="comment"># Pause here, return line</span>
-                </div>
             </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">7 / 15</span>
+            <div class="callout warn">
+                <span class="callout-label">Readable is not always efficient</span>
+                <p><code>all_words.count(word)</code> rescans the whole list for every unique word. For large corpora reach for <code>collections.Counter</code>, which counts in a single pass.</p>
             </div>
+            <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 8: Lazy Evaluation -->
+        <!-- ============ PART 3: THE MEMORY PROBLEM ============ -->
+        <!-- Slide 7 -->
         <div class="slide">
-            <div class="slide-content">
-                <h2>Lazy Evaluation Explained</h2>
-                <div class="svg-container">
-                    <svg width="800" height="200" viewBox="0 0 800 200">
-                        <!-- Conveyor belt metaphor -->
-                        <text x="400" y="30" font-family="Inter" font-size="18" fill="#555" text-anchor="middle" font-style="italic">Conveyor Belt Metaphor</text>
+            <div class="slide-number">7 / 16</div>
+            <span class="step-badge">Part 3 · The Memory Problem</span>
+            <h2>Why loading everything breaks</h2>
+            <p>Reading a whole file with <code>readlines</code> or a list comprehension puts every line in memory at the same time. That works for a 3KB sample and fails for a 10GB corpus on an 8GB machine.</p>
+            <pre class="tight"><code><span class="comment"># Loading everything at once</span>
+<span class="keyword">with</span> <span class="keyword">open</span>(filename, <span class="string">'r'</span>) <span class="keyword">as</span> f:
+    all_lines <span class="keyword">=</span> f.<span class="keyword">readlines</span>()
 
-                        <!-- Belt -->
-                        <line x1="100" y1="100" x2="700" y2="100" stroke="#444" stroke-width="4"/>
-                        <line x1="100" y1="120" x2="700" y2="120" stroke="#444" stroke-width="4"/>
+mem_estimate <span class="keyword">=</span> sys.<span class="keyword">getsizeof</span>(all_lines)
+<span class="keyword">print</span>(<span class="string">f"Estimated memory: {mem_estimate / (1024*1024):.2f} MB for list object"</span>)
+<span class="comment"># Problem: what if the file is 10GB and you have 8GB of RAM?</span></code></pre>
+            <svg width="820" height="150" style="margin-top: 0.5rem;">
+                <text x="0" y="18" font-size="14" fill="#e94560" font-weight="600">File to RAM to Process (crashes past the RAM ceiling)</text>
+                <rect x="0" y="30" width="120" height="40" fill="#1a1a2e" rx="6"/>
+                <text x="60" y="55" text-anchor="middle" font-size="14" fill="#fafafa">File 10GB</text>
+                <path d="M 120,50 L 160,50" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred7)"/>
+                <rect x="165" y="30" width="120" height="40" fill="#e94560" opacity="0.35" rx="6"/>
+                <text x="225" y="55" text-anchor="middle" font-size="14" fill="#1a1a2e">RAM 8GB</text>
+                <text x="300" y="55" font-size="14" fill="#e94560" font-weight="600">overflow!</text>
 
-                        <!-- Items on belt -->
-                        <circle cx="200" cy="110" r="20" fill="#2563eb" opacity="0.7"/>
-                        <text x="200" y="118" font-family="Inter" font-size="14" fill="#fafafa" text-anchor="middle" font-weight="600">1</text>
+                <text x="0" y="105" font-size="14" fill="#16a34a" font-weight="600">File to Generator to Batch to Process (memory stays flat)</text>
+                <rect x="0" y="115" width="110" height="30" fill="#1a1a2e" rx="6"/>
+                <text x="55" y="135" text-anchor="middle" font-size="13" fill="#fafafa">File 10GB</text>
+                <path d="M 110,130 L 145,130" stroke="#16a34a" stroke-width="3" marker-end="url(#arrowgreen7)"/>
+                <rect x="150" y="115" width="90" height="30" fill="#16a34a" opacity="0.3" rx="6"/>
+                <text x="195" y="135" text-anchor="middle" font-size="13" fill="#1a1a2e">1 batch</text>
+                <path d="M 240,130 L 275,130" stroke="#16a34a" stroke-width="3" marker-end="url(#arrowgreen7)"/>
+                <rect x="280" y="115" width="90" height="30" fill="#16a34a" opacity="0.3" rx="6"/>
+                <text x="325" y="135" text-anchor="middle" font-size="13" fill="#1a1a2e">process</text>
+                <defs>
+                    <marker id="arrowred7" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                    <marker id="arrowgreen7" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#16a34a"/>
+                    </marker>
+                </defs>
+            </svg>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>File to RAM to Process only scales while the file fits in RAM. Once data outgrows memory you need File to Generator to Batch to Process, discarding each batch before the next.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                        <circle cx="300" cy="110" r="20" fill="#f5f5f5" stroke="#999" stroke-width="2"/>
-                        <text x="300" y="118" font-family="Inter" font-size="14" fill="#999" text-anchor="middle">2</text>
+        <!-- ============ PART 4: GENERATOR FUNCTIONS ============ -->
+        <!-- Slide 8 -->
+        <div class="slide">
+            <div class="slide-number">8 / 16</div>
+            <span class="step-badge">Part 4 · Generator Functions</span>
+            <h2>yield: a lazy, pausable stream</h2>
+            <p>A generator function uses <code>yield</code> instead of <code>return</code>. Each <code>yield</code> hands back one value and pauses the function, resuming exactly where it left off on the next request. A batch generator accumulates a few items, yields the batch, resets, and repeats.</p>
+            <pre class="tight"><code><span class="keyword">def</span> <span class="keyword">line_generator</span>(filename, batch_size=<span class="number">100</span>):
+    <span class="keyword">with</span> <span class="keyword">open</span>(filename, <span class="string">'r'</span>) <span class="keyword">as</span> f:
+        batch <span class="keyword">=</span> []
+        <span class="keyword">for</span> line <span class="keyword">in</span> f:
+            cleaned_line <span class="keyword">=</span> line.<span class="keyword">strip</span>().<span class="keyword">lower</span>()
+            <span class="keyword">if</span> <span class="keyword">len</span>(cleaned_line) &gt; <span class="number">0</span>:
+                batch.<span class="keyword">append</span>(cleaned_line)
+                <span class="keyword">if</span> <span class="keyword">len</span>(batch) &gt;= batch_size:
+                    <span class="keyword">yield</span> batch
+                    batch <span class="keyword">=</span> []
+        <span class="keyword">if</span> batch:            <span class="comment"># don't forget the last partial batch</span>
+            <span class="keyword">yield</span> batch</code></pre>
+            <div class="callout warn">
+                <span class="callout-label">Two easy mistakes</span>
+                <p>Always create a fresh <code>batch = []</code> inside the function and remember to <code>yield</code> the final partial batch after the loop, or you silently drop the tail of your data.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                        <circle cx="400" cy="110" r="20" fill="#f5f5f5" stroke="#999" stroke-width="2"/>
-                        <text x="400" y="118" font-family="Inter" font-size="14" fill="#999" text-anchor="middle">3</text>
+        <!-- Slide 9: generator timeline visual -->
+        <div class="slide">
+            <div class="slide-number">9 / 16</div>
+            <span class="step-badge">Part 4 · Generator Functions</span>
+            <h2>Pause, emit, resume</h2>
+            <p class="lead">Each <code>yield</code> pauses the function and returns a full batch. The single batch box is filled, emitted, then cleared, so only one batch lives in memory at a time.</p>
+            <svg width="860" height="230">
+                <line x1="30" y1="60" x2="830" y2="60" stroke="#e94560" stroke-width="2"/>
+                <text x="30" y="35" font-size="14" fill="#555">generator timeline</text>
 
-                        <text x="500" y="115" font-family="Inter" font-size="20" fill="#999">. . .</text>
+                <circle cx="200" cy="60" r="8" fill="#e94560"/>
+                <text x="200" y="45" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">yield</text>
+                <text x="200" y="85" text-anchor="middle" font-size="12" fill="#555">pause</text>
+                <circle cx="450" cy="60" r="8" fill="#e94560"/>
+                <text x="450" y="45" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">yield</text>
+                <text x="450" y="85" text-anchor="middle" font-size="12" fill="#555">pause</text>
+                <circle cx="700" cy="60" r="8" fill="#e94560"/>
+                <text x="700" y="45" text-anchor="middle" font-size="13" fill="#e94560" font-weight="600">yield</text>
+                <text x="700" y="85" text-anchor="middle" font-size="12" fill="#555">pause</text>
 
-                        <!-- Labels -->
-                        <text x="200" y="165" font-family="Inter" font-size="14" fill="#2563eb" text-anchor="middle" font-weight="600">Computed Now</text>
-                        <text x="350" y="165" font-family="Inter" font-size="14" fill="#666" text-anchor="middle">Computed Later</text>
+                <rect x="80" y="130" width="150" height="60" fill="#16a34a" opacity="0.25" rx="8"/>
+                <text x="155" y="155" text-anchor="middle" font-size="14" fill="#1a1a2e">fill batch</text>
+                <text x="155" y="175" text-anchor="middle" font-size="13" fill="#16a34a">[a, b, c ...]</text>
+                <path d="M 235,160 L 300,160" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred9)"/>
+                <rect x="305" y="130" width="150" height="60" fill="#e94560" opacity="0.25" rx="8"/>
+                <text x="380" y="165" text-anchor="middle" font-size="14" fill="#1a1a2e">emit batch</text>
+                <path d="M 460,160 L 525,160" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrowblue9)"/>
+                <rect x="530" y="130" width="150" height="60" fill="#3b82f6" opacity="0.2" rx="8"/>
+                <text x="605" y="155" text-anchor="middle" font-size="14" fill="#1a1a2e">clear: []</text>
+                <text x="605" y="175" text-anchor="middle" font-size="13" fill="#3b82f6">resume filling</text>
+                <path d="M 685,160 C 760,160 760,120 605,115" stroke="#555" stroke-width="2" fill="none" stroke-dasharray="4,4" marker-end="url(#arrowgray9)"/>
+                <defs>
+                    <marker id="arrowred9" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                    <marker id="arrowblue9" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#3b82f6"/>
+                    </marker>
+                    <marker id="arrowgray9" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#555"/>
+                    </marker>
+                </defs>
+            </svg>
+            <div class="callout tip">
+                <span class="callout-label">The payoff</span>
+                <p>No matter how many batches you produce, memory holds just one batch at a time. That is what makes streaming a multi-gigabyte file possible.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                        <text x="100" y="70" font-family="Inter" font-size="16" fill="#e94560" font-weight="600">Only compute when needed!</text>
+        <!-- ============ PART 5: LAZY EVALUATION ============ -->
+        <!-- Slide 10 -->
+        <div class="slide">
+            <div class="slide-number">10 / 16</div>
+            <span class="step-badge">Part 5 · Lazy Evaluation</span>
+            <h2>Eager lists vs lazy generators</h2>
+            <p>A list comprehension is <strong>eager</strong>: it computes and stores every value immediately. Swap the square brackets for parentheses to get a generator expression, which is <strong>lazy</strong> and computes nothing until you ask with <code>next()</code> or a for loop.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code><span class="comment"># Eager: stores all 1,000,000 squares now</span>
+squares <span class="keyword">=</span> [x**<span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="keyword">range</span>(<span class="number">1000000</span>)]
+
+<span class="comment"># Lazy: computes nothing yet, one at a time</span>
+squares_gen <span class="keyword">=</span> (x**<span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="keyword">range</span>(<span class="number">10</span>))
+<span class="keyword">print</span>(<span class="keyword">next</span>(squares_gen))  <span class="comment"># 0</span>
+<span class="keyword">print</span>(<span class="keyword">next</span>(squares_gen))  <span class="comment"># 1</span>
+<span class="keyword">print</span>(<span class="keyword">next</span>(squares_gen))  <span class="comment"># 4</span></code></pre>
+                </div>
+                <div>
+                    <svg width="380" height="220">
+                        <text x="0" y="18" font-size="13" fill="#e94560" font-weight="600">list: pours the whole tank</text>
+                        <rect x="10" y="30" width="160" height="50" fill="#e94560" opacity="0.25" rx="6"/>
+                        <text x="90" y="60" text-anchor="middle" font-size="13" fill="#1a1a2e">all values in RAM</text>
+                        <text x="0" y="120" font-size="13" fill="#3b82f6" font-weight="600">generator: drips per next()</text>
+                        <circle cx="40" cy="150" r="6" fill="#3b82f6"/>
+                        <circle cx="80" cy="150" r="6" fill="#3b82f6" opacity="0.6"/>
+                        <circle cx="120" cy="150" r="6" fill="#3b82f6" opacity="0.35"/>
+                        <text x="160" y="155" font-size="12" fill="#555">one value at a time</text>
+                        <text x="0" y="200" font-size="12" fill="#555">same syntax, very different memory</text>
                     </svg>
                 </div>
-                <ul class="content-list">
-                    <li>Compute only when requested</li>
-                    <li>No upfront memory allocation</li>
-                    <li>Perfect for infinite streams</li>
-                </ul>
             </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">8 / 15</span>
+            <div class="callout warn">
+                <span class="callout-label">Laziness has a catch</span>
+                <p>A generator is exhausted after one pass. Calling <code>list(gen)</code> a second time returns <code>[]</code>. Use a generator for a single streaming pass, and convert to a list only when you need to iterate more than once.</p>
             </div>
+            <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 9: Memory Comparison -->
+        <!-- ============ PART 6: BUILDING A DATA STREAM ============ -->
+        <!-- Slide 11 -->
         <div class="slide">
-            <div class="slide-content">
-                <h2>Generator vs List Memory</h2>
-                <div class="svg-container">
-                    <svg width="700" height="300" viewBox="0 0 700 300">
-                        <!-- Bar chart -->
-                        <text x="50" y="40" font-family="Inter" font-size="18" fill="#1a1a2e" font-weight="600">Memory Usage (MB)</text>
+            <div class="slide-number">11 / 16</div>
+            <span class="step-badge">Part 6 · Building a Data Stream</span>
+            <h2>Compose cleaning and batching</h2>
+            <p>The lab combines everything into an infinite data loader. An outer <code>while True</code> loop lets you re-stream the corpus for multiple training epochs, cleaning and filtering each line, yielding fixed-size batches, and stopping cleanly after <code>max_batches</code>.</p>
+            <pre class="tight"><code><span class="keyword">def</span> <span class="keyword">infinite_data_loader</span>(path, batch_size=<span class="number">8</span>, max_batches=<span class="keyword">None</span>):
+    batch_count <span class="keyword">=</span> <span class="number">0</span>
+    <span class="keyword">while</span> <span class="keyword">True</span>:                      <span class="comment"># loop for multi-epoch training</span>
+        batch <span class="keyword">=</span> []
+        <span class="keyword">with</span> <span class="keyword">open</span>(path) <span class="keyword">as</span> f:
+            <span class="keyword">for</span> line <span class="keyword">in</span> f:
+                line <span class="keyword">=</span> line.<span class="keyword">strip</span>()
+                <span class="keyword">if</span> <span class="keyword">not</span> line <span class="keyword">or</span> <span class="string">'\t'</span> <span class="keyword">not in</span> line:
+                    <span class="keyword">continue</span>
+                content <span class="keyword">=</span> line.<span class="keyword">split</span>(<span class="string">'\t'</span>, <span class="number">1</span>)[<span class="number">1</span>].<span class="keyword">lower</span>()
+                batch.<span class="keyword">append</span>(content)
+                <span class="keyword">if</span> <span class="keyword">len</span>(batch) == batch_size:
+                    <span class="keyword">yield</span> batch
+                    batch <span class="keyword">=</span> []
+                    batch_count += <span class="number">1</span>
+                    <span class="keyword">if</span> max_batches <span class="keyword">and</span> batch_count &gt;= max_batches:
+                        <span class="keyword">return</span></code></pre>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>The <code>while True</code> wrapper is the trick behind infinite epochs: when the file ends the loop reopens it, so the loader can feed a training run for as long as you want without ever holding the full dataset in memory.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                        <!-- Y-axis -->
-                        <line x1="100" y1="80" x2="100" y2="280" stroke="#444" stroke-width="2"/>
-                        <text x="85" y="90" font-family="Inter" font-size="14" fill="#555" text-anchor="end">500</text>
-                        <text x="85" y="180" font-family="Inter" font-size="14" fill="#555" text-anchor="end">250</text>
-                        <text x="85" y="270" font-family="Inter" font-size="14" fill="#555" text-anchor="end">0</text>
+        <!-- Slide 12: loop diagram -->
+        <div class="slide">
+            <div class="slide-number">12 / 16</div>
+            <span class="step-badge">Part 6 · Building a Data Stream</span>
+            <h2>The epoch loop</h2>
+            <p class="lead">When the file ends, control feeds back to the top for a new epoch. Batches are emitted continuously, and <code>max_batches</code> is the exit gate.</p>
+            <svg width="880" height="250">
+                <rect x="30" y="60" width="150" height="55" fill="#1a1a2e" rx="8"/>
+                <text x="105" y="93" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">open(path)</text>
+                <path d="M 180,88 L 235,88" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred12)"/>
+                <rect x="240" y="60" width="170" height="55" fill="#1a1a2e" rx="8"/>
+                <text x="325" y="85" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">clean + filter</text>
+                <text x="325" y="105" text-anchor="middle" font-size="12" fill="#bbb">fill a batch</text>
+                <path d="M 410,88 L 465,88" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred12)"/>
+                <rect x="470" y="60" width="150" height="55" fill="#16a34a" rx="8"/>
+                <text x="545" y="93" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">yield batch</text>
+                <path d="M 620,88 L 675,88" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred12)"/>
+                <rect x="680" y="60" width="170" height="55" fill="#e94560" rx="8"/>
+                <text x="765" y="85" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">max_batches?</text>
+                <text x="765" y="105" text-anchor="middle" font-size="12" fill="#ffe0e6">return / stop</text>
 
-                        <!-- X-axis -->
-                        <line x1="100" y1="280" x2="650" y2="280" stroke="#444" stroke-width="2"/>
+                <path d="M 545,115 C 545,180 105,190 105,120" stroke="#3b82f6" stroke-width="2.5" fill="none" stroke-dasharray="5,5" marker-end="url(#arrowblue12)"/>
+                <text x="300" y="205" text-anchor="middle" font-size="14" fill="#3b82f6" font-weight="600">file ends, then a new epoch (while True)</text>
+                <defs>
+                    <marker id="arrowred12" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                    <marker id="arrowblue12" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#3b82f6"/>
+                    </marker>
+                </defs>
+            </svg>
+            <div class="callout tip">
+                <span class="callout-label">Constant memory</span>
+                <p>No matter how many epochs or batches you produce, only one batch is ever held at a time. Memory stays flat from the first batch to the millionth.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                        <!-- List bar -->
-                        <rect x="200" y="90" width="150" height="190" fill="#e94560" opacity="0.8"/>
-                        <text x="275" y="250" font-family="Inter" font-size="16" fill="#fafafa" text-anchor="middle" font-weight="600">480 MB</text>
-                        <text x="275" y="305" font-family="Inter" font-size="14" fill="#1a1a2e" text-anchor="middle">List</text>
+        <!-- ============ PART 7: PYTORCH DATALOADER ============ -->
+        <!-- Slide 13 -->
+        <div class="slide">
+            <div class="slide-number">13 / 16</div>
+            <span class="step-badge">Part 7 · PyTorch DataLoader</span>
+            <h2>You just built a mini DataLoader</h2>
+            <p>PyTorch's <code>DataLoader</code> is a production-grade generator built on the exact pattern from this module: it yields batches lazily, never loads the full dataset, and adds shuffling, sampling, and multi-process loading on top.</p>
+            <pre class="tight"><code><span class="comment"># The generator pattern behind DataLoader</span>
+<span class="keyword">def</span> <span class="keyword">dataloader</span>(dataset, batch_size):
+    indices <span class="keyword">=</span> <span class="keyword">list</span>(<span class="keyword">range</span>(<span class="keyword">len</span>(dataset)))
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="keyword">range</span>(<span class="number">0</span>, <span class="keyword">len</span>(indices), batch_size):
+        batch_indices <span class="keyword">=</span> indices[i:i+batch_size]
+        <span class="keyword">yield</span> [dataset[idx] <span class="keyword">for</span> idx <span class="keyword">in</span> batch_indices]
 
-                        <!-- Generator bar -->
-                        <rect x="450" y="268" width="150" height="12" fill="#16a34a" opacity="0.8"/>
-                        <text x="525" y="253" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">2 KB</text>
-                        <text x="525" y="305" font-family="Inter" font-size="14" fill="#1a1a2e" text-anchor="middle">Generator</text>
+<span class="comment"># Usage (lazy batching), just like the real thing:</span>
+<span class="keyword">for</span> batch <span class="keyword">in</span> dataloader(dataset, batch_size=<span class="number">32</span>):
+    train(model, batch)</code></pre>
+            <div class="callout">
+                <span class="callout-label">The big idea</span>
+                <p>Comprehensions, <code>yield</code>, and lazy evaluation are not just style. They are the foundation that lets real systems train on datasets far larger than RAM, powering Hugging Face datasets and S3 streaming pipelines too.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                        <!-- Savings indicator -->
-                        <text x="360" y="150" font-family="Inter" font-size="20" fill="#16a34a" font-weight="600">99.6% savings!</text>
-                    </svg>
+        <!-- Slide 14: mapping visual -->
+        <div class="slide">
+            <div class="slide-number">14 / 16</div>
+            <span class="step-badge">Part 7 · PyTorch DataLoader</span>
+            <h2>Same pattern, both sides</h2>
+            <p class="lead">Your <code>line_generator</code> maps one-to-one onto PyTorch's <code>DataLoader</code>. Both are lazy batch generators feeding the same training loop.</p>
+            <svg width="880" height="230">
+                <text x="120" y="30" text-anchor="middle" font-size="15" fill="#e94560" font-weight="600">your line_generator</text>
+                <rect x="30" y="45" width="180" height="55" fill="#1a1a2e" rx="8"/>
+                <text x="120" y="72" text-anchor="middle" font-size="13" fill="#fafafa">clean + batch</text>
+                <text x="120" y="90" text-anchor="middle" font-size="12" fill="#bbb">yield batch</text>
+
+                <text x="760" y="30" text-anchor="middle" font-size="15" fill="#3b82f6" font-weight="600">PyTorch DataLoader</text>
+                <rect x="670" y="45" width="180" height="55" fill="#1a1a2e" rx="8"/>
+                <text x="760" y="65" text-anchor="middle" font-size="13" fill="#fafafa">shuffle + sample</text>
+                <text x="760" y="83" text-anchor="middle" font-size="12" fill="#bbb">multi-process yield</text>
+
+                <path d="M 210,72 L 300,72" stroke="#555" stroke-width="2" stroke-dasharray="4,4"/>
+                <path d="M 580,72 L 670,72" stroke="#555" stroke-width="2" stroke-dasharray="4,4"/>
+
+                <rect x="305" y="45" width="270" height="55" fill="#16a34a" opacity="0.25" rx="8"/>
+                <text x="440" y="72" text-anchor="middle" font-size="14" fill="#1a1a2e" font-weight="600">same generator pattern</text>
+                <text x="440" y="90" text-anchor="middle" font-size="12" fill="#555">lazy, one batch at a time</text>
+
+                <path d="M 120,100 L 400,150" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred14)"/>
+                <path d="M 760,100 L 480,150" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrowblue14)"/>
+                <rect x="330" y="155" width="220" height="55" fill="#e94560" rx="8"/>
+                <text x="440" y="188" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">training loop</text>
+                <defs>
+                    <marker id="arrowred14" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                    <marker id="arrowblue14" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#3b82f6"/>
+                    </marker>
+                </defs>
+            </svg>
+            <div class="callout tip">
+                <span class="callout-label">Demystified</span>
+                <p>Recognizing the generator underneath the training loop means the real DataLoader is no longer magic, just these three patterns with extra features bolted on.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 15: Key Takeaways -->
+        <div class="slide">
+            <div class="slide-number">15 / 16</div>
+            <h2>What you learned</h2>
+            <ul class="smaller">
+                <li>List comprehensions make data-cleaning transforms shorter, faster, and more readable than for loops</li>
+                <li>Dict comprehensions build vocabularies and frequency maps in one line, but watch for hidden O(n) scans like <code>list.count</code></li>
+                <li>Generator functions use <code>yield</code> to pause and resume, streaming one batch at a time instead of loading everything</li>
+                <li>Lazy evaluation computes values only when requested, but a generator is exhausted after a single pass</li>
+                <li>Streaming and batching let you process files larger than your available RAM</li>
+                <li>An infinite <code>while True</code> loader supports multi-epoch training with constant memory</li>
+                <li>PyTorch DataLoader is a production generator built on these same principles</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">The big idea</span>
+                <p>Choose comprehensions for small in-memory work and generators for large one-pass streaming. That single choice decides whether your data pipeline fits in memory.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 16: Practice + Next steps -->
+        <div class="slide">
+            <div class="slide-number">16 / 16</div>
+            <h2>Practice &amp; next steps</h2>
+            <div class="split">
+                <div>
+                    <p class="smaller" style="margin-bottom: 0.75rem;"><strong>Try it yourself:</strong></p>
+                    <ul class="smaller">
+                        <li>Run the lab: <code>python lab_infinite_data_loader.py</code></li>
+                        <li>Rewrite a for-loop transform as a comprehension</li>
+                        <li>Convert a list comprehension to a generator expression and compare memory</li>
+                        <li>Add a <code>max_batches</code> limit and confirm memory stays flat</li>
+                    </ul>
+                    <p class="smaller" style="margin-top: 1rem;"><strong>Explore further:</strong></p>
+                    <ul class="smaller">
+                        <li><code>itertools</code> for lazy pipelines</li>
+                        <li>Hugging Face <code>datasets</code> streaming mode</li>
+                    </ul>
                 </div>
-            </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">9 / 15</span>
-            </div>
-        </div>
-
-        <!-- Slide 10: Building Data Stream -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>Building a Data Stream</h2>
-                <div class="svg-container">
-                    <svg width="900" height="220" viewBox="0 0 900 220">
-                        <!-- Flowchart -->
-                        <rect x="50" y="60" width="140" height="70" fill="#2563eb" opacity="0.15" stroke="#2563eb" stroke-width="3" rx="8"/>
-                        <text x="120" y="100" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">File</text>
-
-                        <path d="M 190 95 L 240 95" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
-
-                        <rect x="240" y="60" width="140" height="70" fill="#16a34a" opacity="0.15" stroke="#16a34a" stroke-width="3" rx="8"/>
-                        <text x="310" y="90" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">Generator</text>
-                        <text x="310" y="110" font-family="Monaco" font-size="13" fill="#555" text-anchor="middle">yield batch</text>
-
-                        <path d="M 380 95 L 430 95" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
-
-                        <rect x="430" y="60" width="140" height="70" fill="#eab308" opacity="0.2" stroke="#d97706" stroke-width="3" rx="8"/>
-                        <text x="500" y="90" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">Batch</text>
-                        <text x="500" y="110" font-family="Inter" font-size="13" fill="#555" text-anchor="middle">32 samples</text>
-
-                        <path d="M 570 95 L 620 95" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
-
-                        <rect x="620" y="60" width="140" height="70" fill="#8b5cf6" opacity="0.15" stroke="#7c3aed" stroke-width="3" rx="8"/>
-                        <text x="690" y="90" font-family="Inter" font-size="16" fill="#1a1a2e" text-anchor="middle" font-weight="600">Process</text>
-                        <text x="690" y="110" font-family="Inter" font-size="13" fill="#555" text-anchor="middle">Train model</text>
-
-                        <!-- Loop back -->
-                        <path d="M 760 95 Q 820 95, 820 160 Q 820 190, 310 190 Q 310 180, 310 130" stroke="#2563eb" stroke-width="3" marker-end="url(#arrowblue)" fill="none" stroke-dasharray="5,5"/>
-                        <text x="560" y="210" font-family="Inter" font-size="14" fill="#2563eb" text-anchor="middle">Next batch</text>
-                    </svg>
-                </div>
-                <ul class="content-list">
-                    <li>Stream batches continuously</li>
-                    <li>Only one batch in memory</li>
-                    <li>Perfect for training loops</li>
-                </ul>
-            </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">10 / 15</span>
-            </div>
-        </div>
-
-        <!-- Slide 11: PyTorch Connection -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>Connection to PyTorch DataLoaders</h2>
-                <div class="two-column">
-                    <div class="column">
-                        <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: #666;">Your Generator</h3>
-                        <div class="code-block" style="margin: 0;">
-<span class="keyword">def</span> <span class="string">line_generator</span>():
-    <span class="keyword">for</span> batch <span class="keyword">in</span> batches:
-        <span class="keyword">yield</span> batch
-
-<span class="keyword">for</span> batch <span class="keyword">in</span> line_generator():
-    process(batch)
-                        </div>
+                <div>
+                    <div class="callout tip">
+                        <span class="callout-label">Next module</span>
+                        <p><strong>Module 03: NumPy for AI</strong><br>Why NumPy arrays are essential for AI and how to represent data efficiently in N-dimensional arrays.</p>
                     </div>
-                    <div class="column">
-                        <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: #666;">PyTorch DataLoader</h3>
-                        <div class="code-block" style="margin: 0;">
-loader = DataLoader(
-    dataset,
-    batch_size=<span class="string">32</span>
-)
-
-<span class="keyword">for</span> batch <span class="keyword">in</span> loader:
-    model.train(batch)
-                        </div>
-                    </div>
-                </div>
-                <ul class="content-list" style="margin-top: 2rem;">
-                    <li>Both use lazy evaluation</li>
-                    <li>Both stream data efficiently</li>
-                    <li>Essential for large-scale training</li>
-                </ul>
-            </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">11 / 15</span>
-            </div>
-        </div>
-
-        <!-- Slide 12: Lab Intro -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>Lab: The Infinite Data Loader</h2>
-                <ul class="content-list">
-                    <li>Generate 10,000 line corpus</li>
-                    <li>Clean data with comprehensions</li>
-                    <li>Build vocabulary with dict</li>
-                    <li>Compare list vs generator memory</li>
-                    <li>Implement batch streaming</li>
-                    <li>Measure performance gains</li>
-                </ul>
-                <div style="margin-top: 2rem; padding: 1.5rem; background: #e94560; color: #fafafa; border-radius: 8px;">
-                    <p style="font-size: 1.2rem; font-weight: 600;">Goal: Build a memory-efficient data pipeline</p>
+                    <p class="smaller" style="color: var(--text-muted); margin-top: 1.5rem;">Questions? Bring them to the lab session.</p>
+                    <p class="smaller" style="color: var(--text-muted);">AI Research Foundations Minicourse<br>Module 02: Pythonic Patterns for Data</p>
                 </div>
             </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">12 / 15</span>
-            </div>
-        </div>
-
-        <!-- Slide 13: Key Takeaways -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>Key Takeaways</h2>
-                <ul class="content-list">
-                    <li>Comprehensions clean code efficiently</li>
-                    <li><code>yield</code> enables lazy evaluation</li>
-                    <li>Generators stream without loading all</li>
-                    <li>Memory efficiency enables large datasets</li>
-                    <li>Pattern underpins PyTorch DataLoaders</li>
-                    <li>Essential for production AI systems</li>
-                </ul>
-            </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">13 / 15</span>
-            </div>
-        </div>
-
-        <!-- Slide 14: Comparison Table -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>List vs Generator Summary</h2>
-                <div style="margin-top: 2rem;">
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="border-bottom: 3px solid #1a1a2e;">
-                                <th style="text-align: left; padding: 1rem; font-size: 1.2rem;">Feature</th>
-                                <th style="text-align: left; padding: 1rem; font-size: 1.2rem;">List</th>
-                                <th style="text-align: left; padding: 1rem; font-size: 1.2rem;">Generator</th>
-                            </tr>
-                        </thead>
-                        <tbody style="font-size: 1.1rem;">
-                            <tr style="border-bottom: 1px solid #ddd;">
-                                <td style="padding: 1rem; font-weight: 600;">Memory</td>
-                                <td style="padding: 1rem; color: #e94560;">Loads all data</td>
-                                <td style="padding: 1rem; color: #16a34a; font-weight: 500;">One item at a time</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #ddd;">
-                                <td style="padding: 1rem; font-weight: 600;">Speed</td>
-                                <td style="padding: 1rem;">Fast iteration</td>
-                                <td style="padding: 1rem; color: #16a34a; font-weight: 500;">Minimal overhead</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #ddd;">
-                                <td style="padding: 1rem; font-weight: 600;">Use Case</td>
-                                <td style="padding: 1rem;">Small datasets</td>
-                                <td style="padding: 1rem; color: #16a34a; font-weight: 500;">Large datasets</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 1rem; font-weight: 600;">Syntax</td>
-                                <td style="padding: 1rem;"><code>[...]</code></td>
-                                <td style="padding: 1rem;"><code>yield</code></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">14 / 15</span>
-            </div>
-        </div>
-
-        <!-- Slide 15: Resources -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>Resources & Next Steps</h2>
-                <ul class="content-list">
-                    <li>Python docs: Comprehensions & Generators</li>
-                    <li>PyTorch DataLoader documentation</li>
-                    <li>Practice with real datasets</li>
-                    <li>Explore generator expressions</li>
-                    <li>Study itertools library patterns</li>
-                </ul>
-                <div style="margin-top: 3rem; padding: 1.5rem; background: #f5f5f5; border-radius: 8px; border-left: 4px solid #e94560;">
-                    <p style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Next Module:</p>
-                    <p style="font-size: 1.1rem; color: #666;">Thinking in Arrays with NumPy</p>
-                </div>
-            </div>
-            <div class="footer">
-                <span>© mui-group</span>
-                <span class="slide-number">15 / 15</span>
-            </div>
+            <div class="footer">© mui-group</div>
         </div>
     </div>
 
@@ -831,20 +963,29 @@ loader = DataLoader(
             } else if (e.key === 'ArrowLeft') {
                 e.preventDefault();
                 prevSlide();
-            } else if (e.key === 'Home') {
-                e.preventDefault();
-                showSlide(0);
-            } else if (e.key === 'End') {
-                e.preventDefault();
-                showSlide(totalSlides - 1);
             }
         });
 
-        // Optional: click navigation
-        document.addEventListener('click', (e) => {
+        // Click navigation
+        document.querySelector('.slide-container').addEventListener('click', (e) => {
             if (e.clientX > window.innerWidth / 2) {
                 nextSlide();
             } else {
+                prevSlide();
+            }
+        });
+
+        // Touch navigation for mobile
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
                 prevSlide();
             }
         });
@@ -863,6 +1004,7 @@ loader = DataLoader(
         function updateSVGColors(theme) {
             const svgs = document.querySelectorAll('svg');
             svgs.forEach(svg => {
+                // Update text elements
                 svg.querySelectorAll('text').forEach(text => {
                     const currentFill = text.getAttribute('fill');
                     if (theme === 'dark') {
@@ -875,26 +1017,29 @@ loader = DataLoader(
                         }
                     } else {
                         const lightFill = text.getAttribute('data-light-fill');
-                        if (lightFill) text.setAttribute('fill', lightFill);
+                        if (lightFill) {
+                            text.setAttribute('fill', lightFill);
+                        }
                     }
                 });
-                svg.querySelectorAll('line, path, rect, circle, polyline, polygon').forEach(el => {
+                // Update stroke elements (lines, paths, rects)
+                svg.querySelectorAll('line, path, rect, circle').forEach(el => {
                     const currentStroke = el.getAttribute('stroke');
                     const currentFill = el.getAttribute('fill');
                     if (theme === 'dark') {
-                        if (currentStroke && ['#444', '#555', '#333', '#1a1a2e'].includes(currentStroke)) {
+                        if (currentStroke === '#444' || currentStroke === '#555' || currentStroke === '#333') {
                             el.setAttribute('data-light-stroke', currentStroke);
                             el.setAttribute('stroke', '#888');
                         }
-                        if (currentFill && ['#f8f9fa', '#f0f0f5', '#fff', '#ffffff', '#fafafa'].includes(currentFill)) {
+                        if (currentFill === '#f8f9fa' || currentFill === '#f0f0f5' || currentFill === '#fff' || currentFill === '#ffffff') {
                             el.setAttribute('data-light-fill', currentFill);
                             el.setAttribute('fill', '#2d2d44');
                         }
                     } else {
-                        const ls = el.getAttribute('data-light-stroke');
-                        if (ls) el.setAttribute('stroke', ls);
-                        const lf = el.getAttribute('data-light-fill');
-                        if (lf) el.setAttribute('fill', lf);
+                        const lightStroke = el.getAttribute('data-light-stroke');
+                        if (lightStroke) el.setAttribute('stroke', lightStroke);
+                        const lightFill = el.getAttribute('data-light-fill');
+                        if (lightFill) el.setAttribute('fill', lightFill);
                     }
                 });
             });
@@ -905,6 +1050,7 @@ loader = DataLoader(
             setTheme(current === 'dark' ? 'light' : 'dark');
         });
 
+        // Initialize theme from localStorage or system preference
         const saved = localStorage.getItem('slide-theme');
         if (saved) {
             setTheme(saved);

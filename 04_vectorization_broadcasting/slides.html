@@ -3,34 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 4: Vectorization & Broadcasting</title>
+    <title>Module 4: Vectorization &amp; Broadcasting</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16162a;
-            --bg-code: #0d0d1a;
-            --text-primary: #fafafa;
-            --text-secondary: #ccc;
-            --text-muted: rgba(250, 250, 250, 0.4);
-            --accent: #e94560;
-            --accent-hover: #ff6b81;
-            --green: #4ade80;
-            --blue: #60a5fa;
-            --border: #2d2d44;
-            --code-text: #fafafa;
-            --svg-text: #eee;
-            --svg-stroke: #888;
-            --svg-fill-light: #2d2d44;
-            --svg-fill-accent: rgba(233, 69, 96, 0.15);
-            --shadow: rgba(0, 0, 0, 0.3);
-            --toggle-bg: #2d2d44;
-            --toggle-knob: #fafafa;
-        }
-
-        [data-theme="light"] {
             --bg-primary: #fafafa;
             --bg-secondary: #f0f0f5;
             --bg-code: #1a1a2e;
@@ -52,6 +30,28 @@
             --toggle-knob: #fff;
         }
 
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16162a;
+            --bg-code: #0d0d1a;
+            --text-primary: #fafafa;
+            --text-secondary: #ccc;
+            --text-muted: rgba(250, 250, 250, 0.4);
+            --accent: #e94560;
+            --accent-hover: #ff6b81;
+            --green: #4ade80;
+            --blue: #60a5fa;
+            --border: #2d2d44;
+            --code-text: #fafafa;
+            --svg-text: #eee;
+            --svg-stroke: #888;
+            --svg-fill-light: #2d2d44;
+            --svg-fill-accent: rgba(233, 69, 96, 0.15);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --toggle-bg: #2d2d44;
+            --toggle-knob: #fafafa;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -70,21 +70,37 @@
             width: 100vw;
             height: 100vh;
             display: flex;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
         .slide {
-            min-width: 100vw;
-            height: 100vh;
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            min-height: auto;
+            max-height: 96vh;
+            overflow-y: auto;
             padding: 2rem 5rem 3rem 5rem;
+            position: relative;
+        }
+
+        .slide.active {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Typography */
         h1 {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 700;
             line-height: 1.1;
             margin-bottom: 1.5rem;
@@ -92,132 +108,163 @@
         }
 
         h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 3rem;
+            font-weight: 600;
+            line-height: 1.2;
             margin-bottom: 1.5rem;
             color: var(--text-primary);
         }
 
-        h3 {
-            font-size: 1.8rem;
-            font-weight: 600;
+        p, li {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
             margin-bottom: 1rem;
-            color: var(--accent);
         }
 
-        p, li {
-            font-size: 1.4rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
+        strong {
+            font-weight: 600;
+            color: var(--accent);
         }
 
         ul {
             list-style: none;
-            margin-left: 0;
+            margin-left: 1.5rem;
         }
 
         li::before {
             content: "→ ";
             color: var(--accent);
-            font-weight: 700;
+            font-weight: 600;
             margin-right: 0.5rem;
         }
 
-        .subtitle {
-            font-size: 1.5rem;
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-top: 2rem;
-        }
-
-        .visual-box {
-            background: var(--bg-secondary);
-            padding: 2rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent);
-        }
-
+        /* Code snippets */
         code {
+            font-family: 'Monaco', 'Courier New', monospace;
             background: var(--bg-code);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 1.2rem;
             color: var(--code-text);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 1.3rem;
         }
 
-        .equation {
-            font-size: 2rem;
-            font-weight: 600;
-            text-align: center;
-            padding: 2rem;
-            background: var(--bg-secondary);
+        pre {
+            background: var(--bg-code);
+            color: var(--code-text);
+            padding: 1.5rem;
             border-radius: 8px;
-            margin: 2rem 0;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-size: 1.2rem;
+            line-height: 1.5;
         }
 
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: var(--accent); }
+        .string { color: var(--green); }
+        .number { color: var(--blue); }
+        .comment { color: var(--text-muted); font-style: italic; }
+
+        /* Footer */
         .footer {
             position: absolute;
             bottom: 1.5rem;
             left: 5rem;
             font-size: 0.85rem;
             color: var(--text-muted);
+            font-weight: 300;
         }
 
+        /* Slide counter */
         .slide-number {
-            position: fixed;
+            position: absolute;
             bottom: 1.5rem;
             right: 5rem;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
+            font-weight: 300;
         }
 
-        svg {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .highlight {
+        /* Accent color elements */
+        .accent {
             color: var(--accent);
-            font-weight: 600;
         }
 
-        .spacer {
-            margin-bottom: 2rem;
+        /* Navigation instructions */
+        .nav-hint {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
         }
 
-        .two-column {
+        /* Visual elements */
+        .visual-container {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .chart-container {
+            margin: 2rem 0;
+        }
+
+        /* Grid layout for comparison slides */
+        .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
-            margin-top: 2rem;
+            margin: 2rem 0;
         }
 
-        .math-display {
-            font-family: 'Courier New', monospace;
-            font-size: 1.3rem;
-            line-height: 2;
-            background: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-        }
-
-        .label {
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent);
+        .comparison-item h3 {
+            font-size: 1.8rem;
             font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        /* Title slide specific */
+        .title-slide h1 {
+            font-size: 5.5rem;
             margin-bottom: 1rem;
         }
 
+        .title-slide .subtitle {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .title-slide .module-number {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Spacing utilities */
+        .spacer {
+            height: 2rem;
+        }
+
+        .spacer-large {
+            height: 4rem;
+        }
+
+        /* Theme toggle */
         .theme-toggle {
             position: fixed;
             top: 1.5rem;
@@ -245,7 +292,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
-        [data-theme="light"] .theme-toggle::after {
+        [data-theme="dark"] .theme-toggle::after {
             transform: translateX(28px);
         }
 
@@ -259,602 +306,749 @@
             color: var(--text-muted);
             pointer-events: none;
         }
+
+        /* Tutorial helpers */
+        .step-badge {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .lead {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Callout / insight box */
+        .callout {
+            border-left: 5px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: 1.25rem 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+            font-size: 1.3rem;
+        }
+
+        .callout.tip { border-left-color: var(--green); }
+        .callout.warn { border-left-color: var(--blue); }
+
+        .callout-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .callout.tip .callout-label { color: var(--green); }
+        .callout.warn .callout-label { color: var(--blue); }
+
+        /* Roadmap list on the agenda slide */
+        .roadmap li {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Data tables */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+            font-size: 1.25rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        td code, th code {
+            font-size: 1.05rem;
+        }
+
+        /* Two-up layout: explanation beside code */
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+            margin: 1.5rem 0;
+        }
+
+        .split pre { margin: 0; }
+
+        .smaller li, .smaller p { font-size: 1.3rem; }
+
+        pre.tight { font-size: 1rem; line-height: 1.45; }
     </style>
-</head>
-<body>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light mode"></button>
-    <span class="theme-toggle-icon" id="themeIcon">🌙</span>
-
-    <div class="slide-container" id="slides">
-
+</head><body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+    <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+    <div class="slide-container">
         <!-- Slide 1: Title -->
-        <div class="slide">
-            <h1>Vectorization &<br>Broadcasting</h1>
-            <p class="subtitle">Module 4: AI Research Foundations</p>
-            <div class="spacer"></div>
-            <p>Learn to compute neural network operations without loops</p>
+        <div class="slide active title-slide">
+            <div class="module-number">MODULE 04</div>
+            <h1>Vectorization &amp;<br>Broadcasting</h1>
+            <p class="subtitle">From Loops to Matrix Math: The Forward Pass</p>
+            <div class="spacer-large"></div>
+            <p style="font-size: 1.3rem; color: var(--text-secondary);">A step-by-step tutorial</p>
+            <p style="font-size: 1.3rem; color: var(--text-muted);">AI Research Foundations Minicourse</p>
+            <div class="footer">© mui-group</div>
+            <div class="nav-hint">Press → or click to advance</div>
         </div>
 
-        <!-- Slide 2: The Problem with Loops -->
+        <!-- Slide 2: Welcome -->
         <div class="slide">
-            <h2>The Problem with Loops</h2>
-            <div class="two-column">
+            <div class="slide-number">2 / 18</div>
+            <h2>Welcome</h2>
+            <p class="lead">Every neural network is just matrix multiplication plus broadcasting, so let us learn to write it the fast way from day one.</p>
+            <p>By the end you will be able to:</p>
+            <ul class="smaller">
+                <li>Replace slow Python loops with fast element-wise NumPy operations</li>
+                <li>Apply the three broadcasting rules to align arrays of different shapes</li>
+                <li>Use matrix multiplication correctly with <code>@</code>, <code>np.dot</code>, and <code>np.matmul</code></li>
+                <li>Compute a single neuron and a full layer forward pass, all vectorized</li>
+                <li>Measure the performance gap between vectorized code and for loops</li>
+            </ul>
+            <div class="callout tip">
+                <span class="callout-label">How to use these slides</span>
+                <p>Each concept comes with a small piece of code. Open the companion notebook <code>tutorial.ipynb</code> and run each snippet as you go. Learning by typing beats learning by reading.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 3: Why should you care -->
+        <div class="slide">
+            <div class="slide-number">3 / 18</div>
+            <h2>Why should you care?</h2>
+            <p class="lead">A neural network layer computes a weighted sum for hundreds of neurons over hundreds of features.</p>
+            <p>Doing that with nested Python loops can be a <strong>thousand times slower</strong> than the vectorized version. In this module you build:</p>
+            <ul class="smaller">
+                <li>The forward pass of a single artificial neuron</li>
+                <li>Then a whole layer of neurons at once</li>
+                <li>And discover the math powering PyTorch and TensorFlow</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>That math is really just matrix multiplication, broadcasting, and an activation function. Master these patterns now and every later module (data pipelines, images, models) becomes fast and natural.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 4: Roadmap -->
+        <div class="slide">
+            <div class="slide-number">4 / 18</div>
+            <h2>Our roadmap</h2>
+            <p class="lead">We build up one layer at a time, then prove the speedup in a hands-on lab.</p>
+            <ul class="roadmap">
+                <li><strong>1.</strong> Element-wise operations</li>
+                <li><strong>2.</strong> Scalar broadcasting</li>
+                <li><strong>3.</strong> The dot product</li>
+                <li><strong>4.</strong> Matrix multiplication</li>
+                <li><strong>5.</strong> The three broadcasting rules</li>
+                <li><strong>6.</strong> The artificial neuron</li>
+                <li><strong>7.</strong> A layer of neurons</li>
+                <li><strong>8.</strong> Vectorization vs for loops</li>
+                <li><strong>9.</strong> Connection to real neural networks</li>
+            </ul>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 1: ELEMENT-WISE ============ -->
+        <!-- Slide 5 -->
+        <div class="slide">
+            <div class="slide-number">5 / 18</div>
+            <span class="step-badge">Part 1 · Element-wise</span>
+            <h2>Operating on whole arrays at once</h2>
+            <p>Element-wise operations apply independently to each matching element of two arrays. Addition, multiplication, division, and powers all happen with no loop. NumPy runs them in optimized C code.</p>
+            <div class="split">
                 <div>
-                    <h3>Loop-Based Approach</h3>
-                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="50" y="30" width="80" height="40" fill="#e94560" opacity="0.3"/>
-                        <text x="90" y="55" fill="#fafafa" text-anchor="middle" font-size="14">Step 1</text>
+                    <pre class="tight"><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
 
-                        <rect x="50" y="90" width="80" height="40" fill="#e94560" opacity="0.3"/>
-                        <text x="90" y="115" fill="#fafafa" text-anchor="middle" font-size="14">Step 2</text>
+arr1 <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])
+arr2 <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>])
 
-                        <rect x="50" y="150" width="80" height="40" fill="#e94560" opacity="0.3"/>
-                        <text x="90" y="175" fill="#fafafa" text-anchor="middle" font-size="14">Step 3</text>
+<span class="comment"># Each result element combines the matching pair</span>
+<span class="keyword">print</span>(arr1 + arr2)   <span class="comment"># [11 22 33 44]</span>
+<span class="keyword">print</span>(arr1 * arr2)   <span class="comment"># [10 40 90 160]</span>
+<span class="keyword">print</span>(arr2 / arr1)   <span class="comment"># [10. 10. 10. 10.]</span>
+<span class="keyword">print</span>(arr1 ** <span class="number">2</span>)     <span class="comment"># [ 1  4  9 16]</span></code></pre>
+                </div>
+                <div>
+                    <svg width="360" height="220">
+                        <text x="0" y="20" font-size="14" fill="#555">arr1</text>
+                        <rect x="0" y="30" width="50" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="25" y="55" text-anchor="middle" font-size="16" fill="#fafafa">1</text>
+                        <rect x="60" y="30" width="50" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="85" y="55" text-anchor="middle" font-size="16" fill="#fafafa">2</text>
+                        <rect x="120" y="30" width="50" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="145" y="55" text-anchor="middle" font-size="16" fill="#fafafa">3</text>
+                        <rect x="180" y="30" width="50" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="205" y="55" text-anchor="middle" font-size="16" fill="#fafafa">4</text>
 
-                        <rect x="50" y="210" width="80" height="40" fill="#e94560" opacity="0.3"/>
-                        <text x="90" y="235" fill="#fafafa" text-anchor="middle" font-size="14">Step N</text>
+                        <text x="0" y="105" font-size="14" fill="#555">arr2</text>
+                        <rect x="0" y="115" width="50" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="25" y="140" text-anchor="middle" font-size="16" fill="#fafafa">10</text>
+                        <rect x="60" y="115" width="50" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="85" y="140" text-anchor="middle" font-size="16" fill="#fafafa">20</text>
+                        <rect x="120" y="115" width="50" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="145" y="140" text-anchor="middle" font-size="16" fill="#fafafa">30</text>
+                        <rect x="180" y="115" width="50" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="205" y="140" text-anchor="middle" font-size="16" fill="#fafafa">40</text>
 
-                        <path d="M 90 70 L 90 90" stroke="#888" stroke-width="2" marker-end="url(#arrowhead)"/>
-                        <path d="M 90 130 L 90 150" stroke="#888" stroke-width="2" marker-end="url(#arrowhead)"/>
-                        <path d="M 90 190 L 90 210" stroke="#888" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <path d="M 25,70 L 25,110" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                        <path d="M 85,70 L 85,110" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                        <path d="M 145,70 L 145,110" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                        <path d="M 205,70 L 205,110" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+
+                        <text x="0" y="190" font-size="14" fill="#e94560" font-weight="600">arr1 + arr2</text>
+                        <rect x="0" y="180" width="50" height="30" fill="#e94560" rx="5" opacity="0"/>
+                        <text x="115" y="205" text-anchor="middle" font-size="15" fill="#e94560" font-weight="600">[11  22  33  44]</text>
 
                         <defs>
-                            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                                <polygon points="0 0, 10 5, 0 10" fill="#888" />
+                            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+                            </marker>
+                            <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
                             </marker>
                         </defs>
-
-                        <text x="200" y="140" fill="#e94560" font-size="20" font-weight="bold">SLOW</text>
                     </svg>
-                    <ul style="margin-top: 1rem;">
-                        <li>Sequential execution</li>
-                        <li>Python overhead per iteration</li>
-                        <li>No parallelism</li>
+                </div>
+            </div>
+            <div class="callout tip">
+                <span class="callout-label">The core idea</span>
+                <p>No loops needed. NumPy pushes the work into compiled C, which is where the speed of every deep learning framework comes from.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 2: SCALAR BROADCASTING ============ -->
+        <!-- Slide 6 -->
+        <div class="slide">
+            <div class="slide-number">6 / 18</div>
+            <span class="step-badge">Part 2 · Scalar broadcasting</span>
+            <h2>One value stretched across an array</h2>
+            <p>Combine a single scalar with an array and NumPy conceptually repeats that scalar to match the array's shape, then does the element-wise operation. Nothing is actually copied in memory.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code>scalar <span class="keyword">=</span> <span class="number">5</span>
+array <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])
+
+<span class="keyword">print</span>(scalar * array)   <span class="comment"># [ 5 10 15 20]</span>
+<span class="keyword">print</span>(array + scalar)   <span class="comment"># [6 7 8 9]</span>
+
+<span class="comment"># Internally NumPy treats 5 as if</span>
+<span class="comment"># it were [5, 5, 5, 5], then does</span>
+<span class="comment"># the element-wise operation</span></code></pre>
+                </div>
+                <div>
+                    <svg width="360" height="200">
+                        <rect x="140" y="10" width="60" height="40" fill="#e94560" rx="5"/>
+                        <text x="170" y="36" text-anchor="middle" font-size="18" fill="#fafafa" font-weight="600">5</text>
+                        <text x="215" y="36" font-size="14" fill="#555">scalar</text>
+
+                        <path d="M 160,50 L 40,100" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                        <path d="M 165,50 L 110,100" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                        <path d="M 175,50 L 180,100" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                        <path d="M 180,50 L 250,100" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+
+                        <rect x="10" y="105" width="55" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="37" y="130" text-anchor="middle" font-size="16" fill="#fafafa">5</text>
+                        <rect x="80" y="105" width="55" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="107" y="130" text-anchor="middle" font-size="16" fill="#fafafa">5</text>
+                        <rect x="150" y="105" width="55" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="177" y="130" text-anchor="middle" font-size="16" fill="#fafafa">5</text>
+                        <rect x="220" y="105" width="55" height="40" fill="#1a1a2e" rx="5"/>
+                        <text x="247" y="130" text-anchor="middle" font-size="16" fill="#fafafa">5</text>
+
+                        <text x="10" y="185" font-size="15" fill="#16a34a" font-weight="600">stretched to match the array</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="callout tip">
+                <span class="callout-label">Where you will see it</span>
+                <p>Adding a bias term to every neuron output is exactly this pattern, a scalar (or vector) broadcast across many values.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 3: DOT PRODUCT ============ -->
+        <!-- Slide 7 -->
+        <div class="slide">
+            <div class="slide-number">7 / 18</div>
+            <span class="step-badge">Part 3 · The dot product</span>
+            <h2>The sum of element-wise products</h2>
+            <p>The dot product multiplies two vectors element by element and adds up the results into a single number. It is the mathematical core of a neuron's weighted sum.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code>vec1 <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])
+vec2 <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])
+
+<span class="comment"># (1x4)+(2x5)+(3x6) = 4+10+18 = 32</span>
+<span class="keyword">print</span>(np.<span class="keyword">dot</span>(vec1, vec2))   <span class="comment"># 32</span>
+<span class="keyword">print</span>(vec1 @ vec2)          <span class="comment"># 32 (same)</span></code></pre>
+                </div>
+                <div>
+                    <svg width="360" height="190">
+                        <rect x="0" y="20" width="40" height="35" fill="#1a1a2e" rx="4"/>
+                        <text x="20" y="43" text-anchor="middle" font-size="15" fill="#fafafa">1</text>
+                        <rect x="50" y="20" width="40" height="35" fill="#1a1a2e" rx="4"/>
+                        <text x="70" y="43" text-anchor="middle" font-size="15" fill="#fafafa">2</text>
+                        <rect x="100" y="20" width="40" height="35" fill="#1a1a2e" rx="4"/>
+                        <text x="120" y="43" text-anchor="middle" font-size="15" fill="#fafafa">3</text>
+
+                        <text x="20" y="80" text-anchor="middle" font-size="16" fill="#e94560">×</text>
+                        <text x="70" y="80" text-anchor="middle" font-size="16" fill="#e94560">×</text>
+                        <text x="120" y="80" text-anchor="middle" font-size="16" fill="#e94560">×</text>
+
+                        <rect x="0" y="90" width="40" height="35" fill="#1a1a2e" rx="4"/>
+                        <text x="20" y="113" text-anchor="middle" font-size="15" fill="#fafafa">4</text>
+                        <rect x="50" y="90" width="40" height="35" fill="#1a1a2e" rx="4"/>
+                        <text x="70" y="113" text-anchor="middle" font-size="15" fill="#fafafa">5</text>
+                        <rect x="100" y="90" width="40" height="35" fill="#1a1a2e" rx="4"/>
+                        <text x="120" y="113" text-anchor="middle" font-size="15" fill="#fafafa">6</text>
+
+                        <text x="70" y="150" text-anchor="middle" font-size="15" fill="#555">4 + 10 + 18</text>
+                        <path d="M 160,72 L 200,72" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                        <text x="180" y="60" text-anchor="middle" font-size="14" fill="#555">Σ</text>
+                        <rect x="210" y="52" width="70" height="40" fill="#e94560" rx="5"/>
+                        <text x="245" y="78" text-anchor="middle" font-size="20" fill="#fafafa" font-weight="600">32</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="callout tip">
+                <span class="callout-label">Why it matters</span>
+                <p>A neuron's weighted sum <code>w · x</code> is a dot product, so this one operation is the heartbeat of every neural network.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 4: MATRIX MULTIPLICATION ============ -->
+        <!-- Slide 8 -->
+        <div class="slide">
+            <div class="slide-number">8 / 18</div>
+            <span class="step-badge">Part 4 · Matrix multiplication</span>
+            <h2>Many dot products at once</h2>
+            <p>Matrix multiplication computes a dot product between every row of the first matrix and every column of the second. The <strong>inner dimensions must match</strong>: an <code>(m, n)</code> matrix times an <code>(n, p)</code> matrix gives an <code>(m, p)</code> result.</p>
+            <svg width="820" height="120" style="margin: 0.5rem 0;">
+                <rect x="0" y="30" width="120" height="55" fill="#1a1a2e" opacity="0.2" rx="6"/>
+                <text x="60" y="55" text-anchor="middle" font-size="15" fill="#1a1a2e">mat_a</text>
+                <text x="60" y="75" text-anchor="middle" font-size="14" fill="#e94560" font-weight="600">(2, 3)</text>
+                <text x="140" y="65" font-size="20" fill="#e94560">@</text>
+                <rect x="170" y="30" width="120" height="55" fill="#1a1a2e" opacity="0.2" rx="6"/>
+                <text x="230" y="55" text-anchor="middle" font-size="15" fill="#1a1a2e">mat_b</text>
+                <text x="230" y="75" text-anchor="middle" font-size="14" fill="#e94560" font-weight="600">(3, 2)</text>
+                <text x="310" y="65" font-size="20" fill="#e94560">→</text>
+                <rect x="345" y="30" width="120" height="55" fill="#16a34a" opacity="0.25" rx="6"/>
+                <text x="405" y="55" text-anchor="middle" font-size="15" fill="#1a1a2e">result</text>
+                <text x="405" y="75" text-anchor="middle" font-size="14" fill="#16a34a" font-weight="600">(2, 2)</text>
+
+                <text x="500" y="45" font-size="15" fill="#555">inner 3s must match</text>
+                <path d="M 60,90 C 60,105 230,105 230,90" stroke="#3b82f6" stroke-width="2" fill="none"/>
+                <text x="145" y="118" text-anchor="middle" font-size="13" fill="#3b82f6">3 = 3</text>
+            </svg>
+            <pre class="tight"><code>mat_a <span class="keyword">=</span> np.<span class="keyword">array</span>([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+                  [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])   <span class="comment"># Shape: (2, 3)</span>
+mat_b <span class="keyword">=</span> np.<span class="keyword">array</span>([[<span class="number">10</span>, <span class="number">11</span>], [<span class="number">20</span>, <span class="number">21</span>], [<span class="number">30</span>, <span class="number">31</span>]])   <span class="comment"># Shape: (3, 2)</span>
+
+result <span class="keyword">=</span> mat_a @ mat_b           <span class="comment"># Shape: (2, 2)</span>
+<span class="keyword">print</span>(mat_a[<span class="number">0</span>] @ mat_b[:, <span class="number">0</span>])    <span class="comment"># result[0, 0] as a dot product</span></code></pre>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 9: Part 4 warning -->
+        <div class="slide">
+            <div class="slide-number">9 / 18</div>
+            <span class="step-badge">Part 4 · Matrix multiplication</span>
+            <h2>The most common NumPy bug</h2>
+            <p class="lead">Two operators look almost the same but do completely different things.</p>
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <h3>A * B</h3>
+                    <ul class="smaller">
+                        <li><strong>Element-wise</strong> product</li>
+                        <li>Multiplies matching positions</li>
+                        <li>Shapes must match (or broadcast)</li>
+                        <li>Result has the same shape</li>
+                    </ul>
+                </div>
+                <div class="comparison-item">
+                    <h3>A @ B</h3>
+                    <ul class="smaller">
+                        <li><strong>Matrix</strong> multiplication</li>
+                        <li>Row-by-column dot products</li>
+                        <li>Inner dimensions must match</li>
+                        <li>Also <code>np.dot</code> or <code>np.matmul</code></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="callout warn">
+                <span class="callout-label">Watch out</span>
+                <p><code>A * B</code> is element-wise, while <code>A @ B</code> is matrix multiplication. Mixing them up is one of the most common NumPy bugs. The modern, preferred style for matrix multiply is the <code>@</code> operator.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 5: BROADCASTING RULES ============ -->
+        <!-- Slide 10 -->
+        <div class="slide">
+            <div class="slide-number">10 / 18</div>
+            <span class="step-badge">Part 5 · Broadcasting rules</span>
+            <h2>Three rules that align any shapes</h2>
+            <ul class="smaller">
+                <li><strong>Rule 1:</strong> if ranks differ, prepend 1s to the smaller shape</li>
+                <li><strong>Rule 2:</strong> dimensions are compatible when they are equal, or one of them is 1</li>
+                <li><strong>Rule 3:</strong> the result takes the maximum size along each dimension</li>
+            </ul>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code>arr_2d <span class="keyword">=</span> np.<span class="keyword">array</span>([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+                   [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])   <span class="comment"># (2, 3)</span>
+arr_1d <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>])  <span class="comment"># (3,)-&gt;(1,3)</span>
+
+<span class="keyword">print</span>(arr_2d + arr_1d)
+<span class="comment"># [[11 22 33]</span>
+<span class="comment">#  [14 25 36]]  row broadcast down</span>
+
+col_vec <span class="keyword">=</span> np.<span class="keyword">array</span>([[<span class="number">100</span>], [<span class="number">200</span>]])  <span class="comment"># (2,1)</span>
+<span class="keyword">print</span>(arr_2d + col_vec)  <span class="comment"># col across</span></code></pre>
+                </div>
+                <div>
+                    <svg width="360" height="220">
+                        <text x="0" y="18" font-size="13" fill="#555">(3,) row broadcasts down</text>
+                        <rect x="0" y="25" width="40" height="30" fill="#3b82f6" opacity="0.3" rx="4"/>
+                        <rect x="42" y="25" width="40" height="30" fill="#3b82f6" opacity="0.3" rx="4"/>
+                        <rect x="84" y="25" width="40" height="30" fill="#3b82f6" opacity="0.3" rx="4"/>
+                        <path d="M 62,58 L 62,72" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                        <rect x="0" y="75" width="40" height="30" fill="#1a1a2e" rx="4"/>
+                        <rect x="42" y="75" width="40" height="30" fill="#1a1a2e" rx="4"/>
+                        <rect x="84" y="75" width="40" height="30" fill="#1a1a2e" rx="4"/>
+                        <rect x="0" y="107" width="40" height="30" fill="#1a1a2e" rx="4"/>
+                        <rect x="42" y="107" width="40" height="30" fill="#1a1a2e" rx="4"/>
+                        <rect x="84" y="107" width="40" height="30" fill="#1a1a2e" rx="4"/>
+
+                        <text x="200" y="18" font-size="13" fill="#555">(2,1) col broadcasts across</text>
+                        <rect x="200" y="75" width="30" height="30" fill="#16a34a" opacity="0.35" rx="4"/>
+                        <rect x="200" y="107" width="30" height="30" fill="#16a34a" opacity="0.35" rx="4"/>
+                        <path d="M 233,90 L 247,90" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                        <rect x="250" y="75" width="30" height="30" fill="#1a1a2e" rx="4"/>
+                        <rect x="282" y="75" width="30" height="30" fill="#1a1a2e" rx="4"/>
+                        <rect x="314" y="75" width="30" height="30" fill="#1a1a2e" rx="4"/>
+                        <rect x="250" y="107" width="30" height="30" fill="#1a1a2e" rx="4"/>
+                        <rect x="282" y="107" width="30" height="30" fill="#1a1a2e" rx="4"/>
+                        <rect x="314" y="107" width="30" height="30" fill="#1a1a2e" rx="4"/>
+
+                        <text x="0" y="175" font-size="14" fill="#e94560" font-weight="600">both fill a (2, 3) grid</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="callout warn">
+                <span class="callout-label">When it fails</span>
+                <p>Shapes like <code>(3, 4) + (2, 4)</code> raise an error because 3 and 2 differ and neither is 1. When in doubt, print the <code>.shape</code> of each array before combining them.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 6: THE NEURON ============ -->
+        <!-- Slide 11 -->
+        <div class="slide">
+            <div class="slide-number">11 / 18</div>
+            <span class="step-badge">Part 6 · The artificial neuron</span>
+            <h2>output = activation(w · x + b)</h2>
+            <p>A neuron multiplies input features by learned weights, sums them (a dot product), adds a bias, then passes the result through a non-linear activation such as ReLU, which is simply <code>max(0, x)</code>.</p>
+            <svg width="820" height="150" style="margin: 0.5rem 0;">
+                <rect x="0" y="20" width="70" height="30" fill="#1a1a2e" rx="4"/>
+                <text x="35" y="40" text-anchor="middle" font-size="13" fill="#fafafa">x1=1.5</text>
+                <rect x="0" y="60" width="70" height="30" fill="#1a1a2e" rx="4"/>
+                <text x="35" y="80" text-anchor="middle" font-size="13" fill="#fafafa">x2=2.0</text>
+                <rect x="0" y="100" width="70" height="30" fill="#1a1a2e" rx="4"/>
+                <text x="35" y="120" text-anchor="middle" font-size="13" fill="#fafafa">x3=3.5</text>
+
+                <path d="M 70,35 L 300,70" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                <path d="M 70,75 L 300,75" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                <path d="M 70,115 L 300,80" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
+                <text x="150" y="40" font-size="12" fill="#555">w1=0.2</text>
+                <text x="150" y="70" font-size="12" fill="#555">w2=0.8</text>
+                <text x="150" y="115" font-size="12" fill="#555">w3=-0.5</text>
+
+                <circle cx="340" cy="75" r="40" fill="#1a1a2e"/>
+                <text x="340" y="70" text-anchor="middle" font-size="16" fill="#fafafa">Σ</text>
+                <text x="340" y="90" text-anchor="middle" font-size="12" fill="#bbb">+ b</text>
+
+                <path d="M 380,75 L 440,75" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                <rect x="445" y="50" width="110" height="50" fill="#16a34a" opacity="0.85" rx="6"/>
+                <text x="500" y="80" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">ReLU</text>
+                <path d="M 555,75 L 615,75" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                <text x="625" y="80" font-size="15" fill="#e94560" font-weight="600">output</text>
+            </svg>
+            <pre class="tight"><code>inputs <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">1.5</span>, <span class="number">2.0</span>, <span class="number">3.5</span>])    <span class="comment"># 3 features</span>
+weights <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">0.2</span>, <span class="number">0.8</span>, -<span class="number">0.5</span>])  <span class="comment"># 3 weights</span>
+bias <span class="keyword">=</span> <span class="number">2.0</span>
+
+<span class="keyword">def</span> <span class="keyword">relu</span>(x):
+    <span class="keyword">return</span> np.<span class="keyword">maximum</span>(<span class="number">0</span>, x)           <span class="comment"># ReLU: max(0, x)</span>
+
+z <span class="keyword">=</span> np.<span class="keyword">dot</span>(weights, inputs) + bias    <span class="comment"># weighted sum w.x + b</span>
+output <span class="keyword">=</span> relu(z)                      <span class="comment"># non-linear activation</span></code></pre>
+            <div class="callout tip">
+                <span class="callout-label">You already know this</span>
+                <p>The whole neuron is one dot product, one broadcast add, and one element-wise activation, three vectorized ideas you already learned.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 7: LAYER ============ -->
+        <!-- Slide 12 -->
+        <div class="slide">
+            <div class="slide-number">12 / 18</div>
+            <span class="step-badge">Part 7 · Layer of neurons</span>
+            <h2>Stacking neurons with matrix multiply</h2>
+            <p>A layer is many neurons at once. Stack the weight vectors into a matrix <code>W</code> of shape <code>(n_neurons, n_features)</code>, then <code>Z = W @ X + b</code> computes every neuron's weighted sum in one matrix multiply, with the bias broadcast across neurons.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code>np.random.<span class="keyword">seed</span>(<span class="number">42</span>)
+n_neurons, n_features <span class="keyword">=</span> <span class="number">4</span>, <span class="number">3</span>
+W <span class="keyword">=</span> np.random.<span class="keyword">randn</span>(n_neurons,
+              n_features) * <span class="number">0.5</span>   <span class="comment"># (4, 3)</span>
+b <span class="keyword">=</span> np.random.<span class="keyword">randn</span>(n_neurons)      <span class="comment"># (4,)</span>
+X <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>])   <span class="comment"># (3,)</span>
+
+Z <span class="keyword">=</span> W @ X + b   <span class="comment"># (4,3)@(3,)-&gt;(4,)</span>
+A <span class="keyword">=</span> relu(Z)     <span class="comment"># element-wise</span>
+<span class="keyword">print</span>(Z.shape, A)</code></pre>
+                </div>
+                <div>
+                    <svg width="360" height="200">
+                        <text x="0" y="18" font-size="13" fill="#555">W (4, 3)</text>
+                        <rect x="0" y="25" width="90" height="90" fill="#e94560" opacity="0.25" rx="5"/>
+                        <text x="45" y="75" text-anchor="middle" font-size="14" fill="#1a1a2e">W</text>
+                        <text x="105" y="75" font-size="18" fill="#e94560">@</text>
+                        <text x="125" y="18" font-size="13" fill="#555">X (3,)</text>
+                        <rect x="125" y="25" width="30" height="90" fill="#1a1a2e" opacity="0.25" rx="5"/>
+                        <text x="140" y="75" text-anchor="middle" font-size="14" fill="#1a1a2e">X</text>
+                        <text x="165" y="75" font-size="18" fill="#e94560">+</text>
+                        <text x="185" y="18" font-size="13" fill="#555">b (4,)</text>
+                        <rect x="185" y="25" width="30" height="90" fill="#3b82f6" opacity="0.3" rx="5"/>
+                        <text x="225" y="75" font-size="18" fill="#e94560">→</text>
+                        <text x="250" y="18" font-size="13" fill="#16a34a">Z (4,)</text>
+                        <rect x="250" y="25" width="30" height="90" fill="#16a34a" opacity="0.35" rx="5"/>
+
+                        <text x="0" y="165" font-size="14" fill="#e94560" font-weight="600">one multiply = every neuron</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="callout tip">
+                <span class="callout-label">This is nn.Linear</span>
+                <p>One matrix multiply replaces a loop over every neuron, and the bias add is pure broadcasting. This is literally what <code>nn.Linear</code> does inside PyTorch.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 8: VECTORIZATION VS LOOPS ============ -->
+        <!-- Slide 13 -->
+        <div class="slide">
+            <div class="slide-number">13 / 18</div>
+            <span class="step-badge">Part 8 · Vectorization vs loops</span>
+            <h2>Proving the speedup</h2>
+            <p>Build a large layer (1000 neurons, 500 features) and time the vectorized forward pass against an equivalent nested for loop.</p>
+            <pre class="tight"><code><span class="keyword">import</span> time
+large_n_neurons, large_n_features <span class="keyword">=</span> <span class="number">1000</span>, <span class="number">500</span>
+W_large <span class="keyword">=</span> np.random.<span class="keyword">randn</span>(large_n_neurons, large_n_features)
+b_large <span class="keyword">=</span> np.random.<span class="keyword">randn</span>(large_n_neurons)
+X_large <span class="keyword">=</span> np.random.<span class="keyword">randn</span>(large_n_features)
+
+start <span class="keyword">=</span> time.<span class="keyword">time</span>()
+Z_vec <span class="keyword">=</span> W_large @ X_large + b_large      <span class="comment"># vectorized</span>
+vec_time <span class="keyword">=</span> time.<span class="keyword">time</span>() - start
+
+start <span class="keyword">=</span> time.<span class="keyword">time</span>()
+Z_loop <span class="keyword">=</span> np.<span class="keyword">zeros</span>(large_n_neurons)       <span class="comment"># nested loops</span>
+<span class="keyword">for</span> i <span class="keyword">in</span> <span class="keyword">range</span>(large_n_neurons):
+    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="keyword">range</span>(large_n_features):
+        Z_loop[i] += W_large[i, j] * X_large[j]
+    Z_loop[i] += b_large[i]
+loop_time <span class="keyword">=</span> time.<span class="keyword">time</span>() - start
+
+<span class="keyword">print</span>(<span class="string">f"Speedup: {loop_time / vec_time:.1f}x"</span>)
+<span class="keyword">print</span>(np.<span class="keyword">allclose</span>(Z_vec, Z_loop))        <span class="comment"># True</span></code></pre>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 14: Part 8 result chart -->
+        <div class="slide">
+            <div class="slide-number">14 / 18</div>
+            <span class="step-badge">Part 8 · Vectorization vs loops</span>
+            <h2>The result: not even close</h2>
+            <p>The vectorized version runs in a fraction of a millisecond while the loop crawls, and <code>np.allclose</code> confirms both produce the same answer.</p>
+            <div class="chart-container">
+                <svg width="800" height="260">
+                    <text x="0" y="25" font-size="18" fill="#1a1a2e" font-weight="600">Time to compute the same layer</text>
+                    <line x1="200" y1="50" x2="200" y2="210" stroke="#1a1a2e" stroke-width="2"/>
+
+                    <rect x="200" y="70" width="30" height="30" fill="#16a34a" rx="4"/>
+                    <text x="245" y="90" font-size="15" fill="#16a34a" font-weight="600">Vectorized: W @ X + b</text>
+
+                    <rect x="200" y="130" width="560" height="45" fill="#e94560" opacity="0.7" rx="4"/>
+                    <text x="200" y="120" font-size="15" fill="#e94560" font-weight="600">Nested for loops</text>
+                    <text x="480" y="158" text-anchor="middle" font-size="16" fill="#fafafa" font-weight="600">500,000 multiply-adds in Python</text>
+
+                    <text x="400" y="235" text-anchor="middle" font-size="20" fill="#1a1a2e" font-weight="700">Typically 10 to 1000x faster</text>
+                </svg>
+            </div>
+            <div class="callout">
+                <span class="callout-label">Where the speed comes from</span>
+                <p>Compiled C, SIMD parallelism, cache-friendly memory layout, and zero Python per-element overhead. It is the same algorithm, just run in a far faster place.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 9: REAL NETWORKS ============ -->
+        <!-- Slide 15 -->
+        <div class="slide">
+            <div class="slide-number">15 / 18</div>
+            <span class="step-badge">Part 9 · Real neural networks</span>
+            <h2>The same math, at scale</h2>
+            <p>A deep network just chains layers: <code>H1 = f(W1 @ X + b1)</code>, then <code>H2 = f(W2 @ H1 + b2)</code>, and so on. Real frameworks process a whole batch of samples at once by making <code>X</code> a 2D array.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code>batch_size, n_features <span class="keyword">=</span> <span class="number">3</span>, <span class="number">3</span>
+X_batch <span class="keyword">=</span> np.random.<span class="keyword">randn</span>(batch_size,
+                        n_features)  <span class="comment"># (3, 3)</span>
+
+<span class="comment"># One forward pass for the whole batch</span>
+Z_batch <span class="keyword">=</span> X_batch @ W.T + b
+<span class="comment"># (3,3)@(3,4)+(4,) -&gt; (3,4)</span>
+A_batch <span class="keyword">=</span> relu(Z_batch)
+<span class="keyword">print</span>(A_batch.shape)   <span class="comment"># (3, 4)</span>
+<span class="comment"># 3 samples, 4 neuron outputs</span></code></pre>
+                </div>
+                <div>
+                    <svg width="360" height="180">
+                        <text x="0" y="18" font-size="13" fill="#555">X_batch (3, 3)</text>
+                        <rect x="0" y="25" width="80" height="70" fill="#1a1a2e" opacity="0.25" rx="5"/>
+                        <text x="40" y="65" text-anchor="middle" font-size="13" fill="#1a1a2e">3 rows</text>
+                        <text x="90" y="65" font-size="16" fill="#e94560">@ W.T</text>
+                        <text x="165" y="65" font-size="16" fill="#e94560">→</text>
+                        <text x="195" y="18" font-size="13" fill="#16a34a">A_batch (3, 4)</text>
+                        <rect x="195" y="25" width="110" height="70" fill="#16a34a" opacity="0.3" rx="5"/>
+                        <text x="250" y="65" text-anchor="middle" font-size="13" fill="#1a1a2e">3 x 4</text>
+                        <text x="0" y="140" font-size="14" fill="#e94560" font-weight="600">one row of outputs per sample</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="callout tip">
+                <span class="callout-label">The leap to real ML</span>
+                <p>Batching is just adding a leading sample dimension and letting broadcasting handle the bias, so the jump from one sample to a mini-batch is a shape change, not a rewrite. PyTorch and TensorFlow add GPUs, autodiff, and batching on top of this exact math.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 16: Takeaways -->
+        <div class="slide">
+            <div class="slide-number">16 / 18</div>
+            <h2>What you learned</h2>
+            <ul class="smaller">
+                <li>Element-wise operations combine matching array elements with no loops, running in compiled C</li>
+                <li>Scalar and array broadcasting stretch smaller shapes to fit larger ones without copying memory</li>
+                <li>The three broadcasting rules (pad with 1s, equal-or-one compatibility, take the max size) predict every shape outcome</li>
+                <li>The dot product is a neuron's weighted sum; matrix multiplication does many at once as <code>(m,n) @ (n,p) -&gt; (m,p)</code></li>
+                <li>A neuron is <code>f(w · x + b)</code>; a layer is <code>f(W @ X + b)</code></li>
+                <li>Vectorized code is typically 10 to 1000 times faster than loops, and <code>np.allclose</code> confirms the match</li>
+                <li><code>A * B</code> is element-wise while <code>A @ B</code> is matrix multiply; print <code>.shape</code> when debugging</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">The big idea</span>
+                <p>PyTorch and TensorFlow use these exact operations, adding GPUs, autodiff, and batching on top. You have now written the forward pass by hand.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 17 kept for numbering: extra practice-free? No, next is practice -->
+
+        <!-- Slide 17: Practice & next steps -->
+        <div class="slide">
+            <div class="slide-number">17 / 18</div>
+            <h2>Practice &amp; next steps</h2>
+            <div class="split">
+                <div>
+                    <p class="smaller" style="margin-bottom: 0.75rem;"><strong>Try it yourself:</strong></p>
+                    <ul class="smaller">
+                        <li>Run the lab: <code>python lab_forward_pass.py</code></li>
+                        <li>Change the activation to <code>tanh</code> or <code>sigmoid</code></li>
+                        <li>Chain two layers into a tiny deep network</li>
+                        <li>Time the batch forward pass at growing batch sizes</li>
+                    </ul>
+                    <p class="smaller" style="margin-top: 1rem;"><strong>Explore further:</strong></p>
+                    <ul class="smaller">
+                        <li>Compare <code>@</code>, <code>np.dot</code>, and <code>np.matmul</code></li>
+                        <li>Read the <code>nn.Linear</code> source in PyTorch</li>
                     </ul>
                 </div>
                 <div>
-                    <h3>Vectorized Approach</h3>
-                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="50" y="30" width="80" height="40" fill="#e94560"/>
-                        <rect x="50" y="90" width="80" height="40" fill="#e94560"/>
-                        <rect x="50" y="150" width="80" height="40" fill="#e94560"/>
-                        <rect x="50" y="210" width="80" height="40" fill="#e94560"/>
-
-                        <text x="90" y="55" fill="#fafafa" text-anchor="middle" font-size="14">All</text>
-                        <text x="90" y="115" fill="#fafafa" text-anchor="middle" font-size="14">At</text>
-                        <text x="90" y="175" fill="#fafafa" text-anchor="middle" font-size="14">Once</text>
-                        <text x="90" y="235" fill="#fafafa" text-anchor="middle" font-size="14">!</text>
-
-                        <text x="200" y="140" fill="#e94560" font-size="20" font-weight="bold">FAST</text>
-                    </svg>
-                    <ul style="margin-top: 1rem;">
-                        <li>Parallel execution (SIMD)</li>
-                        <li>Optimized C implementation</li>
-                        <li>Better cache utilization</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 3: Element-wise Operations -->
-        <div class="slide">
-            <h2>Element-wise Operations</h2>
-            <p>Operations applied to corresponding elements</p>
-            <div class="spacer"></div>
-            <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
-                <!-- First array -->
-                <rect x="50" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="120" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="190" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="260" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <text x="80" y="117" fill="#fafafa" text-anchor="middle" font-size="22">1</text>
-                <text x="150" y="117" fill="#fafafa" text-anchor="middle" font-size="22">2</text>
-                <text x="220" y="117" fill="#fafafa" text-anchor="middle" font-size="22">3</text>
-                <text x="290" y="117" fill="#fafafa" text-anchor="middle" font-size="22">4</text>
-
-                <!-- Operator -->
-                <text x="360" y="117" fill="#e94560" text-anchor="middle" font-size="28" font-weight="bold">×</text>
-
-                <!-- Second array -->
-                <rect x="420" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="490" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="560" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="630" y="80" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <text x="450" y="117" fill="#fafafa" text-anchor="middle" font-size="20">10</text>
-                <text x="520" y="117" fill="#fafafa" text-anchor="middle" font-size="20">20</text>
-                <text x="590" y="117" fill="#fafafa" text-anchor="middle" font-size="20">30</text>
-                <text x="660" y="117" fill="#fafafa" text-anchor="middle" font-size="20">40</text>
-
-                <!-- Equals -->
-                <text x="360" y="210" fill="#e94560" text-anchor="middle" font-size="28" font-weight="bold">=</text>
-
-                <!-- Result array -->
-                <rect x="420" y="175" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                <rect x="490" y="175" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                <rect x="560" y="175" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                <rect x="630" y="175" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                <text x="450" y="212" fill="#fafafa" text-anchor="middle" font-size="20">10</text>
-                <text x="520" y="212" fill="#fafafa" text-anchor="middle" font-size="20">40</text>
-                <text x="590" y="212" fill="#fafafa" text-anchor="middle" font-size="20">90</text>
-                <text x="660" y="212" fill="#fafafa" text-anchor="middle" font-size="20">160</text>
-
-                <!-- Arrows showing correspondence -->
-                <path d="M 80 145 L 450 175" stroke="#e94560" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
-                <path d="M 150 145 L 520 175" stroke="#e94560" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
-                <path d="M 220 145 L 590 175" stroke="#e94560" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
-                <path d="M 290 145 L 660 175" stroke="#e94560" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
-            </svg>
-            <div class="spacer"></div>
-            <ul>
-                <li>Addition, subtraction, multiplication, division</li>
-                <li>Applied position by position</li>
-                <li>Arrays must have compatible shapes</li>
-            </ul>
-        </div>
-
-        <!-- Slide 4: Scalar Broadcasting -->
-        <div class="slide">
-            <h2>Scalar Broadcasting</h2>
-            <p>NumPy automatically expands scalars to match array shapes</p>
-            <div class="spacer"></div>
-            <svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg">
-                <!-- Scalar -->
-                <rect x="80" y="80" width="80" height="80" fill="#e94560" opacity="0.5" stroke="#e94560" stroke-width="3"/>
-                <text x="120" y="130" fill="#fafafa" text-anchor="middle" font-size="28" font-weight="bold">5</text>
-                <text x="120" y="185" fill="#ccc" text-anchor="middle" font-size="13">scalar</text>
-
-                <!-- Broadcast arrow -->
-                <path d="M 170 120 L 250 120" stroke="#e94560" stroke-width="3" marker-end="url(#arrowhead2)"/>
-                <text x="210" y="108" fill="#e94560" text-anchor="middle" font-size="14" font-weight="bold">broadcast</text>
-
-                <defs>
-                    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                        <polygon points="0 0, 10 5, 0 10" fill="#e94560" />
-                    </marker>
-                </defs>
-
-                <!-- Broadcasted array -->
-                <rect x="280" y="60" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                <rect x="350" y="60" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                <rect x="420" y="60" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                <rect x="490" y="60" width="60" height="60" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                <text x="310" y="97" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
-                <text x="380" y="97" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
-                <text x="450" y="97" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
-                <text x="520" y="97" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
-
-                <!-- Times -->
-                <text x="400" y="180" fill="#fafafa" text-anchor="middle" font-size="28" font-weight="bold">×</text>
-
-                <!-- Original array -->
-                <rect x="280" y="210" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="350" y="210" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="420" y="210" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="490" y="210" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <text x="310" y="247" fill="#fafafa" text-anchor="middle" font-size="20">1</text>
-                <text x="380" y="247" fill="#fafafa" text-anchor="middle" font-size="20">2</text>
-                <text x="450" y="247" fill="#fafafa" text-anchor="middle" font-size="20">3</text>
-                <text x="520" y="247" fill="#fafafa" text-anchor="middle" font-size="20">4</text>
-
-                <!-- Equals -->
-                <text x="600" y="180" fill="#e94560" text-anchor="middle" font-size="28" font-weight="bold">=</text>
-
-                <!-- Result -->
-                <rect x="630" y="130" width="60" height="60" fill="#e94560" stroke="#e94560" stroke-width="2"/>
-                <rect x="630" y="200" width="60" height="60" fill="#e94560" stroke="#e94560" stroke-width="2"/>
-                <text x="660" y="167" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
-                <text x="660" y="237" fill="#fafafa" text-anchor="middle" font-size="20">10</text>
-
-                <rect x="700" y="130" width="60" height="60" fill="#e94560" stroke="#e94560" stroke-width="2"/>
-                <rect x="700" y="200" width="60" height="60" fill="#e94560" stroke="#e94560" stroke-width="2"/>
-                <text x="730" y="167" fill="#fafafa" text-anchor="middle" font-size="20">15</text>
-                <text x="730" y="237" fill="#fafafa" text-anchor="middle" font-size="20">20</text>
-            </svg>
-        </div>
-
-        <!-- Slide 5: The Dot Product -->
-        <div class="slide">
-            <h2>The Dot Product</h2>
-            <p>Sum of element-wise products</p>
-            <div class="spacer"></div>
-            <svg viewBox="0 0 900 350" xmlns="http://www.w3.org/2000/svg">
-                <!-- Vector 1 -->
-                <text x="50" y="80" fill="#fafafa" font-size="18">v₁ =</text>
-                <rect x="120" y="50" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="190" y="50" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="260" y="50" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <text x="150" y="87" fill="#fafafa" text-anchor="middle" font-size="20">1</text>
-                <text x="220" y="87" fill="#fafafa" text-anchor="middle" font-size="20">2</text>
-                <text x="290" y="87" fill="#fafafa" text-anchor="middle" font-size="20">3</text>
-
-                <!-- Vector 2 -->
-                <text x="50" y="180" fill="#fafafa" font-size="18">v₂ =</text>
-                <rect x="120" y="150" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="190" y="150" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="260" y="150" width="60" height="60" fill="none" stroke="#888" stroke-width="2"/>
-                <text x="150" y="187" fill="#fafafa" text-anchor="middle" font-size="20">4</text>
-                <text x="220" y="187" fill="#fafafa" text-anchor="middle" font-size="20">5</text>
-                <text x="290" y="187" fill="#fafafa" text-anchor="middle" font-size="20">6</text>
-
-                <!-- Calculation -->
-                <text x="450" y="130" fill="#fafafa" font-size="18">v₁ · v₂ =</text>
-
-                <text x="450" y="170" fill="#e94560" font-size="18">(1 × 4)</text>
-                <text x="560" y="170" fill="#fafafa" font-size="18">+</text>
-                <text x="600" y="170" fill="#e94560" font-size="18">(2 × 5)</text>
-                <text x="710" y="170" fill="#fafafa" font-size="18">+</text>
-                <text x="750" y="170" fill="#e94560" font-size="18">(3 × 6)</text>
-
-                <text x="480" y="210" fill="#fafafa" font-size="18">=</text>
-                <text x="520" y="210" fill="#e94560" font-size="20" font-weight="bold">4</text>
-                <text x="560" y="210" fill="#fafafa" font-size="18">+</text>
-                <text x="600" y="210" fill="#e94560" font-size="20" font-weight="bold">10</text>
-                <text x="650" y="210" fill="#fafafa" font-size="18">+</text>
-                <text x="690" y="210" fill="#e94560" font-size="20" font-weight="bold">18</text>
-
-                <text x="480" y="250" fill="#fafafa" font-size="18">=</text>
-                <text x="550" y="250" fill="#e94560" font-size="28" font-weight="bold">32</text>
-
-                <!-- Connection lines -->
-                <path d="M 150 115 L 460 155" stroke="#e94560" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
-                <path d="M 150 155 L 460 155" stroke="#e94560" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
-            </svg>
-            <div class="spacer"></div>
-            <div class="math-display">
-                <code>np.dot(v1, v2)</code>  or  <code>v1 @ v2</code>
-            </div>
-        </div>
-
-        <!-- Slide 6: Matrix Multiplication -->
-        <div class="slide">
-            <h2>Matrix Multiplication</h2>
-            <p>Shape requirement: <span class="highlight">(m, n) @ (n, p) → (m, p)</span></p>
-            <div class="spacer"></div>
-            <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
-                <!-- Matrix A -->
-                <text x="50" y="120" fill="#fafafa" font-size="18">A =</text>
-                <rect x="100" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="150" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="200" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="100" y="120" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="150" y="120" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="200" y="120" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-
-                <text x="125" y="105" fill="#fafafa" text-anchor="middle" font-size="14">1</text>
-                <text x="175" y="105" fill="#fafafa" text-anchor="middle" font-size="14">2</text>
-                <text x="225" y="105" fill="#fafafa" text-anchor="middle" font-size="14">3</text>
-                <text x="125" y="145" fill="#fafafa" text-anchor="middle" font-size="14">4</text>
-                <text x="175" y="145" fill="#fafafa" text-anchor="middle" font-size="14">5</text>
-                <text x="225" y="145" fill="#fafafa" text-anchor="middle" font-size="14">6</text>
-
-                <text x="150" y="190" fill="#e94560" text-anchor="middle" font-size="13">(2, 3)</text>
-
-                <!-- Times -->
-                <text x="280" y="120" fill="#fafafa" text-anchor="middle" font-size="28">@</text>
-
-                <!-- Matrix B -->
-                <text x="330" y="120" fill="#fafafa" font-size="18">B =</text>
-                <rect x="380" y="60" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="430" y="60" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="380" y="100" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="430" y="100" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="380" y="140" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                <rect x="430" y="140" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-
-                <text x="405" y="85" fill="#fafafa" text-anchor="middle" font-size="14">10</text>
-                <text x="455" y="85" fill="#fafafa" text-anchor="middle" font-size="14">11</text>
-                <text x="405" y="125" fill="#fafafa" text-anchor="middle" font-size="14">20</text>
-                <text x="455" y="125" fill="#fafafa" text-anchor="middle" font-size="14">21</text>
-                <text x="405" y="165" fill="#fafafa" text-anchor="middle" font-size="14">30</text>
-                <text x="455" y="165" fill="#fafafa" text-anchor="middle" font-size="14">31</text>
-
-                <text x="415" y="205" fill="#e94560" text-anchor="middle" font-size="13">(3, 2)</text>
-
-                <!-- Equals -->
-                <text x="520" y="120" fill="#fafafa" text-anchor="middle" font-size="28">=</text>
-
-                <!-- Result -->
-                <text x="570" y="120" fill="#fafafa" font-size="18">C =</text>
-                <rect x="620" y="80" width="70" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                <rect x="690" y="80" width="70" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                <rect x="620" y="120" width="70" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                <rect x="690" y="120" width="70" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-
-                <text x="655" y="105" fill="#fafafa" text-anchor="middle" font-size="14">140</text>
-                <text x="725" y="105" fill="#fafafa" text-anchor="middle" font-size="14">146</text>
-                <text x="655" y="145" fill="#fafafa" text-anchor="middle" font-size="14">320</text>
-                <text x="725" y="145" fill="#fafafa" text-anchor="middle" font-size="14">335</text>
-
-                <text x="655" y="185" fill="#e94560" text-anchor="middle" font-size="13">(2, 2)</text>
-
-                <!-- Highlight matching dimension -->
-                <path d="M 200 190 Q 280 230 380 205" stroke="#e94560" stroke-width="2" fill="none"/>
-                <text x="280" y="260" fill="#e94560" text-anchor="middle" font-size="15" font-weight="bold">Inner dimensions must match!</text>
-            </svg>
-        </div>
-
-        <!-- Slide 7: Broadcasting Rules -->
-        <div class="slide">
-            <h2>Broadcasting Rules</h2>
-            <p>How NumPy aligns arrays of different shapes</p>
-            <div class="spacer"></div>
-            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
-                <!-- Rule 1 -->
-                <rect x="50" y="50" width="700" height="100" fill="rgba(233, 69, 96, 0.1)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="70" y="88" fill="#e94560" font-size="22" font-weight="bold">Rule 1</text>
-                <text x="70" y="118" fill="#fafafa" font-size="16">Prepend 1s to smaller rank array</text>
-                <text x="70" y="140" fill="#ccc" font-size="13">Example: (3,) becomes (1, 3)</text>
-
-                <!-- Rule 2 -->
-                <rect x="50" y="170" width="700" height="100" fill="rgba(233, 69, 96, 0.1)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="70" y="208" fill="#e94560" font-size="22" font-weight="bold">Rule 2</text>
-                <text x="70" y="238" fill="#fafafa" font-size="16">Dimensions are compatible if equal OR one is 1</text>
-                <text x="70" y="260" fill="#ccc" font-size="13">Example: (2, 3) and (2, 1) are compatible</text>
-
-                <!-- Rule 3 -->
-                <rect x="50" y="290" width="700" height="100" fill="rgba(233, 69, 96, 0.1)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="70" y="328" fill="#e94560" font-size="22" font-weight="bold">Rule 3</text>
-                <text x="70" y="358" fill="#fafafa" font-size="16">Broadcast to larger shape by copying</text>
-                <text x="70" y="380" fill="#ccc" font-size="13">Example: (2, 1) broadcasts to (2, 3)</text>
-            </svg>
-        </div>
-
-        <!-- Slide 8: Broadcasting Examples -->
-        <div class="slide">
-            <h2>Broadcasting Examples</h2>
-            <div class="two-column">
-                <div>
-                    <h3>1D to 2D Broadcasting</h3>
-                    <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
-                        <!-- 2D array -->
-                        <rect x="50" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <rect x="100" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <rect x="150" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <rect x="50" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <rect x="100" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <rect x="150" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <text x="100" y="145" fill="#ccc" text-anchor="middle" font-size="13">(2, 3)</text>
-
-                        <!-- Plus -->
-                        <text x="230" y="80" fill="#e94560" text-anchor="middle" font-size="22">+</text>
-
-                        <!-- 1D array -->
-                        <rect x="260" y="60" width="50" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                        <rect x="310" y="60" width="50" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                        <text x="310" y="125" fill="#ccc" text-anchor="middle" font-size="13">(3,) → (1, 3) → (2, 3)</text>
-
-                        <!-- Arrow showing broadcast -->
-                        <path d="M 310 100 L 310 165" stroke="#e94560" stroke-width="2" stroke-dasharray="5,5"/>
-                        <text x="325" y="135" fill="#e94560" font-size="13">repeat</text>
-                    </svg>
-                </div>
-                <div>
-                    <h3>Column Vector Broadcasting</h3>
-                    <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
-                        <!-- 2D array -->
-                        <rect x="50" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <rect x="100" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <rect x="150" y="40" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <rect x="50" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <rect x="100" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <rect x="150" y="80" width="50" height="40" fill="none" stroke="#888" stroke-width="2"/>
-                        <text x="100" y="145" fill="#ccc" text-anchor="middle" font-size="13">(2, 3)</text>
-
-                        <!-- Plus -->
-                        <text x="220" y="80" fill="#e94560" text-anchor="middle" font-size="22">+</text>
-
-                        <!-- Column vector -->
-                        <rect x="260" y="40" width="50" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                        <rect x="260" y="80" width="50" height="40" fill="#e94560" opacity="0.3" stroke="#e94560" stroke-width="2"/>
-                        <text x="285" y="145" fill="#ccc" text-anchor="middle" font-size="13">(2, 1) → (2, 3)</text>
-
-                        <!-- Arrow showing broadcast -->
-                        <path d="M 310 60 L 360 60" stroke="#e94560" stroke-width="2" stroke-dasharray="5,5"/>
-                        <text x="330" y="50" fill="#e94560" font-size="13">repeat</text>
-                    </svg>
-                </div>
-            </div>
-            <div class="spacer"></div>
-            <p style="text-align: center;">Broadcasting eliminates the need for explicit loops or tile operations</p>
-        </div>
-
-        <!-- Slide 9: The Artificial Neuron -->
-        <div class="slide">
-            <h2>The Artificial Neuron</h2>
-            <p>Mimics biological neurons: weighted sum + activation</p>
-            <div class="spacer"></div>
-            <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
-                <!-- Inputs -->
-                <circle cx="100" cy="100" r="15" fill="#fafafa"/>
-                <text x="60" y="105" fill="#fafafa" font-size="14">x₁</text>
-
-                <circle cx="100" cy="180" r="15" fill="#fafafa"/>
-                <text x="60" y="185" fill="#fafafa" font-size="14">x₂</text>
-
-                <circle cx="100" cy="260" r="15" fill="#fafafa"/>
-                <text x="60" y="265" fill="#fafafa" font-size="14">x₃</text>
-
-                <!-- Neuron -->
-                <circle cx="400" cy="180" r="80" fill="rgba(233, 69, 96, 0.2)" stroke="#e94560" stroke-width="3"/>
-                <text x="400" y="170" fill="#fafafa" text-anchor="middle" font-size="14">Σ w·x + b</text>
-                <text x="400" y="200" fill="#e94560" text-anchor="middle" font-size="18" font-weight="bold">f(z)</text>
-
-                <!-- Weights on connections -->
-                <line x1="115" y1="100" x2="330" y2="150" stroke="#888" stroke-width="2"/>
-                <text x="200" y="115" fill="#e94560" font-size="14">w₁</text>
-
-                <line x1="115" y1="180" x2="320" y2="180" stroke="#888" stroke-width="2"/>
-                <text x="200" y="170" fill="#e94560" font-size="14">w₂</text>
-
-                <line x1="115" y1="260" x2="330" y2="210" stroke="#888" stroke-width="2"/>
-                <text x="200" y="250" fill="#e94560" font-size="14">w₃</text>
-
-                <!-- Bias -->
-                <text x="400" y="275" fill="#ccc" font-size="13">+ bias (b)</text>
-
-                <!-- Output -->
-                <line x1="480" y1="180" x2="600" y2="180" stroke="#888" stroke-width="3" marker-end="url(#arrowhead3)"/>
-                <defs>
-                    <marker id="arrowhead3" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                        <polygon points="0 0, 10 5, 0 10" fill="#888" />
-                    </marker>
-                </defs>
-
-                <circle cx="650" cy="180" r="15" fill="#e94560"/>
-                <text x="690" y="185" fill="#fafafa" font-size="14">y</text>
-            </svg>
-        </div>
-
-        <!-- Slide 10: Forward Pass Math -->
-        <div class="slide">
-            <h2>Forward Pass Math</h2>
-            <div class="equation">
-                y = f(w · x + b)
-            </div>
-            <div class="spacer"></div>
-            <div class="visual-box">
-                <p style="margin-bottom: 2rem;"><span class="highlight">w</span> = weight vector (learned parameters)</p>
-                <p style="margin-bottom: 2rem;"><span class="highlight">x</span> = input vector (features)</p>
-                <p style="margin-bottom: 2rem;"><span class="highlight">b</span> = bias (learned offset)</p>
-                <p style="margin-bottom: 2rem;"><span class="highlight">w · x</span> = dot product (weighted sum)</p>
-                <p><span class="highlight">f( )</span> = activation function (e.g., ReLU, sigmoid)</p>
-            </div>
-            <div class="spacer"></div>
-            <p>For ReLU: <code>f(z) = max(0, z)</code></p>
-        </div>
-
-        <!-- Slide 11: Single Neuron to Layer -->
-        <div class="slide">
-            <h2>Single Neuron → Layer of Neurons</h2>
-            <div class="two-column">
-                <div>
-                    <h3>Single Neuron</h3>
-                    <div class="math-display">
-                        y = f(w · x + b)<br><br>
-                        w: (n,)<br>
-                        x: (n,)<br>
-                        b: scalar<br>
-                        y: scalar
+                    <div class="callout tip">
+                        <span class="callout-label">Next module</span>
+                        <p><strong>Module 05: Efficient data structures (DataFrames and Arrow) for real-world data.</strong></p>
                     </div>
-                </div>
-                <div>
-                    <h3>Layer of Neurons</h3>
-                    <div class="math-display">
-                        Y = f(W @ x + b)<br><br>
-                        W: (m, n)<br>
-                        x: (n,)<br>
-                        b: (m,)<br>
-                        Y: (m,)
-                    </div>
+                    <p class="smaller" style="color: var(--text-muted); margin-top: 1.5rem;">Questions? Bring them to the lab session.</p>
+                    <p class="smaller" style="color: var(--text-muted);">AI Research Foundations Minicourse<br>Module 04: Vectorization &amp; Broadcasting</p>
                 </div>
             </div>
-            <div class="spacer"></div>
-            <p style="text-align: center;">Each row of <span class="highlight">W</span> is one neuron's weights<br>
-            Matrix multiplication computes all neurons in parallel!</p>
+            <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 12: Speed Comparison -->
+        <!-- Slide 18: Closing -->
         <div class="slide">
-            <h2>Speed Comparison: Loops vs Vectorized</h2>
-            <p>Computing 1000 neurons with 500 inputs each</p>
-            <div class="spacer"></div>
-            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
-                <!-- Bar chart -->
-                <rect x="100" y="250" width="150" height="10" fill="#e94560"/>
-                <text x="175" y="238" fill="#fafafa" text-anchor="middle" font-size="16">Vectorized</text>
-                <text x="270" y="265" fill="#e94560" font-size="16" font-weight="bold">2 ms</text>
-
-                <rect x="100" y="150" width="600" height="50" fill="#fafafa" opacity="0.3"/>
-                <text x="400" y="118" fill="#fafafa" text-anchor="middle" font-size="16">For Loops</text>
-                <text x="720" y="180" fill="#fafafa" font-size="16" font-weight="bold">120 ms</text>
-
-                <!-- Speedup annotation -->
-                <text x="400" y="330" fill="#e94560" text-anchor="middle" font-size="26" font-weight="bold">60× FASTER</text>
-
-                <!-- Y-axis -->
-                <line x1="80" y1="100" x2="80" y2="310" stroke="#888" stroke-width="2"/>
-                <line x1="75" y1="100" x2="80" y2="100" stroke="#888" stroke-width="2"/>
-                <line x1="75" y1="200" x2="80" y2="200" stroke="#888" stroke-width="2"/>
-                <line x1="75" y1="300" x2="80" y2="300" stroke="#888" stroke-width="2"/>
-
-                <text x="60" y="105" fill="#ccc" text-anchor="end" font-size="13">150ms</text>
-                <text x="60" y="205" fill="#ccc" text-anchor="end" font-size="13">75ms</text>
-                <text x="60" y="305" fill="#ccc" text-anchor="end" font-size="13">0ms</text>
-            </svg>
+            <div class="slide-number">18 / 18</div>
+            <h2>You built the forward pass</h2>
+            <p class="lead">From a single element-wise add to a batched layer of neurons, you now know the math that every deep learning framework runs under the hood.</p>
+            <div class="callout tip">
+                <span class="callout-label">Remember</span>
+                <p>Every neural network is just matrix multiplication, broadcasting, and an activation function. Write it the fast way, and everything after this scales.</p>
+            </div>
+            <p class="smaller" style="color: var(--text-muted); margin-top: 2rem;">See you in Module 05.</p>
+            <div class="footer">© mui-group</div>
         </div>
-
-        <!-- Slide 13: Lab Introduction -->
-        <div class="slide">
-            <h2>Lab: The Forward Pass</h2>
-            <div class="spacer"></div>
-            <h3>What You'll Build</h3>
-            <ul>
-                <li>Element-wise operations and broadcasting</li>
-                <li>Dot products and matrix multiplication</li>
-                <li>Single neuron forward pass</li>
-                <li>Layer of neurons with ReLU activation</li>
-                <li>Speed comparison: vectorized vs loops</li>
-            </ul>
-            <div class="spacer"></div>
-            <h3>Key Skills</h3>
-            <ul>
-                <li>Using <code>@</code> operator for matrix multiplication</li>
-                <li>Understanding broadcasting rules</li>
-                <li>Implementing neural network operations without loops</li>
-                <li>Timing code execution</li>
-            </ul>
-        </div>
-
-        <!-- Slide 14: Key Takeaways -->
-        <div class="slide">
-            <h2>Key Takeaways</h2>
-            <div class="spacer"></div>
-            <ul>
-                <li>Vectorization eliminates loops and speeds up computation</li>
-                <li>Broadcasting extends arrays to compatible shapes automatically</li>
-                <li>Neural networks are chains of matrix multiplications</li>
-                <li>Single neuron: <code>y = f(w·x + b)</code></li>
-                <li>Layer of neurons: <code>Y = f(W @ x + b)</code></li>
-                <li>Modern deep learning frameworks use these same operations</li>
-                <li>GPUs accelerate matrix operations massively in parallel</li>
-            </ul>
-            <div class="spacer"></div>
-            <p style="text-align: center; font-size: 1.6rem; color: #e94560;">
-                You now understand the mathematical foundation of neural networks!
-            </p>
-        </div>
-
     </div>
-
-    <div class="slide-number" id="slideNumber">1 / 14</div>
-    <div class="footer">© mui-group</div>
-
-    <script>
+<script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
-        const slideContainer = document.getElementById('slides');
-        const slideNumber = document.getElementById('slideNumber');
 
-        function updateSlide() {
-            slideContainer.style.transform = `translateX(-${currentSlide * 100}vw)`;
-            slideNumber.textContent = `${currentSlide + 1} / ${totalSlides}`;
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
         }
 
         function nextSlide() {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                updateSlide();
-            }
+            showSlide(currentSlide + 1);
         }
 
         function prevSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlide();
-            }
+            showSlide(currentSlide - 1);
         }
 
+        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') {
                 e.preventDefault();
@@ -862,27 +1056,26 @@
             } else if (e.key === 'ArrowLeft') {
                 e.preventDefault();
                 prevSlide();
-            } else if (e.key === 'Home') {
-                e.preventDefault();
-                currentSlide = 0;
-                updateSlide();
-            } else if (e.key === 'End') {
-                e.preventDefault();
-                currentSlide = totalSlides - 1;
-                updateSlide();
             }
         });
 
-        // Touch support for mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
+        // Click navigation
+        document.querySelector('.slide-container').addEventListener('click', (e) => {
+            if (e.clientX > window.innerWidth / 2) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        });
 
+        // Touch navigation for mobile
+        let touchStartX = 0;
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
         });
 
         document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
+            const touchEndX = e.changedTouches[0].screenX;
             if (touchStartX - touchEndX > 50) {
                 nextSlide();
             } else if (touchEndX - touchStartX > 50) {
@@ -890,21 +1083,7 @@
             }
         });
 
-        // Click to advance (right half of screen)
-        document.addEventListener('click', (e) => {
-            // Skip if clicking theme toggle
-            if (e.target.id === 'themeToggle' || e.target.closest('#themeToggle')) {
-                return;
-            }
-            if (e.clientX > window.innerWidth / 2) {
-                nextSlide();
-            } else {
-                prevSlide();
-            }
-        });
-    </script>
-
-    <script>
+        // Theme toggle
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
 
@@ -918,53 +1097,60 @@
         function updateSVGColors(theme) {
             const svgs = document.querySelectorAll('svg');
             svgs.forEach(svg => {
+                // Update text elements
                 svg.querySelectorAll('text').forEach(text => {
                     const currentFill = text.getAttribute('fill');
-                    if (theme === 'light') {
-                        if (['#eee', '#fafafa', '#ccc', '#fff', '#ddd'].includes(currentFill)) {
-                            text.setAttribute('data-dark-fill', currentFill);
-                            text.setAttribute('fill', '#333');
-                        } else if (['#aaa', '#888', '#999'].includes(currentFill)) {
-                            text.setAttribute('data-dark-fill', currentFill);
-                            text.setAttribute('fill', '#777');
+                    if (theme === 'dark') {
+                        if (currentFill === '#333' || currentFill === '#1a1a2e' || currentFill === '#555' || currentFill === '#444') {
+                            text.setAttribute('fill', '#eee');
+                            text.setAttribute('data-light-fill', currentFill);
+                        } else if (currentFill === '#777' || currentFill === '#666') {
+                            text.setAttribute('fill', '#aaa');
+                            text.setAttribute('data-light-fill', currentFill);
                         }
                     } else {
-                        const darkFill = text.getAttribute('data-dark-fill');
-                        if (darkFill) text.setAttribute('fill', darkFill);
+                        const lightFill = text.getAttribute('data-light-fill');
+                        if (lightFill) {
+                            text.setAttribute('fill', lightFill);
+                        }
                     }
                 });
-                svg.querySelectorAll('line, path, rect, circle, polyline, polygon').forEach(el => {
+                // Update stroke elements (lines, paths, rects)
+                svg.querySelectorAll('line, path, rect, circle').forEach(el => {
                     const currentStroke = el.getAttribute('stroke');
                     const currentFill = el.getAttribute('fill');
-                    if (theme === 'light') {
-                        if (currentStroke && ['#888', '#999', '#aaa', '#fafafa', '#fff', '#666'].includes(currentStroke)) {
-                            el.setAttribute('data-dark-stroke', currentStroke);
-                            el.setAttribute('stroke', '#444');
+                    if (theme === 'dark') {
+                        if (currentStroke === '#444' || currentStroke === '#555' || currentStroke === '#333') {
+                            el.setAttribute('data-light-stroke', currentStroke);
+                            el.setAttribute('stroke', '#888');
                         }
-                        if (currentFill && ['#2d2d44', '#1a1a2e', '#16162a', '#252540'].includes(currentFill)) {
-                            el.setAttribute('data-dark-fill', currentFill);
-                            el.setAttribute('fill', '#f8f9fa');
+                        if (currentFill === '#f8f9fa' || currentFill === '#f0f0f5' || currentFill === '#fff' || currentFill === '#ffffff') {
+                            el.setAttribute('data-light-fill', currentFill);
+                            el.setAttribute('fill', '#2d2d44');
                         }
                     } else {
-                        const ds = el.getAttribute('data-dark-stroke');
-                        if (ds) el.setAttribute('stroke', ds);
-                        const df = el.getAttribute('data-dark-fill');
-                        if (df) el.setAttribute('fill', df);
+                        const lightStroke = el.getAttribute('data-light-stroke');
+                        if (lightStroke) el.setAttribute('stroke', lightStroke);
+                        const lightFill = el.getAttribute('data-light-fill');
+                        if (lightFill) el.setAttribute('fill', lightFill);
                     }
                 });
             });
         }
 
         themeToggle.addEventListener('click', () => {
-            const current = document.documentElement.getAttribute('data-theme') || 'dark';
-            setTheme(current === 'light' ? 'dark' : 'light');
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
+            setTheme(current === 'dark' ? 'light' : 'dark');
         });
 
+        // Initialize theme from localStorage or system preference
         const saved = localStorage.getItem('slide-theme');
         if (saved) {
             setTheme(saved);
-        } else {
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
             setTheme('dark');
+        } else {
+            setTheme('light');
         }
     </script>
 </body>

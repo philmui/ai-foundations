@@ -3,17 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 8: Capstone — The Research Pipeline</title>
+    <title>Module 8: Capstone: The Research Pipeline</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
             --bg-primary: #fafafa;
             --bg-secondary: #f0f0f5;
@@ -58,6 +52,12 @@
             --toggle-knob: #fafafa;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-primary);
@@ -72,15 +72,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         .slide {
             display: none;
             width: 90%;
             max-width: 1200px;
+            min-height: auto;
             max-height: 96vh;
             overflow-y: auto;
-            padding: 1.5rem 4rem 2.5rem 4rem;
+            padding: 2rem 5rem 3rem 5rem;
             position: relative;
         }
 
@@ -96,216 +98,173 @@
             to { opacity: 1; }
         }
 
+        /* Typography */
         h1 {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 700;
-            color: var(--text-primary);
             line-height: 1.1;
-            margin-bottom: 2rem;
-            text-align: left;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
         }
 
         h2 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 600;
-            color: var(--text-primary);
+            line-height: 1.2;
             margin-bottom: 1.5rem;
-            text-align: left;
+            color: var(--text-primary);
         }
 
-        p {
-            font-size: 1.3rem;
-            line-height: 1.8;
-            color: var(--text-primary);
-            margin-bottom: 1.5rem;
-            max-width: 800px;
+        p, li {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--accent);
         }
 
         ul {
             list-style: none;
-            margin: 2rem 0;
-        }
-
-        li {
-            font-size: 1.3rem;
-            line-height: 2;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            padding-left: 2rem;
-            position: relative;
+            margin-left: 1.5rem;
         }
 
         li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
+            content: "→ ";
             color: var(--accent);
             font-weight: 600;
+            margin-right: 0.5rem;
         }
 
-        .accent {
-            color: var(--accent);
-        }
-
+        /* Code snippets */
         code {
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-family: 'Monaco', 'Courier New', monospace;
             background: var(--bg-code);
             color: var(--code-text);
-            padding: 0.2rem 0.6rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 4px;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
         }
 
         pre {
             background: var(--bg-code);
             color: var(--code-text);
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 8px;
             overflow-x: auto;
-            margin: 2rem 0;
-            font-size: 1rem;
-            line-height: 1.6;
+            margin: 1.5rem 0;
+            font-size: 1.2rem;
+            line-height: 1.5;
         }
 
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: var(--accent); }
+        .string { color: var(--green); }
+        .number { color: var(--blue); }
+        .comment { color: var(--text-muted); font-style: italic; }
+
+        /* Footer */
         .footer {
             position: absolute;
             bottom: 1.5rem;
-            left: 4rem;
+            left: 5rem;
             font-size: 0.85rem;
             color: var(--text-muted);
+            font-weight: 300;
         }
 
-        .controls {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+        /* Slide counter */
+        .slide-number {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* Accent color elements */
+        .accent {
+            color: var(--accent);
+        }
+
+        /* Navigation instructions */
+        .nav-hint {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* Visual elements */
+        .visual-container {
+            margin: 2rem 0;
             display: flex;
-            gap: 1rem;
-            z-index: 1000;
+            justify-content: flex-start;
+            align-items: center;
         }
 
-        button {
-            background: var(--bg-code);
-            color: var(--code-text);
-            border: none;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 4px;
-            font-family: 'Inter', sans-serif;
-            transition: background 0.2s;
+        .chart-container {
+            margin: 2rem 0;
         }
 
-        button:hover {
-            background: var(--accent);
-        }
-
-        .grid-2 {
+        /* Grid layout for comparison slides */
+        .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
             margin: 2rem 0;
         }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .card {
-            background: var(--bg-secondary);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px var(--shadow);
-            border: 1px solid var(--border);
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            color: var(--text-primary);
+        .comparison-item h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
             margin-bottom: 1rem;
-        }
-
-        .card p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-        }
-
-        svg {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .icon-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .icon-card {
-            text-align: center;
-            padding: 1.5rem;
-        }
-
-        .icon-card svg {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1rem;
-        }
-
-        .icon-card h4 {
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .icon-card p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            max-width: none;
-        }
-
-        .checklist {
-            background: var(--bg-secondary);
-            padding: 2rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-            border: 1px solid var(--border);
-        }
-
-        .checklist li {
-            font-size: 1.2rem;
-        }
-
-        .checklist li::before {
-            content: "✓";
             color: var(--accent);
         }
 
-        .metric {
-            background: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid var(--border);
+        /* Title slide specific */
+        .title-slide h1 {
+            font-size: 5.5rem;
+            margin-bottom: 1rem;
         }
 
-        .metric-value {
-            font-size: 3rem;
-            font-weight: 700;
+        .title-slide .subtitle {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .title-slide .module-number {
+            font-size: 1.3rem;
+            font-weight: 600;
             color: var(--accent);
-            display: block;
+            letter-spacing: 2px;
             margin-bottom: 0.5rem;
         }
 
-        .metric-label {
-            font-size: 1rem;
-            color: var(--text-secondary);
+        /* Spacing utilities */
+        .spacer {
+            height: 2rem;
         }
 
+        .spacer-large {
+            height: 4rem;
+        }
+
+        /* Theme toggle */
         .theme-toggle {
             position: fixed;
             top: 1.5rem;
@@ -347,6 +306,99 @@
             color: var(--text-muted);
             pointer-events: none;
         }
+
+        /* Tutorial helpers */
+        .step-badge {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .lead {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Callout / insight box */
+        .callout {
+            border-left: 5px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: 1.25rem 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+            font-size: 1.3rem;
+        }
+
+        .callout.tip { border-left-color: var(--green); }
+        .callout.warn { border-left-color: var(--blue); }
+
+        .callout-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .callout.tip .callout-label { color: var(--green); }
+        .callout.warn .callout-label { color: var(--blue); }
+
+        /* Roadmap list on the agenda slide */
+        .roadmap li {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Data tables */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+            font-size: 1.25rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        td code, th code {
+            font-size: 1.05rem;
+        }
+
+        /* Two-up layout: explanation beside code */
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+            margin: 1.5rem 0;
+        }
+
+        .split pre { margin: 0; }
+
+        .smaller li, .smaller p { font-size: 1.3rem; }
+
+        pre.tight { font-size: 1rem; line-height: 1.45; }
     </style>
 </head>
 <body>
@@ -354,675 +406,589 @@
     <span class="theme-toggle-icon" id="themeIcon">☀️</span>
     <div class="slide-container">
         <!-- Slide 1: Title -->
-        <div class="slide active">
-            <h1>Module 8<br>Capstone — The Research Pipeline</h1>
-            <p style="font-size: 1.8rem; color: var(--text-secondary); margin-top: 2rem;">
-                Integrating Python, NumPy, Pandas, and OpenCV<br>
-                into a production-ready multimodal data pipeline
-            </p>
-            <div style="margin-top: auto;">
-                <p style="font-size: 1.1rem;">AI Research Foundations Minicourse</p>
-            </div>
+        <div class="slide active title-slide">
+            <div class="module-number">MODULE 08</div>
+            <h1>Capstone: The<br>Research Pipeline</h1>
+            <p class="subtitle">Building a Multimodal Data Loader from CSV to ML-Ready Batches</p>
+            <div class="spacer-large"></div>
+            <p style="font-size: 1.3rem; color: var(--text-secondary);">A step-by-step tutorial</p>
+            <p style="font-size: 1.3rem; color: var(--text-muted);">AI Research Foundations Minicourse</p>
             <div class="footer">© mui-group</div>
+            <div class="nav-hint">Press → or click to advance</div>
         </div>
 
-        <!-- Slide 2: The Big Picture -->
+        <!-- Slide 2: Welcome -->
         <div class="slide">
-            <h2>The Big Picture</h2>
-            <p>From raw data to model input — the complete pipeline</p>
-            <svg viewBox="0 0 1000 240" style="margin-top: 2rem;">
-                <!-- Raw Data -->
-                <rect x="20" y="70" width="140" height="100" fill="#1a1a2e" rx="8"/>
-                <text x="90" y="115" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="600">Raw Data</text>
-                <text x="90" y="135" text-anchor="middle" fill="#fafafa" font-size="13">CSV + Images</text>
-
-                <path d="M 160 120 L 200 120" stroke="#e94560" stroke-width="3" marker-end="url(#arrowhead)"/>
-
-                <!-- Load & Clean -->
-                <rect x="200" y="70" width="140" height="100" fill="#1a1a2e" rx="8"/>
-                <text x="270" y="115" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="600">Load & Clean</text>
-                <text x="270" y="135" text-anchor="middle" fill="#fafafa" font-size="13">Pandas</text>
-
-                <path d="M 340 120 L 380 120" stroke="#e94560" stroke-width="3" marker-end="url(#arrowhead)"/>
-
-                <!-- Process -->
-                <rect x="380" y="70" width="140" height="100" fill="#1a1a2e" rx="8"/>
-                <text x="450" y="115" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="600">Process</text>
-                <text x="450" y="135" text-anchor="middle" fill="#fafafa" font-size="13">OpenCV</text>
-
-                <path d="M 520 120 L 560 120" stroke="#e94560" stroke-width="3" marker-end="url(#arrowhead)"/>
-
-                <!-- Batch -->
-                <rect x="560" y="70" width="140" height="100" fill="#1a1a2e" rx="8"/>
-                <text x="630" y="115" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="600">Batch</text>
-                <text x="630" y="135" text-anchor="middle" fill="#fafafa" font-size="13">NumPy</text>
-
-                <path d="M 700 120 L 740 120" stroke="#e94560" stroke-width="3" marker-end="url(#arrowhead)"/>
-
-                <!-- Model -->
-                <rect x="740" y="70" width="140" height="100" fill="#e94560" rx="8"/>
-                <text x="810" y="115" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="600">Model Input</text>
-                <text x="810" y="135" text-anchor="middle" fill="#fafafa" font-size="13">PyTorch/TF</text>
-
-                <defs>
-                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                        <polygon points="0 0, 10 3, 0 6" fill="#e94560" />
-                    </marker>
-                </defs>
-            </svg>
-            <div class="footer">© mui-group</div>
-        </div>
-
-        <!-- Slide 3: What We've Learned -->
-        <div class="slide">
-            <h2>What We've Learned</h2>
-            <p>Modules 1-7 recap</p>
-            <div class="icon-grid">
-                <div class="icon-card">
-                    <svg viewBox="0 0 80 80" fill="none">
-                        <rect x="10" y="10" width="60" height="60" fill="#1a1a2e" rx="8"/>
-                        <circle cx="40" cy="30" r="8" fill="#fafafa"/>
-                        <path d="M 25 45 Q 40 35, 55 45" stroke="#fafafa" stroke-width="2" fill="none"/>
-                        <circle cx="30" cy="55" r="3" fill="#e94560"/>
-                        <circle cx="50" cy="55" r="3" fill="#e94560"/>
-                    </svg>
-                    <h4>Module 1</h4>
-                    <p>Architecture</p>
-                </div>
-                <div class="icon-card">
-                    <svg viewBox="0 0 80 80" fill="none">
-                        <path d="M 20 20 L 60 20 L 60 60 L 20 60 Z" stroke="#1a1a2e" stroke-width="3" fill="none"/>
-                        <circle cx="40" cy="40" r="15" fill="#e94560"/>
-                        <path d="M 40 25 Q 55 40, 40 55" stroke="#1a1a2e" stroke-width="2" fill="none"/>
-                    </svg>
-                    <h4>Module 2</h4>
-                    <p>Generators</p>
-                </div>
-                <div class="icon-card">
-                    <svg viewBox="0 0 80 80" fill="none">
-                        <rect x="15" y="15" width="15" height="50" fill="#1a1a2e"/>
-                        <rect x="33" y="15" width="15" height="50" fill="#1a1a2e"/>
-                        <rect x="51" y="15" width="15" height="50" fill="#e94560"/>
-                    </svg>
-                    <h4>Module 3</h4>
-                    <p>Arrays</p>
-                </div>
-                <div class="icon-card">
-                    <svg viewBox="0 0 80 80" fill="none">
-                        <path d="M 20 40 L 30 30 L 40 40 L 50 25 L 60 35" stroke="#1a1a2e" stroke-width="3" fill="none"/>
-                        <circle cx="60" cy="35" r="8" fill="#e94560"/>
-                    </svg>
-                    <h4>Module 4</h4>
-                    <p>Vectorization</p>
-                </div>
-                <div class="icon-card">
-                    <svg viewBox="0 0 80 80" fill="none">
-                        <rect x="15" y="20" width="50" height="10" fill="#1a1a2e"/>
-                        <rect x="15" y="35" width="50" height="10" fill="#1a1a2e"/>
-                        <rect x="15" y="50" width="50" height="10" fill="#e94560"/>
-                    </svg>
-                    <h4>Module 5</h4>
-                    <p>DataFrames</p>
-                </div>
-                <div class="icon-card">
-                    <svg viewBox="0 0 80 80" fill="none">
-                        <circle cx="30" cy="40" r="12" fill="#1a1a2e"/>
-                        <circle cx="50" cy="40" r="12" fill="#e94560"/>
-                        <path d="M 30 40 L 50 40" stroke="#fafafa" stroke-width="3"/>
-                    </svg>
-                    <h4>Module 6</h4>
-                    <p>Cleaning</p>
-                </div>
-                <div class="icon-card">
-                    <svg viewBox="0 0 80 80" fill="none">
-                        <rect x="20" y="20" width="40" height="40" fill="#1a1a2e"/>
-                        <rect x="25" y="25" width="10" height="10" fill="#e94560"/>
-                        <rect x="40" y="25" width="10" height="10" fill="#16a34a"/>
-                        <rect x="25" y="40" width="10" height="10" fill="#16a34a"/>
-                        <rect x="40" y="40" width="10" height="10" fill="#e94560"/>
-                    </svg>
-                    <h4>Module 7</h4>
-                    <p>Images</p>
-                </div>
-                <div class="icon-card">
-                    <svg viewBox="0 0 80 80" fill="none">
-                        <circle cx="40" cy="40" r="25" stroke="#e94560" stroke-width="3" fill="none"/>
-                        <circle cx="40" cy="40" r="8" fill="#1a1a2e"/>
-                        <line x1="40" y1="40" x2="40" y2="20" stroke="#1a1a2e" stroke-width="2"/>
-                        <line x1="40" y1="40" x2="55" y2="40" stroke="#1a1a2e" stroke-width="2"/>
-                    </svg>
-                    <h4>Module 8</h4>
-                    <p>Pipeline</p>
-                </div>
-            </div>
-            <div class="footer">© mui-group</div>
-        </div>
-
-        <!-- Slide 4: Multimodal Data -->
-        <div class="slide">
-            <h2>Multimodal Data</h2>
-            <p>Text and images together</p>
-            <div class="grid-2" style="margin-top: 3rem;">
-                <div>
-                    <svg viewBox="0 0 300 300" style="background: var(--bg-secondary); border-radius: 8px; padding: 2rem; border: 1px solid var(--border);">
-                        <rect x="20" y="20" width="260" height="260" fill="#1a1a2e" rx="8"/>
-                        <circle cx="80" cy="80" r="30" fill="#e94560"/>
-                        <circle cx="220" cy="80" r="30" fill="#16a34a"/>
-                        <path d="M 50 150 Q 150 100, 250 150" stroke="#fafafa" stroke-width="4" fill="none"/>
-                        <rect x="100" y="200" width="100" height="60" fill="#fafafa" rx="4"/>
-                    </svg>
-                    <h3 style="margin-top: 1rem; text-align: center;">Image Data</h3>
-                    <p style="text-align: center; font-size: 1rem; color: var(--text-secondary);">256 × 256 × 3 pixels</p>
-                </div>
-                <div>
-                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 8px; height: 300px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--border);">
-                        <p style="font-size: 1.4rem; line-height: 1.8; color: var(--text-primary); margin: 0;">
-                            <span class="accent">"</span>Spiral galaxy with bright core and blue arms<span class="accent">"</span>
-                        </p>
-                        <p style="margin-top: 1rem; font-size: 1rem; color: var(--text-secondary);">
-                            Category: <strong>astronomy</strong><br>
-                            Split: <strong>train</strong>
-                        </p>
-                    </div>
-                    <h3 style="margin-top: 1rem; text-align: center;">Text Data</h3>
-                    <p style="text-align: center; font-size: 1rem; color: var(--text-secondary);">Caption + metadata</p>
-                </div>
-            </div>
-            <div class="footer">© mui-group</div>
-        </div>
-
-        <!-- Slide 5: The Manifest Pattern -->
-        <div class="slide">
-            <h2>The Manifest Pattern</h2>
-            <p>CSV as the index linking images and metadata</p>
-            <pre style="font-size: 0.95rem;">
-image_filename,caption,category,split
-galaxy_001.png,Spiral galaxy with bright core,astronomy,train
-galaxy_002.png,Elliptical galaxy in deep space,astronomy,train
-cell_001.png,Human red blood cells under microscope,biology,train
-landscape_001.png,Mountain range with snow peaks,geography,train
-...</pre>
-            <ul style="margin-top: 2rem;">
-                <li><strong>image_filename:</strong> Links to actual image file</li>
-                <li><strong>caption:</strong> Text description for each image</li>
-                <li><strong>category:</strong> Classification label</li>
-                <li><strong>split:</strong> train/test designation</li>
+            <div class="slide-number">2 / 18</div>
+            <h2>Welcome</h2>
+            <p class="lead">Everything you learned across seven modules converges here into one production-ready pipeline that turns raw images and text into batches a neural network can train on.</p>
+            <p>By the end you will be able to:</p>
+            <ul class="smaller">
+                <li>Integrate Python, NumPy, Pandas, and OpenCV into a single multimodal pipeline</li>
+                <li>Build a <code>MultimodalDataLoader</code> class that yields batched text and image arrays</li>
+                <li>Apply the manifest pattern to link images to metadata and manage train/test splits</li>
+                <li>Use the generator pattern for memory-efficient, lazy batch iteration</li>
+                <li>Connect NumPy output to PyTorch and TensorFlow, respecting shape conventions</li>
             </ul>
-            <p style="margin-top: 2rem; color: var(--accent);">
-                One CSV controls the entire dataset
-            </p>
+            <div class="callout tip">
+                <span class="callout-label">How to use these slides</span>
+                <p>Each stage comes with a runnable piece of code. Open the companion notebook <code>tutorial.ipynb</code> and run each snippet as you go. Learning by typing beats learning by reading.</p>
+            </div>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 6: Pipeline Architecture -->
+        <!-- Slide 3: Why should you care -->
         <div class="slide">
-            <h2>Pipeline Architecture</h2>
-            <svg viewBox="0 0 1000 450" style="margin-top: 1rem;">
-                <!-- Stage 1: Manifest CSV -->
-                <rect x="20" y="20" width="180" height="90" fill="#1a1a2e" rx="8"/>
-                <text x="110" y="58" text-anchor="middle" fill="#fafafa" font-size="17" font-weight="600">Manifest CSV</text>
-                <text x="110" y="80" text-anchor="middle" fill="#999" font-size="13">data/manifest.csv</text>
+            <div class="slide-number">3 / 18</div>
+            <h2>Why should you care?</h2>
+            <p class="lead">Real machine learning almost never starts with clean tensors. It starts with a folder of images and a spreadsheet of captions.</p>
+            <p>Every model, from a ResNet classifier to a CLIP-style multimodal model, needs that raw data:</p>
+            <ul class="smaller">
+                <li>Cleaned and validated so bad rows never reach training</li>
+                <li>Batched so the GPU is fed efficiently</li>
+                <li>Shaped correctly before a single gradient can flow</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>The data pipeline is the unglamorous but <strong>load-bearing</strong> layer that decides whether training even runs. Building one end to end is the capstone skill of this course.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                <path d="M 200 65 L 240 65" stroke="#e94560" stroke-width="3" marker-end="url(#arrow2)"/>
+        <!-- Slide 4: Roadmap -->
+        <div class="slide">
+            <div class="slide-number">4 / 18</div>
+            <h2>Our roadmap</h2>
+            <p class="lead">We build the loader one stage at a time, then run it as the final capstone lab.</p>
+            <ul class="roadmap">
+                <li><strong>1.</strong> The capstone challenge and how all 8 modules fit together</li>
+                <li><strong>2.</strong> The manifest pattern for multimodal data</li>
+                <li><strong>3.</strong> Setup: generating the synthetic dataset</li>
+                <li><strong>4.</strong> Loading and cleaning the manifest with Pandas</li>
+                <li><strong>5.</strong> Preprocessing images with OpenCV</li>
+                <li><strong>6.</strong> The generator pattern for batching</li>
+                <li><strong>7.</strong> Stacking batches and computing statistics with NumPy</li>
+                <li><strong>8.</strong> Timing the pipeline and handling train vs test</li>
+                <li><strong>9.</strong> Connecting to PyTorch and TensorFlow</li>
+            </ul>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                <!-- Stage 2: Pandas -->
-                <rect x="240" y="20" width="180" height="90" fill="#1a1a2e" rx="8"/>
-                <text x="330" y="50" text-anchor="middle" fill="#fafafa" font-size="17" font-weight="600">Pandas</text>
-                <text x="330" y="68" text-anchor="middle" fill="#999" font-size="13">filter split</text>
-                <text x="330" y="84" text-anchor="middle" fill="#999" font-size="13">clean text</text>
-                <text x="330" y="100" text-anchor="middle" fill="#999" font-size="13">validate paths</text>
+        <!-- Slide 5: Part 1 - The capstone challenge -->
+        <div class="slide">
+            <div class="slide-number">5 / 18</div>
+            <span class="step-badge">Part 1 · The Capstone Challenge</span>
+            <h2>One Pipeline, Eight Modules</h2>
+            <p>This capstone integrates every previous module into a single class, <code>MultimodalDataLoader</code>. Data flows through a fixed architecture, and each module you already learned maps to one stage.</p>
+            <svg width="900" height="110" style="margin: 0.5rem 0 1rem 0;">
+                <g transform="translate(0, 20)">
+                    <rect x="0" y="0" width="120" height="50" fill="#1a1a2e" rx="8"/>
+                    <text x="60" y="24" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">CSV</text>
+                    <text x="60" y="42" text-anchor="middle" font-size="11" fill="#bbb">manifest</text>
+                    <path d="M 120,25 L 150,25" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
 
-                <path d="M 420 65 L 460 65" stroke="#e94560" stroke-width="3" marker-end="url(#arrow2)"/>
+                    <rect x="150" y="0" width="120" height="50" fill="#1a1a2e" rx="8"/>
+                    <text x="210" y="24" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">Pandas</text>
+                    <text x="210" y="42" text-anchor="middle" font-size="11" fill="#bbb">clean</text>
+                    <path d="M 270,25 L 300,25" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
 
-                <!-- Stage 3: Generator -->
-                <rect x="460" y="20" width="180" height="90" fill="#1a1a2e" rx="8"/>
-                <text x="550" y="50" text-anchor="middle" fill="#fafafa" font-size="17" font-weight="600">Generator</text>
-                <text x="550" y="68" text-anchor="middle" fill="#999" font-size="13">yield batches</text>
-                <text x="550" y="84" text-anchor="middle" fill="#999" font-size="13">shuffle if needed</text>
-                <text x="550" y="100" text-anchor="middle" fill="#999" font-size="13">lazy evaluation</text>
+                    <rect x="300" y="0" width="120" height="50" fill="#e94560" rx="8"/>
+                    <text x="360" y="24" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">Generator</text>
+                    <text x="360" y="42" text-anchor="middle" font-size="11" fill="#ffe0e6">batch</text>
+                    <path d="M 420,25 L 450,25" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
 
-                <path d="M 640 65 L 680 65" stroke="#e94560" stroke-width="3" marker-end="url(#arrow2)"/>
+                    <rect x="450" y="0" width="120" height="50" fill="#1a1a2e" rx="8"/>
+                    <text x="510" y="24" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">OpenCV</text>
+                    <text x="510" y="42" text-anchor="middle" font-size="11" fill="#bbb">load/resize</text>
+                    <path d="M 570,25 L 600,25" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
 
-                <!-- Stage 4: OpenCV -->
-                <rect x="680" y="20" width="180" height="90" fill="#1a1a2e" rx="8"/>
-                <text x="770" y="50" text-anchor="middle" fill="#fafafa" font-size="17" font-weight="600">OpenCV</text>
-                <text x="770" y="68" text-anchor="middle" fill="#999" font-size="13">load images</text>
-                <text x="770" y="84" text-anchor="middle" fill="#999" font-size="13">resize to target</text>
-                <text x="770" y="100" text-anchor="middle" fill="#999" font-size="13">BGR → RGB</text>
+                    <rect x="600" y="0" width="120" height="50" fill="#3b82f6" rx="8"/>
+                    <text x="660" y="24" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">NumPy</text>
+                    <text x="660" y="42" text-anchor="middle" font-size="11" fill="#e0ecff">stack</text>
+                    <path d="M 720,25 L 750,25" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
 
-                <path d="M 550 110 L 550 155" stroke="#e94560" stroke-width="3" marker-end="url(#arrow2)"/>
-
-                <!-- Stage 5: NumPy -->
-                <rect x="460" y="155" width="180" height="90" fill="#1a1a2e" rx="8"/>
-                <text x="550" y="185" text-anchor="middle" fill="#fafafa" font-size="17" font-weight="600">NumPy</text>
-                <text x="550" y="203" text-anchor="middle" fill="#999" font-size="13">stack to batch</text>
-                <text x="550" y="219" text-anchor="middle" fill="#999" font-size="13">normalize [0,1]</text>
-                <text x="550" y="235" text-anchor="middle" fill="#999" font-size="13">shape (B,H,W,C)</text>
-
-                <path d="M 550 245 L 550 285" stroke="#e94560" stroke-width="3" marker-end="url(#arrow2)"/>
-
-                <!-- Output -->
-                <rect x="400" y="285" width="300" height="110" fill="#e94560" rx="8"/>
-                <text x="550" y="320" text-anchor="middle" fill="#fafafa" font-size="18" font-weight="600">Batch Dictionary</text>
-                <text x="550" y="343" text-anchor="middle" fill="#fafafa" font-size="13">image_batch: (4, 224, 224, 3)</text>
-                <text x="550" y="361" text-anchor="middle" fill="#fafafa" font-size="13">text_batch: [str, str, str, str]</text>
-                <text x="550" y="379" text-anchor="middle" fill="#fafafa" font-size="13">metadata: {...}</text>
-
+                    <rect x="750" y="0" width="120" height="50" fill="#16a34a" rx="8"/>
+                    <text x="810" y="24" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">Batch</text>
+                    <text x="810" y="42" text-anchor="middle" font-size="11" fill="#e0ffe8">dict</text>
+                </g>
                 <defs>
-                    <marker id="arrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                        <polygon points="0 0, 10 3, 0 6" fill="#e94560" />
+                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+                    </marker>
+                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
                     </marker>
                 </defs>
             </svg>
+            <pre class="tight"><code><span class="comment"># Module 1: Environment setup with .env loading</span>
+<span class="comment"># Module 2: Generator pattern for batch iteration</span>
+<span class="comment"># Module 3: NumPy array operations and statistics</span>
+<span class="comment"># Module 4: Vectorization and performance</span>
+<span class="comment"># Module 5: Pandas for CSV reading and DataFrames</span>
+<span class="comment"># Module 6: Data cleaning and validation</span>
+<span class="comment"># Module 7: OpenCV for image loading</span>
+<span class="comment"># Module 8: The complete multimodal pipeline</span></code></pre>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>In production ML the data loader is a distinct engineering artifact, not an afterthought. Framing it as its own reusable class is exactly how PyTorch (Dataset/DataLoader) and TensorFlow (tf.data) structure their ecosystems.</p>
+            </div>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 7: The MultimodalDataLoader Class -->
+        <!-- Slide 6: Part 2 - The manifest pattern -->
         <div class="slide">
-            <h2>The MultimodalDataLoader Class</h2>
-            <svg viewBox="0 0 800 400" style="margin-top: 1rem;">
-                <!-- Class Box -->
-                <rect x="50" y="20" width="700" height="360" fill="var(--bg-secondary)" stroke="var(--svg-stroke)" stroke-width="2" rx="8"/>
-
-                <!-- Header -->
-                <rect x="50" y="20" width="700" height="60" fill="#1a1a2e" rx="8 8 0 0"/>
-                <text x="400" y="55" text-anchor="middle" fill="#fafafa" font-size="24" font-weight="600">MultimodalDataLoader</text>
-
-                <!-- Attributes -->
-                <text x="70" y="110" fill="#1a1a2e" font-size="16" font-weight="600">Attributes</text>
-                <text x="90" y="140" fill="#555" font-size="14">manifest_path: Path</text>
-                <text x="90" y="165" fill="#555" font-size="14">image_dir: Path</text>
-                <text x="90" y="190" fill="#555" font-size="14">batch_size: int</text>
-                <text x="90" y="215" fill="#555" font-size="14">target_size: Tuple[int, int]</text>
-                <text x="90" y="240" fill="#555" font-size="14">df: pd.DataFrame</text>
-
-                <line x1="70" y1="260" x2="730" y2="260" stroke="#ccc" stroke-width="1"/>
-
-                <!-- Methods -->
-                <text x="70" y="290" fill="#1a1a2e" font-size="16" font-weight="600">Methods</text>
-                <text x="90" y="320" fill="#e94560" font-size="14" font-weight="600">__init__</text>
-                <text x="200" y="320" fill="#555" font-size="14">Initialize with configuration</text>
-
-                <text x="90" y="345" fill="#e94560" font-size="14" font-weight="600">__iter__</text>
-                <text x="200" y="345" fill="#555" font-size="14">Generator yielding batches</text>
-
-                <text x="90" y="370" fill="#e94560" font-size="14" font-weight="600">_load_and_preprocess_image</text>
-                <text x="350" y="370" fill="#555" font-size="14">Process single image</text>
-            </svg>
-            <div class="footer">© mui-group</div>
-        </div>
-
-        <!-- Slide 8: __init__: Configuration -->
-        <div class="slide">
-            <h2>__init__: Configuration</h2>
-            <p>Setting up the data loader</p>
-            <pre style="font-size: 0.9rem; margin-top: 2rem;">
-def __init__(
-    self,
-    manifest_path: Path,
-    image_dir: Path,
-    batch_size: int = 4,
-    target_size: Tuple[int, int] = (224, 224),
-    split: str = "train",
-    shuffle: bool = True,
-    normalize: bool = True
-):
-    """Initialize the multimodal data loader."""
-    self.manifest_path = manifest_path
-    self.image_dir = image_dir
-    self.batch_size = batch_size
-    self.target_size = target_size
-    self.split = split
-
-    # Load and clean manifest (Pandas + Module 6)
-    self.df = self._load_and_clean_manifest()
-</pre>
-            <div class="footer">© mui-group</div>
-        </div>
-
-        <!-- Slide 9: __iter__: The Generator Heart -->
-        <div class="slide">
-            <h2>__iter__: The Generator Heart</h2>
-            <p>Memory-efficient batch iteration</p>
-            <pre style="font-size: 0.85rem; margin-top: 1.5rem;">
-def __iter__(self) -> Iterator[Dict[str, any]]:
-    """Iterate over batches of multimodal data."""
-    # Shuffle indices if enabled
-    indices = np.arange(len(self.df))
-    if self.shuffle:
-        np.random.shuffle(indices)
-
-    # Generate batches using generator pattern (Module 2)
-    for start_idx in range(0, len(self.df), self.batch_size):
-        end_idx = min(start_idx + self.batch_size, len(self.df))
-        batch_indices = indices[start_idx:end_idx]
-
-        # Load images and text for this batch
-        batch_df = self.df.iloc[batch_indices]
-        images = [self._load_and_preprocess_image(row)
-                  for row in batch_df.itertuples()]
-
-        # Stack into NumPy batch (Module 3-4)
-        image_batch = np.stack(images, axis=0)
-
-        yield {
-            'image_batch': image_batch,
-            'text_batch': batch_df['caption'].tolist(),
-            'metadata': {...}
-        }
-</pre>
-            <div class="footer">© mui-group</div>
-        </div>
-
-        <!-- Slide 10: Image Processing Pipeline -->
-        <div class="slide">
-            <h2>Image Processing Pipeline</h2>
-            <div class="grid-2" style="margin-top: 2rem;">
+            <div class="slide-number">6 / 18</div>
+            <span class="step-badge">Part 2 · The Manifest Pattern</span>
+            <h2>Link Metadata to Images with a CSV</h2>
+            <p>Instead of encoding labels into file names, a manifest CSV keeps a separate row per sample that points to an image file and carries its caption, category, and split.</p>
+            <div class="split">
                 <div>
-                    <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Step-by-Step</h3>
-                    <ul>
-                        <li><strong>Load:</strong> <code>cv2.imread(path)</code></li>
-                        <li><strong>Resize:</strong> <code>cv2.resize(img, target_size)</code></li>
-                        <li><strong>Color:</strong> <code>cv2.cvtColor(img, BGR2RGB)</code></li>
-                        <li><strong>Normalize:</strong> <code>img.astype(float32) / 255.0</code></li>
-                        <li><strong>Return:</strong> <code>shape (H, W, C)</code></li>
-                    </ul>
+                    <pre class="tight"><code><span class="comment"># data/manifest.csv</span>
+image_filename,caption,category,split
+galaxy_001.png,Spiral galaxy with
+  bright core,astronomy,train
+cell_001.png,Human red blood cells
+  under microscope,biology,train
+landscape_001.png,Mountain range with
+  snow peaks,geography,train
+<span class="comment"># 20 samples across 5 categories,</span>
+<span class="comment"># split 16 train / 4 test</span></code></pre>
                 </div>
                 <div>
-                    <svg viewBox="0 0 400 470">
-                        <!-- Step 1 -->
-                        <rect x="50" y="20" width="300" height="75" fill="#1a1a2e" rx="4"/>
-                        <text x="200" y="52" text-anchor="middle" fill="#fafafa" font-size="14">Load: (512, 512, 3)</text>
-                        <text x="200" y="70" text-anchor="middle" fill="#999" font-size="13">BGR color space</text>
-
-                        <path d="M 200 95 L 200 125" stroke="#e94560" stroke-width="2" marker-end="url(#arrow3)"/>
-
-                        <!-- Step 2 -->
-                        <rect x="50" y="125" width="300" height="75" fill="#1a1a2e" rx="4"/>
-                        <text x="200" y="157" text-anchor="middle" fill="#fafafa" font-size="14">Resize: (224, 224, 3)</text>
-                        <text x="200" y="175" text-anchor="middle" fill="#999" font-size="13">Standard input size</text>
-
-                        <path d="M 200 200 L 200 230" stroke="#e94560" stroke-width="2" marker-end="url(#arrow3)"/>
-
-                        <!-- Step 3 -->
-                        <rect x="50" y="230" width="300" height="75" fill="#1a1a2e" rx="4"/>
-                        <text x="200" y="262" text-anchor="middle" fill="#fafafa" font-size="14">Convert: RGB color</text>
-                        <text x="200" y="280" text-anchor="middle" fill="#999" font-size="13">Match ML convention</text>
-
-                        <path d="M 200 305 L 200 335" stroke="#e94560" stroke-width="2" marker-end="url(#arrow3)"/>
-
-                        <!-- Step 4 -->
-                        <rect x="50" y="335" width="300" height="75" fill="#e94560" rx="4"/>
-                        <text x="200" y="367" text-anchor="middle" fill="#fafafa" font-size="14">Normalize: [0.0, 1.0]</text>
-                        <text x="200" y="385" text-anchor="middle" fill="#fafafa" font-size="13">Ready for model</text>
-
-                        <defs>
-                            <marker id="arrow3" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                                <polygon points="0 0, 10 5, 0 10" fill="#e94560" />
-                            </marker>
-                        </defs>
-                    </svg>
-                </div>
-            </div>
-            <div class="footer">© mui-group</div>
-        </div>
-
-        <!-- Slide 11: Text Batching -->
-        <div class="slide">
-            <h2>Text Batching</h2>
-            <p>Collecting captions for each batch</p>
-            <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 8px; margin-top: 2rem; border: 1px solid var(--border);">
-                <svg viewBox="0 0 900 300">
-                    <!-- DataFrame -->
-                    <rect x="20" y="20" width="300" height="260" fill="#1a1a2e" rx="8"/>
-                    <text x="170" y="50" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="600">DataFrame Rows</text>
-
-                    <rect x="40" y="75" width="260" height="36" fill="#2a2a3e" rx="4"/>
-                    <text x="50" y="98" fill="#fafafa" font-size="13">galaxy_001.png</text>
-
-                    <rect x="40" y="120" width="260" height="36" fill="#2a2a3e" rx="4"/>
-                    <text x="50" y="143" fill="#fafafa" font-size="13">cell_001.png</text>
-
-                    <rect x="40" y="165" width="260" height="36" fill="#2a2a3e" rx="4"/>
-                    <text x="50" y="188" fill="#fafafa" font-size="13">landscape_001.png</text>
-
-                    <rect x="40" y="210" width="260" height="36" fill="#2a2a3e" rx="4"/>
-                    <text x="50" y="233" fill="#fafafa" font-size="13">circuit_001.png</text>
-
-                    <path d="M 320 150 L 380 150" stroke="#e94560" stroke-width="3" marker-end="url(#arrow4)"/>
-
-                    <!-- Process -->
-                    <rect x="380" y="100" width="140" height="100" fill="#e94560" rx="8"/>
-                    <text x="450" y="140" text-anchor="middle" fill="#fafafa" font-size="14" font-weight="600">Extract</text>
-                    <text x="450" y="160" text-anchor="middle" fill="#fafafa" font-size="13">caption field</text>
-                    <text x="450" y="180" text-anchor="middle" fill="#fafafa" font-size="13">tolist()</text>
-
-                    <path d="M 520 150 L 580 150" stroke="#e94560" stroke-width="3" marker-end="url(#arrow4)"/>
-
-                    <!-- List -->
-                    <rect x="580" y="20" width="300" height="260" fill="#1a1a2e" rx="8"/>
-                    <text x="730" y="50" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="600">text_batch: List[str]</text>
-
-                    <text x="600" y="95" fill="#999" font-size="13">[0] "Spiral galaxy..."</text>
-                    <text x="600" y="135" fill="#999" font-size="13">[1] "Human red blood cells..."</text>
-                    <text x="600" y="175" fill="#999" font-size="13">[2] "Mountain range..."</text>
-                    <text x="600" y="215" fill="#999" font-size="13">[3] "Integrated circuit..."</text>
-
-                    <defs>
-                        <marker id="arrow4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                            <polygon points="0 0, 10 3, 0 6" fill="#e94560" />
-                        </marker>
-                    </defs>
-                </svg>
-            </div>
-            <div class="footer">© mui-group</div>
-        </div>
-
-        <!-- Slide 12: Output Shape -->
-        <div class="slide">
-            <h2>Output Shape</h2>
-            <p>The batch dictionary structure</p>
-            <div style="background: var(--bg-secondary); padding: 3rem; border-radius: 8px; margin-top: 2rem; border: 1px solid var(--border);">
-                <pre style="background: var(--bg-code); color: var(--code-text); padding: 2rem; border-radius: 8px; font-size: 1.1rem;">
-{
-    <span style="color: var(--accent);">"image_batch"</span>: np.ndarray,
-        shape: <span style="color: var(--text-muted);">(B, H, W, C)</span>
-        example: <span style="color: var(--text-muted);">(4, 224, 224, 3)</span>
-        dtype: <span style="color: var(--text-muted);">float32</span>
-        range: <span style="color: var(--text-muted);">[0.0, 1.0]</span>
-
-    <span style="color: var(--accent);">"text_batch"</span>: List[str],
-        length: <span style="color: var(--text-muted);">B</span>
-        example: <span style="color: var(--text-muted);">["caption 1", "caption 2", ...]</span>
-
-    <span style="color: var(--accent);">"metadata"</span>: Dict,
-        categories: <span style="color: var(--text-muted);">List[str]</span>
-        filenames: <span style="color: var(--text-muted);">List[str]</span>
-        split: <span style="color: var(--text-muted);">str</span>
-}</pre>
-            </div>
-            <div class="footer">© mui-group</div>
-        </div>
-
-        <!-- Slide 13: Connection to PyTorch/TensorFlow -->
-        <div class="slide">
-            <h2>Connection to PyTorch/TensorFlow</h2>
-            <div class="grid-2" style="margin-top: 2rem;">
-                <div class="card">
-                    <h3 style="color: #e94560;">PyTorch</h3>
-                    <pre style="font-size: 0.75rem; margin-top: 1rem;">
-import torch
-
-# Zero-copy conversion
-tensor = torch.from_numpy(
-    batch['image_batch']
-)
-
-# Permute to (B, C, H, W)
-tensor = tensor.permute(0, 3, 1, 2)
-
-# Forward pass
-output = model(tensor)
-</pre>
-                    <ul style="margin-top: 1rem; font-size: 0.95rem;">
-                        <li>Zero-copy from NumPy</li>
-                        <li>Channel-first format</li>
-                        <li>Gradient tracking</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h3 style="color: #e94560;">TensorFlow</h3>
-                    <pre style="font-size: 0.75rem; margin-top: 1rem;">
-import tensorflow as tf
-
-# Direct conversion
-tensor = tf.convert_to_tensor(
-    batch['image_batch']
-)
-
-# Already (B, H, W, C)
-# No permute needed!
-
-# Forward pass
-output = model(tensor)
-</pre>
-                    <ul style="margin-top: 1rem; font-size: 0.95rem;">
-                        <li>Direct conversion</li>
-                        <li>Channel-last format</li>
-                        <li>Eager execution</li>
+                    <p class="smaller">Why this works:</p>
+                    <ul class="smaller">
+                        <li>Metadata stays <strong>independent</strong> of the pixels</li>
+                        <li>Train/test filtering becomes trivial</li>
+                        <li>Works with existing images without renaming anything</li>
                     </ul>
                 </div>
             </div>
-            <div class="footer">© mui-group</div>
-        </div>
-
-        <!-- Slide 14: Performance: Timing the Pipeline -->
-        <div class="slide">
-            <h2>Performance Metrics</h2>
-            <p>Timing the full pipeline</p>
-            <div class="grid-3" style="margin-top: 3rem;">
-                <div class="metric">
-                    <span class="metric-value">16</span>
-                    <span class="metric-label">Total Batches</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-value">0.15s</span>
-                    <span class="metric-label">Per Batch</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-value">27</span>
-                    <span class="metric-label">Samples/sec</span>
-                </div>
-            </div>
-            <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 8px; margin-top: 3rem; border: 1px solid var(--border);">
-                <h3 style="font-size: 1.3rem; margin-bottom: 1rem;">Optimization Strategies</h3>
-                <ul>
-                    <li>Use generators for memory efficiency</li>
-                    <li>Batch processing reduces overhead</li>
-                    <li>OpenCV optimized for image operations</li>
-                    <li>NumPy vectorization for array operations</li>
-                    <li>Add prefetching for production systems</li>
-                    <li>Consider multiprocessing for CPU-bound tasks</li>
-                </ul>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>Every large-scale dataset (COCO, ImageNet, LAION) ships as a manifest plus a blob of files. Learning the pattern here means you can point this same loader at a real dataset by only swapping the CSV.</p>
             </div>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 15: Final Project Requirements -->
+        <!-- Slide 7: Part 3 - Setup and sample data -->
         <div class="slide">
-            <h2>Final Project Requirements</h2>
-            <div class="checklist">
-                <ul>
-                    <li>Create synthetic dataset with manifest.csv</li>
-                    <li>Implement MultimodalDataLoader class</li>
-                    <li>Integrate all 8 modules in the pipeline</li>
-                    <li>Process both training and test splits</li>
-                    <li>Generate batches with proper shapes</li>
-                    <li>Time the full pipeline execution</li>
-                    <li>Show connection to PyTorch or TensorFlow</li>
-                    <li>Record 5-minute walkthrough video</li>
-                </ul>
+            <div class="slide-number">7 / 18</div>
+            <span class="step-badge">Part 3 · Setup and Sample Data</span>
+            <h2>Generate the Dataset Before You Load It</h2>
+            <p>The module ships a script that reads the manifest and synthesizes a matching image for each row using OpenCV drawing primitives, so the pipeline has real files to work with.</p>
+            <pre class="tight"><code><span class="comment"># Run these in order from the module directory:</span>
+pip install -e .              <span class="comment"># numpy, pandas, opencv-python, python-dotenv</span>
+python create_sample_data.py  <span class="comment"># writes 20 images into data/images/</span>
+python lab_research_pipeline.py
+
+<span class="comment"># create_sample_data.py builds each image programmatically, e.g.:</span>
+img <span class="keyword">=</span> np.<span class="keyword">zeros</span>((h, w, <span class="number">3</span>), dtype<span class="keyword">=</span>np.uint8)
+center <span class="keyword">=</span> (h // <span class="number">2</span>, w // <span class="number">2</span>)
+cv2.<span class="keyword">circle</span>(img, center, <span class="number">40</span> + index * <span class="number">5</span>, (<span class="number">255</span>, <span class="number">240</span>, <span class="number">200</span>), -<span class="number">1</span>)  <span class="comment"># galaxy core</span>
+cv2.<span class="keyword">imwrite</span>(<span class="keyword">str</span>(output_path), img)</code></pre>
+            <div class="callout warn">
+                <span class="callout-label">Common error</span>
+                <p>Skipping the generation step is the most common mistake, because the loader validates that every file actually exists. If you see "images not found", you forgot to run <code>create_sample_data.py</code>.</p>
             </div>
-            <div style="margin-top: 2rem; background: var(--bg-secondary); padding: 2rem; border-radius: 8px; border: 1px solid var(--border);">
-                <h3 style="font-size: 1.3rem; margin-bottom: 1rem;">Video Walkthrough Should Cover</h3>
-                <ul>
-                    <li>Explain the manifest pattern</li>
-                    <li>Walk through the class architecture</li>
-                    <li>Demonstrate batch generation</li>
-                    <li>Show output shapes and statistics</li>
-                    <li>Explain ML framework integration</li>
-                </ul>
+            <div class="callout tip">
+                <span class="callout-label">Key insight</span>
+                <p>Synthetic data lets you develop and test a pipeline before spending money on real data or GPUs. The same OpenCV calls that draw these images are the ones you will later use for data augmentation.</p>
             </div>
             <div class="footer">© mui-group</div>
         </div>
 
-        <!-- Slide 16: What's Next -->
+        <!-- Slide 8: Part 4 - Loading and cleaning with Pandas -->
         <div class="slide">
-            <h2>What's Next</h2>
-            <p>The ML training loop</p>
-            <svg viewBox="0 0 900 380" style="margin-top: 2rem;">
-                <!-- Center: Your Pipeline -->
-                <rect x="325" y="145" width="250" height="90" fill="#e94560" rx="8"/>
-                <text x="450" y="182" text-anchor="middle" fill="#fafafa" font-size="18" font-weight="600">Your Pipeline</text>
-                <text x="450" y="205" text-anchor="middle" fill="#fafafa" font-size="13">MultimodalDataLoader</text>
+            <div class="slide-number">8 / 18</div>
+            <span class="step-badge">Part 4 · Loading and Cleaning</span>
+            <h2>Read, Deduplicate, and Validate</h2>
+            <p>The loader's <code>__init__</code> reads the CSV with Pandas and then applies the Module 6 cleaning steps so that every remaining row is a usable sample.</p>
+            <pre class="tight"><code>df <span class="keyword">=</span> pd.<span class="keyword">read_csv</span>(self.manifest_path)
+initial_count <span class="keyword">=</span> <span class="keyword">len</span>(df)
 
-                <!-- Arrow up to Model -->
-                <path d="M 450 145 L 450 110" stroke="#444" stroke-width="3" marker-end="url(#arrow5)"/>
+df <span class="keyword">=</span> df.<span class="keyword">drop_duplicates</span>(subset<span class="keyword">=</span>[<span class="string">'image_filename'</span>])
+df <span class="keyword">=</span> df.<span class="keyword">dropna</span>(subset<span class="keyword">=</span>[<span class="string">'image_filename'</span>, <span class="string">'caption'</span>, <span class="string">'category'</span>, <span class="string">'split'</span>])
+df <span class="keyword">=</span> df[df[<span class="string">'split'</span>] <span class="keyword">==</span> self.split].<span class="keyword">copy</span>()
 
-                <!-- Model -->
-                <rect x="325" y="30" width="250" height="80" fill="#1a1a2e" rx="8"/>
-                <text x="450" y="63" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="600">Neural Network Model</text>
-                <text x="450" y="83" text-anchor="middle" fill="#999" font-size="13">Forward Pass → Predictions</text>
+df[<span class="string">'caption'</span>] <span class="keyword">=</span> df[<span class="string">'caption'</span>].str.<span class="keyword">strip</span>()
+df[<span class="string">'caption'</span>] <span class="keyword">=</span> df[<span class="string">'caption'</span>].str.<span class="keyword">replace</span>(<span class="string">r'\s+'</span>, <span class="string">' '</span>, regex<span class="keyword">=</span><span class="keyword">True</span>)
 
-                <!-- Arrow right to Loss -->
-                <path d="M 575 70 L 615 70" stroke="#444" stroke-width="3" marker-end="url(#arrow5)"/>
+valid_mask <span class="keyword">=</span> df[<span class="string">'image_filename'</span>].<span class="keyword">apply</span>(<span class="keyword">lambda</span> x: (self.image_dir / x).<span class="keyword">exists</span>())
+df <span class="keyword">=</span> df[valid_mask].<span class="keyword">copy</span>()
+df <span class="keyword">=</span> df.<span class="keyword">reset_index</span>(drop<span class="keyword">=</span><span class="keyword">True</span>)</code></pre>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>Bad data produces bad models. Doing validation once at load time (including the on-disk file check) means the training loop never crashes halfway through an epoch on a missing image.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
 
-                <!-- Loss -->
-                <rect x="615" y="30" width="200" height="80" fill="#1a1a2e" rx="8"/>
-                <text x="715" y="63" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="600">Loss Function</text>
-                <text x="715" y="83" text-anchor="middle" fill="#999" font-size="13">Compare to Labels</text>
+        <!-- Slide 9: Part 5 - Preprocessing images with OpenCV -->
+        <div class="slide">
+            <div class="slide-number">9 / 18</div>
+            <span class="step-badge">Part 5 · Preprocessing Images</span>
+            <h2>From File on Disk to Normalized Array</h2>
+            <p>A private helper loads one image at a time, resizes it, converts from OpenCV's default BGR ordering to RGB, and optionally normalizes pixels into the [0, 1] range.</p>
+            <svg width="880" height="80" style="margin: 0.25rem 0 1rem 0;">
+                <g transform="translate(0, 15)">
+                    <rect x="0" y="0" width="150" height="45" fill="#1a1a2e" rx="6"/>
+                    <text x="75" y="21" text-anchor="middle" font-size="13" fill="#fafafa" font-weight="600">BGR uint8</text>
+                    <text x="75" y="38" text-anchor="middle" font-size="11" fill="#bbb">cv2.imread</text>
+                    <path d="M 150,22 L 185,22" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
 
-                <!-- Arrow down to Optimizer -->
-                <path d="M 715 110 L 715 145" stroke="#444" stroke-width="3" marker-end="url(#arrow5)"/>
+                    <rect x="185" y="0" width="150" height="45" fill="#1a1a2e" rx="6"/>
+                    <text x="260" y="21" text-anchor="middle" font-size="13" fill="#fafafa" font-weight="600">Resized</text>
+                    <text x="260" y="38" text-anchor="middle" font-size="11" fill="#bbb">cv2.resize</text>
+                    <path d="M 335,22 L 370,22" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
 
-                <!-- Optimizer -->
-                <rect x="615" y="145" width="200" height="80" fill="#1a1a2e" rx="8"/>
-                <text x="715" y="178" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="600">Optimizer</text>
-                <text x="715" y="198" text-anchor="middle" fill="#999" font-size="13">Update Weights</text>
+                    <rect x="370" y="0" width="150" height="45" fill="#1a1a2e" rx="6"/>
+                    <text x="445" y="21" text-anchor="middle" font-size="13" fill="#fafafa" font-weight="600">RGB</text>
+                    <text x="445" y="38" text-anchor="middle" font-size="11" fill="#bbb">cvtColor</text>
+                    <path d="M 520,22 L 555,22" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
 
-                <!-- Arrow back to Pipeline -->
-                <path d="M 615 185 L 575 185" stroke="#444" stroke-width="3" marker-end="url(#arrow5)"/>
-
-                <!-- Labels -->
-                <rect x="75" y="145" width="200" height="90" fill="#1a1a2e" rx="8"/>
-                <text x="175" y="182" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="600">Labels</text>
-                <text x="175" y="205" text-anchor="middle" fill="#999" font-size="13">From metadata</text>
-
-                <path d="M 275 190 L 325 190" stroke="#444" stroke-width="3" marker-end="url(#arrow5)"/>
-
-                <!-- Repeat arrow -->
-                <path d="M 450 235 Q 450 300, 300 300 Q 150 300, 150 230" stroke="#e94560" stroke-width="3" stroke-dasharray="5,5" marker-end="url(#arrow6)"/>
-                <text x="250" y="325" text-anchor="middle" fill="#e94560" font-size="14" font-weight="600">Repeat for N epochs</text>
-
+                    <rect x="555" y="0" width="200" height="45" fill="#16a34a" rx="6"/>
+                    <text x="655" y="21" text-anchor="middle" font-size="13" fill="#fafafa" font-weight="600">float32 in [0, 1]</text>
+                    <text x="655" y="38" text-anchor="middle" font-size="11" fill="#e0ffe8">/ 255.0</text>
+                </g>
                 <defs>
-                    <marker id="arrow5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                        <polygon points="0 0, 10 3, 0 6" fill="#444" />
-                    </marker>
-                    <marker id="arrow6" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                        <polygon points="0 0, 10 3, 0 6" fill="#e94560" />
+                    <marker id="arrowred9" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
                     </marker>
                 </defs>
             </svg>
-            <p style="margin-top: 2rem; color: var(--accent); font-size: 1.3rem;">
-                Your pipeline is the foundation — now build the model!
-            </p>
+            <pre class="tight"><code>img <span class="keyword">=</span> cv2.<span class="keyword">imread</span>(<span class="keyword">str</span>(image_path))          <span class="comment"># loads as BGR</span>
+<span class="keyword">if</span> img <span class="keyword">is</span> <span class="keyword">None</span>:
+    <span class="keyword">return</span> <span class="keyword">None</span>
+
+img <span class="keyword">=</span> cv2.<span class="keyword">resize</span>(img, (self.target_size[<span class="number">1</span>], self.target_size[<span class="number">0</span>]))
+img <span class="keyword">=</span> cv2.<span class="keyword">cvtColor</span>(img, cv2.COLOR_BGR2RGB)  <span class="comment"># BGR to RGB</span>
+
+<span class="keyword">if</span> self.normalize:
+    img <span class="keyword">=</span> img.<span class="keyword">astype</span>(np.float32) / <span class="number">255.0</span>     <span class="comment"># scale to [0, 1]</span>
+
+<span class="keyword">return</span> img</code></pre>
+            <div class="callout warn">
+                <span class="callout-label">Two gotchas</span>
+                <p>OpenCV reads BGR (not RGB), and networks expect normalized floats (not 0 to 255 uint8). Getting either wrong trains a model that silently underperforms rather than erroring out.</p>
+            </div>
             <div class="footer">© mui-group</div>
         </div>
-    </div>
 
-    <div class="controls">
-        <button id="prevBtn">← Previous</button>
-        <button id="nextBtn">Next →</button>
+        <!-- Slide 10: Part 6 - The generator pattern -->
+        <div class="slide">
+            <div class="slide-number">10 / 18</div>
+            <span class="step-badge">Part 6 · The Generator Pattern</span>
+            <h2>Yield One Batch at a Time</h2>
+            <p>The <code>__iter__</code> method makes the loader iterable using a generator. Because it yields instead of returning a list, only one batch lives in memory at a time.</p>
+            <pre class="tight"><code>indices <span class="keyword">=</span> np.<span class="keyword">arange</span>(<span class="keyword">len</span>(self.df))
+<span class="keyword">if</span> self.shuffle:
+    np.random.<span class="keyword">shuffle</span>(indices)
+
+<span class="keyword">for</span> start_idx <span class="keyword">in</span> <span class="keyword">range</span>(<span class="number">0</span>, <span class="keyword">len</span>(self.df), self.batch_size):
+    end_idx <span class="keyword">=</span> <span class="keyword">min</span>(start_idx + self.batch_size, <span class="keyword">len</span>(self.df))
+    batch_indices <span class="keyword">=</span> indices[start_idx:end_idx]
+    batch_df <span class="keyword">=</span> self.df.iloc[batch_indices]
+
+    image_list, text_list <span class="keyword">=</span> [], []
+    <span class="keyword">for</span> idx, row <span class="keyword">in</span> batch_df.<span class="keyword">iterrows</span>():
+        img <span class="keyword">=</span> self.<span class="keyword">_load_and_preprocess_image</span>(self.image_dir / row[<span class="string">'image_filename'</span>])
+        <span class="keyword">if</span> img <span class="keyword">is not</span> <span class="keyword">None</span>:
+            image_list.<span class="keyword">append</span>(img)
+            text_list.<span class="keyword">append</span>(row[<span class="string">'caption'</span>])
+    <span class="keyword">if</span> <span class="keyword">not</span> image_list:
+        <span class="keyword">continue</span>
+    <span class="keyword">yield</span> {...}</code></pre>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>The generator pattern is what lets a data loader handle datasets far larger than RAM. This is the exact mechanism PyTorch and TensorFlow rely on for streaming data during training.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 11: Part 7 - Stacking and analyzing with NumPy -->
+        <div class="slide">
+            <div class="slide-number">11 / 18</div>
+            <span class="step-badge">Part 7 · Stacking with NumPy</span>
+            <h2>Build the Batch and Read Its Statistics</h2>
+            <p>Once a list of preprocessed images is collected, <code>np.stack</code> combines them into a single <code>(B, H, W, C)</code> array, and the loader attaches a metadata dictionary.</p>
+            <svg width="880" height="120" style="margin: 0.25rem 0 0.75rem 0;">
+                <g transform="translate(0, 30)">
+                    <rect x="10" y="10" width="60" height="60" fill="#3b82f6" opacity="0.6" rx="5"/>
+                    <rect x="20" y="0" width="60" height="60" fill="#3b82f6" opacity="0.75" rx="5"/>
+                    <rect x="30" y="-6" width="60" height="60" fill="#3b82f6" opacity="0.9" rx="5"/>
+                    <rect x="40" y="-12" width="60" height="60" fill="#3b82f6" rx="5"/>
+                    <text x="70" y="22" text-anchor="middle" font-size="12" fill="#fafafa">(H,W,C)</text>
+                    <text x="60" y="82" text-anchor="middle" font-size="13" fill="#555">4 image slabs</text>
+
+                    <path d="M 150,24 L 210,24" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred11)"/>
+                    <text x="180" y="14" text-anchor="middle" font-size="12" fill="#e94560">np.stack</text>
+
+                    <rect x="230" y="-12" width="90" height="72" fill="#16a34a" rx="6"/>
+                    <text x="275" y="20" text-anchor="middle" font-size="13" fill="#fafafa" font-weight="600">(4,H,W,C)</text>
+                    <text x="275" y="82" text-anchor="middle" font-size="13" fill="#555">one batch</text>
+
+                    <g transform="translate(420, -14)">
+                        <rect x="0" y="0" width="250" height="80" fill="#1a1a2e" rx="6"/>
+                        <text x="16" y="24" font-size="12" fill="#85c1e9">shape: (4, 224, 224, 3)</text>
+                        <text x="16" y="44" font-size="12" fill="#85c1e9">range: [0.000, 1.000]</text>
+                        <text x="16" y="64" font-size="12" fill="#4ade80">mean: 0.487  std: 0.213</text>
+                    </g>
+                </g>
+                <defs>
+                    <marker id="arrowred11" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                </defs>
+            </svg>
+            <pre class="tight"><code>image_batch <span class="keyword">=</span> np.<span class="keyword">stack</span>(image_list, axis<span class="keyword">=</span><span class="number">0</span>)   <span class="comment"># -> (B, H, W, C)</span>
+
+<span class="keyword">yield</span> {
+    <span class="string">'image_batch'</span>: image_batch,               <span class="comment"># float32 in [0, 1]</span>
+    <span class="string">'text_batch'</span>: text_list,                  <span class="comment"># List[str] of length B</span>
+    <span class="string">'metadata'</span>: {
+        <span class="string">'batch_size'</span>: <span class="keyword">len</span>(image_list),
+        <span class="string">'categories'</span>: batch_df.iloc[valid_indices][<span class="string">'category'</span>].<span class="keyword">tolist</span>(),
+        <span class="string">'filenames'</span>: batch_df.iloc[valid_indices][<span class="string">'image_filename'</span>].<span class="keyword">tolist</span>(),
+        <span class="string">'split'</span>: self.split,
+    },
+}
+
+<span class="comment"># Later, inspecting a batch:</span>
+<span class="keyword">print</span>(<span class="string">f"Shape: {images.shape}, range: [{images.min():.3f}, {images.max():.3f}]"</span>)
+<span class="keyword">print</span>(<span class="string">f"Mean: {images.mean():.3f}, Std: {images.std():.3f}"</span>)</code></pre>
+            <div class="callout tip">
+                <span class="callout-label">Key insight</span>
+                <p>Checking a batch's shape, dtype, and value range before feeding a model is the fastest way to catch preprocessing bugs. A mean near 0.5 and a [0, 1] range confirm normalization worked.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 12: Part 8 - Timing and running both splits -->
+        <div class="slide">
+            <div class="slide-number">12 / 18</div>
+            <span class="step-badge">Part 8 · Timing and Splits</span>
+            <h2>Measure the Pipeline, Train vs Test</h2>
+            <p>The main function runs the loader over the training split with shuffling on, times the full pass, then runs the test split with shuffle off, since evaluation data should be iterated in a fixed order.</p>
+            <pre class="tight"><code>train_loader <span class="keyword">=</span> MultimodalDataLoader(
+    manifest_path<span class="keyword">=</span>manifest_path, image_dir<span class="keyword">=</span>image_dir,
+    batch_size<span class="keyword">=</span><span class="number">4</span>, target_size<span class="keyword">=</span>(<span class="number">224</span>, <span class="number">224</span>),
+    split<span class="keyword">=</span><span class="string">"train"</span>, shuffle<span class="keyword">=</span><span class="keyword">True</span>, normalize<span class="keyword">=</span><span class="keyword">True</span>,
+)
+
+start_time <span class="keyword">=</span> time.<span class="keyword">time</span>()
+batch_count <span class="keyword">=</span> total_samples <span class="keyword">=</span> <span class="number">0</span>
+<span class="keyword">for</span> batch_idx, batch <span class="keyword">in</span> <span class="keyword">enumerate</span>(train_loader):
+    batch_count += <span class="number">1</span>
+    total_samples += <span class="keyword">len</span>(batch[<span class="string">'image_batch'</span>])
+elapsed <span class="keyword">=</span> time.<span class="keyword">time</span>() - start_time
+<span class="keyword">print</span>(<span class="string">f"Samples per second: {total_samples/elapsed:.1f}"</span>)
+
+<span class="comment"># Test split iterates deterministically:</span>
+test_loader <span class="keyword">=</span> MultimodalDataLoader(..., split<span class="keyword">=</span><span class="string">"test"</span>, shuffle<span class="keyword">=</span><span class="keyword">False</span>)</code></pre>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>Shuffle training data to break ordering bias, but never shuffle evaluation data so metrics are reproducible. Timing the loader early tells you whether data loading (not the GPU) will be your training bottleneck.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 13: Part 9 - Connecting to ML frameworks -->
+        <div class="slide">
+            <div class="slide-number">13 / 18</div>
+            <span class="step-badge">Part 9 · Connecting to Frameworks</span>
+            <h2>NumPy Out, Tensors In</h2>
+            <p>The pipeline's NumPy output plugs directly into both major frameworks. Our output is channel-last, so TensorFlow is a drop-in and PyTorch needs one permute.</p>
+            <svg width="880" height="150" style="margin: 0.25rem 0 0.75rem 0;">
+                <g transform="translate(0, 55)">
+                    <rect x="0" y="0" width="200" height="50" fill="#3b82f6" rx="8"/>
+                    <text x="100" y="24" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">NumPy (B,H,W,C)</text>
+                    <text x="100" y="42" text-anchor="middle" font-size="11" fill="#e0ecff">channel-last</text>
+                </g>
+                <path d="M 200,70 L 260,35" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred13)"/>
+                <path d="M 200,80 L 260,115" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred13)"/>
+                <g transform="translate(280, 5)">
+                    <rect x="0" y="0" width="290" height="50" fill="#1a1a2e" rx="8"/>
+                    <text x="145" y="22" text-anchor="middle" font-size="13" fill="#fafafa" font-weight="600">PyTorch: permute to (B,C,H,W)</text>
+                    <text x="145" y="40" text-anchor="middle" font-size="11" fill="#bbb">channel-first</text>
+                </g>
+                <g transform="translate(280, 95)">
+                    <rect x="0" y="0" width="290" height="50" fill="#16a34a" rx="8"/>
+                    <text x="145" y="22" text-anchor="middle" font-size="13" fill="#fafafa" font-weight="600">TensorFlow: unchanged (B,H,W,C)</text>
+                    <text x="145" y="40" text-anchor="middle" font-size="11" fill="#e0ffe8">already channel-last</text>
+                </g>
+                <defs>
+                    <marker id="arrowred13" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                </defs>
+            </svg>
+            <pre class="tight"><code><span class="comment"># PyTorch: needs channel-first ordering</span>
+<span class="keyword">import</span> torch
+image_tensor <span class="keyword">=</span> torch.<span class="keyword">from_numpy</span>(batch[<span class="string">'image_batch'</span>])  <span class="comment"># zero-copy</span>
+image_tensor <span class="keyword">=</span> image_tensor.<span class="keyword">permute</span>(<span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>)         <span class="comment"># (B,H,W,C) -> (B,C,H,W)</span>
+output <span class="keyword">=</span> model(image_tensor)
+
+<span class="comment"># TensorFlow: keeps channel-last (matches our output)</span>
+<span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf
+image_tensor <span class="keyword">=</span> tf.<span class="keyword">convert_to_tensor</span>(batch[<span class="string">'image_batch'</span>])  <span class="comment"># already (B,H,W,C)</span>
+output <span class="keyword">=</span> model(image_tensor)</code></pre>
+            <div class="callout warn">
+                <span class="callout-label">Most common integration bug</span>
+                <p>Channel ordering: PyTorch wants <code>(B, C, H, W)</code> while TensorFlow wants <code>(B, H, W, C)</code>. Our pipeline emits channel-last, so TensorFlow is a drop-in and PyTorch needs one permute.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 14: The full pipeline recap -->
+        <div class="slide">
+            <div class="slide-number">14 / 18</div>
+            <span class="step-badge">Recap</span>
+            <h2>The full pipeline</h2>
+            <svg width="900" height="330">
+                <g transform="translate(50, 50)">
+                    <rect x="0" y="0" width="180" height="60" fill="#1a1a2e" rx="8"/>
+                    <text x="90" y="34" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">Read Manifest</text>
+                    <text x="90" y="52" text-anchor="middle" font-size="12" fill="#bbb">pd.read_csv</text>
+
+                    <path d="M 90,60 L 90,100" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred14)"/>
+
+                    <rect x="0" y="100" width="180" height="60" fill="#1a1a2e" rx="8"/>
+                    <text x="90" y="134" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">Clean, Validate</text>
+                    <text x="90" y="152" text-anchor="middle" font-size="12" fill="#bbb">drop, filter, exists</text>
+
+                    <path d="M 90,160 L 90,200" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred14)"/>
+
+                    <rect x="0" y="200" width="180" height="60" fill="#e94560" rx="8"/>
+                    <text x="90" y="234" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">Yield Batches</text>
+                    <text x="90" y="252" text-anchor="middle" font-size="12" fill="#ffe0e6">generator</text>
+                </g>
+
+                <g transform="translate(360, 50)">
+                    <rect x="0" y="0" width="180" height="60" fill="#1a1a2e" rx="8"/>
+                    <text x="90" y="34" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">Load Image</text>
+                    <text x="90" y="52" text-anchor="middle" font-size="12" fill="#bbb">OpenCV BGR</text>
+
+                    <path d="M 90,60 L 90,100" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred14)"/>
+
+                    <rect x="0" y="100" width="180" height="60" fill="#1a1a2e" rx="8"/>
+                    <text x="90" y="134" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">Resize, RGB</text>
+                    <text x="90" y="152" text-anchor="middle" font-size="12" fill="#bbb">normalize [0,1]</text>
+
+                    <path d="M 90,160 L 90,200" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred14)"/>
+
+                    <rect x="0" y="200" width="180" height="60" fill="#3b82f6" rx="8"/>
+                    <text x="90" y="234" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">np.stack</text>
+                    <text x="90" y="252" text-anchor="middle" font-size="12" fill="#e0ecff">(B,H,W,C)</text>
+                </g>
+
+                <g transform="translate(670, 50)">
+                    <rect x="0" y="0" width="180" height="60" fill="#16a34a" rx="8"/>
+                    <text x="90" y="34" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">Batch Dict</text>
+                    <text x="90" y="52" text-anchor="middle" font-size="12" fill="#e0ffe8">images + text</text>
+
+                    <path d="M 90,60 L 90,100" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred14)"/>
+
+                    <rect x="0" y="100" width="180" height="60" fill="#16a34a" rx="8"/>
+                    <text x="90" y="134" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">Framework</text>
+                    <text x="90" y="152" text-anchor="middle" font-size="12" fill="#e0ffe8">torch / tf</text>
+
+                    <path d="M 90,160 L 90,200" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred14)"/>
+
+                    <rect x="0" y="200" width="180" height="60" fill="#16a34a" rx="8"/>
+                    <text x="90" y="234" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">Train Model</text>
+                    <text x="90" y="252" text-anchor="middle" font-size="12" fill="#e0ffe8">gradients flow</text>
+                </g>
+
+                <path d="M 230,80 L 360,80" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred14)"/>
+                <path d="M 540,130 L 670,130" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred14)"/>
+
+                <defs>
+                    <marker id="arrowred14" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                </defs>
+            </svg>
+            <p style="margin-top: 1rem; font-size: 1.2rem;">One reusable class carries data from a CSV all the way to <strong>ML-ready batches</strong>.</p>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 15: Takeaways part 1 -->
+        <div class="slide">
+            <div class="slide-number">15 / 18</div>
+            <h2>What you learned</h2>
+            <ul class="smaller">
+                <li>A data pipeline is a <strong>first-class engineering artifact</strong>: model it as a reusable class with clear configuration and output contracts</li>
+                <li>The <strong>manifest pattern</strong> separates metadata from files, making filtering, splits, and new datasets easy without renaming anything</li>
+                <li>Clean and validate data <strong>once at load time</strong>, including the on-disk file existence check, so training never crashes mid-epoch</li>
+                <li>OpenCV loads BGR and returns 0 to 255 uint8: always convert to <strong>RGB</strong> and normalize to <strong>[0, 1] float32</strong> before a model sees the data</li>
+            </ul>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 16: Takeaways part 2 -->
+        <div class="slide">
+            <div class="slide-number">16 / 18</div>
+            <h2>What you learned</h2>
+            <ul class="smaller">
+                <li>The <strong>generator pattern</strong> yields one batch at a time, giving memory efficiency that scales to datasets larger than RAM</li>
+                <li><code>np.stack</code> turns a list of images into a <code>(B, H, W, C)</code> batch, and NumPy reductions give you instant sanity checks on shape and range</li>
+                <li>Shuffle training data but never evaluation data, and time the loader to know if data loading is your bottleneck</li>
+                <li>PyTorch is channel-first <code>(B, C, H, W)</code> and TensorFlow is channel-last <code>(B, H, W, C)</code>: our pipeline emits channel-last</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">The big idea</span>
+                <p>The data pipeline is where raw reality meets the model. Master it, and you can point a neural network at almost any dataset in the world.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 17: Practice -->
+        <div class="slide">
+            <div class="slide-number">17 / 18</div>
+            <h2>Your capstone assignment</h2>
+            <div class="split">
+                <div>
+                    <p class="smaller" style="margin-bottom: 0.75rem;"><strong>Run the full pipeline:</strong></p>
+                    <ul class="smaller">
+                        <li><code>pip install -e .</code></li>
+                        <li><code>python create_sample_data.py</code></li>
+                        <li><code>python lab_research_pipeline.py</code></li>
+                    </ul>
+                    <p class="smaller" style="margin-top: 1rem;"><strong>Extend it:</strong></p>
+                    <ul class="smaller">
+                        <li>Add a data augmentation step (random flip or crop) with OpenCV</li>
+                        <li>Add a new category and a few rows to the manifest</li>
+                        <li>Wrap the loader as a <code>tf.data.Dataset</code> generator</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="callout tip">
+                        <span class="callout-label">The capstone</span>
+                        <p>This lab is the culmination of the course. When your loader yields clean, shaped, framework-ready batches for both splits, you have built the exact artifact that real ML teams depend on.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 18: Closing -->
+        <div class="slide">
+            <div class="slide-number">18 / 18</div>
+            <h2>Course complete</h2>
+            <p class="lead">Eight modules, one converging skill: turning messy real-world data into something a model can learn from.</p>
+            <ul class="smaller">
+                <li>You started with data structures and complexity</li>
+                <li>You added Pythonic patterns, NumPy, Pandas, and OpenCV</li>
+                <li>You finished by wiring them into a single production-ready loader</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">Where to go next</span>
+                <p>Point this pipeline at a real dataset (COCO captions, a Kaggle image set) by swapping the manifest, then plug the batches into a real model and watch the whole course pay off.</p>
+            </div>
+            <p class="smaller" style="color: var(--text-muted); margin-top: 1rem;">Questions? Bring them to the lab session.</p>
+            <p class="smaller" style="color: var(--text-muted);">AI Research Foundations Minicourse<br>Module 08: Capstone: The Research Pipeline</p>
+            <div class="footer">© mui-group</div>
+        </div>
     </div>
 
     <script>
@@ -1044,10 +1010,6 @@ output = model(tensor)
             showSlide(currentSlide - 1);
         }
 
-        // Button controls
-        document.getElementById('nextBtn').addEventListener('click', nextSlide);
-        document.getElementById('prevBtn').addEventListener('click', prevSlide);
-
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') {
@@ -1056,34 +1018,34 @@ output = model(tensor)
             } else if (e.key === 'ArrowLeft') {
                 e.preventDefault();
                 prevSlide();
-            } else if (e.key === 'Home') {
-                e.preventDefault();
-                showSlide(0);
-            } else if (e.key === 'End') {
-                e.preventDefault();
-                showSlide(totalSlides - 1);
             }
         });
 
-        // Touch/swipe support
-        let touchStartX = 0;
-        let touchEndX = 0;
+        // Click navigation
+        document.querySelector('.slide-container').addEventListener('click', (e) => {
+            if (e.clientX > window.innerWidth / 2) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        });
 
+        // Touch navigation for mobile
+        let touchStartX = 0;
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
         });
 
         document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
+            const touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                prevSlide();
+            }
         });
 
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) nextSlide();
-            if (touchEndX > touchStartX + 50) prevSlide();
-        }
-
-        // Theme toggle functionality
+        // Theme toggle
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
 
@@ -1097,38 +1059,42 @@ output = model(tensor)
         function updateSVGColors(theme) {
             const svgs = document.querySelectorAll('svg');
             svgs.forEach(svg => {
+                // Update text elements
                 svg.querySelectorAll('text').forEach(text => {
                     const currentFill = text.getAttribute('fill');
                     if (theme === 'dark') {
-                        if (['#333', '#1a1a2e', '#555', '#444'].includes(currentFill)) {
-                            text.setAttribute('data-light-fill', currentFill);
+                        if (currentFill === '#333' || currentFill === '#1a1a2e' || currentFill === '#555' || currentFill === '#444') {
                             text.setAttribute('fill', '#eee');
-                        } else if (['#777', '#666', '#999'].includes(currentFill)) {
                             text.setAttribute('data-light-fill', currentFill);
+                        } else if (currentFill === '#777' || currentFill === '#666') {
                             text.setAttribute('fill', '#aaa');
+                            text.setAttribute('data-light-fill', currentFill);
                         }
                     } else {
-                        const lf = text.getAttribute('data-light-fill');
-                        if (lf) text.setAttribute('fill', lf);
+                        const lightFill = text.getAttribute('data-light-fill');
+                        if (lightFill) {
+                            text.setAttribute('fill', lightFill);
+                        }
                     }
                 });
-                svg.querySelectorAll('line, path, rect, circle, polyline, polygon').forEach(el => {
+                // Update stroke elements (lines, paths, rects)
+                svg.querySelectorAll('line, path, rect, circle').forEach(el => {
                     const currentStroke = el.getAttribute('stroke');
                     const currentFill = el.getAttribute('fill');
                     if (theme === 'dark') {
-                        if (currentStroke && ['#444', '#555', '#333', '#1a1a2e'].includes(currentStroke)) {
+                        if (currentStroke === '#444' || currentStroke === '#555' || currentStroke === '#333') {
                             el.setAttribute('data-light-stroke', currentStroke);
                             el.setAttribute('stroke', '#888');
                         }
-                        if (currentFill && ['#f8f9fa', '#f0f0f5', '#fff', '#ffffff', '#fafafa'].includes(currentFill)) {
+                        if (currentFill === '#f8f9fa' || currentFill === '#f0f0f5' || currentFill === '#fff' || currentFill === '#ffffff') {
                             el.setAttribute('data-light-fill', currentFill);
                             el.setAttribute('fill', '#2d2d44');
                         }
                     } else {
-                        const ls = el.getAttribute('data-light-stroke');
-                        if (ls) el.setAttribute('stroke', ls);
-                        const lf = el.getAttribute('data-light-fill');
-                        if (lf) el.setAttribute('fill', lf);
+                        const lightStroke = el.getAttribute('data-light-stroke');
+                        if (lightStroke) el.setAttribute('stroke', lightStroke);
+                        const lightFill = el.getAttribute('data-light-fill');
+                        if (lightFill) el.setAttribute('fill', lightFill);
                     }
                 });
             });
@@ -1139,6 +1105,7 @@ output = model(tensor)
             setTheme(current === 'dark' ? 'light' : 'dark');
         });
 
+        // Initialize theme from localStorage or system preference
         const saved = localStorage.getItem('slide-theme');
         if (saved) {
             setTheme(saved);

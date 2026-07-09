@@ -1,921 +1,1076 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Module 5: DataFrames & Series</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5: DataFrames & Series</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fafafa;
+            --bg-secondary: #f0f0f5;
+            --bg-code: #1a1a2e;
+            --text-primary: #1a1a2e;
+            --text-secondary: #555;
+            --text-muted: #999;
+            --accent: #e94560;
+            --accent-hover: #d63851;
+            --green: #16a34a;
+            --blue: #2563eb;
+            --border: #e0e0e0;
+            --code-text: #fafafa;
+            --svg-text: #333;
+            --svg-stroke: #444;
+            --svg-fill-light: #f8f9fa;
+            --svg-fill-accent: rgba(233, 69, 96, 0.1);
+            --shadow: rgba(0, 0, 0, 0.08);
+            --toggle-bg: #e0e0e0;
+            --toggle-knob: #fff;
+        }
 
-    :root {
-      --bg-primary: #fafafa;
-      --bg-secondary: #f0f0f5;
-      --bg-code: #1a1a2e;
-      --text-primary: #1a1a2e;
-      --text-secondary: #555;
-      --text-muted: #999;
-      --accent: #e94560;
-      --accent-hover: #d63851;
-      --green: #16a34a;
-      --blue: #2563eb;
-      --border: #e0e0e0;
-      --code-text: #fafafa;
-      --svg-text: #333;
-      --svg-stroke: #444;
-      --svg-fill-light: #f8f9fa;
-      --svg-fill-accent: rgba(233, 69, 96, 0.1);
-      --shadow: rgba(0, 0, 0, 0.08);
-      --toggle-bg: #e0e0e0;
-      --toggle-knob: #fff;
-      --charcoal: #1a1a2e;
-      --off-white: #fafafa;
-      --gray: #6c6c6c;
-      --light-gray: #d1d1d1;
-    }
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16162a;
+            --bg-code: #0d0d1a;
+            --text-primary: #fafafa;
+            --text-secondary: #ccc;
+            --text-muted: rgba(250, 250, 250, 0.4);
+            --accent: #e94560;
+            --accent-hover: #ff6b81;
+            --green: #4ade80;
+            --blue: #60a5fa;
+            --border: #2d2d44;
+            --code-text: #fafafa;
+            --svg-text: #eee;
+            --svg-stroke: #888;
+            --svg-fill-light: #2d2d44;
+            --svg-fill-accent: rgba(233, 69, 96, 0.15);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --toggle-bg: #2d2d44;
+            --toggle-knob: #fafafa;
+        }
 
-    [data-theme="dark"] {
-      --bg-primary: #1a1a2e;
-      --bg-secondary: #16162a;
-      --bg-code: #0d0d1a;
-      --text-primary: #fafafa;
-      --text-secondary: #ccc;
-      --text-muted: rgba(250, 250, 250, 0.4);
-      --accent: #e94560;
-      --accent-hover: #ff6b81;
-      --green: #4ade80;
-      --blue: #60a5fa;
-      --border: #2d2d44;
-      --code-text: #fafafa;
-      --svg-text: #eee;
-      --svg-stroke: #888;
-      --svg-fill-light: #2d2d44;
-      --svg-fill-accent: rgba(233, 69, 96, 0.15);
-      --shadow: rgba(0, 0, 0, 0.3);
-      --toggle-bg: #2d2d44;
-      --toggle-knob: #fafafa;
-      --charcoal: #fafafa;
-      --off-white: #1a1a2e;
-      --gray: #ccc;
-      --light-gray: #2d2d44;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      overflow: hidden;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .slide-container {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-    }
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
 
-    .slide-container::-webkit-scrollbar {
-      display: none;
-    }
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            min-height: auto;
+            max-height: 96vh;
+            overflow-y: auto;
+            padding: 2rem 5rem 3rem 5rem;
+            position: relative;
+        }
 
-    .slide {
-      min-width: 100vw;
-      height: 100vh;
-      scroll-snap-align: start;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      padding: 2rem 6vw 2rem 6vw;
-      position: relative;
-      overflow-y: auto;
-    }
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            animation: fadeIn 0.3s ease;
+        }
 
-    h1 {
-      font-size: clamp(3rem, 6vw, 5rem);
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-      letter-spacing: -0.02em;
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-    h2 {
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-      letter-spacing: -0.02em;
-    }
+        /* Typography */
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
 
-    h3 {
-      font-size: clamp(1.5rem, 2.5vw, 2rem);
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      letter-spacing: -0.01em;
-    }
+        h2 {
+            font-size: 3rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
 
-    p, li {
-      font-size: clamp(1.1rem, 1.8vw, 1.4rem);
-      line-height: 1.7;
-      font-weight: 300;
-      margin-bottom: 1rem;
-      max-width: 50ch;
-    }
+        p, li {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
 
-    ul {
-      list-style: none;
-      margin: 2rem 0;
-    }
+        strong {
+            font-weight: 600;
+            color: var(--accent);
+        }
 
-    li {
-      padding-left: 2rem;
-      position: relative;
-      margin-bottom: 1.5rem;
-    }
+        ul {
+            list-style: none;
+            margin-left: 1.5rem;
+        }
 
-    li::before {
-      content: "→";
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-weight: 600;
-    }
+        li::before {
+            content: "→ ";
+            color: var(--accent);
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
 
-    .accent {
-      color: var(--accent);
-    }
+        /* Code snippets */
+        code {
+            font-family: 'Monaco', 'Courier New', monospace;
+            background: var(--bg-code);
+            color: var(--code-text);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 1.3rem;
+        }
 
-    .gray {
-      color: var(--gray);
-    }
+        pre {
+            background: var(--bg-code);
+            color: var(--code-text);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
 
-    code {
-      font-family: 'Monaco', 'Courier New', monospace;
-      background: var(--bg-code);
-      color: var(--code-text);
-      padding: 0.2em 0.5em;
-      border-radius: 4px;
-      font-size: 0.9em;
-    }
+        pre code {
+            background: none;
+            padding: 0;
+        }
 
-    pre {
-      background: var(--bg-code);
-      color: var(--code-text);
-      padding: 2rem;
-      border-radius: 8px;
-      overflow-x: auto;
-      margin: 2rem 0;
-      font-size: clamp(0.9rem, 1.4vw, 1.1rem);
-      line-height: 1.6;
-      max-width: 60ch;
-    }
+        /* Syntax highlighting */
+        .keyword { color: var(--accent); }
+        .string { color: var(--green); }
+        .number { color: var(--blue); }
+        .comment { color: var(--text-muted); font-style: italic; }
 
-    .visual-container {
-      margin: 3rem 0;
-      max-width: 900px;
-    }
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
 
-    svg {
-      max-width: 100%;
-      height: auto;
-    }
+        /* Slide counter */
+        .slide-number {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
 
-    footer {
-      position: absolute;
-      bottom: 1.5rem;
-      left: 6vw;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 300;
-    }
+        /* Accent color elements */
+        .accent {
+            color: var(--accent);
+        }
 
-    .slide-number {
-      position: absolute;
-      bottom: 1.5rem;
-      right: 6vw;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 300;
-    }
+        /* Navigation instructions */
+        .nav-hint {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
 
-    .two-column {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
+        /* Visual elements */
+        .visual-container {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
 
-    .highlight-box {
-      background: var(--bg-code);
-      color: var(--code-text);
-      padding: 2rem;
-      border-radius: 8px;
-      margin: 2rem 0;
-    }
+        .chart-container {
+            margin: 2rem 0;
+        }
 
-    .highlight-box h3 {
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
+        /* Grid layout for comparison slides */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 2rem 0;
+        }
 
-    .highlight-box p, .highlight-box li {
-      color: var(--code-text);
-    }
+        .comparison-item h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
 
-    .theme-toggle {
-      position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      z-index: 1000;
-      background: var(--toggle-bg);
-      border: none;
-      border-radius: 2rem;
-      width: 56px;
-      height: 28px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      padding: 3px;
-      transition: background 0.3s ease;
-    }
+        /* Title slide specific */
+        .title-slide h1 {
+            font-size: 5.5rem;
+            margin-bottom: 1rem;
+        }
 
-    .theme-toggle::after {
-      content: '';
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--toggle-knob);
-      transition: transform 0.3s ease;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
+        .title-slide .subtitle {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
 
-    [data-theme="dark"] .theme-toggle::after {
-      transform: translateX(28px);
-    }
+        .title-slide .module-number {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
 
-    .theme-toggle-icon {
-      position: fixed;
-      top: 1.5rem;
-      right: 5rem;
-      z-index: 1000;
-      font-size: 1.2rem;
-      line-height: 28px;
-      color: var(--text-muted);
-      pointer-events: none;
-    }
+        /* Spacing utilities */
+        .spacer {
+            height: 2rem;
+        }
 
-    @media (max-width: 768px) {
-      .two-column {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-    }
-  </style>
+        .spacer-large {
+            height: 4rem;
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 1000;
+            background: var(--toggle-bg);
+            border: none;
+            border-radius: 2rem;
+            width: 56px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 3px;
+            transition: background 0.3s ease;
+        }
+
+        .theme-toggle::after {
+            content: '';
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--toggle-knob);
+            transition: transform 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        [data-theme="dark"] .theme-toggle::after {
+            transform: translateX(28px);
+        }
+
+        .theme-toggle-icon {
+            position: fixed;
+            top: 1.5rem;
+            right: 5rem;
+            z-index: 1000;
+            font-size: 1.2rem;
+            line-height: 28px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        /* Tutorial helpers */
+        .step-badge {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .lead {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Callout / insight box */
+        .callout {
+            border-left: 5px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: 1.25rem 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+            font-size: 1.3rem;
+        }
+
+        .callout.tip { border-left-color: var(--green); }
+        .callout.warn { border-left-color: var(--blue); }
+
+        .callout-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .callout.tip .callout-label { color: var(--green); }
+        .callout.warn .callout-label { color: var(--blue); }
+
+        /* Roadmap list on the agenda slide */
+        .roadmap li {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Data tables */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+            font-size: 1.25rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        td code, th code {
+            font-size: 1.05rem;
+        }
+
+        /* Two-up layout: explanation beside code */
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+            margin: 1.5rem 0;
+        }
+
+        .split pre { margin: 0; }
+
+        .smaller li, .smaller p { font-size: 1.3rem; }
+
+        pre.tight { font-size: 1rem; line-height: 1.45; }
+    </style>
 </head>
 <body>
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
-  <span class="theme-toggle-icon" id="themeIcon">☀️</span>
-  <div class="slide-container" id="slides">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+    <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <div class="module-number">MODULE 05</div>
+            <h1>DataFrames<br>&amp; Series</h1>
+            <p class="subtitle">Working with Structured Data in AI using Pandas</p>
+            <div class="spacer-large"></div>
+            <p style="font-size: 1.3rem; color: var(--text-secondary);">A step-by-step tutorial</p>
+            <p style="font-size: 1.3rem; color: var(--text-muted);">AI Research Foundations Minicourse</p>
+            <div class="footer">© mui-group</div>
+            <div class="nav-hint">Press → or click to advance</div>
+        </div>
 
-    <!-- Slide 1: Title -->
-    <div class="slide">
-      <h1>DataFrames<br>& Series</h1>
-      <p class="gray" style="font-size: 1.6rem; margin-top: 2rem;">
-        Module 5: Working with Structured Data
-      </p>
-      <p style="margin-top: 3rem; font-size: 1.2rem;">
-        Learn to manipulate data like a programmable spreadsheet
-      </p>
+        <!-- Slide 2: Welcome -->
+        <div class="slide">
+            <div class="slide-number">2 / 18</div>
+            <h2>Welcome</h2>
+            <p class="lead">Every AI project starts by understanding its data, and Pandas DataFrames are how you look.</p>
+            <p>By the end you will be able to:</p>
+            <ul class="smaller">
+                <li>Load CSV and JSON into DataFrames and inspect them with <code>.head()</code>, <code>.info()</code>, <code>.describe()</code>, and <code>.shape</code></li>
+                <li>Explain the difference between a DataFrame and a Series, and read the index, columns, and dtypes</li>
+                <li>Select and filter data with columns, <code>.iloc</code>, and boolean indexing using <code>&amp;</code>, <code>|</code>, and <code>~</code></li>
+                <li>Detect missing data with <code>.isna()</code> and <code>.isna().sum()</code></li>
+                <li>Compare groups with <code>.value_counts()</code> and <code>.groupby().agg()</code>, then connect it all to ML prep</li>
+            </ul>
+            <div class="callout tip">
+                <span class="callout-label">How to use these slides</span>
+                <p>Each concept comes with a small piece of code. Open the companion notebook <code>tutorial.ipynb</code> and run each snippet as you go. Learning by typing beats learning by reading.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 3: Why should you care -->
+        <div class="slide">
+            <div class="slide-number">3 / 18</div>
+            <h2>Why should you care?</h2>
+            <p class="lead">Imagine thousands of LLM prompt-response records: which model answered, the task category, tokens used, and a user rating.</p>
+            <p>Before you can train anything, you need to know:</p>
+            <ul class="smaller">
+                <li>Which model performs best on which task</li>
+                <li>Whether any ratings are <strong>missing</strong></li>
+                <li>Whether your task categories are <strong>balanced</strong></li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>Doing this by hand or with raw Python loops is slow and error-prone. Pandas lets you load, inspect, filter, and aggregate that data in a few lines, which is the exact first step of every real AI research workflow.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 4: Roadmap -->
+        <div class="slide">
+            <div class="slide-number">4 / 18</div>
+            <h2>Our roadmap</h2>
+            <p class="lead">We move from a spreadsheet mindset to a full, reproducible inspection workflow, then connect it to machine learning.</p>
+            <ul class="roadmap">
+                <li><strong>1.</strong> From spreadsheets to DataFrames</li>
+                <li><strong>2.</strong> Loading data (CSV and JSON)</li>
+                <li><strong>3.</strong> DataFrame anatomy and Series</li>
+                <li><strong>4.</strong> Inspection methods</li>
+                <li><strong>5.</strong> Selecting and filtering data</li>
+                <li><strong>6.</strong> Finding missing data</li>
+                <li><strong>7.</strong> Value counts and distributions</li>
+                <li><strong>8.</strong> Grouping and aggregation</li>
+                <li><strong>9.</strong> The lab: connection to machine learning</li>
+            </ul>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 1 ============ -->
+        <!-- Slide 5 -->
+        <div class="slide">
+            <div class="slide-number">5 / 18</div>
+            <span class="step-badge">Part 1 · From Spreadsheets to DataFrames</span>
+            <h2>Pandas is the AI researcher's first tool</h2>
+            <p>A DataFrame is like a spreadsheet you can control with code: rows, labeled columns, and a fast library for filtering and summarizing.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+<span class="comment"># The dataset tracks LLM interactions:</span>
+<span class="comment">#   prompt_id, prompt_text, model, category,</span>
+<span class="comment">#   temperature, tokens_used, rating, timestamp</span>
+df <span class="keyword">=</span> pd.<span class="keyword">read_csv</span>(<span class="string">'data/llm_prompts.csv'</span>)
+<span class="keyword">print</span>(df.shape)  <span class="comment"># (rows, columns), e.g. (100, 8)</span></code></pre>
+                </div>
+                <div>
+                    <svg width="420" height="200">
+                        <text x="10" y="20" font-size="15" fill="#555" font-weight="600">Spreadsheet</text>
+                        <rect x="10" y="30" width="170" height="130" fill="#1a1a2e" opacity="0.15" rx="6"/>
+                        <line x1="10" y1="62" x2="180" y2="62" stroke="#555" stroke-width="1"/>
+                        <line x1="10" y1="94" x2="180" y2="94" stroke="#555" stroke-width="1"/>
+                        <line x1="10" y1="126" x2="180" y2="126" stroke="#555" stroke-width="1"/>
+                        <line x1="95" y1="30" x2="95" y2="160" stroke="#555" stroke-width="1"/>
+                        <text x="52" y="52" text-anchor="middle" font-size="12" fill="#1a1a2e">model</text>
+                        <text x="138" y="52" text-anchor="middle" font-size="12" fill="#1a1a2e">rating</text>
+
+                        <text x="255" y="80" font-size="26" fill="#e94560">→</text>
+
+                        <text x="300" y="20" font-size="15" fill="#e94560" font-weight="600">DataFrame</text>
+                        <rect x="300" y="30" width="110" height="130" fill="#1a1a2e" rx="6"/>
+                        <text x="315" y="52" font-size="11" fill="#85c1e9">index</text>
+                        <text x="360" y="52" font-size="11" fill="#4ade80">columns</text>
+                        <text x="315" y="90" font-size="11" fill="#fafafa">0</text>
+                        <text x="315" y="112" font-size="11" fill="#fafafa">1</text>
+                        <text x="315" y="134" font-size="11" fill="#fafafa">2</text>
+                        <text x="360" y="112" font-size="11" fill="#fafafa">values</text>
+                        <defs>
+                            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+                            </marker>
+                            <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>Before training, during experiments, and after deployment, the same skill (inspecting a DataFrame) is what tells you if your data is trustworthy.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 2 ============ -->
+        <!-- Slide 6 -->
+        <div class="slide">
+            <div class="slide-number">6 / 18</div>
+            <span class="step-badge">Part 2 · Loading Data</span>
+            <h2>Reading CSV and JSON</h2>
+            <p><code>pd.read_csv()</code> turns a file into a DataFrame and infers column types. For more control, declare types with <code>dtype</code> and parse dates with <code>parse_dates</code>. Pandas also reads JSON with <code>pd.read_json()</code>.</p>
+            <pre class="tight"><code><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path
+
+data_path <span class="keyword">=</span> Path(<span class="string">'data/llm_prompts.csv'</span>)
+
+<span class="comment"># Basic load</span>
+df <span class="keyword">=</span> pd.<span class="keyword">read_csv</span>(data_path)
+
+<span class="comment"># Load with explicit types and date parsing</span>
+df <span class="keyword">=</span> pd.<span class="keyword">read_csv</span>(
+    data_path,
+    dtype<span class="keyword">=</span>{<span class="string">'category'</span>: <span class="string">'category'</span>},
+    parse_dates<span class="keyword">=</span>[<span class="string">'timestamp'</span>],
+)</code></pre>
+            <div class="callout tip">
+                <span class="callout-label">Key insight</span>
+                <p>Getting types right at load time (categories, dates, ints) saves you from silent bugs later, for example dates that are really just strings you cannot sort.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 3 ============ -->
+        <!-- Slide 7 -->
+        <div class="slide">
+            <div class="slide-number">7 / 18</div>
+            <span class="step-badge">Part 3 · DataFrame Anatomy &amp; Series</span>
+            <h2>Index, columns, values, and the Series</h2>
+            <p>A DataFrame has three parts: an <strong>index</strong> (row labels), <strong>columns</strong> (feature names), and <strong>values</strong> (the 2D data). Selecting one column returns a <strong>Series</strong>, a single 1D labeled array.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code><span class="comment"># Inspect the parts</span>
+<span class="keyword">print</span>(df.index)       <span class="comment"># row labels</span>
+<span class="keyword">print</span>(df.columns)     <span class="comment"># column names</span>
+
+<span class="comment"># A single column is a Series</span>
+model_series <span class="keyword">=</span> df[<span class="string">'model'</span>]
+<span class="keyword">print</span>(<span class="keyword">type</span>(model_series))
+<span class="comment"># pandas.core.series.Series</span>
+
+<span class="comment"># Data type of every column</span>
+<span class="keyword">print</span>(df.dtypes)</code></pre>
+                </div>
+                <div>
+                    <svg width="400" height="220">
+                        <text x="10" y="18" font-size="14" fill="#555" font-weight="600">DataFrame</text>
+                        <rect x="10" y="28" width="230" height="150" fill="#1a1a2e" rx="6"/>
+                        <text x="40" y="48" font-size="12" fill="#4ade80">model</text>
+                        <text x="115" y="48" font-size="12" fill="#4ade80">rating</text>
+                        <text x="180" y="48" font-size="12" fill="#4ade80">tokens</text>
+                        <text x="20" y="80" font-size="11" fill="#85c1e9">0</text>
+                        <text x="20" y="108" font-size="11" fill="#85c1e9">1</text>
+                        <text x="20" y="136" font-size="11" fill="#85c1e9">2</text>
+                        <rect x="95" y="60" width="60" height="100" fill="#e94560" opacity="0.35" rx="4"/>
+                        <text x="115" y="80" font-size="11" fill="#fafafa">4.8</text>
+                        <text x="115" y="108" font-size="11" fill="#fafafa">3.9</text>
+                        <text x="115" y="136" font-size="11" fill="#fafafa">4.5</text>
+                        <path d="M 125,178 L 125,196" stroke="#e94560" stroke-width="3" marker-end="url(#arrowredS)"/>
+                        <text x="10" y="215" font-size="13" fill="#e94560" font-weight="600">one column = a Series</text>
+                        <defs>
+                            <marker id="arrowredS" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>Understanding that a column is a Series explains why so many methods (<code>.value_counts()</code>, <code>.mean()</code>, <code>.isna()</code>) work directly on <code>df['column']</code>.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 4 ============ -->
+        <!-- Slide 8 -->
+        <div class="slide">
+            <div class="slide-number">8 / 18</div>
+            <span class="step-badge">Part 4 · Inspection Methods</span>
+            <h2>head, tail, info, describe, shape</h2>
+            <p><code>.head(n)</code> and <code>.tail(n)</code> eyeball rows. <code>.info()</code> reports row count, dtypes, and non-null counts. <code>.describe()</code> gives summary stats. <code>.shape</code> returns the (rows, columns) tuple.</p>
+            <pre class="tight"><code>df.<span class="keyword">head</span>()          <span class="comment"># first 5 rows</span>
+df.<span class="keyword">tail</span>(<span class="number">3</span>)         <span class="comment"># last 3 rows</span>
+
+df.<span class="keyword">info</span>()          <span class="comment"># structure, dtypes, non-null counts</span>
+df.<span class="keyword">describe</span>()      <span class="comment"># numeric summary stats</span>
+
+rows, cols <span class="keyword">=</span> df.shape
+<span class="keyword">print</span>(<span class="string">f"{rows} rows and {cols} columns"</span>)</code></pre>
+            <div class="callout tip">
+                <span class="callout-label">Key insight</span>
+                <p>Always start with <code>.head()</code> to sanity-check the load, then <code>.info()</code> to spot missing values and wrong types before you trust any analysis.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 5 ============ -->
+        <!-- Slide 9 -->
+        <div class="slide">
+            <div class="slide-number">9 / 18</div>
+            <span class="step-badge">Part 5 · Selecting &amp; Filtering</span>
+            <h2>Columns, positions, boolean indexing</h2>
+            <p>Use <code>df['col']</code> for a Series and <code>df[['a','b']]</code> for a DataFrame. Select rows by position with <code>.iloc[]</code>. The most powerful pattern is <strong>boolean indexing</strong>: pass a True/False condition to keep matching rows.</p>
+            <pre class="tight"><code><span class="comment"># Multiple columns -> a DataFrame</span>
+subset <span class="keyword">=</span> df[[<span class="string">'model'</span>, <span class="string">'rating'</span>, <span class="string">'tokens_used'</span>]]
+
+<span class="comment"># Rows by position</span>
+first_five <span class="keyword">=</span> df.iloc[<span class="number">0</span>:<span class="number">5</span>]
+
+<span class="comment"># Boolean indexing: high-rated coding prompts</span>
+high_rated_coding <span class="keyword">=</span> df[(df[<span class="string">'category'</span>] <span class="keyword">==</span> <span class="string">'coding'</span>) <span class="keyword">&amp;</span> (df[<span class="string">'rating'</span>] <span class="keyword">&gt;=</span> <span class="number">4.7</span>)]
+
+<span class="comment"># Keep rows matching several models</span>
+major_models <span class="keyword">=</span> df[df[<span class="string">'model'</span>].<span class="keyword">isin</span>([<span class="string">'gpt-4'</span>, <span class="string">'claude-3'</span>])]</code></pre>
+            <div class="callout warn">
+                <span class="callout-label">Key insight</span>
+                <p>Combine conditions with <code>&amp;</code> (AND), <code>|</code> (OR), and <code>~</code> (NOT), wrapping each in parentheses. Vectorized filtering replaces slow loops; for assignment use <code>df.loc[condition, 'col']</code> to avoid the chained-indexing trap.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 10: boolean mask visual -->
+        <div class="slide">
+            <div class="slide-number">10 / 18</div>
+            <span class="step-badge">Part 5 · Selecting &amp; Filtering</span>
+            <h2>How a boolean mask works</h2>
+            <p class="lead">A condition produces a column of True/False. Only the True rows survive the filter.</p>
+            <svg width="820" height="260">
+                <text x="20" y="24" font-size="15" fill="#555" font-weight="600">df</text>
+                <rect x="20" y="34" width="230" height="180" fill="#1a1a2e" rx="6"/>
+                <text x="40" y="56" font-size="12" fill="#4ade80">model</text>
+                <text x="150" y="56" font-size="12" fill="#4ade80">rating</text>
+                <text x="40" y="86" font-size="12" fill="#fafafa">gpt-4</text>
+                <text x="160" y="86" font-size="12" fill="#fafafa">4.8</text>
+                <text x="40" y="116" font-size="12" fill="#fafafa">gpt-4</text>
+                <text x="160" y="116" font-size="12" fill="#fafafa">3.9</text>
+                <text x="40" y="146" font-size="12" fill="#fafafa">claude-3</text>
+                <text x="160" y="146" font-size="12" fill="#fafafa">4.9</text>
+                <text x="40" y="176" font-size="12" fill="#fafafa">gpt-4</text>
+                <text x="160" y="176" font-size="12" fill="#fafafa">4.7</text>
+
+                <text x="290" y="24" font-size="14" fill="#e94560" font-weight="600">rating &gt;= 4.7</text>
+                <rect x="290" y="34" width="110" height="180" fill="#1a1a2e" opacity="0.2" rx="6"/>
+                <text x="315" y="86" font-size="13" fill="#16a34a" font-weight="600">True</text>
+                <text x="315" y="116" font-size="13" fill="#999">False</text>
+                <text x="315" y="146" font-size="13" fill="#16a34a" font-weight="600">True</text>
+                <text x="315" y="176" font-size="13" fill="#16a34a" font-weight="600">True</text>
+
+                <path d="M 410,124 L 460,124" stroke="#e94560" stroke-width="3" marker-end="url(#arrowredM)"/>
+
+                <text x="480" y="24" font-size="15" fill="#e94560" font-weight="600">result</text>
+                <rect x="480" y="34" width="230" height="180" fill="#e94560" opacity="0.18" rx="6"/>
+                <text x="500" y="86" font-size="12" fill="#1a1a2e">gpt-4</text>
+                <text x="620" y="86" font-size="12" fill="#1a1a2e">4.8</text>
+                <text x="500" y="126" font-size="12" fill="#1a1a2e">claude-3</text>
+                <text x="620" y="126" font-size="12" fill="#1a1a2e">4.9</text>
+                <text x="500" y="166" font-size="12" fill="#1a1a2e">gpt-4</text>
+                <text x="620" y="166" font-size="12" fill="#1a1a2e">4.7</text>
+                <text x="480" y="205" font-size="12" fill="#555">only True rows kept</text>
+                <defs>
+                    <marker id="arrowM" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+                    </marker>
+                    <marker id="arrowredM" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                </defs>
+            </svg>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 6 ============ -->
+        <!-- Slide 11 -->
+        <div class="slide">
+            <div class="slide-number">11 / 18</div>
+            <span class="step-badge">Part 6 · Finding Missing Data</span>
+            <h2>Detecting and counting NaNs</h2>
+            <p><code>.isna()</code> returns a True/False grid marking every missing cell. Chaining <code>.sum()</code> counts missing values per column, and summing twice gives the total.</p>
+            <pre class="tight"><code><span class="comment"># Missing values per column</span>
+missing <span class="keyword">=</span> df.<span class="keyword">isna</span>().<span class="keyword">sum</span>()
+<span class="keyword">print</span>(missing[missing <span class="keyword">&gt;</span> <span class="number">0</span>])
+
+<span class="comment"># Overall missing percentage</span>
+total_cells <span class="keyword">=</span> df.shape[<span class="number">0</span>] <span class="keyword">*</span> df.shape[<span class="number">1</span>]
+missing_cells <span class="keyword">=</span> df.<span class="keyword">isna</span>().<span class="keyword">sum</span>().<span class="keyword">sum</span>()
+<span class="keyword">print</span>(<span class="string">f"Missing: {(missing_cells / total_cells) * 100:.2f}%"</span>)
+
+<span class="comment"># Inspect the rows that are missing a rating</span>
+missing_rating <span class="keyword">=</span> df[df[<span class="string">'rating'</span>].<span class="keyword">isna</span>()]</code></pre>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>In this dataset the <code>rating</code> column has missing values; later you must decide to drop those rows or fill them (for example with the median) before training.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 7 ============ -->
+        <!-- Slide 12 -->
+        <div class="slide">
+            <div class="slide-number">12 / 18</div>
+            <span class="step-badge">Part 7 · Value Counts &amp; Distributions</span>
+            <h2>Categorical counts and histograms</h2>
+            <p><code>.value_counts()</code> tallies how often each category appears, revealing class imbalance. For numeric columns, a histogram shows the shape of the distribution.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code><span class="comment"># Categorical distribution</span>
+<span class="keyword">print</span>(df[<span class="string">'model'</span>].<span class="keyword">value_counts</span>())
+<span class="keyword">print</span>(df[<span class="string">'category'</span>].<span class="keyword">value_counts</span>())
+
+<span class="comment"># As percentages</span>
+<span class="keyword">print</span>(df[<span class="string">'model'</span>].<span class="keyword">value_counts</span>(normalize<span class="keyword">=</span><span class="keyword">True</span>) <span class="keyword">*</span> <span class="number">100</span>)
+
+<span class="comment"># Numeric distribution (needs matplotlib)</span>
+df[<span class="string">'tokens_used'</span>].<span class="keyword">hist</span>(bins<span class="keyword">=</span><span class="number">20</span>)</code></pre>
+                </div>
+                <div>
+                    <svg width="380" height="220">
+                        <text x="10" y="18" font-size="13" fill="#555" font-weight="600">model counts</text>
+                        <rect x="10" y="40" width="120" height="24" fill="#e94560" rx="3"/>
+                        <text x="140" y="57" font-size="12" fill="#555">gpt-4</text>
+                        <rect x="10" y="72" width="80" height="24" fill="#e94560" opacity="0.7" rx="3"/>
+                        <text x="100" y="89" font-size="12" fill="#555">claude-3</text>
+                        <rect x="10" y="104" width="45" height="24" fill="#e94560" opacity="0.5" rx="3"/>
+                        <text x="65" y="121" font-size="12" fill="#555">mistral</text>
+
+                        <text x="200" y="18" font-size="13" fill="#555" font-weight="600">tokens_used</text>
+                        <rect x="205" y="150" width="18" height="40" fill="#3b82f6" rx="2"/>
+                        <rect x="226" y="120" width="18" height="70" fill="#3b82f6" rx="2"/>
+                        <rect x="247" y="90" width="18" height="100" fill="#3b82f6" rx="2"/>
+                        <rect x="268" y="130" width="18" height="60" fill="#3b82f6" rx="2"/>
+                        <rect x="289" y="160" width="18" height="30" fill="#3b82f6" rx="2"/>
+                        <rect x="310" y="175" width="18" height="15" fill="#3b82f6" rx="2"/>
+                        <line x1="200" y1="190" x2="335" y2="190" stroke="#555" stroke-width="1.5"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="callout warn">
+                <span class="callout-label">Key insight</span>
+                <p>Class imbalance found here directly shapes ML strategy: it may call for oversampling, undersampling, or a weighted loss so the model is not biased toward the dominant category.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 8 ============ -->
+        <!-- Slide 13 -->
+        <div class="slide">
+            <div class="slide-number">13 / 18</div>
+            <span class="step-badge">Part 8 · Grouping &amp; Aggregation</span>
+            <h2>groupby, agg, and pivot tables</h2>
+            <p><code>groupby</code> follows a <strong>split-apply-combine</strong> pattern: split rows by a category, apply a function, and combine the results. Pair it with <code>.agg()</code> to compute several stats at once.</p>
+            <pre class="tight"><code><span class="comment"># Average rating by model, with count and spread</span>
+model_stats <span class="keyword">=</span> df.<span class="keyword">groupby</span>(<span class="string">'model'</span>)[<span class="string">'rating'</span>].<span class="keyword">agg</span>([<span class="string">'mean'</span>, <span class="string">'count'</span>, <span class="string">'std'</span>])
+<span class="keyword">print</span>(model_stats)
+
+<span class="comment"># Token usage by category</span>
+category_tokens <span class="keyword">=</span> df.<span class="keyword">groupby</span>(<span class="string">'category'</span>)[<span class="string">'tokens_used'</span>].<span class="keyword">agg</span>([<span class="string">'mean'</span>, <span class="string">'min'</span>, <span class="string">'max'</span>])
+
+<span class="comment"># Compare model x category as a pivot table</span>
+pivot <span class="keyword">=</span> df.<span class="keyword">groupby</span>([<span class="string">'model'</span>, <span class="string">'category'</span>])[<span class="string">'rating'</span>].<span class="keyword">mean</span>().<span class="keyword">unstack</span>(fill_value<span class="keyword">=</span><span class="number">0</span>)</code></pre>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p><code>groupby</code> is how you answer research questions like which model is best at coding, turning a raw log into a decision-ready comparison in one line.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 14: split-apply-combine visual -->
+        <div class="slide">
+            <div class="slide-number">14 / 18</div>
+            <span class="step-badge">Part 8 · Grouping &amp; Aggregation</span>
+            <h2>Split, apply, combine</h2>
+            <svg width="880" height="300">
+                <text x="20" y="24" font-size="15" fill="#555" font-weight="600">1. Split by model</text>
+                <rect x="20" y="40" width="180" height="50" fill="#1a1a2e" rx="8"/>
+                <text x="110" y="70" text-anchor="middle" font-size="14" fill="#fafafa">gpt-4 rows</text>
+                <rect x="20" y="120" width="180" height="50" fill="#1a1a2e" rx="8"/>
+                <text x="110" y="150" text-anchor="middle" font-size="14" fill="#fafafa">claude-3 rows</text>
+                <rect x="20" y="200" width="180" height="50" fill="#1a1a2e" rx="8"/>
+                <text x="110" y="230" text-anchor="middle" font-size="14" fill="#fafafa">mistral rows</text>
+
+                <path d="M 200,65 L 300,65" stroke="#e94560" stroke-width="3" marker-end="url(#arrowredG)"/>
+                <path d="M 200,145 L 300,145" stroke="#e94560" stroke-width="3" marker-end="url(#arrowredG)"/>
+                <path d="M 200,225 L 300,225" stroke="#e94560" stroke-width="3" marker-end="url(#arrowredG)"/>
+
+                <text x="305" y="24" font-size="15" fill="#e94560" font-weight="600">2. Apply mean(rating)</text>
+                <rect x="305" y="40" width="150" height="50" fill="#e94560" rx="8"/>
+                <text x="380" y="70" text-anchor="middle" font-size="14" fill="#fafafa">4.6</text>
+                <rect x="305" y="120" width="150" height="50" fill="#e94560" rx="8"/>
+                <text x="380" y="150" text-anchor="middle" font-size="14" fill="#fafafa">4.8</text>
+                <rect x="305" y="200" width="150" height="50" fill="#e94560" rx="8"/>
+                <text x="380" y="230" text-anchor="middle" font-size="14" fill="#fafafa">4.2</text>
+
+                <path d="M 455,145 L 555,145" stroke="#e94560" stroke-width="3" marker-end="url(#arrowredG)"/>
+
+                <text x="560" y="24" font-size="15" fill="#16a34a" font-weight="600">3. Combine into a table</text>
+                <rect x="560" y="60" width="260" height="170" fill="#16a34a" opacity="0.2" rx="8"/>
+                <text x="580" y="90" font-size="13" fill="#1a1a2e" font-weight="600">model</text>
+                <text x="720" y="90" font-size="13" fill="#1a1a2e" font-weight="600">mean</text>
+                <text x="580" y="130" font-size="13" fill="#1a1a2e">gpt-4</text>
+                <text x="720" y="130" font-size="13" fill="#1a1a2e">4.6</text>
+                <text x="580" y="165" font-size="13" fill="#1a1a2e">claude-3</text>
+                <text x="720" y="165" font-size="13" fill="#1a1a2e">4.8</text>
+                <text x="580" y="200" font-size="13" fill="#1a1a2e">mistral</text>
+                <text x="720" y="200" font-size="13" fill="#1a1a2e">4.2</text>
+                <defs>
+                    <marker id="arrowG" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+                    </marker>
+                    <marker id="arrowredG" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                </defs>
+            </svg>
+            <p style="margin-top: 0.5rem;">Use multi-level grouping plus <code>.unstack()</code> to compare two dimensions as a pivot table.</p>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 9 ============ -->
+        <!-- Slide 15 -->
+        <div class="slide">
+            <div class="slide-number">15 / 18</div>
+            <span class="step-badge">Part 9 · The Lab</span>
+            <h2>Dataset detective &amp; the ML connection</h2>
+            <p>The <code>lab_dataset_detective.py</code> script walks the full workflow end to end, then ties each finding to a concrete ML preparation step.</p>
+            <pre class="tight"><code><span class="comment"># From lab_dataset_detective.py, the core detective flow</span>
+df <span class="keyword">=</span> pd.<span class="keyword">read_csv</span>(data_path)
+<span class="keyword">print</span>(df.shape)
+df.<span class="keyword">info</span>()
+<span class="keyword">print</span>(df.<span class="keyword">describe</span>())
+<span class="keyword">print</span>(df.<span class="keyword">isna</span>().<span class="keyword">sum</span>())
+<span class="keyword">print</span>(df[<span class="string">'model'</span>].<span class="keyword">value_counts</span>())
+<span class="keyword">print</span>(df.<span class="keyword">groupby</span>(<span class="string">'model'</span>)[<span class="string">'rating'</span>].<span class="keyword">agg</span>([<span class="string">'mean'</span>, <span class="string">'count'</span>, <span class="string">'std'</span>]))</code></pre>
+            <div class="callout tip">
+                <span class="callout-label">Key insight</span>
+                <p>Inspection is not busywork: missing values, imbalance, and dtypes each map to a required ML step (imputation, resampling, encoding, scaling) before a model ever sees the data.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 16: inspection to ML prep checklist -->
+        <div class="slide">
+            <div class="slide-number">16 / 18</div>
+            <span class="step-badge">Part 9 · The Lab</span>
+            <h2>From inspection to ML prep</h2>
+            <p class="lead">Every finding drives a decision. This mapping is the reproducible pattern you reuse on every future dataset.</p>
+            <table>
+                <thead>
+                    <tr><th>Inspection method</th><th>What it reveals</th><th>ML prep step</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>.info()</code> / <code>.dtypes</code></td><td>Wrong or object types</td><td>Encoding, type casting</td></tr>
+                    <tr><td><code>.isna().sum()</code></td><td>Missing values</td><td>Imputation or drop rows</td></tr>
+                    <tr><td><code>.value_counts()</code></td><td>Class imbalance</td><td>Resampling, class weights</td></tr>
+                    <tr><td><code>.describe()</code></td><td>Different value ranges</td><td>Scaling, normalization</td></tr>
+                    <tr><td><code>.groupby().agg()</code></td><td>Group differences</td><td>Feature engineering</td></tr>
+                </tbody>
+            </table>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 17: What you learned -->
+        <div class="slide">
+            <div class="slide-number">17 / 18</div>
+            <h2>What you learned</h2>
+            <ul class="smaller">
+                <li>A DataFrame is a labeled 2D table (index + columns + values); a Series is a single labeled column</li>
+                <li><code>pd.read_csv()</code> and <code>pd.read_json()</code> load data; use <code>dtype</code> and <code>parse_dates</code> to get types right at load time</li>
+                <li>Start every analysis with <code>.head()</code>, <code>.info()</code>, <code>.describe()</code>, and <code>.shape</code></li>
+                <li>Filter with boolean indexing and combine conditions using <code>&amp;</code>, <code>|</code>, and <code>~</code> with parentheses</li>
+                <li><code>.isna().sum()</code> reveals where data is missing so you can decide to drop or fill it</li>
+                <li><code>.value_counts()</code> exposes class imbalance and histograms show numeric distributions</li>
+                <li><code>groupby</code> + <code>.agg()</code> answer comparative questions, and <code>.unstack()</code> builds pivot tables</li>
+                <li>Every inspection finding maps to a real ML prep step: imputation, encoding, scaling, or resampling</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">The big idea</span>
+                <p>Understanding your data comes first. A few lines of Pandas turn a raw log into a trustworthy foundation for any model.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 18: Practice + Next steps -->
+        <div class="slide">
+            <div class="slide-number">18 / 18</div>
+            <h2>Practice &amp; next steps</h2>
+            <div class="split">
+                <div>
+                    <p class="smaller" style="margin-bottom: 0.75rem;"><strong>Try it yourself:</strong></p>
+                    <ul class="smaller">
+                        <li>Run the lab: <code>python lab_dataset_detective.py</code></li>
+                        <li>Load the data with <code>parse_dates</code> and sort by <code>timestamp</code></li>
+                        <li>Filter high-rated prompts per category with boolean indexing</li>
+                        <li>Build a <code>model</code> by <code>category</code> pivot of mean rating</li>
+                    </ul>
+                    <p class="smaller" style="margin-top: 1rem;"><strong>Explore further:</strong></p>
+                    <ul class="smaller">
+                        <li><code>.fillna()</code>, <code>.dropna()</code>, and imputation strategies</li>
+                        <li>Plotting distributions with matplotlib and seaborn</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="callout tip">
+                        <span class="callout-label">Next module</span>
+                        <p><strong>Module 06: Vector Embeddings &amp; Semantic Search</strong><br>Converting these text prompts into numeric vectors to build a semantic search engine.</p>
+                    </div>
+                    <p class="smaller" style="color: var(--text-muted); margin-top: 1.5rem;">Questions? Bring them to the lab session.</p>
+                    <p class="smaller" style="color: var(--text-muted);">AI Research Foundations Minicourse<br>Module 05: DataFrames &amp; Series</p>
+                </div>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
     </div>
 
-    <!-- Slide 2: What is Structured Data? -->
-    <div class="slide">
-      <h2>What is<br>Structured Data?</h2>
-      <p>Data organized in rows and columns, like a table</p>
-      <div class="visual-container">
-        <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
-          <!-- Spreadsheet representation -->
-          <rect x="50" y="50" width="300" height="40" fill="#e94560" stroke="none"/>
-          <text x="200" y="77" font-family="Inter" font-size="18" font-weight="600" fill="#fafafa" text-anchor="middle">Spreadsheet</text>
-
-          <!-- Table headers -->
-          <rect x="50" y="100" width="100" height="35" fill="#1a1a2e" stroke="none"/>
-          <rect x="150" y="100" width="100" height="35" fill="#1a1a2e" stroke="none"/>
-          <rect x="250" y="100" width="100" height="35" fill="#1a1a2e" stroke="none"/>
-
-          <text x="100" y="122" font-family="Inter" font-size="13" font-weight="600" fill="#fafafa" text-anchor="middle">Name</text>
-          <text x="200" y="122" font-family="Inter" font-size="13" font-weight="600" fill="#fafafa" text-anchor="middle">Age</text>
-          <text x="300" y="122" font-family="Inter" font-size="13" font-weight="600" fill="#fafafa" text-anchor="middle">Score</text>
-
-          <!-- Data rows -->
-          <rect x="50" y="135" width="100" height="35" fill="none" stroke="#444" stroke-width="1"/>
-          <rect x="150" y="135" width="100" height="35" fill="none" stroke="#444" stroke-width="1"/>
-          <rect x="250" y="135" width="100" height="35" fill="none" stroke="#444" stroke-width="1"/>
-
-          <text x="100" y="157" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">Alice</text>
-          <text x="200" y="157" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">24</text>
-          <text x="300" y="157" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">95</text>
-
-          <rect x="50" y="170" width="100" height="35" fill="none" stroke="#444" stroke-width="1"/>
-          <rect x="150" y="170" width="100" height="35" fill="none" stroke="#444" stroke-width="1"/>
-          <rect x="250" y="170" width="100" height="35" fill="none" stroke="#444" stroke-width="1"/>
-
-          <text x="100" y="192" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">Bob</text>
-          <text x="200" y="192" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">31</text>
-          <text x="300" y="192" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">87</text>
-
-          <!-- Arrow -->
-          <path d="M 380 150 L 440 150" stroke="#e94560" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-
-          <!-- DataFrame representation -->
-          <rect x="470" y="50" width="280" height="40" fill="#e94560" stroke="none"/>
-          <text x="610" y="77" font-family="Inter" font-size="18" font-weight="600" fill="#fafafa" text-anchor="middle">DataFrame</text>
-
-          <!-- DataFrame code-like representation -->
-          <text x="480" y="120" font-family="Monaco" font-size="13" fill="#333" font-weight="600">pd.DataFrame({</text>
-          <text x="500" y="145" font-family="Monaco" font-size="13" fill="#333">'name': ['Alice', 'Bob'],</text>
-          <text x="500" y="170" font-family="Monaco" font-size="13" fill="#333">'age': [24, 31],</text>
-          <text x="500" y="195" font-family="Monaco" font-size="13" fill="#333">'score': [95, 87]</text>
-          <text x="480" y="220" font-family="Monaco" font-size="13" fill="#333" font-weight="600">})</text>
-
-          <!-- Arrow marker -->
-          <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-              <polygon points="0 0, 10 3, 0 6" fill="#e94560"/>
-            </marker>
-          </defs>
-        </svg>
-      </div>
-      <ul>
-        <li>Each row represents an observation</li>
-        <li>Each column represents a variable</li>
-        <li>Perfect for analysis and machine learning</li>
-      </ul>
-    </div>
-
-    <!-- Slide 3: Pandas Introduction -->
-    <div class="slide">
-      <h2>Pandas: Your<br>Programmable<br>Spreadsheet</h2>
-      <div class="visual-container">
-        <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
-          <!-- Pandas logo concept -->
-          <rect x="50" y="50" width="200" height="200" rx="10" fill="#1a1a2e"/>
-          <text x="150" y="140" font-family="Inter" font-size="48" font-weight="700" fill="#fafafa" text-anchor="middle">pd</text>
-          <text x="150" y="180" font-family="Inter" font-size="14" fill="#e94560" text-anchor="middle">pandas</text>
-
-          <!-- Capabilities -->
-          <text x="300" y="80" font-family="Inter" font-size="18" font-weight="600" fill="#333">Pandas enables you to:</text>
-          <text x="320" y="115" font-family="Inter" font-size="16" fill="#333">→ Load data from CSV, JSON, SQL</text>
-          <text x="320" y="145" font-family="Inter" font-size="16" fill="#333">→ Filter, sort, and transform</text>
-          <text x="320" y="175" font-family="Inter" font-size="16" fill="#333">→ Handle missing values</text>
-          <text x="320" y="205" font-family="Inter" font-size="16" fill="#333">→ Group and aggregate</text>
-          <text x="320" y="235" font-family="Inter" font-size="16" fill="#333">→ Prepare data for ML</text>
-        </svg>
-      </div>
-      <p style="margin-top: 2rem;">
-        Excel meets Python: all the power of spreadsheets,<br>
-        with the flexibility of code
-      </p>
-    </div>
-
-    <!-- Slide 4: Loading Data -->
-    <div class="slide">
-      <h2>Loading Data</h2>
-      <p>Import data from various sources</p>
-      <pre>import pandas as pd
-
-# Load CSV file
-df = pd.read_csv('data.csv')
-
-# Load JSON file
-df = pd.read_json('data.json')
-
-# Load from URL
-df = pd.read_csv('https://example.com/data.csv')
-
-# Load with specific encoding
-df = pd.read_csv('data.csv', encoding='utf-8')</pre>
-      <ul>
-        <li><code>pd.read_csv()</code> — most common format</li>
-        <li><code>pd.read_json()</code> — for JSON data</li>
-        <li><code>pd.read_sql()</code> — from databases</li>
-        <li><code>pd.read_excel()</code> — from Excel files</li>
-      </ul>
-    </div>
-
-    <!-- Slide 5: Head and Tail -->
-    <div class="slide">
-      <h2>.head() and .tail()</h2>
-      <p>Quick peek at your data</p>
-      <div class="visual-container">
-        <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
-          <!-- Full dataset representation -->
-          <rect x="50" y="30" width="250" height="30" fill="#1a1a2e"/>
-          <text x="175" y="50" font-family="Inter" font-size="14" font-weight="600" fill="#fafafa" text-anchor="middle">Full Dataset (1000 rows)</text>
-
-          <!-- Rows -->
-          <rect x="50" y="60" width="250" height="20" fill="#e94560"/>
-          <rect x="50" y="80" width="250" height="20" fill="#e94560"/>
-          <rect x="50" y="100" width="250" height="20" fill="#e94560"/>
-          <rect x="50" y="120" width="250" height="20" fill="#e94560"/>
-          <rect x="50" y="140" width="250" height="20" fill="#e94560"/>
-
-          <text x="175" y="74" font-family="Monaco" font-size="11" fill="#fafafa" text-anchor="middle">Row 0</text>
-          <text x="175" y="94" font-family="Monaco" font-size="11" fill="#fafafa" text-anchor="middle">Row 1</text>
-          <text x="175" y="114" font-family="Monaco" font-size="11" fill="#fafafa" text-anchor="middle">Row 2</text>
-          <text x="175" y="134" font-family="Monaco" font-size="11" fill="#fafafa" text-anchor="middle">Row 3</text>
-          <text x="175" y="154" font-family="Monaco" font-size="11" fill="#fafafa" text-anchor="middle">Row 4</text>
-
-          <!-- Middle dots -->
-          <circle cx="175" cy="190" r="3" fill="#6c6c6c"/>
-          <circle cx="175" cy="205" r="3" fill="#6c6c6c"/>
-          <circle cx="175" cy="220" r="3" fill="#6c6c6c"/>
-
-          <!-- Bottom rows -->
-          <rect x="50" y="260" width="250" height="20" fill="#1a1a2e"/>
-          <rect x="50" y="280" width="250" height="20" fill="#1a1a2e"/>
-          <rect x="50" y="300" width="250" height="20" fill="#1a1a2e"/>
-          <rect x="50" y="320" width="250" height="20" fill="#1a1a2e"/>
-          <rect x="50" y="340" width="250" height="20" fill="#1a1a2e"/>
-
-          <text x="175" y="274" font-family="Monaco" font-size="11" fill="#fafafa" text-anchor="middle">Row 995</text>
-          <text x="175" y="294" font-family="Monaco" font-size="11" fill="#fafafa" text-anchor="middle">Row 996</text>
-          <text x="175" y="314" font-family="Monaco" font-size="11" fill="#fafafa" text-anchor="middle">Row 997</text>
-          <text x="175" y="334" font-family="Monaco" font-size="11" fill="#fafafa" text-anchor="middle">Row 998</text>
-          <text x="175" y="354" font-family="Monaco" font-size="11" fill="#fafafa" text-anchor="middle">Row 999</text>
-
-          <!-- Labels -->
-          <text x="330" y="100" font-family="Inter" font-size="16" font-weight="600" fill="#e94560">df.head()</text>
-          <text x="330" y="120" font-family="Inter" font-size="13" fill="#333">First 5 rows</text>
-
-          <text x="330" y="300" font-family="Inter" font-size="16" font-weight="600" fill="#333">df.tail()</text>
-          <text x="330" y="320" font-family="Inter" font-size="13" fill="#333">Last 5 rows</text>
-        </svg>
-      </div>
-      <pre>df.head()    # First 5 rows
-df.head(10)  # First 10 rows
-df.tail()    # Last 5 rows</pre>
-    </div>
-
-    <!-- Slide 6: Info Method -->
-    <div class="slide">
-      <h2>.info()</h2>
-      <p>Complete data structure overview</p>
-      <pre>df.info()
-
-<class 'pandas.core.frame.DataFrame'>
-RangeIndex: 50 entries, 0 to 49
-Data columns (total 9 columns):
- #   Column         Non-Null Count  Dtype
----  ------         --------------  -----
- 0   prompt_id      50 non-null     int64
- 1   prompt_text    50 non-null     object
- 2   model          50 non-null     object
- 3   temperature    50 non-null     float64
- 4   tokens_used    50 non-null     int64
- 5   rating         47 non-null     float64
- 6   category       50 non-null     object
-dtypes: float64(2), int64(2), object(3)
-memory usage: 3.6+ KB</pre>
-      <div class="highlight-box">
-        <h3>What .info() reveals</h3>
-        <ul>
-          <li>Total entries and column count</li>
-          <li>Non-null counts (spotting missing data)</li>
-          <li>Data types for each column</li>
-          <li>Memory usage estimate</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Slide 7: Describe Method -->
-    <div class="slide">
-      <h2>.describe()</h2>
-      <p>Statistical summary of numeric columns</p>
-      <div class="visual-container">
-        <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
-          <!-- Distribution visualization -->
-          <text x="50" y="30" font-family="Inter" font-size="14" font-weight="600" fill="#333">Statistical Summary</text>
-
-          <!-- Bell curve -->
-          <path d="M 50 250 Q 150 200, 200 120 T 350 250" stroke="#e94560" stroke-width="3" fill="none"/>
-
-          <!-- Markers -->
-          <line x1="150" y1="250" x2="150" y2="200" stroke="#444" stroke-width="2" stroke-dasharray="5,5"/>
-          <text x="150" y="275" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">25%</text>
-
-          <line x1="200" y1="250" x2="200" y2="120" stroke="#e94560" stroke-width="3"/>
-          <text x="200" y="275" font-family="Inter" font-size="13" fill="#e94560" text-anchor="middle" font-weight="600">mean</text>
-
-          <line x1="250" y1="250" x2="250" y2="200" stroke="#444" stroke-width="2" stroke-dasharray="5,5"/>
-          <text x="250" y="275" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">75%</text>
-
-          <!-- Stats list -->
-          <text x="450" y="70" font-family="Monaco" font-size="13" fill="#333">count   →  50.00</text>
-          <text x="450" y="95" font-family="Monaco" font-size="13" fill="#333">mean    →  4.52</text>
-          <text x="450" y="120" font-family="Monaco" font-size="13" fill="#333">std     →  0.31</text>
-          <text x="450" y="145" font-family="Monaco" font-size="13" fill="#333">min     →  3.80</text>
-          <text x="450" y="170" font-family="Monaco" font-size="13" fill="#333">25%     →  4.30</text>
-          <text x="450" y="195" font-family="Monaco" font-size="13" fill="#333">50%     →  4.55</text>
-          <text x="450" y="220" font-family="Monaco" font-size="13" fill="#333">75%     →  4.75</text>
-          <text x="450" y="245" font-family="Monaco" font-size="13" fill="#333">max     →  4.90</text>
-        </svg>
-      </div>
-      <ul>
-        <li><strong>count</strong> — number of non-null values</li>
-        <li><strong>mean</strong> — average value</li>
-        <li><strong>std</strong> — standard deviation (spread)</li>
-        <li><strong>quartiles</strong> — 25%, 50% (median), 75%</li>
-      </ul>
-    </div>
-
-    <!-- Slide 8: Column Types -->
-    <div class="slide">
-      <h2>Column Types<br>(dtypes)</h2>
-      <div class="visual-container">
-        <svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg">
-          <!-- Type boxes -->
-          <rect x="50" y="30" width="150" height="60" rx="5" fill="#1a1a2e"/>
-          <text x="125" y="55" font-family="Inter" font-size="16" font-weight="600" fill="#fafafa" text-anchor="middle">int64</text>
-          <text x="125" y="75" font-family="Monaco" font-size="12" fill="#e94560" text-anchor="middle">1, 42, 999</text>
-
-          <rect x="220" y="30" width="150" height="60" rx="5" fill="#1a1a2e"/>
-          <text x="295" y="55" font-family="Inter" font-size="16" font-weight="600" fill="#fafafa" text-anchor="middle">float64</text>
-          <text x="295" y="75" font-family="Monaco" font-size="12" fill="#e94560" text-anchor="middle">3.14, 0.5</text>
-
-          <rect x="390" y="30" width="150" height="60" rx="5" fill="#1a1a2e"/>
-          <text x="465" y="55" font-family="Inter" font-size="16" font-weight="600" fill="#fafafa" text-anchor="middle">object</text>
-          <text x="465" y="75" font-family="Monaco" font-size="12" fill="#e94560" text-anchor="middle">"text"</text>
-
-          <rect x="560" y="30" width="150" height="60" rx="5" fill="#1a1a2e"/>
-          <text x="635" y="55" font-family="Inter" font-size="16" font-weight="600" fill="#fafafa" text-anchor="middle">datetime</text>
-          <text x="635" y="75" font-family="Monaco" font-size="12" fill="#e94560" text-anchor="middle">2026-06-21</text>
-
-          <!-- Descriptions -->
-          <text x="125" y="120" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">Whole numbers</text>
-          <text x="295" y="120" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">Decimal numbers</text>
-          <text x="465" y="120" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">Text/strings</text>
-          <text x="635" y="120" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">Dates & times</text>
-
-          <!-- Examples -->
-          <text x="50" y="170" font-family="Inter" font-size="14" font-weight="600" fill="#333">Common use cases:</text>
-          <text x="50" y="200" font-family="Inter" font-size="13" fill="#333">→ int64: IDs, counts, ages</text>
-          <text x="50" y="225" font-family="Inter" font-size="13" fill="#333">→ float64: ratings, prices, temperatures</text>
-          <text x="50" y="250" font-family="Inter" font-size="13" fill="#333">→ object: names, categories, descriptions</text>
-          <text x="50" y="275" font-family="Inter" font-size="13" fill="#333">→ datetime: timestamps, dates, durations</text>
-        </svg>
-      </div>
-      <pre>df.dtypes
-
-prompt_id       int64
-temperature   float64
-model          object
-timestamp   datetime64</pre>
-    </div>
-
-    <!-- Slide 9: Finding Missing Data -->
-    <div class="slide">
-      <h2>Finding Missing Data</h2>
-      <p>Identify gaps in your dataset</p>
-      <div class="visual-container">
-        <svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg">
-          <!-- Heatmap-style grid -->
-          <text x="50" y="30" font-family="Inter" font-size="14" font-weight="600" fill="#333">Missing Data Heatmap</text>
-
-          <!-- Column headers -->
-          <text x="110" y="65" font-family="Monaco" font-size="13" fill="#555" text-anchor="middle">id</text>
-          <text x="170" y="65" font-family="Monaco" font-size="13" fill="#555" text-anchor="middle">name</text>
-          <text x="230" y="65" font-family="Monaco" font-size="13" fill="#555" text-anchor="middle">age</text>
-          <text x="290" y="65" font-family="Monaco" font-size="13" fill="#555" text-anchor="middle">rating</text>
-
-          <!-- Grid cells (green = present, red = missing) -->
-          <rect x="90" y="80" width="40" height="30" fill="#1a1a2e"/>
-          <rect x="150" y="80" width="40" height="30" fill="#1a1a2e"/>
-          <rect x="210" y="80" width="40" height="30" fill="#1a1a2e"/>
-          <rect x="270" y="80" width="40" height="30" fill="#1a1a2e"/>
-
-          <rect x="90" y="115" width="40" height="30" fill="#1a1a2e"/>
-          <rect x="150" y="115" width="40" height="30" fill="#1a1a2e"/>
-          <rect x="210" y="115" width="40" height="30" fill="#e94560"/>
-          <rect x="270" y="115" width="40" height="30" fill="#1a1a2e"/>
-
-          <rect x="90" y="150" width="40" height="30" fill="#1a1a2e"/>
-          <rect x="150" y="150" width="40" height="30" fill="#1a1a2e"/>
-          <rect x="210" y="150" width="40" height="30" fill="#1a1a2e"/>
-          <rect x="270" y="150" width="40" height="30" fill="#e94560"/>
-
-          <rect x="90" y="185" width="40" height="30" fill="#1a1a2e"/>
-          <rect x="150" y="185" width="40" height="30" fill="#1a1a2e"/>
-          <rect x="210" y="185" width="40" height="30" fill="#1a1a2e"/>
-          <rect x="270" y="185" width="40" height="30" fill="#1a1a2e"/>
-
-          <!-- Legend -->
-          <rect x="90" y="240" width="20" height="20" fill="#1a1a2e"/>
-          <text x="120" y="255" font-family="Inter" font-size="13" fill="#333">Present</text>
-
-          <rect x="200" y="240" width="20" height="20" fill="#e94560"/>
-          <text x="230" y="255" font-family="Inter" font-size="13" fill="#333">Missing (NaN)</text>
-
-          <!-- Code example -->
-          <text x="400" y="100" font-family="Monaco" font-size="13" fill="#333">df.isna().sum()</text>
-          <text x="400" y="130" font-family="Monaco" font-size="13" fill="#555">id        0</text>
-          <text x="400" y="155" font-family="Monaco" font-size="13" fill="#555">name      0</text>
-          <text x="400" y="180" font-family="Monaco" font-size="13" fill="#e94560">age       1</text>
-          <text x="400" y="205" font-family="Monaco" font-size="13" fill="#e94560">rating    1</text>
-        </svg>
-      </div>
-      <ul>
-        <li><code>df.isna()</code> — Boolean mask of missing values</li>
-        <li><code>df.isna().sum()</code> — Count per column</li>
-        <li><code>df.dropna()</code> — Remove rows with NaN</li>
-        <li><code>df.fillna()</code> — Replace NaN with a value</li>
-      </ul>
-    </div>
-
-    <!-- Slide 10: Selecting and Filtering -->
-    <div class="slide">
-      <h2>Selecting &<br>Filtering</h2>
-      <p>Extract exactly what you need</p>
-      <pre># Select specific columns
-df[['model', 'rating', 'category']]
-
-# Select single column (Series)
-df['model']
-
-# Filter rows by condition
-df[df['rating'] > 4.5]
-
-# Multiple conditions
-df[(df['category'] == 'coding') & (df['rating'] >= 4.7)]
-
-# Select by position
-df.iloc[0:10]   # First 10 rows
-df.iloc[0, 3]   # Row 0, Column 3
-
-# Select by label
-df.loc[df['model'] == 'gpt-4']</pre>
-    </div>
-
-    <!-- Slide 11: Grouping Data -->
-    <div class="slide">
-      <h2>Grouping Data</h2>
-      <p>Aggregate and summarize by category</p>
-      <div class="visual-container">
-        <svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg">
-          <!-- Before grouping -->
-          <text x="50" y="30" font-family="Inter" font-size="14" font-weight="600" fill="#333">Before Grouping</text>
-          <rect x="50" y="45" width="180" height="180" fill="none" stroke="#444" stroke-width="2"/>
-
-          <rect x="60" y="55" width="80" height="25" fill="#e94560"/>
-          <text x="100" y="72" font-family="Inter" font-size="13" fill="#fafafa" text-anchor="middle">Model</text>
-          <rect x="140" y="55" width="80" height="25" fill="#e94560"/>
-          <text x="180" y="72" font-family="Inter" font-size="13" fill="#fafafa" text-anchor="middle">Rating</text>
-
-          <text x="100" y="100" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">gpt-4</text>
-          <text x="180" y="100" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">4.8</text>
-
-          <text x="100" y="122" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">claude-3</text>
-          <text x="180" y="122" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">4.5</text>
-
-          <text x="100" y="144" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">gpt-4</text>
-          <text x="180" y="144" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">4.9</text>
-
-          <text x="100" y="166" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">gemini-pro</text>
-          <text x="180" y="166" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">4.2</text>
-
-          <text x="100" y="188" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">claude-3</text>
-          <text x="180" y="188" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">4.6</text>
-
-          <text x="100" y="210" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">gpt-4</text>
-          <text x="180" y="210" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">4.7</text>
-
-          <!-- Arrow -->
-          <path d="M 250 135 L 320 135" stroke="#e94560" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
-          <text x="285" y="120" font-family="Inter" font-size="13" fill="#333" text-anchor="middle">.groupby()</text>
-
-          <!-- After grouping -->
-          <text x="350" y="30" font-family="Inter" font-size="14" font-weight="600" fill="#333">After Grouping</text>
-          <rect x="350" y="45" width="180" height="140" fill="none" stroke="#444" stroke-width="2"/>
-
-          <rect x="360" y="55" width="80" height="25" fill="#1a1a2e"/>
-          <text x="400" y="72" font-family="Inter" font-size="13" fill="#fafafa" text-anchor="middle">Model</text>
-          <rect x="440" y="55" width="80" height="25" fill="#1a1a2e"/>
-          <text x="480" y="72" font-family="Inter" font-size="13" fill="#fafafa" text-anchor="middle">Avg Rating</text>
-
-          <text x="400" y="100" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">gpt-4</text>
-          <text x="480" y="100" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">4.80</text>
-
-          <text x="400" y="130" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">claude-3</text>
-          <text x="480" y="130" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">4.55</text>
-
-          <text x="400" y="160" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">gemini-pro</text>
-          <text x="480" y="160" font-family="Monaco" font-size="13" fill="#333" text-anchor="middle">4.20</text>
-
-          <!-- Arrow marker -->
-          <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-              <polygon points="0 0, 10 3, 0 6" fill="#e94560"/>
-            </marker>
-          </defs>
-        </svg>
-      </div>
-      <pre># Group by model and calculate mean rating
-df.groupby('model')['rating'].mean()
-
-# Multiple aggregations
-df.groupby('category').agg({
-    'rating': ['mean', 'count'],
-    'tokens_used': ['min', 'max']
-})</pre>
-    </div>
-
-    <!-- Slide 12: Connection to ML -->
-    <div class="slide">
-      <h2>Connection to<br>Machine Learning</h2>
-      <p>Why clean data inspection matters</p>
-      <div class="highlight-box">
-        <h3>Data Quality Impacts Model Performance</h3>
-        <ul>
-          <li>Missing values → must impute or remove</li>
-          <li>Wrong data types → conversion errors</li>
-          <li>Outliers → skewed predictions</li>
-          <li>Class imbalance → biased models</li>
-        </ul>
-      </div>
-      <div class="highlight-box">
-        <h3>Inspection Guides Preprocessing</h3>
-        <ul>
-          <li>Categorical columns → need encoding</li>
-          <li>Numeric ranges → may need scaling</li>
-          <li>Text columns → require vectorization</li>
-          <li>Timestamps → extract features (hour, day)</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Slide 13: Lab Introduction -->
-    <div class="slide">
-      <h2>Lab:<br>Dataset Detective</h2>
-      <div class="visual-container">
-        <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
-          <!-- Magnifying glass -->
-          <circle cx="150" cy="120" r="70" fill="none" stroke="#444" stroke-width="8"/>
-          <rect x="195" y="165" width="15" height="90" fill="#444" transform="rotate(45 202.5 210)"/>
-
-          <!-- Data table inside magnifying glass -->
-          <rect x="110" y="95" width="80" height="5" fill="#e94560"/>
-          <rect x="110" y="105" width="80" height="5" fill="#d1d1d1"/>
-          <rect x="110" y="115" width="80" height="5" fill="#d1d1d1"/>
-          <rect x="110" y="125" width="80" height="5" fill="#d1d1d1"/>
-          <rect x="110" y="135" width="80" height="5" fill="#d1d1d1"/>
-
-          <!-- Mission text -->
-          <text x="350" y="80" font-family="Inter" font-size="18" font-weight="600" fill="#333">Your Mission:</text>
-          <text x="350" y="110" font-family="Inter" font-size="14" fill="#333">→ Load LLM prompt dataset</text>
-          <text x="350" y="140" font-family="Inter" font-size="14" fill="#333">→ Inspect structure & types</text>
-          <text x="350" y="170" font-family="Inter" font-size="14" fill="#333">→ Find missing values</text>
-          <text x="350" y="200" font-family="Inter" font-size="14" fill="#333">→ Analyze distributions</text>
-          <text x="350" y="230" font-family="Inter" font-size="14" fill="#333">→ Group by category & model</text>
-        </svg>
-      </div>
-      <p style="margin-top: 2rem;">
-        Become a data detective — uncover insights hidden<br>
-        in 50 rows of LLM prompt-response data
-      </p>
-    </div>
-
-    <!-- Slide 14: Key Takeaways -->
-    <div class="slide">
-      <h2>Key Takeaways</h2>
-      <ul style="font-size: 1.3rem;">
-        <li>DataFrames are programmable spreadsheets</li>
-        <li><code>.head()</code> and <code>.tail()</code> for quick previews</li>
-        <li><code>.info()</code> shows structure and data types</li>
-        <li><code>.describe()</code> summarizes numeric statistics</li>
-        <li><code>.isna()</code> reveals missing data patterns</li>
-        <li><code>.groupby()</code> enables powerful aggregations</li>
-        <li>Data inspection is the foundation of ML preparation</li>
-      </ul>
-      <div class="highlight-box" style="margin-top: 3rem;">
-        <p style="font-size: 1.2rem; font-weight: 400;">
-          <strong>Next Module:</strong> Vector Embeddings & Semantic Search<br>
-          Transform text into numbers that capture meaning
-        </p>
-      </div>
-    </div>
-
-  </div>
-
-  <footer>© mui-group</footer>
-  <div class="slide-number" id="slideNumber">1 / 14</div>
-
-  <script>
-    const slides = document.getElementById('slides');
-    const slideNumber = document.getElementById('slideNumber');
-    const totalSlides = document.querySelectorAll('.slide').length;
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-
-    function updateSlideNumber() {
-      const slideWidth = window.innerWidth;
-      const currentSlide = Math.round(slides.scrollLeft / slideWidth) + 1;
-      slideNumber.textContent = `${currentSlide} / ${totalSlides}`;
-    }
-
-    slides.addEventListener('scroll', updateSlideNumber);
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      const slideWidth = window.innerWidth;
-      if (e.key === 'ArrowRight' || e.key === ' ') {
-        e.preventDefault();
-        slides.scrollLeft += slideWidth;
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        slides.scrollLeft -= slideWidth;
-      } else if (e.key === 'Home') {
-        e.preventDefault();
-        slides.scrollLeft = 0;
-      } else if (e.key === 'End') {
-        e.preventDefault();
-        slides.scrollLeft = slides.scrollWidth;
-      }
-    });
-
-    // Theme toggle
-    function setTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
-      localStorage.setItem('slide-theme', theme);
-      updateSVGColors(theme);
-    }
-
-    function updateSVGColors(theme) {
-      const svgs = document.querySelectorAll('svg');
-      svgs.forEach(svg => {
-        svg.querySelectorAll('text').forEach(text => {
-          const currentFill = text.getAttribute('fill');
-          if (theme === 'dark') {
-            if (['#333', '#1a1a2e', '#555', '#444'].includes(currentFill)) {
-              text.setAttribute('data-light-fill', currentFill);
-              text.setAttribute('fill', '#eee');
-            } else if (['#777', '#666', '#999'].includes(currentFill)) {
-              text.setAttribute('data-light-fill', currentFill);
-              text.setAttribute('fill', '#aaa');
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
             }
-          } else {
-            const lf = text.getAttribute('data-light-fill');
-            if (lf) text.setAttribute('fill', lf);
-          }
         });
-        svg.querySelectorAll('line, path, rect, circle, polyline, polygon').forEach(el => {
-          const currentStroke = el.getAttribute('stroke');
-          const currentFill = el.getAttribute('fill');
-          if (theme === 'dark') {
-            if (currentStroke && ['#444', '#555', '#333', '#1a1a2e'].includes(currentStroke)) {
-              el.setAttribute('data-light-stroke', currentStroke);
-              el.setAttribute('stroke', '#888');
+
+        // Click navigation
+        document.querySelector('.slide-container').addEventListener('click', (e) => {
+            if (e.clientX > window.innerWidth / 2) {
+                nextSlide();
+            } else {
+                prevSlide();
             }
-            if (currentFill && ['#f8f9fa', '#f0f0f5', '#fff', '#ffffff', '#fafafa', '#e8f5e9', '#e3f2fd', '#fff3e0'].includes(currentFill)) {
-              el.setAttribute('data-light-fill', currentFill);
-              el.setAttribute('fill', '#2d2d44');
-            }
-          } else {
-            const ls = el.getAttribute('data-light-stroke');
-            if (ls) el.setAttribute('stroke', ls);
-            const lf = el.getAttribute('data-light-fill');
-            if (lf) el.setAttribute('fill', lf);
-          }
         });
-      });
-    }
 
-    themeToggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      setTheme(current === 'dark' ? 'light' : 'dark');
-    });
+        // Touch navigation for mobile
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
 
-    // Initialize theme
-    const saved = localStorage.getItem('slide-theme');
-    if (saved) {
-      setTheme(saved);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                prevSlide();
+            }
+        });
 
-    // Initialize
-    updateSlideNumber();
-  </script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+            localStorage.setItem('slide-theme', theme);
+            updateSVGColors(theme);
+        }
+
+        function updateSVGColors(theme) {
+            const svgs = document.querySelectorAll('svg');
+            svgs.forEach(svg => {
+                // Update text elements
+                svg.querySelectorAll('text').forEach(text => {
+                    const currentFill = text.getAttribute('fill');
+                    if (theme === 'dark') {
+                        if (currentFill === '#333' || currentFill === '#1a1a2e' || currentFill === '#555' || currentFill === '#444') {
+                            text.setAttribute('fill', '#eee');
+                            text.setAttribute('data-light-fill', currentFill);
+                        } else if (currentFill === '#777' || currentFill === '#666') {
+                            text.setAttribute('fill', '#aaa');
+                            text.setAttribute('data-light-fill', currentFill);
+                        }
+                    } else {
+                        const lightFill = text.getAttribute('data-light-fill');
+                        if (lightFill) {
+                            text.setAttribute('fill', lightFill);
+                        }
+                    }
+                });
+                // Update stroke elements (lines, paths, rects)
+                svg.querySelectorAll('line, path, rect, circle').forEach(el => {
+                    const currentStroke = el.getAttribute('stroke');
+                    const currentFill = el.getAttribute('fill');
+                    if (theme === 'dark') {
+                        if (currentStroke === '#444' || currentStroke === '#555' || currentStroke === '#333') {
+                            el.setAttribute('data-light-stroke', currentStroke);
+                            el.setAttribute('stroke', '#888');
+                        }
+                        if (currentFill === '#f8f9fa' || currentFill === '#f0f0f5' || currentFill === '#fff' || currentFill === '#ffffff') {
+                            el.setAttribute('data-light-fill', currentFill);
+                            el.setAttribute('fill', '#2d2d44');
+                        }
+                    } else {
+                        const lightStroke = el.getAttribute('data-light-stroke');
+                        if (lightStroke) el.setAttribute('stroke', lightStroke);
+                        const lightFill = el.getAttribute('data-light-fill');
+                        if (lightFill) el.setAttribute('fill', lightFill);
+                    }
+                });
+            });
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+
+        // Initialize theme from localStorage or system preference
+        const saved = localStorage.getItem('slide-theme');
+        if (saved) {
+            setTheme(saved);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    </script>
 </body>
 </html>
