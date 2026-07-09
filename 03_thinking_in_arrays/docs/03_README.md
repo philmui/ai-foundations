@@ -44,7 +44,6 @@ This module introduces NumPy N-dimensional arrays and one-hot encoding, fundamen
 ## Files
 - `tutorial.ipynb` - Self-contained, Colab-ready notebook (all data generated inside)
 - `lab_the_matrix.py` - Educational Python script with 8 demonstrations
-- `slides.html` - 14-slide HTML presentation with inline SVG diagrams
 
 ## ▶️ Run in Google Colab (recommended)
 
@@ -81,36 +80,6 @@ The lab demonstrates:
 6. One-hot encoding workflow
 7. Sparsity analysis
 8. Connection to LLM embeddings
-
-## Slides
-Open `slides.html` in a browser. Use:
-- **Arrow keys** or **Space** to navigate
-- **Home** to go to first slide
-- **End** to go to last slide
-- **Click left/right** side of screen to navigate
-
-### Slide Contents
-1. Title
-2. Why Python Lists Fail
-3. NumPy Arrays: Contiguous Memory
-4. Creating Arrays
-5. The .shape Property
-6. Rank-1 vs Rank-2: The Shape Bug
-7. Reshaping Arrays
-8. What is One-Hot Encoding?
-9. One-Hot Encoding Workflow
-10. The One-Hot Matrix
-11. From One-Hot to LLM Embeddings
-12. Lab Introduction
-13. Key Takeaways
-14. Next Steps
-
-## Design Specifications
-- **Font**: Inter (Google Fonts)
-- **Colors**: Charcoal (#1a1a2e), Off-white (#fafafa), Accent (#e94560)
-- **Layout**: Left-aligned, asymmetric, generous whitespace
-- **Diagrams**: Inline SVG (memory layouts, matrices, flowcharts)
-- **Footer**: © mui-group, keyboard navigation
 
 ## Key Takeaways
 1. NumPy arrays: 50-100x faster than Python lists

@@ -62,7 +62,6 @@ This capstone integrates all 8 modules:
 ```
 08_capstone_pipeline/
 ├── tutorial.ipynb              # Self-contained capstone notebook (Colab-ready)
-├── slides.html                 # Educational slides
 └── docs/                       # README, setup, assignment, rubric
 ```
 
@@ -165,24 +164,6 @@ image_tensor = tf.convert_to_tensor(batch['image_batch'])  # Already (B,H,W,C)
 # Forward pass
 output = model(image_tensor)
 ```
-
-## Educational Slides
-
-Open `slides.html` in a browser for the educational presentation (16 slides).
-
-**Navigation:**
-- Arrow keys: ← → for previous/next
-- Space: Next slide
-- Home/End: First/last slide
-- Touch: Swipe left/right on mobile
-
-**Design:**
-- Inter font from Google Fonts
-- Left-aligned, asymmetric layouts
-- Charcoal (#1a1a2e), off-white (#fafafa), accent (#e94560)
-- All diagrams as inline SVG
-- No accent lines, 7x7 rule
-- Footer: "© mui-group"
 
 ## Performance Characteristics
 

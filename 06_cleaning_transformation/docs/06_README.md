@@ -19,7 +19,6 @@ Take a "dirty" dataset containing missing values, duplicates, and formatting err
 ## Files
 
 - **tutorial.ipynb**: Self-contained, Colab-ready notebook for the lab
-- **slides.html**: Interactive presentation (keyboard navigation)
 
 The dataset used in the lab is a "dirty" dataset (80 rows) generated inside the notebook, with:
 - 5 exact duplicates
@@ -134,22 +133,6 @@ test_df = df_shuffled[split_idx:]
 4. **Invalid data** → Corrupt learning patterns
 5. **Data types** → Prevent type errors, enable proper operations
 6. **Train/test split** → Measure true generalization, prevent overfitting
-
-## Viewing the Slides
-
-Open `slides.html` in a web browser:
-
-```bash
-open slides.html  # macOS
-xdg-open slides.html  # Linux
-start slides.html  # Windows
-```
-
-**Navigation:**
-- Right arrow / Space: Next slide
-- Left arrow: Previous slide
-- Click right half: Next slide
-- Click left half: Previous slide
 
 ## Next Module
 

@@ -29,7 +29,6 @@ By the end of this module, you will be able to:
 | File | Description |
 |------|-------------|
 | `tutorial.ipynb` | Self-contained Jupyter/Colab notebook with step-by-step lessons (installs deps and generates its data in-notebook) |
-| `slides.html` | Presentation slides covering key concepts |
 
 ## Key Concepts Covered
 
@@ -121,8 +120,6 @@ uv sync   # or: pip install -e .
 # Open the notebook in Jupyter or VS Code
 jupyter notebook 05_dataframes_series/tutorial.ipynb
 ```
-
-You can also open `slides.html` in your browser for a visual overview of key concepts.
 
 </details>
 

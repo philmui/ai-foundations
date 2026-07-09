@@ -22,7 +22,6 @@ Master the core techniques that make NumPy fast: vectorization (avoiding loops) 
 | File | Purpose |
 |------|---------|
 | `tutorial.ipynb` | Self-contained, Colab-ready notebook with explanations, exercises, and a neural network forward pass |
-| `slides.html` | Lecture slides covering vectorization and broadcasting theory |
 
 ## Key Concepts Covered
 
