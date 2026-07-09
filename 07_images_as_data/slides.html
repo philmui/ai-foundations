@@ -3,34 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 7: Images as Data (OpenCV)</title>
+    <title>Module 7: Images as Data</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16162a;
-            --bg-code: #0d0d1a;
-            --text-primary: #fafafa;
-            --text-secondary: #ccc;
-            --text-muted: rgba(250, 250, 250, 0.4);
-            --accent: #e94560;
-            --accent-hover: #ff6b81;
-            --green: #4ade80;
-            --blue: #60a5fa;
-            --border: #2d2d44;
-            --code-text: #fafafa;
-            --svg-text: #eee;
-            --svg-stroke: #888;
-            --svg-fill-light: #2d2d44;
-            --svg-fill-accent: rgba(233, 69, 96, 0.15);
-            --shadow: rgba(0, 0, 0, 0.3);
-            --toggle-bg: #2d2d44;
-            --toggle-knob: #fafafa;
-        }
-
-        [data-theme="light"] {
             --bg-primary: #fafafa;
             --bg-secondary: #f0f0f5;
             --bg-code: #1a1a2e;
@@ -52,6 +30,28 @@
             --toggle-knob: #fff;
         }
 
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16162a;
+            --bg-code: #0d0d1a;
+            --text-primary: #fafafa;
+            --text-secondary: #ccc;
+            --text-muted: rgba(250, 250, 250, 0.4);
+            --accent: #e94560;
+            --accent-hover: #ff6b81;
+            --green: #4ade80;
+            --blue: #60a5fa;
+            --border: #2d2d44;
+            --code-text: #fafafa;
+            --svg-text: #eee;
+            --svg-stroke: #888;
+            --svg-fill-light: #2d2d44;
+            --svg-fill-accent: rgba(233, 69, 96, 0.15);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --toggle-bg: #2d2d44;
+            --toggle-knob: #fafafa;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -69,13 +69,24 @@
         .slide-container {
             width: 100vw;
             height: 100vh;
-            display: none;
-            padding: 2rem 5rem 2.5rem 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
-            overflow-y: auto;
         }
 
-        .slide-container.active {
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            min-height: auto;
+            max-height: 96vh;
+            overflow-y: auto;
+            padding: 2rem 5rem 3rem 5rem;
+            position: relative;
+        }
+
+        .slide.active {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -87,168 +98,173 @@
             to { opacity: 1; }
         }
 
+        /* Typography */
         h1 {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
             line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
         }
 
         h2 {
             font-size: 3rem;
-            font-weight: 700;
+            font-weight: 600;
+            line-height: 1.2;
             margin-bottom: 1.5rem;
             color: var(--text-primary);
-            line-height: 1.2;
         }
 
-        h3 {
+        p, li {
             font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 1rem;
         }
 
-        p {
-            font-size: 1.3rem;
-            line-height: 1.7;
-            margin-bottom: 1.2rem;
-            max-width: 55rem;
+        strong {
+            font-weight: 600;
+            color: var(--accent);
         }
 
         ul {
             list-style: none;
-            font-size: 1.3rem;
-            line-height: 2;
-            max-width: 55rem;
+            margin-left: 1.5rem;
         }
 
-        ul li {
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        ul li::before {
-            content: "•";
+        li::before {
+            content: "→ ";
             color: var(--accent);
-            font-weight: bold;
-            position: absolute;
-            left: 0;
+            font-weight: 600;
+            margin-right: 0.5rem;
         }
 
+        /* Code snippets */
         code {
-            background: var(--svg-fill-accent);
+            font-family: 'Monaco', 'Courier New', monospace;
+            background: var(--bg-code);
+            color: var(--code-text);
             padding: 0.2rem 0.5rem;
             border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-            color: var(--accent);
+            font-size: 1.3rem;
         }
 
-        .code-block {
+        pre {
             background: var(--bg-code);
+            color: var(--code-text);
             padding: 1.5rem;
             border-radius: 8px;
-            border-left: 4px solid var(--accent);
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-            line-height: 1.6;
+            overflow-x: auto;
             margin: 1.5rem 0;
-            max-width: 50rem;
-            color: var(--code-text);
+            font-size: 1.2rem;
+            line-height: 1.5;
         }
 
-        .visual-container {
-            margin: 2rem 0;
-            display: flex;
-            align-items: center;
-            gap: 3rem;
+        pre code {
+            background: none;
+            padding: 0;
         }
 
-        svg {
-            max-width: 100%;
-            height: auto;
-        }
+        /* Syntax highlighting */
+        .keyword { color: var(--accent); }
+        .string { color: var(--green); }
+        .number { color: var(--blue); }
+        .comment { color: var(--text-muted); font-style: italic; }
 
+        /* Footer */
         .footer {
             position: absolute;
             bottom: 1.5rem;
             left: 5rem;
             font-size: 0.85rem;
             color: var(--text-muted);
+            font-weight: 300;
         }
 
+        /* Slide counter */
         .slide-number {
             position: absolute;
             bottom: 1.5rem;
             right: 5rem;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            font-weight: 600;
+            font-weight: 300;
         }
 
-        .two-column {
+        /* Accent color elements */
+        .accent {
+            color: var(--accent);
+        }
+
+        /* Navigation instructions */
+        .nav-hint {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* Visual elements */
+        .visual-container {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .chart-container {
+            margin: 2rem 0;
+        }
+
+        /* Grid layout for comparison slides */
+        .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: start;
+            gap: 3rem;
+            margin: 2rem 0;
         }
 
-        .emphasis {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .subtitle {
+        .comparison-item h3 {
             font-size: 1.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-        }
-
-        .note {
-            background: var(--svg-fill-accent);
-            border-left: 4px solid var(--accent);
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            font-size: 1.2rem;
-            max-width: 55rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent);
         }
 
         /* Title slide specific */
         .title-slide h1 {
-            font-size: 5rem;
-            margin-bottom: 1.5rem;
+            font-size: 5.5rem;
+            margin-bottom: 1rem;
         }
 
         .title-slide .subtitle {
             font-size: 2rem;
-        }
-
-        /* Visual grid for multi-visual slides */
-        .visual-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .visual-item {
-            text-align: center;
-        }
-
-        .visual-item p {
-            font-size: 1rem;
-            margin-top: 0.8rem;
+            font-weight: 300;
             color: var(--text-secondary);
+            margin-bottom: 3rem;
         }
 
-        /* Flowchart styling */
-        .flowchart {
-            margin: 2rem 0;
+        .title-slide .module-number {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
         }
 
+        /* Spacing utilities */
+        .spacer {
+            height: 2rem;
+        }
+
+        .spacer-large {
+            height: 4rem;
+        }
+
+        /* Theme toggle */
         .theme-toggle {
             position: fixed;
             top: 1.5rem;
@@ -276,7 +292,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
-        [data-theme="light"] .theme-toggle::after {
+        [data-theme="dark"] .theme-toggle::after {
             transform: translateX(28px);
         }
 
@@ -290,822 +306,781 @@
             color: var(--text-muted);
             pointer-events: none;
         }
+
+        /* Tutorial helpers */
+        .step-badge {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .lead {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Callout / insight box */
+        .callout {
+            border-left: 5px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: 1.25rem 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+            font-size: 1.3rem;
+        }
+
+        .callout.tip { border-left-color: var(--green); }
+        .callout.warn { border-left-color: var(--blue); }
+
+        .callout-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .callout.tip .callout-label { color: var(--green); }
+        .callout.warn .callout-label { color: var(--blue); }
+
+        /* Roadmap list on the agenda slide */
+        .roadmap li {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Data tables */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+            font-size: 1.25rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        td code, th code {
+            font-size: 1.05rem;
+        }
+
+        /* Two-up layout: explanation beside code */
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+            margin: 1.5rem 0;
+        }
+
+        .split pre { margin: 0; }
+
+        .smaller li, .smaller p { font-size: 1.3rem; }
+
+        pre.tight { font-size: 1rem; line-height: 1.45; }
     </style>
 </head>
 <body>
-
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle light mode"></button>
-<span class="theme-toggle-icon" id="themeIcon">🌙</span>
-
-<!-- Slide 1: Title -->
-<div class="slide-container active title-slide">
-    <h1>Images as Data</h1>
-    <p class="subtitle">Understanding OpenCV and Computer Vision Preprocessing</p>
-    <p style="margin-top: 3rem; font-size: 1.2rem; color: rgba(250, 250, 250, 0.6);">Module 7 • AI Research Foundations</p>
-    <div class="footer">© mui-group</div>
-    <div class="slide-number">1 / 15</div>
-</div>
-
-<!-- Slide 2: An Image is Just Numbers -->
-<div class="slide-container">
-    <h2>An Image Is Just Numbers</h2>
-    <p>To a computer, every image is a grid of numeric values representing color intensities.</p>
-
-    <div class="visual-container">
-        <svg width="600" height="250" viewBox="0 0 600 250">
-            <!-- Original photo representation -->
-            <defs>
-                <linearGradient id="photoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#e94560;stop-opacity:0.8" />
-                    <stop offset="50%" style="stop-color:#1a1a2e;stop-opacity:0.9" />
-                    <stop offset="100%" style="stop-color:#fafafa;stop-opacity:0.6" />
-                </linearGradient>
-            </defs>
-            <rect x="20" y="20" width="150" height="150" fill="url(#photoGrad)" stroke="#fafafa" stroke-width="2" rx="8"/>
-            <text x="95" y="192" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">Photo</text>
-
-            <!-- Arrow -->
-            <path d="M 180 95 L 220 95" stroke="#e94560" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-            <defs>
-                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                    <polygon points="0 0, 10 3, 0 6" fill="#e94560"/>
-                </marker>
-            </defs>
-
-            <!-- Pixel grid -->
-            <g transform="translate(230, 20)">
-                <rect x="0" y="0" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="30" y="0" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="60" y="0" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="90" y="0" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="120" y="0" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-
-                <rect x="0" y="30" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="30" y="30" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="60" y="30" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="90" y="30" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="120" y="30" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-
-                <rect x="0" y="60" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="30" y="60" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="60" y="60" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="90" y="60" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="120" y="60" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-
-                <rect x="0" y="90" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="30" y="90" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="60" y="90" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="90" y="90" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="120" y="90" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-
-                <rect x="0" y="120" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="30" y="120" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="60" y="120" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="90" y="120" width="30" height="30" fill="#fafafa" stroke="#1a1a2e" stroke-width="1"/>
-                <rect x="120" y="120" width="30" height="30" fill="#e94560" stroke="#1a1a2e" stroke-width="1"/>
-
-                <text x="75" y="178" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">Pixel Grid</text>
-            </g>
-
-            <!-- Arrow -->
-            <path d="M 390 95 L 430 95" stroke="#e94560" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-
-            <!-- Array representation -->
-            <g transform="translate(440, 40)">
-                <text x="0" y="0" fill="#fafafa" font-size="13" font-family="Courier New">[255, 128, 64]</text>
-                <text x="0" y="20" fill="#fafafa" font-size="13" font-family="Courier New">[200, 150, 100]</text>
-                <text x="0" y="40" fill="#fafafa" font-size="13" font-family="Courier New">[180, 90, 45]</text>
-                <text x="0" y="60" fill="#fafafa" font-size="13" font-family="Courier New">[220, 170, 110]</text>
-                <text x="0" y="80" fill="#fafafa" font-size="13" font-family="Courier New">...</text>
-                <text x="30" y="115" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">Array</text>
-            </g>
-        </svg>
-    </div>
-
-    <p>Each pixel contains numerical values that define its color in the RGB color space.</p>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">2 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 3: The 3D Array -->
-<div class="slide-container">
-    <h2>The 3D Array Structure</h2>
-    <p>Images are stored as 3-dimensional NumPy arrays with shape <code>(Height, Width, Channels)</code>.</p>
-
-    <div class="visual-container">
-        <svg width="500" height="350" viewBox="0 0 500 350">
-            <!-- 3D cube showing layers -->
-            <!-- Red layer (back) -->
-            <g opacity="0.7">
-                <path d="M 100 120 L 280 120 L 320 80 L 140 80 Z" fill="#ff4444" stroke="#fafafa" stroke-width="2"/>
-                <path d="M 280 120 L 280 280 L 320 240 L 320 80 Z" fill="#cc3333" stroke="#fafafa" stroke-width="2"/>
-                <text x="210" y="110" text-anchor="middle" fill="#1a1a2e" font-size="20" font-weight="bold" font-family="Inter">R</text>
-            </g>
-
-            <!-- Green layer (middle) -->
-            <g opacity="0.8">
-                <path d="M 80 140 L 260 140 L 300 100 L 120 100 Z" fill="#44ff44" stroke="#fafafa" stroke-width="2"/>
-                <path d="M 260 140 L 260 300 L 300 260 L 300 100 Z" fill="#33cc33" stroke="#fafafa" stroke-width="2"/>
-                <text x="190" y="130" text-anchor="middle" fill="#1a1a2e" font-size="20" font-weight="bold" font-family="Inter">G</text>
-            </g>
-
-            <!-- Blue layer (front) -->
-            <g opacity="0.9">
-                <path d="M 60 160 L 240 160 L 280 120 L 100 120 Z" fill="#4444ff" stroke="#fafafa" stroke-width="2"/>
-                <path d="M 240 160 L 240 320 L 280 280 L 280 120 Z" fill="#3333cc" stroke="#fafafa" stroke-width="2"/>
-                <path d="M 60 160 L 60 320 L 240 320 L 240 160 Z" fill="#5555ff" stroke="#fafafa" stroke-width="2"/>
-                <text x="150" y="230" text-anchor="middle" fill="#fafafa" font-size="20" font-weight="bold" font-family="Inter">B</text>
-            </g>
-
-            <!-- Labels -->
-            <g transform="translate(320, 185)">
-                <text x="0" y="0" fill="#fafafa" font-size="15" font-family="Inter" font-weight="600">Height (H)</text>
-                <text x="0" y="28" fill="#fafafa" font-size="15" font-family="Inter" font-weight="600">Width (W)</text>
-                <text x="0" y="56" fill="#fafafa" font-size="15" font-family="Inter" font-weight="600">Channels (C)</text>
-            </g>
-
-            <!-- Shape annotation -->
-            <rect x="320" y="255" width="160" height="60" fill="rgba(233, 69, 96, 0.2)" stroke="#e94560" stroke-width="2" rx="4"/>
-            <text x="400" y="280" text-anchor="middle" fill="#e94560" font-size="14" font-family="Courier New" font-weight="600">shape:</text>
-            <text x="400" y="303" text-anchor="middle" fill="#fafafa" font-size="16" font-family="Courier New">(H, W, 3)</text>
-        </svg>
-    </div>
-
-    <ul>
-        <li><span class="emphasis">Height:</span> Number of rows (pixels vertically)</li>
-        <li><span class="emphasis">Width:</span> Number of columns (pixels horizontally)</li>
-        <li><span class="emphasis">Channels:</span> Color components (3 for RGB)</li>
-    </ul>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">3 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 4: Color Channels -->
-<div class="slide-container">
-    <h2>Color Channels: R, G, B</h2>
-    <p>Each pixel has three color channels: Red, Green, and Blue. Combined, they produce the full color spectrum.</p>
-
-    <div class="visual-grid">
-        <div class="visual-item">
-            <svg width="150" height="150" viewBox="0 0 150 150">
-                <rect width="150" height="150" fill="#ff0000" rx="8"/>
-                <text x="75" y="80" text-anchor="middle" fill="#fafafa" font-size="24" font-weight="bold" font-family="Inter">R</text>
-            </svg>
-            <p>Red Channel</p>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+    <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <div class="module-number">MODULE 07</div>
+            <h1>Images<br>as Data</h1>
+            <p class="subtitle">Turning Pixels into Tensors with OpenCV and NumPy</p>
+            <div class="spacer-large"></div>
+            <p style="font-size: 1.3rem; color: var(--text-secondary);">A step-by-step tutorial</p>
+            <p style="font-size: 1.3rem; color: var(--text-muted);">AI Research Foundations Minicourse</p>
+            <div class="footer">© mui-group</div>
+            <div class="nav-hint">Press → or click to advance</div>
         </div>
-        <div class="visual-item">
-            <svg width="150" height="150" viewBox="0 0 150 150">
-                <rect width="150" height="150" fill="#00ff00" rx="8"/>
-                <text x="75" y="80" text-anchor="middle" fill="#1a1a2e" font-size="24" font-weight="bold" font-family="Inter">G</text>
-            </svg>
-            <p>Green Channel</p>
-        </div>
-        <div class="visual-item">
-            <svg width="150" height="150" viewBox="0 0 150 150">
-                <rect width="150" height="150" fill="#0000ff" rx="8"/>
-                <text x="75" y="80" text-anchor="middle" fill="#fafafa" font-size="24" font-weight="bold" font-family="Inter">B</text>
-            </svg>
-            <p>Blue Channel</p>
-        </div>
-    </div>
 
-    <div style="margin-top: 2rem;">
-        <p>Each channel stores intensity values from <code>0</code> (no color) to <code>255</code> (full intensity).</p>
-        <div class="code-block">
-pixel = [255, 128, 0]  # Red=255, Green=128, Blue=0
-# Result: Orange color</div>
-    </div>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">4 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 5: OpenCV's BGR Quirk -->
-<div class="slide-container">
-    <h2>OpenCV's BGR Quirk</h2>
-    <p>OpenCV loads images in <span class="emphasis">BGR format</span>, not RGB. This is a historical quirk from early video standards.</p>
-
-    <div class="visual-container">
-        <svg width="600" height="200" viewBox="0 0 600 200">
-            <!-- BGR representation -->
-            <g>
-                <rect x="20" y="20" width="80" height="120" fill="#0000ff" stroke="#fafafa" stroke-width="2" rx="4"/>
-                <rect x="110" y="20" width="80" height="120" fill="#00ff00" stroke="#fafafa" stroke-width="2" rx="4"/>
-                <rect x="200" y="20" width="80" height="120" fill="#ff0000" stroke="#fafafa" stroke-width="2" rx="4"/>
-                <text x="60" y="90" text-anchor="middle" fill="#fafafa" font-size="28" font-weight="bold" font-family="Inter">B</text>
-                <text x="150" y="90" text-anchor="middle" fill="#1a1a2e" font-size="28" font-weight="bold" font-family="Inter">G</text>
-                <text x="240" y="90" text-anchor="middle" fill="#fafafa" font-size="28" font-weight="bold" font-family="Inter">R</text>
-                <text x="150" y="165" text-anchor="middle" fill="#fafafa" font-size="18" font-family="Inter">cv2.imread() → BGR</text>
-            </g>
-
-            <!-- Arrow -->
-            <path d="M 300 80 L 340 80" stroke="#e94560" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-            <text x="320" y="68" text-anchor="middle" fill="#e94560" font-size="13" font-family="Inter">convert</text>
-
-            <!-- RGB representation -->
-            <g>
-                <rect x="360" y="20" width="80" height="120" fill="#ff0000" stroke="#fafafa" stroke-width="2" rx="4"/>
-                <rect x="450" y="20" width="80" height="120" fill="#00ff00" stroke="#fafafa" stroke-width="2" rx="4"/>
-                <rect x="540" y="20" width="80" height="120" fill="#0000ff" stroke="#fafafa" stroke-width="2" rx="4"/>
-                <text x="400" y="90" text-anchor="middle" fill="#fafafa" font-size="28" font-weight="bold" font-family="Inter">R</text>
-                <text x="490" y="90" text-anchor="middle" fill="#1a1a2e" font-size="28" font-weight="bold" font-family="Inter">G</text>
-                <text x="580" y="90" text-anchor="middle" fill="#fafafa" font-size="28" font-weight="bold" font-family="Inter">B</text>
-                <text x="470" y="165" text-anchor="middle" fill="#fafafa" font-size="18" font-family="Inter">Standard RGB</text>
-            </g>
-        </svg>
-    </div>
-
-    <div class="note">
-        <strong>⚠️ Important:</strong> Most libraries (matplotlib, PIL, PyTorch) expect RGB format. Always convert BGR → RGB after loading with OpenCV.
-    </div>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">5 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 6: cv2.imread -->
-<div class="slide-container">
-    <h2>Loading Images with cv2.imread</h2>
-    <p>OpenCV's <code>cv2.imread()</code> function loads an image file into a NumPy array.</p>
-
-    <div class="code-block">
-import cv2
-
-# Load image (returns BGR format)
-img = cv2.imread('photo.jpg')
-
-# Check the shape
-print(img.shape)  # (480, 640, 3)
-# Height=480, Width=640, Channels=3
-
-# Check data type
-print(img.dtype)  # uint8 (0-255 range)</div>
-
-    <ul style="margin-top: 2rem;">
-        <li>Returns a NumPy array of shape <code>(H, W, 3)</code></li>
-        <li>Data type is <code>uint8</code> (unsigned 8-bit integer)</li>
-        <li>Pixel values range from 0 to 255</li>
-        <li>Color format is BGR, not RGB</li>
-        <li>Returns <code>None</code> if file cannot be loaded</li>
-    </ul>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">6 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 7: Resizing -->
-<div class="slide-container">
-    <h2>Resizing: Why 224×224?</h2>
-    <p>Neural networks require fixed-size inputs. The standard size for ImageNet models is 224×224 pixels.</p>
-
-    <div class="visual-container">
-        <svg width="600" height="220" viewBox="0 0 600 220">
-            <!-- Different sized images -->
-            <rect x="20" y="20" width="120" height="80" fill="rgba(233, 69, 96, 0.3)" stroke="#e94560" stroke-width="2" rx="4"/>
-            <text x="80" y="133" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">640×480</text>
-
-            <rect x="170" y="40" width="80" height="60" fill="rgba(233, 69, 96, 0.3)" stroke="#e94560" stroke-width="2" rx="4"/>
-            <text x="210" y="133" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">320×240</text>
-
-            <rect x="280" y="10" width="100" height="100" fill="rgba(233, 69, 96, 0.3)" stroke="#e94560" stroke-width="2" rx="4"/>
-            <text x="330" y="133" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">512×512</text>
-
-            <!-- Arrow -->
-            <path d="M 400 70 L 440 70" stroke="#fafafa" stroke-width="3" fill="none" marker-end="url(#arrowhead2)"/>
-            <defs>
-                <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                    <polygon points="0 0, 10 3, 0 6" fill="#fafafa"/>
-                </marker>
-            </defs>
-            <text x="420" y="58" text-anchor="middle" fill="#fafafa" font-size="13" font-family="Inter">resize</text>
-
-            <!-- Uniform size -->
-            <rect x="460" y="30" width="100" height="100" fill="rgba(233, 69, 96, 0.6)" stroke="#e94560" stroke-width="3" rx="4"/>
-            <text x="510" y="158" text-anchor="middle" fill="#e94560" font-size="16" font-weight="bold" font-family="Inter">224×224</text>
-        </svg>
-    </div>
-
-    <ul style="margin-top: 2rem;">
-        <li>VGG, ResNet, MobileNet expect 224×224 input</li>
-        <li>Fixed size required for batch processing</li>
-        <li>Trade-off between detail and computation</li>
-        <li>Use <code>cv2.resize(img, (224, 224))</code></li>
-    </ul>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">7 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 8: Pixel Normalization -->
-<div class="slide-container">
-    <h2>Pixel Normalization</h2>
-    <p>Convert pixel values from <code>0-255</code> integer range to <code>0-1</code> float range.</p>
-
-    <div class="visual-container">
-        <svg width="600" height="180" viewBox="0 0 600 180">
-            <!-- Before normalization -->
-            <g>
-                <rect x="20" y="30" width="200" height="80" fill="rgba(233, 69, 96, 0.2)" stroke="#e94560" stroke-width="2" rx="4"/>
-                <text x="120" y="55" text-anchor="middle" fill="#fafafa" font-size="14" font-family="Inter">uint8</text>
-                <text x="120" y="80" text-anchor="middle" fill="#e94560" font-size="24" font-weight="bold" font-family="Courier New">0 - 255</text>
-                <text x="120" y="143" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">Original Range</text>
-            </g>
-
-            <!-- Arrow with division -->
-            <g>
-                <path d="M 240 70 L 300 70" stroke="#fafafa" stroke-width="3" fill="none" marker-end="url(#arrowhead2)"/>
-                <text x="270" y="58" text-anchor="middle" fill="#e94560" font-size="16" font-weight="bold" font-family="Courier New">÷ 255.0</text>
-            </g>
-
-            <!-- After normalization -->
-            <g>
-                <rect x="320" y="30" width="200" height="80" fill="rgba(233, 69, 96, 0.2)" stroke="#e94560" stroke-width="2" rx="4"/>
-                <text x="420" y="55" text-anchor="middle" fill="#fafafa" font-size="14" font-family="Inter">float32</text>
-                <text x="420" y="80" text-anchor="middle" fill="#e94560" font-size="24" font-weight="bold" font-family="Courier New">0.0 - 1.0</text>
-                <text x="420" y="143" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">Normalized Range</text>
-            </g>
-        </svg>
-    </div>
-
-    <div class="code-block">
-# Normalize pixel values
-img_normalized = img.astype(np.float32) / 255.0
-
-# Check range
-print(img_normalized.min(), img_normalized.max())
-# Output: 0.0 1.0</div>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">8 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 9: Why Normalize? -->
-<div class="slide-container">
-    <h2>Why Normalize?</h2>
-    <p>Normalization is essential for effective neural network training.</p>
-
-    <div class="two-column">
-        <div>
-            <h3>Benefits</h3>
-            <ul>
-                <li>Consistent scale across features</li>
-                <li>Faster gradient descent convergence</li>
-                <li>Prevents numerical instability</li>
-                <li>Required by pretrained models</li>
-                <li>Reduces internal covariate shift</li>
+        <!-- Slide 2: Welcome -->
+        <div class="slide">
+            <div class="slide-number">2 / 18</div>
+            <h2>Welcome</h2>
+            <p class="lead">Before a neural network can "see" an image, that image has to become a clean, standardized block of numbers. This module shows you exactly how.</p>
+            <p>By the end you will be able to:</p>
+            <ul class="smaller">
+                <li>Explain why an image is really a 3D NumPy array of shape (Height, Width, Channels) with pixel values from 0 to 255</li>
+                <li>Load images with <code>cv2.imread</code> and convert OpenCV's BGR order to the RGB order other libraries expect</li>
+                <li>Resize any image to a fixed 224x224 resolution and normalize pixels to floats in 0.0 to 1.0</li>
+                <li>Stack many preprocessed images into a 4D batch of shape (N, 224, 224, 3) and reason about its memory cost</li>
             </ul>
+            <div class="callout tip">
+                <span class="callout-label">How to use these slides</span>
+                <p>Each concept comes with a small piece of code. Open the companion notebook <code>tutorial.ipynb</code> and run each snippet as you go. Learning by typing beats learning by reading.</p>
+            </div>
+            <div class="footer">© mui-group</div>
         </div>
-        <div>
-            <svg width="280" height="280" viewBox="0 0 280 280">
-                <!-- Gradient descent visualization -->
+
+        <!-- Slide 3: Why should you care -->
+        <div class="slide">
+            <div class="slide-number">3 / 18</div>
+            <h2>Why should you care?</h2>
+            <p class="lead">Every computer vision model, from ResNet to a modern vision transformer, expects its input in one very specific form: a fixed-size grid of normalized numbers.</p>
+            <p>Real photos come in wildly different sizes, color orderings, and value ranges. Feed them in raw and the model either:</p>
+            <ul class="smaller">
+                <li>Crashes on a <strong>shape mismatch</strong>, or</li>
+                <li>Simply <strong>fails to learn</strong> from unstable inputs</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>The preprocessing pipeline you build here is the unglamorous but essential <strong>bridge</strong> between messy real-world images and a model that can actually train.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 4: Roadmap -->
+        <div class="slide">
+            <div class="slide-number">4 / 18</div>
+            <h2>Our roadmap</h2>
+            <p class="lead">We build the pipeline one step at a time, then put it all together in a hands-on lab.</p>
+            <ul class="roadmap">
+                <li><strong>1.</strong> Images as 3D NumPy arrays (H, W, C)</li>
+                <li><strong>2.</strong> Loading images with cv2.imread</li>
+                <li><strong>3.</strong> The BGR quirk and converting to RGB</li>
+                <li><strong>4.</strong> Resizing to a standard 224x224</li>
+                <li><strong>5.</strong> Normalizing pixels to 0 to 1</li>
+                <li><strong>6.</strong> Batching many images into a 4D array</li>
+                <li><strong>7.</strong> Memory and the complete pipeline</li>
+            </ul>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 1: IMAGES AS ARRAYS ============ -->
+        <!-- Slide 5 -->
+        <div class="slide">
+            <div class="slide-number">5 / 18</div>
+            <span class="step-badge">Part 1 · Images as Arrays</span>
+            <h2>An image is a 3D grid<br>of numbers</h2>
+            <p>A color image is a 3D NumPy array of shape <strong>(Height, Width, Channels)</strong>. Height and Width are rows and columns of pixels; Channels holds the color intensities (usually 3). Each value is an 8-bit unsigned integer from 0 to 255.</p>
+            <div class="visual-container">
+                <svg width="640" height="200">
+                    <g transform="translate(40, 40)">
+                        <polygon points="0,40 120,40 160,10 40,10" fill="#3b82f6" opacity="0.85"/>
+                        <polygon points="0,55 120,55 160,25 40,25" fill="#16a34a" opacity="0.85"/>
+                        <polygon points="0,70 120,70 160,40 40,40" fill="#e94560" opacity="0.9"/>
+                        <text x="175" y="30" font-size="14" fill="#555">C = 3 channels (depth)</text>
+                        <path d="M -12,10 L -12,70" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred5)"/>
+                        <text x="-72" y="45" font-size="14" fill="#555">H (rows)</text>
+                        <path d="M 0,88 L 120,88" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred5)"/>
+                        <text x="30" y="108" font-size="14" fill="#555">W (columns)</text>
+                    </g>
+                    <text x="40" y="165" font-size="16" fill="#1a1a2e" font-weight="600">shape = (100, 200, 3)  dtype = uint8  (0 to 255)</text>
+                    <defs>
+                        <marker id="arrow5" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+                        </marker>
+                        <marker id="arrowred5" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            <pre class="tight"><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># A tiny synthetic color image: 100 rows, 200 cols, 3 channels</span>
+color_img <span class="keyword">=</span> np.<span class="keyword">zeros</span>((<span class="number">100</span>, <span class="number">200</span>, <span class="number">3</span>), dtype<span class="keyword">=</span>np.uint8)
+
+<span class="keyword">print</span>(color_img.shape)   <span class="comment"># (100, 200, 3) -> (Height, Width, Channels)</span>
+<span class="keyword">print</span>(color_img.dtype)   <span class="comment"># uint8  (values 0 to 255)</span>
+
+<span class="comment"># A grayscale image is just 2D: no channel axis</span>
+grayscale_img <span class="keyword">=</span> np.<span class="keyword">zeros</span>((<span class="number">100</span>, <span class="number">200</span>), dtype<span class="keyword">=</span>np.uint8)
+<span class="keyword">print</span>(grayscale_img.shape)  <span class="comment"># (100, 200)</span></code></pre>
+            <div class="callout warn">
+                <span class="callout-label">Watch the axis order</span>
+                <p>The (H, W, C) ordering trips people up because we usually say width before height. NumPy indexes rows (height) first, so <code>img.shape[0]</code> is height, not width. Getting this backwards is a classic source of bugs.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 2: LOADING IMAGES ============ -->
+        <!-- Slide 6 -->
+        <div class="slide">
+            <div class="slide-number">6 / 18</div>
+            <span class="step-badge">Part 2 · Loading Images</span>
+            <h2>cv2.imread turns a file<br>into an array</h2>
+            <p>OpenCV's <code>cv2.imread</code> reads an image file and returns it as a NumPy array. Inspecting <code>.shape</code>, <code>.dtype</code>, min, max, and mean tells you everything about the pixels.</p>
+            <div class="visual-container">
+                <svg width="720" height="150">
+                    <rect x="0" y="45" width="120" height="55" fill="#1a1a2e" rx="6"/>
+                    <text x="60" y="78" text-anchor="middle" font-size="15" fill="#fafafa">photo.jpg</text>
+                    <path d="M 120,72 L 200,72" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred6)"/>
+                    <text x="128" y="60" font-size="13" fill="#555">cv2.imread</text>
+
+                    <rect x="205" y="45" width="150" height="55" fill="#16a34a" opacity="0.85" rx="6"/>
+                    <text x="280" y="70" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">NumPy array</text>
+                    <text x="280" y="90" text-anchor="middle" font-size="12" fill="#eafff0">(480, 640, 3)</text>
+
+                    <path d="M 120,72 C 150,72 150,120 200,120" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrow6)"/>
+                    <rect x="205" y="103" width="150" height="34" fill="#1a1a2e" opacity="0.3" rx="6"/>
+                    <text x="280" y="125" text-anchor="middle" font-size="13" fill="#1a1a2e">bad path -> None</text>
+
+                    <text x="420" y="70" font-size="15" fill="#e94560" font-weight="600">Always check</text>
+                    <text x="420" y="92" font-size="13" fill="#555">for None right away</text>
+                    <defs>
+                        <marker id="arrow6" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+                        </marker>
+                        <marker id="arrowred6" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            <pre class="tight"><code><span class="keyword">import</span> cv2
+
+img <span class="keyword">=</span> cv2.<span class="keyword">imread</span>(image_path)   <span class="comment"># returns a NumPy array, or None if not found</span>
+
+<span class="keyword">if</span> img <span class="keyword">is</span> <span class="keyword">None</span>:
+    <span class="keyword">print</span>(<span class="string">"Failed to load image"</span>)
+<span class="keyword">else</span>:
+    <span class="keyword">print</span>(<span class="string">f"Shape: {img.shape}"</span>)   <span class="comment"># e.g. (480, 640, 3)</span>
+    <span class="keyword">print</span>(<span class="string">f"Dtype: {img.dtype}"</span>)   <span class="comment"># uint8</span>
+    <span class="keyword">print</span>(<span class="string">f"Min:   {img.min()}"</span>)   <span class="comment"># 0</span>
+    <span class="keyword">print</span>(<span class="string">f"Max:   {img.max()}"</span>)   <span class="comment"># 255</span>
+    <span class="keyword">print</span>(<span class="string">f"Mean:  {img.mean():.2f}"</span>)</code></pre>
+            <div class="callout warn">
+                <span class="callout-label">The silent None</span>
+                <p>Because <code>cv2.imread</code> returns None instead of throwing on a bad path, forgetting the None check leads to a confusing crash several lines later. Check immediately after loading.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 3: BGR QUIRK ============ -->
+        <!-- Slide 7 -->
+        <div class="slide">
+            <div class="slide-number">7 / 18</div>
+            <span class="step-badge">Part 3 · The BGR Quirk</span>
+            <h2>OpenCV loads colors<br>backwards</h2>
+            <p>For historical reasons tied to early video hardware, OpenCV stores channels in <strong>Blue, Green, Red</strong> order instead of the Red, Green, Blue order that matplotlib, PIL, and PyTorch expect. The shape does not change, only the meaning of the three channels.</p>
+            <div class="visual-container">
+                <svg width="720" height="150">
+                    <rect x="0" y="30" width="200" height="80" fill="#1a1a2e" rx="8"/>
+                    <text x="100" y="62" text-anchor="middle" font-size="16" fill="#fafafa" font-weight="600">BGR</text>
+                    <text x="100" y="88" text-anchor="middle" font-size="13" fill="#bbb">blue sky looks orange</text>
+
+                    <path d="M 200,70 L 300,70" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred7)"/>
+                    <text x="250" y="58" text-anchor="middle" font-size="13" fill="#e94560">COLOR_BGR2RGB</text>
+
+                    <rect x="305" y="30" width="200" height="80" fill="#16a34a" opacity="0.85" rx="8"/>
+                    <text x="405" y="62" text-anchor="middle" font-size="16" fill="#fafafa" font-weight="600">RGB</text>
+                    <text x="405" y="88" text-anchor="middle" font-size="13" fill="#eafff0">colors look correct</text>
+                    <defs>
+                        <marker id="arrowred7" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            <pre class="tight"><code><span class="comment"># OpenCV gives you BGR; convert to RGB for everything else</span>
+img_rgb <span class="keyword">=</span> cv2.<span class="keyword">cvtColor</span>(img_bgr, cv2.COLOR_BGR2RGB)
+
+<span class="keyword">print</span>(img_rgb.shape)   <span class="comment"># unchanged, only channel order swapped</span>
+
+<span class="comment"># Same center pixel, two orderings (Blue and Red are swapped)</span>
+bgr <span class="keyword">=</span> img_bgr[img_bgr.shape[<span class="number">0</span>]<span class="keyword">//</span><span class="number">2</span>, img_bgr.shape[<span class="number">1</span>]<span class="keyword">//</span><span class="number">2</span>]
+rgb <span class="keyword">=</span> img_rgb[img_rgb.shape[<span class="number">0</span>]<span class="keyword">//</span><span class="number">2</span>, img_rgb.shape[<span class="number">1</span>]<span class="keyword">//</span><span class="number">2</span>]
+<span class="keyword">print</span>(<span class="string">f"BGR: {list(bgr)}"</span>)
+<span class="keyword">print</span>(<span class="string">f"RGB: {list(rgb)}"</span>)</code></pre>
+            <div class="callout">
+                <span class="callout-label">The reflex to build</span>
+                <p>If a displayed image looks like red and blue are swapped (a blue sky turns orange), you forgot the conversion. Make <code>cv2.cvtColor(img, cv2.COLOR_BGR2RGB)</code> the reflex you run immediately after every <code>cv2.imread</code>.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 4: RESIZING ============ -->
+        <!-- Slide 8 -->
+        <div class="slide">
+            <div class="slide-number">8 / 18</div>
+            <span class="step-badge">Part 4 · Resizing</span>
+            <h2>Squeeze every image<br>to a fixed 224x224</h2>
+            <p>Neural networks need a fixed input size, but real images come in all dimensions. <code>cv2.resize</code> scales any image to a target size, filling in new pixel values by interpolation. <code>INTER_LINEAR</code> (bilinear) is the fast, good-quality default.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code>target_size <span class="keyword">=</span> (<span class="number">224</span>, <span class="number">224</span>)   <span class="comment"># note: (width, height) order!</span>
+
+img_resized <span class="keyword">=</span> cv2.<span class="keyword">resize</span>(
+    img_rgb, target_size,
+    interpolation<span class="keyword">=</span>cv2.INTER_LINEAR)
+
+<span class="keyword">print</span>(img_resized.shape)   <span class="comment"># (224, 224, 3)</span></code></pre>
+                    <div class="callout warn">
+                        <span class="callout-label">Argument order flips</span>
+                        <p><code>cv2.resize</code> takes its target as <code>(width, height)</code>, the opposite of the <code>(H, W)</code> shape ordering.</p>
+                    </div>
+                </div>
+                <div>
+                    <svg width="300" height="230">
+                        <rect x="10" y="20" width="180" height="120" fill="#1a1a2e" opacity="0.25" rx="6"/>
+                        <text x="100" y="85" text-anchor="middle" font-size="14" fill="#1a1a2e">odd-sized photo</text>
+                        <path d="M 150,150 L 190,185" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred8)"/>
+                        <rect x="150" y="150" width="80" height="80" fill="#16a34a" opacity="0.85" rx="6"/>
+                        <text x="190" y="185" text-anchor="middle" font-size="13" fill="#fafafa" font-weight="600">224</text>
+                        <text x="190" y="205" text-anchor="middle" font-size="13" fill="#fafafa" font-weight="600">x 224</text>
+                        <defs>
+                            <marker id="arrowred8" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+            <div class="callout">
+                <span class="callout-label">Why 224?</span>
+                <p>224x224 is not arbitrary: it is the historical ImageNet convention that VGG, ResNet, and MobileNet all expect, a deliberate trade-off between detail and manageable computation. Newer models sometimes use other sizes (299x299, 512x512).</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 5: NORMALIZATION ============ -->
+        <!-- Slide 9 -->
+        <div class="slide">
+            <div class="slide-number">9 / 18</div>
+            <span class="step-badge">Part 5 · Normalization</span>
+            <h2>Rescale pixels from<br>0 to 255 into 0.0 to 1.0</h2>
+            <p>Models train far better when inputs live in a small, consistent range. We cast the integer pixels to <code>float32</code> and divide by 255.0, mapping 0 to 255 into 0.0 to 1.0. This keeps features on a common scale and helps gradient descent converge.</p>
+            <div class="visual-container">
+                <svg width="720" height="100">
+                    <text x="0" y="20" font-size="14" fill="#1a1a2e" font-weight="600">uint8: values spread across 0 to 255</text>
+                    <rect x="0" y="30" width="260" height="30" fill="#3b82f6" opacity="0.6" rx="4"/>
+                    <text x="0" y="80" font-size="12" fill="#555">0</text>
+                    <text x="240" y="80" font-size="12" fill="#555">255</text>
+
+                    <path d="M 300,45 L 380,45" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred9)"/>
+                    <text x="340" y="35" text-anchor="middle" font-size="13" fill="#e94560">/ 255.0</text>
+
+                    <text x="400" y="20" font-size="14" fill="#1a1a2e" font-weight="600">float32: compressed to 0.0 to 1.0</text>
+                    <rect x="400" y="30" width="90" height="30" fill="#16a34a" opacity="0.7" rx="4"/>
+                    <text x="400" y="80" font-size="12" fill="#555">0.0</text>
+                    <text x="470" y="80" font-size="12" fill="#555">1.0</text>
+                    <defs>
+                        <marker id="arrowred9" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            <pre class="tight"><code>img_normalized <span class="keyword">=</span> img_resized.<span class="keyword">astype</span>(np.float32) <span class="keyword">/</span> <span class="number">255.0</span>
+
+<span class="keyword">print</span>(img_normalized.dtype)         <span class="comment"># float32</span>
+<span class="keyword">print</span>(img_normalized.min(),
+      img_normalized.max())         <span class="comment"># ~0.0 to ~1.0</span>
+<span class="keyword">print</span>(<span class="string">f"Mean: {img_normalized.mean():.3f}"</span>)
+
+<span class="comment"># Advanced: some models also do ImageNet-style standardization</span>
+<span class="comment"># img = (img - mean) / std   # per-channel mean and std</span></code></pre>
+            <div class="callout warn">
+                <span class="callout-label">Divide by a float, not an int</span>
+                <p>Dividing by <code>255.0</code> (a float) not <code>255</code> matters: integer division would floor everything to 0. Forgetting to normalize is one of the top reasons a model "trains" but never converges, because 0 to 255 inputs produce huge, unstable gradients.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 6: BATCHING ============ -->
+        <!-- Slide 10 -->
+        <div class="slide">
+            <div class="slide-number">10 / 18</div>
+            <span class="step-badge">Part 6 · Batching</span>
+            <h2>Stack many images<br>into one 4D array</h2>
+            <p>Models process images in batches for efficiency. After running the same four steps on each image, collect the results in a list and use <code>np.stack</code> to combine them along a new first axis. The result is a 4D array of shape <strong>(N, H, W, C)</strong>.</p>
+            <div class="visual-container">
+                <svg width="720" height="140">
+                    <g>
+                        <rect x="0" y="40" width="55" height="55" fill="#16a34a" opacity="0.85" rx="5"/>
+                        <rect x="65" y="40" width="55" height="55" fill="#16a34a" opacity="0.85" rx="5"/>
+                        <rect x="130" y="40" width="55" height="55" fill="#16a34a" opacity="0.85" rx="5"/>
+                        <text x="92" y="115" text-anchor="middle" font-size="13" fill="#555">N images, each 224x224x3</text>
+                    </g>
+                    <path d="M 200,68 L 280,68" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred10)"/>
+                    <text x="240" y="56" text-anchor="middle" font-size="13" fill="#e94560">np.stack</text>
+                    <g transform="translate(290, 20)">
+                        <rect x="0" y="20" width="150" height="90" fill="#1a1a2e" rx="6"/>
+                        <text x="75" y="60" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">4D batch</text>
+                        <text x="75" y="84" text-anchor="middle" font-size="13" fill="#bbb">(N, 224, 224, 3)</text>
+                    </g>
+                    <text x="470" y="60" font-size="14" fill="#1a1a2e" font-weight="600">N is the batch</text>
+                    <text x="470" y="82" font-size="14" fill="#1a1a2e" font-weight="600">dimension</text>
+                    <text x="470" y="104" font-size="12" fill="#555">GPUs process it in parallel</text>
+                    <defs>
+                        <marker id="arrowred10" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            <pre class="tight"><code>processed_images <span class="keyword">=</span> []
+<span class="keyword">for</span> filename <span class="keyword">in</span> image_files:
+    img <span class="keyword">=</span> cv2.<span class="keyword">imread</span>(os.path.<span class="keyword">join</span>(images_dir, filename))
+    img <span class="keyword">=</span> cv2.<span class="keyword">cvtColor</span>(img, cv2.COLOR_BGR2RGB)
+    img <span class="keyword">=</span> cv2.<span class="keyword">resize</span>(img, (<span class="number">224</span>, <span class="number">224</span>), interpolation<span class="keyword">=</span>cv2.INTER_LINEAR)
+    img <span class="keyword">=</span> img.<span class="keyword">astype</span>(np.float32) <span class="keyword">/</span> <span class="number">255.0</span>
+    processed_images.<span class="keyword">append</span>(img)
+
+<span class="comment"># Stack into a 4D batch: (N, H, W, C)</span>
+batch <span class="keyword">=</span> np.<span class="keyword">stack</span>(processed_images, axis<span class="keyword">=</span><span class="number">0</span>)
+<span class="keyword">print</span>(batch.shape)   <span class="comment"># e.g. (8, 224, 224, 3)</span></code></pre>
+            <div class="callout tip">
+                <span class="callout-label">Why resize comes first</span>
+                <p><code>np.stack</code> only works when every array has an identical shape, which is exactly why resizing (Part 4) has to happen before stacking. The leading N axis is the batch dimension that GPUs love.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 7: MEMORY & PIPELINE ============ -->
+        <!-- Slide 11 -->
+        <div class="slide">
+            <div class="slide-number">11 / 18</div>
+            <span class="step-badge">Part 7 · Memory &amp; Pipeline</span>
+            <h2>Know your memory budget</h2>
+            <p>A batch's size in memory grows <strong>linearly</strong> with N. One 224x224x3 float32 image is about 0.57 MB, so you can estimate any batch by multiplying. GPU memory is limited (often 4 to 24 GB), so batch size is a real constraint you tune.</p>
+            <div class="chart-container">
+                <svg width="760" height="300">
+                    <text x="0" y="24" font-size="16" fill="#1a1a2e" font-weight="600">Batch memory (float32) grows linearly with N</text>
+                    <line x1="60" y1="50" x2="60" y2="240" stroke="#1a1a2e" stroke-width="2"/>
+                    <line x1="60" y1="240" x2="720" y2="240" stroke="#1a1a2e" stroke-width="2"/>
+
+                    <rect x="110" y="215" width="70" height="25" fill="#16a34a" opacity="0.8" rx="4"/>
+                    <text x="145" y="207" text-anchor="middle" font-size="12" fill="#555">18 MB</text>
+                    <text x="145" y="258" text-anchor="middle" font-size="13" fill="#1a1a2e">32</text>
+
+                    <rect x="250" y="190" width="70" height="50" fill="#3b82f6" opacity="0.8" rx="4"/>
+                    <text x="285" y="182" text-anchor="middle" font-size="12" fill="#555">37 MB</text>
+                    <text x="285" y="258" text-anchor="middle" font-size="13" fill="#1a1a2e">64</text>
+
+                    <rect x="390" y="140" width="70" height="100" fill="#3b82f6" opacity="0.8" rx="4"/>
+                    <text x="425" y="132" text-anchor="middle" font-size="12" fill="#555">74 MB</text>
+                    <text x="425" y="258" text-anchor="middle" font-size="13" fill="#1a1a2e">128</text>
+
+                    <rect x="530" y="60" width="70" height="180" fill="#e94560" opacity="0.85" rx="4"/>
+                    <text x="565" y="52" text-anchor="middle" font-size="12" fill="#555">147 MB</text>
+                    <text x="565" y="258" text-anchor="middle" font-size="13" fill="#1a1a2e">256</text>
+
+                    <text x="360" y="285" text-anchor="middle" font-size="13" fill="#555">batch size (N)</text>
+                </svg>
+            </div>
+            <div class="callout warn">
+                <span class="callout-label">Why powers of 2</span>
+                <p>Memory is the hidden reason batch size is often a power of 2: too big and you get an out-of-memory crash, too small and the GPU sits idle. Start small and increase while watching memory.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 12 -->
+        <div class="slide">
+            <div class="slide-number">12 / 18</div>
+            <span class="step-badge">Part 7 · Memory &amp; Pipeline</span>
+            <h2>Own the whole pipeline</h2>
+            <p>Wrapping the four steps in a single <code>preprocess_image</code> function makes the pipeline reusable and easy to reason about, and lets you estimate memory for any batch size.</p>
+            <pre class="tight"><code><span class="keyword">def</span> <span class="keyword">preprocess_image</span>(image_path, target_size<span class="keyword">=</span>(<span class="number">224</span>, <span class="number">224</span>)):
+    img <span class="keyword">=</span> cv2.<span class="keyword">imread</span>(image_path)                       <span class="comment"># 1. load (BGR)</span>
+    img <span class="keyword">=</span> cv2.<span class="keyword">cvtColor</span>(img, cv2.COLOR_BGR2RGB)         <span class="comment"># 2. BGR -> RGB</span>
+    img <span class="keyword">=</span> cv2.<span class="keyword">resize</span>(img, target_size,
+                     interpolation<span class="keyword">=</span>cv2.INTER_LINEAR)   <span class="comment"># 3. resize</span>
+    img <span class="keyword">=</span> img.<span class="keyword">astype</span>(np.float32) <span class="keyword">/</span> <span class="number">255.0</span>               <span class="comment"># 4. normalize</span>
+    <span class="keyword">return</span> img
+
+<span class="comment"># Memory grows linearly with batch size (float32 = 4 bytes/value)</span>
+<span class="keyword">for</span> n <span class="keyword">in</span> [<span class="number">32</span>, <span class="number">64</span>, <span class="number">128</span>, <span class="number">256</span>]:
+    mb <span class="keyword">=</span> (n <span class="keyword">*</span> <span class="number">224</span> <span class="keyword">*</span> <span class="number">224</span> <span class="keyword">*</span> <span class="number">3</span> <span class="keyword">*</span> <span class="number">4</span>) <span class="keyword">/</span> (<span class="number">1024</span> <span class="keyword">*</span> <span class="number">1024</span>)
+    <span class="keyword">print</span>(<span class="string">f"{n:3d} images: {mb:7.2f} MB"</span>)</code></pre>
+            <div class="callout tip">
+                <span class="callout-label">The canonical pipeline</span>
+                <p>Load, BGR to RGB, Resize, Normalize, then Stack. One function captures the first four steps and works across any dataset.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 13: Pipeline recap diagram -->
+        <div class="slide">
+            <div class="slide-number">13 / 18</div>
+            <span class="step-badge">Part 7 · Memory &amp; Pipeline</span>
+            <h2>The full pipeline</h2>
+            <p class="lead">Five steps carry a messy photo all the way to a clean 4D tensor a model can train on.</p>
+            <svg width="900" height="130" style="margin-top: 1rem;">
+                <g transform="translate(0, 30)">
+                    <rect x="0" y="0" width="150" height="55" fill="#1a1a2e" rx="8"/>
+                    <text x="75" y="26" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">1. Load</text>
+                    <text x="75" y="44" text-anchor="middle" font-size="12" fill="#bbb">cv2.imread</text>
+                    <path d="M 150,28 L 185,28" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred13)"/>
+
+                    <rect x="185" y="0" width="150" height="55" fill="#1a1a2e" rx="8"/>
+                    <text x="260" y="26" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">2. BGR to RGB</text>
+                    <text x="260" y="44" text-anchor="middle" font-size="12" fill="#bbb">cv2.cvtColor</text>
+                    <path d="M 335,28 L 370,28" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred13)"/>
+
+                    <rect x="370" y="0" width="150" height="55" fill="#1a1a2e" rx="8"/>
+                    <text x="445" y="26" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">3. Resize</text>
+                    <text x="445" y="44" text-anchor="middle" font-size="12" fill="#bbb">224 x 224</text>
+                    <path d="M 520,28 L 555,28" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred13)"/>
+
+                    <rect x="555" y="0" width="150" height="55" fill="#1a1a2e" rx="8"/>
+                    <text x="630" y="26" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">4. Normalize</text>
+                    <text x="630" y="44" text-anchor="middle" font-size="12" fill="#bbb">/ 255.0</text>
+                    <path d="M 705,28 L 740,28" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred13)"/>
+
+                    <rect x="740" y="0" width="150" height="55" fill="#16a34a" rx="8"/>
+                    <text x="815" y="26" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">5. Stack</text>
+                    <text x="815" y="44" text-anchor="middle" font-size="12" fill="#eafff0">(N,224,224,3)</text>
+                </g>
                 <defs>
-                    <linearGradient id="lossGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#e94560;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:1" />
-                    </linearGradient>
+                    <marker id="arrowred13" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
                 </defs>
-
-                <!-- Loss surface -->
-                <ellipse cx="140" cy="200" rx="120" ry="60" fill="url(#lossGrad)" opacity="0.3"/>
-                <ellipse cx="140" cy="160" rx="90" ry="45" fill="url(#lossGrad)" opacity="0.4"/>
-                <ellipse cx="140" cy="120" rx="60" ry="30" fill="url(#lossGrad)" opacity="0.5"/>
-                <ellipse cx="140" cy="90" rx="30" ry="15" fill="url(#lossGrad)" opacity="0.6"/>
-                <circle cx="140" cy="80" r="8" fill="#e94560"/>
-
-                <!-- Paths -->
-                <!-- Without normalization (zigzag) -->
-                <path d="M 40 240 Q 60 220 80 210 Q 100 200 120 180 Q 130 150 140 140"
-                      stroke="#ff6b6b" stroke-width="2" fill="none" stroke-dasharray="5,5" opacity="0.6"/>
-                <text x="25" y="253" fill="#ff6b6b" font-size="13" font-family="Inter">slow</text>
-
-                <!-- With normalization (direct) -->
-                <path d="M 220 240 L 140 80" stroke="#51cf66" stroke-width="3" fill="none"/>
-                <text x="220" y="253" fill="#51cf66" font-size="13" font-family="Inter">fast</text>
-
-                <text x="140" y="38" text-anchor="middle" fill="#fafafa" font-size="15" font-weight="600" font-family="Inter">Optimal Point</text>
             </svg>
+            <div class="callout">
+                <span class="callout-label">The big idea</span>
+                <p>The pipeline is the bridge from real-world pixels to a standardized tensor. Every vision model, old or new, starts here.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 14: What you learned (part 1) -->
+        <div class="slide">
+            <div class="slide-number">14 / 18</div>
+            <h2>What you learned</h2>
+            <ul class="smaller">
+                <li>An image is a 3D NumPy array of shape <strong>(H, W, C)</strong> with uint8 pixels from 0 to 255; a batch is a 4D array (N, H, W, C)</li>
+                <li><code>cv2.imread</code> loads images but returns <strong>None</strong> on a bad path and gives channels in <strong>BGR</strong> order, so always check for None and convert with <code>cv2.cvtColor(img, cv2.COLOR_BGR2RGB)</code></li>
+                <li><code>cv2.resize</code> takes its target as <strong>(width, height)</strong> and standardizes every image to a fixed size like 224x224, the ImageNet convention most pretrained models expect</li>
+                <li>Normalize by casting to <code>float32</code> and dividing by <code>255.0</code> (a float, not an int) so pixels land in 0.0 to 1.0</li>
+            </ul>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 15: What you learned (part 2) -->
+        <div class="slide">
+            <div class="slide-number">15 / 18</div>
+            <h2>What you learned</h2>
+            <ul class="smaller">
+                <li><code>np.stack</code> combines equally sized images into a 4D batch, which is why <strong>resizing must come before stacking</strong></li>
+                <li>The canonical pipeline is <strong>Load, BGR to RGB, Resize, Normalize, Stack</strong>; wrapping it in one function makes it reusable across datasets</li>
+                <li>Batch memory grows <strong>linearly</strong> (about 0.57 MB per 224x224x3 float32 image), and limited GPU memory makes batch size a real tuning knob</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">The big idea</span>
+                <p>Preprocessing is not glamorous, but it is what turns messy real-world images into a clean tensor a model can actually learn from.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 16: Common pitfalls recap -->
+        <div class="slide">
+            <div class="slide-number">16 / 18</div>
+            <h2>Common pitfalls</h2>
+            <p>Four mistakes account for most broken image pipelines. Each maps directly to a step you just learned.</p>
+            <table>
+                <thead>
+                    <tr><th>Pitfall</th><th>Symptom</th><th>Fix</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Skipping the None check</td><td>Crash several lines later</td><td><code>if img is None:</code></td></tr>
+                    <tr><td>Forgetting BGR to RGB</td><td>Red and blue swapped</td><td><code>cv2.cvtColor</code></td></tr>
+                    <tr><td>Mixing (H,W) and (W,H)</td><td>Distorted or wrong size</td><td>resize takes (width, height)</td></tr>
+                    <tr><td>Dividing by <code>255</code> not <code>255.0</code></td><td>Everything floors to 0</td><td>cast to float32 first</td></tr>
+                </tbody>
+            </table>
+            <div class="callout warn">
+                <span class="callout-label">Debugging habit</span>
+                <p>When something looks wrong, print <code>.shape</code>, <code>.dtype</code>, <code>.min()</code>, and <code>.max()</code>. Those four numbers usually reveal which step went sideways.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 17: Practice + next steps -->
+        <div class="slide">
+            <div class="slide-number">17 / 18</div>
+            <h2>Practice &amp; next steps</h2>
+            <div class="split">
+                <div>
+                    <p class="smaller" style="margin-bottom: 0.75rem;"><strong>Try it yourself:</strong></p>
+                    <ul class="smaller">
+                        <li>Run the lab: <code>python lab_the_preprocessor.py</code></li>
+                        <li>Wrap the four steps into your own <code>preprocess_image</code></li>
+                        <li>Stack a folder of images into one 4D batch</li>
+                        <li>Estimate batch memory for 32, 64, 128, 256 images</li>
+                    </ul>
+                    <p class="smaller" style="margin-top: 1rem;"><strong>Explore further:</strong></p>
+                    <ul class="smaller">
+                        <li>Per-channel ImageNet standardization</li>
+                        <li>Other input sizes: 299x299, 512x512</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="callout tip">
+                        <span class="callout-label">Next module</span>
+                        <p><strong>Module 08: Text as Data</strong><br>Applying the same "raw input to clean tensor" mindset to words instead of pixels.</p>
+                    </div>
+                    <p class="smaller" style="color: var(--text-muted); margin-top: 1.5rem;">Questions? Bring them to the lab session.</p>
+                    <p class="smaller" style="color: var(--text-muted);">AI Research Foundations Minicourse<br>Module 07: Images as Data</p>
+                </div>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 18: Closing -->
+        <div class="slide">
+            <div class="slide-number">18 / 18</div>
+            <h2>From pixels to tensors</h2>
+            <p class="lead">You can now take any photo and turn it into exactly the fixed-size, normalized 4D batch a neural network expects.</p>
+            <div class="callout">
+                <span class="callout-label">Remember the shape</span>
+                <p>One image is <strong>(H, W, C)</strong>. A batch is <strong>(N, H, W, C)</strong>. Load, convert, resize, normalize, stack. That is the whole job.</p>
+            </div>
+            <p class="smaller" style="color: var(--text-muted); margin-top: 1.5rem;">Thanks for working through Module 07. See you in Module 08: Text as Data.</p>
+            <div class="footer">© mui-group</div>
         </div>
     </div>
 
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">9 / 15</span>
-    </div>
-</div>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
 
-<!-- Slide 10: Processing a Batch -->
-<div class="slide-container">
-    <h2>Processing a Batch</h2>
-    <p>The complete preprocessing pipeline for multiple images.</p>
-
-    <div class="flowchart">
-        <svg width="700" height="180" viewBox="0 0 700 180">
-            <!-- Folder -->
-            <rect x="20" y="50" width="80" height="60" fill="rgba(233, 69, 96, 0.2)" stroke="#e94560" stroke-width="2" rx="4"/>
-            <text x="60" y="85" text-anchor="middle" fill="#fafafa" font-size="14" font-family="Inter">Folder</text>
-            <text x="60" y="138" text-anchor="middle" fill="#ccc" font-size="12" font-family="Inter">images/</text>
-
-            <path d="M 110 80 L 140 80" stroke="#888" stroke-width="2" marker-end="url(#arrowhead2)"/>
-
-            <!-- Load -->
-            <rect x="150" y="50" width="80" height="60" fill="rgba(233, 69, 96, 0.2)" stroke="#e94560" stroke-width="2" rx="4"/>
-            <text x="190" y="85" text-anchor="middle" fill="#fafafa" font-size="14" font-family="Inter">Load</text>
-            <text x="190" y="138" text-anchor="middle" fill="#ccc" font-size="12" font-family="Inter">cv2.imread</text>
-
-            <path d="M 240 80 L 270 80" stroke="#888" stroke-width="2" marker-end="url(#arrowhead2)"/>
-
-            <!-- BGR→RGB -->
-            <rect x="280" y="50" width="80" height="60" fill="rgba(233, 69, 96, 0.2)" stroke="#e94560" stroke-width="2" rx="4"/>
-            <text x="320" y="80" text-anchor="middle" fill="#fafafa" font-size="14" font-family="Inter">BGR→RGB</text>
-            <text x="320" y="138" text-anchor="middle" fill="#ccc" font-size="12" font-family="Inter">cvtColor</text>
-
-            <path d="M 370 80 L 400 80" stroke="#888" stroke-width="2" marker-end="url(#arrowhead2)"/>
-
-            <!-- Resize -->
-            <rect x="410" y="50" width="80" height="60" fill="rgba(233, 69, 96, 0.2)" stroke="#e94560" stroke-width="2" rx="4"/>
-            <text x="450" y="85" text-anchor="middle" fill="#fafafa" font-size="14" font-family="Inter">Resize</text>
-            <text x="450" y="138" text-anchor="middle" fill="#ccc" font-size="12" font-family="Inter">224×224</text>
-
-            <path d="M 500 80 L 530 80" stroke="#888" stroke-width="2" marker-end="url(#arrowhead2)"/>
-
-            <!-- Normalize -->
-            <rect x="540" y="50" width="80" height="60" fill="rgba(233, 69, 96, 0.2)" stroke="#e94560" stroke-width="2" rx="4"/>
-            <text x="580" y="80" text-anchor="middle" fill="#fafafa" font-size="14" font-family="Inter">Normalize</text>
-            <text x="580" y="138" text-anchor="middle" fill="#ccc" font-size="12" font-family="Inter">÷ 255.0</text>
-
-            <path d="M 630 80 L 660 80" stroke="#888" stroke-width="2" marker-end="url(#arrowhead2)"/>
-
-            <!-- Stack arrow down -->
-            <path d="M 680 80 L 680 120" stroke="#e94560" stroke-width="3" marker-end="url(#arrowhead)"/>
-
-            <!-- Batch -->
-            <rect x="630" y="133" width="100" height="40" fill="rgba(233, 69, 96, 0.3)" stroke="#e94560" stroke-width="3" rx="4"/>
-            <text x="680" y="159" text-anchor="middle" fill="#e94560" font-size="16" font-weight="bold" font-family="Inter">Batch</text>
-        </svg>
-    </div>
-
-    <div class="code-block" style="margin-top: 2rem;">
-batch = []
-for filename in image_files:
-    img = cv2.imread(filename)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img = cv2.resize(img, (224, 224))
-    img = img.astype(np.float32) / 255.0
-    batch.append(img)
-
-batch = np.stack(batch, axis=0)</div>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">10 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 11: The Batch Array Shape -->
-<div class="slide-container">
-    <h2>The Batch Array Shape</h2>
-    <p>After processing, we get a 4D array: <code>(N, H, W, C)</code></p>
-
-    <div class="visual-container">
-        <svg width="500" height="300" viewBox="0 0 500 300">
-            <!-- Stack of images visualization -->
-            <g opacity="0.3">
-                <rect x="140" y="40" width="160" height="160" fill="rgba(233, 69, 96, 0.3)" stroke="#e94560" stroke-width="2" rx="4"/>
-            </g>
-            <g opacity="0.4">
-                <rect x="130" y="50" width="160" height="160" fill="rgba(233, 69, 96, 0.3)" stroke="#e94560" stroke-width="2" rx="4"/>
-            </g>
-            <g opacity="0.5">
-                <rect x="120" y="60" width="160" height="160" fill="rgba(233, 69, 96, 0.3)" stroke="#e94560" stroke-width="2" rx="4"/>
-            </g>
-            <g opacity="0.7">
-                <rect x="110" y="70" width="160" height="160" fill="rgba(233, 69, 96, 0.4)" stroke="#e94560" stroke-width="2" rx="4"/>
-            </g>
-            <g opacity="0.9">
-                <rect x="100" y="80" width="160" height="160" fill="rgba(233, 69, 96, 0.5)" stroke="#e94560" stroke-width="2" rx="4"/>
-                <text x="180" y="170" text-anchor="middle" fill="#fafafa" font-size="48" font-weight="bold" font-family="Inter">N</text>
-            </g>
-
-            <!-- Dimension labels -->
-            <g transform="translate(320, 85)">
-                <text x="0" y="0" fill="#e94560" font-size="18" font-weight="bold" font-family="Inter">Shape: (N, H, W, C)</text>
-
-                <text x="0" y="38" fill="#fafafa" font-size="15" font-family="Inter"><tspan font-weight="600">N:</tspan> Number of images</text>
-                <text x="0" y="66" fill="#fafafa" font-size="15" font-family="Inter"><tspan font-weight="600">H:</tspan> Height (224)</text>
-                <text x="0" y="94" fill="#fafafa" font-size="15" font-family="Inter"><tspan font-weight="600">W:</tspan> Width (224)</text>
-                <text x="0" y="122" fill="#fafafa" font-size="15" font-family="Inter"><tspan font-weight="600">C:</tspan> Channels (3)</text>
-            </g>
-        </svg>
-    </div>
-
-    <div class="code-block">
-print(batch.shape)
-# Output: (8, 224, 224, 3)
-#         └┬┘ └──┬──┘ └┬┘
-#          │     │     └─ RGB channels
-#          │     └─────── Image dimensions
-#          └───────────── Batch size</div>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">11 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 12: Memory Considerations -->
-<div class="slide-container">
-    <h2>Memory Considerations</h2>
-    <p>Batch size directly impacts memory usage. Plan accordingly for GPU constraints.</p>
-
-    <div style="margin-top: 2rem;">
-        <div class="code-block">
-# Calculate memory for one image (224×224×3, float32)
-pixels_per_image = 224 × 224 × 3 = 150,528
-bytes_per_pixel = 4  # float32
-memory_per_image = 150,528 × 4 = 602,112 bytes ≈ 0.57 MB</div>
-
-        <svg width="600" height="200" viewBox="0 0 600 200" style="margin-top: 2rem;">
-            <!-- Memory bars -->
-            <rect x="50" y="20" width="40" height="120" fill="rgba(233, 69, 96, 0.6)" stroke="#e94560" stroke-width="2" rx="2"/>
-            <text x="70" y="158" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">32</text>
-            <text x="70" y="180" text-anchor="middle" fill="#ccc" font-size="13" font-family="Inter">18 MB</text>
-
-            <rect x="150" y="20" width="80" height="120" fill="rgba(233, 69, 96, 0.7)" stroke="#e94560" stroke-width="2" rx="2"/>
-            <text x="190" y="158" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">64</text>
-            <text x="190" y="180" text-anchor="middle" fill="#ccc" font-size="13" font-family="Inter">37 MB</text>
-
-            <rect x="280" y="20" width="120" height="120" fill="rgba(233, 69, 96, 0.8)" stroke="#e94560" stroke-width="2" rx="2"/>
-            <text x="340" y="158" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">128</text>
-            <text x="340" y="180" text-anchor="middle" fill="#ccc" font-size="13" font-family="Inter">73 MB</text>
-
-            <rect x="450" y="20" width="140" height="120" fill="rgba(233, 69, 96, 0.9)" stroke="#e94560" stroke-width="2" rx="2"/>
-            <text x="520" y="158" text-anchor="middle" fill="#fafafa" font-size="15" font-family="Inter">256</text>
-            <text x="520" y="180" text-anchor="middle" fill="#ccc" font-size="13" font-family="Inter">147 MB</text>
-
-            <text x="300" y="12" text-anchor="middle" fill="#e94560" font-size="15" font-weight="600" font-family="Inter">Batch Size → Memory Usage</text>
-        </svg>
-    </div>
-
-    <div class="note" style="margin-top: 2rem;">
-        <strong>💡 Tip:</strong> Typical GPUs have 4-24 GB memory. Start with smaller batches (32-64) and increase if memory allows.
-    </div>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">12 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 13: Lab Introduction -->
-<div class="slide-container">
-    <h2>Lab: The Preprocessor</h2>
-    <p class="subtitle">Build a complete image preprocessing pipeline</p>
-
-    <h3>Your Mission</h3>
-    <ul>
-        <li>Load a folder of random-sized images</li>
-        <li>Convert from BGR to RGB color space</li>
-        <li>Resize all images to 224×224 pixels</li>
-        <li>Normalize pixel values to 0-1 range</li>
-        <li>Stack into a single batch array</li>
-        <li>Analyze memory usage and statistics</li>
-    </ul>
-
-    <div class="code-block" style="margin-top: 2rem;">
-# Run the lab
-python lab_the_preprocessor.py</div>
-
-    <div class="note" style="margin-top: 2rem;">
-        The lab includes synthetic sample images and step-by-step demonstrations of each preprocessing stage.
-    </div>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">13 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 14: Key Takeaways -->
-<div class="slide-container">
-    <h2>Key Takeaways</h2>
-
-    <ul style="font-size: 1.4rem; line-height: 2.2;">
-        <li>Images are 3D NumPy arrays with shape <code>(H, W, C)</code></li>
-        <li>OpenCV loads images in BGR format — convert to RGB</li>
-        <li>Resize images to consistent dimensions for model input</li>
-        <li>Normalize pixel values from 0-255 to 0-1</li>
-        <li>Batch processing creates 4D arrays: <code>(N, H, W, C)</code></li>
-        <li>Memory usage scales linearly with batch size</li>
-        <li>224×224 is the standard size for ImageNet models</li>
-    </ul>
-
-    <div style="margin-top: 3rem; padding: 1.5rem; background: rgba(233, 69, 96, 0.1); border-left: 4px solid #e94560; border-radius: 4px;">
-        <p style="font-size: 1.3rem; margin: 0;">
-            <strong>Connection to vision models:</strong> This preprocessing pipeline is the foundation for all computer vision tasks. ResNet, VGG, and other models expect exactly this input format.
-        </p>
-    </div>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">14 / 15</span>
-    </div>
-</div>
-
-<!-- Slide 15: Next Steps -->
-<div class="slide-container">
-    <h2>Beyond the Basics</h2>
-
-    <div class="two-column">
-        <div>
-            <h3>Data Augmentation</h3>
-            <ul>
-                <li>Random rotations and flips</li>
-                <li>Color jittering</li>
-                <li>Random crops and scaling</li>
-                <li>Brightness/contrast adjustment</li>
-            </ul>
-
-            <h3 style="margin-top: 2rem;">Advanced Normalization</h3>
-            <ul>
-                <li>ImageNet mean/std per channel</li>
-                <li>Standardization (z-score)</li>
-                <li>Channel-wise normalization</li>
-            </ul>
-        </div>
-        <div>
-            <h3>Performance Optimization</h3>
-            <ul>
-                <li>Batch processing with generators</li>
-                <li>Parallel image loading</li>
-                <li>GPU-accelerated preprocessing</li>
-                <li>Memory-efficient data pipelines</li>
-            </ul>
-
-            <h3 style="margin-top: 2rem;">Real-World Applications</h3>
-            <ul>
-                <li>Object detection pipelines</li>
-                <li>Image classification systems</li>
-                <li>Transfer learning with CNNs</li>
-                <li>Production deployment</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="footer">
-        <span>© mui-group</span>
-        <span class="slide-number">15 / 15</span>
-    </div>
-</div>
-
-<script>
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.slide-container');
-    const totalSlides = slides.length;
-
-    function showSlide(n) {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (n + totalSlides) % totalSlides;
-        slides[currentSlide].classList.add('active');
-    }
-
-    function nextSlide() {
-        showSlide(currentSlide + 1);
-    }
-
-    function prevSlide() {
-        showSlide(currentSlide - 1);
-    }
-
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-
-    function setTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
-        localStorage.setItem('slide-theme', theme);
-        updateSVGColors(theme);
-    }
-
-    function updateSVGColors(theme) {
-        const svgs = document.querySelectorAll('svg');
-        svgs.forEach(svg => {
-            svg.querySelectorAll('text').forEach(text => {
-                const currentFill = text.getAttribute('fill');
-                if (theme === 'light') {
-                    if (['#eee', '#fafafa', '#ccc', '#fff', '#ddd'].includes(currentFill)) {
-                        text.setAttribute('data-dark-fill', currentFill);
-                        text.setAttribute('fill', '#333');
-                    } else if (['#aaa', '#888', '#999'].includes(currentFill)) {
-                        text.setAttribute('data-dark-fill', currentFill);
-                        text.setAttribute('fill', '#777');
-                    }
-                } else {
-                    const df = text.getAttribute('data-dark-fill');
-                    if (df) text.setAttribute('fill', df);
-                }
-            });
-            svg.querySelectorAll('line, path, rect, circle, polyline, polygon').forEach(el => {
-                const currentStroke = el.getAttribute('stroke');
-                const currentFill = el.getAttribute('fill');
-                if (theme === 'light') {
-                    if (currentStroke && ['#888', '#999', '#aaa', '#fafafa', '#fff', '#666'].includes(currentStroke)) {
-                        el.setAttribute('data-dark-stroke', currentStroke);
-                        el.setAttribute('stroke', '#444');
-                    }
-                    if (currentFill && ['#2d2d44', '#1a1a2e', '#16162a', '#252540'].includes(currentFill)) {
-                        el.setAttribute('data-dark-fill', currentFill);
-                        el.setAttribute('fill', '#f8f9fa');
-                    }
-                } else {
-                    const ds = el.getAttribute('data-dark-stroke');
-                    if (ds) el.setAttribute('stroke', ds);
-                    const df = el.getAttribute('data-dark-fill');
-                    if (df) el.setAttribute('fill', df);
-                }
-            });
-        });
-    }
-
-    themeToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const current = document.documentElement.getAttribute('data-theme') || 'dark';
-        setTheme(current === 'light' ? 'dark' : 'light');
-    });
-
-    const saved = localStorage.getItem('slide-theme');
-    if (saved) {
-        setTheme(saved);
-    } else {
-        setTheme('dark');
-    }
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === ' ') {
-            e.preventDefault();
-            nextSlide();
-        } else if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            prevSlide();
-        } else if (e.key === 'Home') {
-            e.preventDefault();
-            showSlide(0);
-        } else if (e.key === 'End') {
-            e.preventDefault();
-            showSlide(totalSlides - 1);
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
         }
-    });
 
-    // Touch/click navigation
-    let touchStartX = 0;
-    let touchEndX = 0;
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
 
-    document.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    });
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
 
-    document.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    });
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
 
-    function handleSwipe() {
-        if (touchEndX < touchStartX - 50) nextSlide();
-        if (touchEndX > touchStartX + 50) prevSlide();
-    }
-
-    // Click navigation (right side = next, left side = previous)
-    document.addEventListener('click', (e) => {
-        const toggleRect = themeToggle.getBoundingClientRect();
-        const isToggleClick = e.clientX >= toggleRect.left && e.clientX <= toggleRect.right &&
-                              e.clientY >= toggleRect.top && e.clientY <= toggleRect.bottom;
-
-        if (!isToggleClick) {
+        // Click navigation
+        document.querySelector('.slide-container').addEventListener('click', (e) => {
             if (e.clientX > window.innerWidth / 2) {
                 nextSlide();
             } else {
                 prevSlide();
             }
-        }
-    });
-</script>
+        });
 
+        // Touch navigation for mobile
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                prevSlide();
+            }
+        });
+
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+            localStorage.setItem('slide-theme', theme);
+            updateSVGColors(theme);
+        }
+
+        function updateSVGColors(theme) {
+            const svgs = document.querySelectorAll('svg');
+            svgs.forEach(svg => {
+                // Update text elements
+                svg.querySelectorAll('text').forEach(text => {
+                    const currentFill = text.getAttribute('fill');
+                    if (theme === 'dark') {
+                        if (currentFill === '#333' || currentFill === '#1a1a2e' || currentFill === '#555' || currentFill === '#444') {
+                            text.setAttribute('fill', '#eee');
+                            text.setAttribute('data-light-fill', currentFill);
+                        } else if (currentFill === '#777' || currentFill === '#666') {
+                            text.setAttribute('fill', '#aaa');
+                            text.setAttribute('data-light-fill', currentFill);
+                        }
+                    } else {
+                        const lightFill = text.getAttribute('data-light-fill');
+                        if (lightFill) {
+                            text.setAttribute('fill', lightFill);
+                        }
+                    }
+                });
+                // Update stroke elements (lines, paths, rects)
+                svg.querySelectorAll('line, path, rect, circle').forEach(el => {
+                    const currentStroke = el.getAttribute('stroke');
+                    const currentFill = el.getAttribute('fill');
+                    if (theme === 'dark') {
+                        if (currentStroke === '#444' || currentStroke === '#555' || currentStroke === '#333') {
+                            el.setAttribute('data-light-stroke', currentStroke);
+                            el.setAttribute('stroke', '#888');
+                        }
+                        if (currentFill === '#f8f9fa' || currentFill === '#f0f0f5' || currentFill === '#fff' || currentFill === '#ffffff') {
+                            el.setAttribute('data-light-fill', currentFill);
+                            el.setAttribute('fill', '#2d2d44');
+                        }
+                    } else {
+                        const lightStroke = el.getAttribute('data-light-stroke');
+                        if (lightStroke) el.setAttribute('stroke', lightStroke);
+                        const lightFill = el.getAttribute('data-light-fill');
+                        if (lightFill) el.setAttribute('fill', lightFill);
+                    }
+                });
+            });
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+
+        // Initialize theme from localStorage or system preference
+        const saved = localStorage.getItem('slide-theme');
+        if (saved) {
+            setTheme(saved);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    </script>
 </body>
 </html>

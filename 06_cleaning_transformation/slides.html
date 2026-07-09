@@ -6,31 +6,9 @@
     <title>Module 6: Cleaning & Transformation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16162a;
-            --bg-code: #0d0d1a;
-            --text-primary: #fafafa;
-            --text-secondary: #ccc;
-            --text-muted: rgba(250, 250, 250, 0.4);
-            --accent: #e94560;
-            --accent-hover: #ff6b81;
-            --green: #4ade80;
-            --blue: #60a5fa;
-            --border: #2d2d44;
-            --code-text: #fafafa;
-            --svg-text: #eee;
-            --svg-stroke: #888;
-            --svg-fill-light: #2d2d44;
-            --svg-fill-accent: rgba(233, 69, 96, 0.15);
-            --shadow: rgba(0, 0, 0, 0.3);
-            --toggle-bg: #2d2d44;
-            --toggle-knob: #fafafa;
-        }
-
-        [data-theme="light"] {
             --bg-primary: #fafafa;
             --bg-secondary: #f0f0f5;
             --bg-code: #1a1a2e;
@@ -52,6 +30,28 @@
             --toggle-knob: #fff;
         }
 
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16162a;
+            --bg-code: #0d0d1a;
+            --text-primary: #fafafa;
+            --text-secondary: #ccc;
+            --text-muted: rgba(250, 250, 250, 0.4);
+            --accent: #e94560;
+            --accent-hover: #ff6b81;
+            --green: #4ade80;
+            --blue: #60a5fa;
+            --border: #2d2d44;
+            --code-text: #fafafa;
+            --svg-text: #eee;
+            --svg-stroke: #888;
+            --svg-fill-light: #2d2d44;
+            --svg-fill-accent: rgba(233, 69, 96, 0.15);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --toggle-bg: #2d2d44;
+            --toggle-knob: #fafafa;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -66,12 +66,24 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
         .slide {
             display: none;
-            min-height: 100vh;
+            width: 90%;
+            max-width: 1200px;
+            min-height: auto;
+            max-height: 96vh;
+            overflow-y: auto;
             padding: 2rem 5rem 3rem 5rem;
             position: relative;
-            overflow-y: auto;
         }
 
         .slide.active {
@@ -86,154 +98,173 @@
             to { opacity: 1; }
         }
 
+        /* Typography */
         h1 {
             font-size: 4.5rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
             line-height: 1.1;
+            margin-bottom: 1.5rem;
             color: var(--text-primary);
         }
 
         h2 {
             font-size: 3rem;
             font-weight: 600;
-            margin-bottom: 1.5rem;
             line-height: 1.2;
+            margin-bottom: 1.5rem;
             color: var(--text-primary);
         }
 
-        h3 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
-        }
-
-        p {
+        p, li {
             font-size: 1.5rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            max-width: 900px;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 1rem;
         }
 
-        .subtitle {
-            font-size: 1.8rem;
+        strong {
+            font-weight: 600;
             color: var(--accent);
-            margin-bottom: 3rem;
         }
 
         ul {
             list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        li {
-            font-size: 1.5rem;
-            line-height: 1.8;
-            margin-bottom: 1rem;
-            padding-left: 2rem;
-            position: relative;
+            margin-left: 1.5rem;
         }
 
         li::before {
-            content: "•";
-            position: absolute;
-            left: 0;
+            content: "→ ";
             color: var(--accent);
-            font-weight: bold;
+            font-weight: 600;
+            margin-right: 0.5rem;
         }
 
-        .visual-container {
-            margin: 3rem 0;
-            max-width: 1200px;
-        }
-
-        svg {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .two-column {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin: 3rem 0;
-        }
-
-        .comparison {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 2rem;
-            align-items: center;
-            margin: 3rem 0;
-        }
-
-        .comparison-arrow {
-            font-size: 3rem;
-            color: var(--accent);
-        }
-
-        .stats-box {
-            background: var(--svg-fill-accent);
-            border-left: 4px solid var(--accent);
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        .stats-box p {
-            margin-bottom: 0.5rem;
-        }
-
-        .code-block {
+        /* Code snippets */
+        code {
+            font-family: 'Monaco', 'Courier New', monospace;
             background: var(--bg-code);
             color: var(--code-text);
-            border-left: 4px solid var(--accent);
-            padding: 1.5rem;
-            font-family: 'Courier New', monospace;
-            font-size: 1.2rem;
-            margin: 2rem 0;
-            overflow-x: auto;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 1.3rem;
         }
 
-        footer {
+        pre {
+            background: var(--bg-code);
+            color: var(--code-text);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: var(--accent); }
+        .string { color: var(--green); }
+        .number { color: var(--blue); }
+        .comment { color: var(--text-muted); font-style: italic; }
+
+        /* Footer */
+        .footer {
             position: absolute;
             bottom: 1.5rem;
             left: 5rem;
             font-size: 0.85rem;
             color: var(--text-muted);
+            font-weight: 300;
         }
 
-        .controls {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 5rem;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
+        /* Slide counter */
         .slide-number {
             position: absolute;
             bottom: 1.5rem;
             right: 5rem;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
+            font-weight: 300;
         }
 
-        .highlight {
+        /* Accent color elements */
+        .accent {
             color: var(--accent);
-            font-weight: 600;
         }
 
-        .flowchart-step {
-            background: var(--svg-fill-accent);
-            border: 2px solid var(--accent);
-            padding: 1rem 2rem;
-            margin: 0.5rem;
-            border-radius: 8px;
+        /* Navigation instructions */
+        .nav-hint {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* Visual elements */
+        .visual-container {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .chart-container {
+            margin: 2rem 0;
+        }
+
+        /* Grid layout for comparison slides */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-item h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        /* Title slide specific */
+        .title-slide h1 {
+            font-size: 5.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .title-slide .subtitle {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .title-slide .module-number {
             font-size: 1.3rem;
             font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
         }
 
+        /* Spacing utilities */
+        .spacer {
+            height: 2rem;
+        }
+
+        .spacer-large {
+            height: 4rem;
+        }
+
+        /* Theme toggle */
         .theme-toggle {
             position: fixed;
             top: 1.5rem;
@@ -261,7 +292,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
-        [data-theme="light"] .theme-toggle::after {
+        [data-theme="dark"] .theme-toggle::after {
             transform: translateX(28px);
         }
 
@@ -275,812 +306,722 @@
             color: var(--text-muted);
             pointer-events: none;
         }
+
+        /* Tutorial helpers */
+        .step-badge {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .lead {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Callout / insight box */
+        .callout {
+            border-left: 5px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: 1.25rem 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+            font-size: 1.3rem;
+        }
+
+        .callout.tip { border-left-color: var(--green); }
+        .callout.warn { border-left-color: var(--blue); }
+
+        .callout-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .callout.tip .callout-label { color: var(--green); }
+        .callout.warn .callout-label { color: var(--blue); }
+
+        /* Roadmap list on the agenda slide */
+        .roadmap li {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Data tables */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+            font-size: 1.25rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        td code, th code {
+            font-size: 1.05rem;
+        }
+
+        /* Two-up layout: explanation beside code */
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+            margin: 1.5rem 0;
+        }
+
+        .split pre { margin: 0; }
+
+        .smaller li, .smaller p { font-size: 1.3rem; }
+
+        pre.tight { font-size: 1rem; line-height: 1.45; }
     </style>
 </head>
 <body>
-
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle light mode"></button>
-<span class="theme-toggle-icon" id="themeIcon">🌙</span>
-
-<!-- Slide 1: Title -->
-<div class="slide active">
-    <h1>Cleaning & Transformation</h1>
-    <p class="subtitle">Module 6: Data Foundations for AI Research</p>
-    <p>Learning to preprocess datasets for machine learning</p>
-    <footer>© mui-group</footer>
-    <div class="slide-number">1 / 15</div>
-</div>
-
-<!-- Slide 2: Why Dirty Data Kills AI Models -->
-<div class="slide">
-    <h2>Why Dirty Data Kills AI Models</h2>
-    <div class="visual-container">
-        <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
-            <!-- Garbage In -->
-            <g>
-                <rect x="50" y="150" width="180" height="100" fill="none" stroke="#e94560" stroke-width="3" rx="10"/>
-                <text x="140" y="185" text-anchor="middle" fill="#fafafa" font-size="18" font-weight="600">DIRTY DATA</text>
-                <text x="140" y="215" text-anchor="middle" fill="#e94560" font-size="14">Missing values</text>
-                <text x="140" y="235" text-anchor="middle" fill="#e94560" font-size="14">Duplicates</text>
-            </g>
-
-            <!-- Arrow -->
-            <path d="M 240 200 L 340 200" stroke="#888" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-
-            <!-- ML Model -->
-            <g>
-                <rect x="350" y="150" width="180" height="100" fill="#e94560" rx="10"/>
-                <text x="440" y="190" text-anchor="middle" fill="#1a1a2e" font-size="18" font-weight="700">ML MODEL</text>
-                <text x="440" y="215" text-anchor="middle" fill="#1a1a2e" font-size="14">Training...</text>
-            </g>
-
-            <!-- Arrow -->
-            <path d="M 540 200 L 640 200" stroke="#888" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-
-            <!-- Garbage Out -->
-            <g>
-                <rect x="650" y="150" width="180" height="100" fill="none" stroke="#e94560" stroke-width="3" rx="10"/>
-                <text x="740" y="185" text-anchor="middle" fill="#fafafa" font-size="18" font-weight="600">BAD PREDICTIONS</text>
-                <text x="740" y="215" text-anchor="middle" fill="#e94560" font-size="14">Low accuracy</text>
-                <text x="740" y="235" text-anchor="middle" fill="#e94560" font-size="14">Poor generalization</text>
-            </g>
-
-            <!-- Warning -->
-            <text x="440" y="330" text-anchor="middle" fill="#e94560" font-size="24" font-weight="700">GARBAGE IN → GARBAGE OUT</text>
-
-            <defs>
-                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                    <polygon points="0 0, 10 3, 0 6" fill="#888"/>
-                </marker>
-            </defs>
-        </svg>
-    </div>
-    <p>Clean data is the foundation of trustworthy AI. Every error in your dataset compounds during training.</p>
-    <footer>© mui-group</footer>
-    <div class="slide-number">2 / 15</div>
-</div>
-
-<!-- Slide 3: The Cleaning Pipeline -->
-<div class="slide">
-    <h2>The Cleaning Pipeline</h2>
-    <div class="visual-container">
-        <svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg">
-            <!-- Step 1: Raw -->
-            <g>
-                <rect x="20" y="100" width="140" height="80" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="90" y="148" text-anchor="middle" fill="#fafafa" font-size="18" font-weight="600">RAW</text>
-            </g>
-            <path d="M 170 140 L 210 140" stroke="#888" stroke-width="2" marker-end="url(#arrow)"/>
-
-            <!-- Step 2: Inspect -->
-            <g>
-                <rect x="220" y="100" width="140" height="80" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="290" y="148" text-anchor="middle" fill="#fafafa" font-size="18" font-weight="600">INSPECT</text>
-            </g>
-            <path d="M 370 140 L 410 140" stroke="#888" stroke-width="2" marker-end="url(#arrow)"/>
-
-            <!-- Step 3: Clean -->
-            <g>
-                <rect x="420" y="100" width="140" height="80" fill="rgba(233,69,96,0.5)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="490" y="148" text-anchor="middle" fill="#fafafa" font-size="18" font-weight="600">CLEAN</text>
-            </g>
-            <path d="M 570 140 L 610 140" stroke="#888" stroke-width="2" marker-end="url(#arrow)"/>
-
-            <!-- Step 4: Validate -->
-            <g>
-                <rect x="620" y="100" width="140" height="80" fill="rgba(233,69,96,0.7)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="690" y="148" text-anchor="middle" fill="#fafafa" font-size="18" font-weight="600">VALIDATE</text>
-            </g>
-            <path d="M 770 140 L 810 140" stroke="#888" stroke-width="2" marker-end="url(#arrow)"/>
-
-            <!-- Step 5: Export -->
-            <g>
-                <rect x="820" y="100" width="140" height="80" fill="#e94560" rx="8"/>
-                <text x="890" y="148" text-anchor="middle" fill="#1a1a2e" font-size="18" font-weight="700">EXPORT</text>
-            </g>
-
-            <defs>
-                <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                    <polygon points="0 0, 10 3, 0 6" fill="#888"/>
-                </marker>
-            </defs>
-        </svg>
-    </div>
-    <ul>
-        <li>Inspect: Understand what's broken</li>
-        <li>Clean: Fix duplicates, missing values, formatting</li>
-        <li>Validate: Filter out invalid records</li>
-        <li>Export: Save train and test splits</li>
-    </ul>
-    <footer>© mui-group</footer>
-    <div class="slide-number">3 / 15</div>
-</div>
-
-<!-- Slide 4: Finding Duplicates -->
-<div class="slide">
-    <h2>Finding Duplicates</h2>
-    <div class="visual-container">
-        <svg viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg">
-            <!-- Table header -->
-            <rect x="50" y="40" width="600" height="40" fill="#e94560"/>
-            <text x="100" y="65" fill="#1a1a2e" font-size="14" font-weight="700">ID</text>
-            <text x="200" y="65" fill="#1a1a2e" font-size="14" font-weight="700">Prompt</text>
-            <text x="450" y="65" fill="#1a1a2e" font-size="14" font-weight="700">Model</text>
-
-            <!-- Row 1 -->
-            <rect x="50" y="80" width="600" height="35" fill="rgba(250,250,250,0.05)"/>
-            <text x="100" y="102" fill="#fafafa" font-size="13">1</text>
-            <text x="200" y="102" fill="#fafafa" font-size="13">Write a haiku about AI</text>
-            <text x="450" y="102" fill="#fafafa" font-size="13">GPT-4</text>
-
-            <!-- Row 2 - Normal -->
-            <rect x="50" y="115" width="600" height="35" fill="rgba(250,250,250,0.02)"/>
-            <text x="100" y="137" fill="#fafafa" font-size="13">2</text>
-            <text x="200" y="137" fill="#fafafa" font-size="13">Explain quantum computing</text>
-            <text x="450" y="137" fill="#fafafa" font-size="13">gpt-4</text>
-
-            <!-- Row 3 - Normal -->
-            <rect x="50" y="150" width="600" height="35" fill="rgba(250,250,250,0.05)"/>
-            <text x="100" y="172" fill="#fafafa" font-size="13">3</text>
-            <text x="200" y="172" fill="#fafafa" font-size="13">Translate hello to Spanish</text>
-            <text x="450" y="172" fill="#fafafa" font-size="13">Claude-3</text>
-
-            <!-- Row 4 - DUPLICATE (highlighted) -->
-            <rect x="50" y="185" width="600" height="35" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
-            <text x="100" y="207" fill="#fafafa" font-size="13">4</text>
-            <text x="200" y="207" fill="#fafafa" font-size="13">Write a haiku about AI</text>
-            <text x="450" y="207" fill="#fafafa" font-size="13">GPT-4</text>
-
-            <!-- Row 5 - Normal -->
-            <rect x="50" y="220" width="600" height="35" fill="rgba(250,250,250,0.02)"/>
-            <text x="100" y="242" fill="#fafafa" font-size="13">5</text>
-            <text x="200" y="242" fill="#fafafa" font-size="13">Summarize climate change</text>
-            <text x="450" y="242" fill="#fafafa" font-size="13">GPT4</text>
-
-            <!-- Row 6 - DUPLICATE (highlighted) -->
-            <rect x="50" y="255" width="600" height="35" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
-            <text x="100" y="277" fill="#fafafa" font-size="13">15</text>
-            <text x="200" y="277" fill="#fafafa" font-size="13">Write a haiku about AI</text>
-            <text x="450" y="277" fill="#fafafa" font-size="13">GPT-4</text>
-
-            <!-- Arrow and label -->
-            <text x="670" y="220" fill="#e94560" font-size="20" font-weight="700">←</text>
-            <text x="690" y="195" fill="#e94560" font-size="14" font-weight="600">Exact</text>
-            <text x="690" y="215" fill="#e94560" font-size="14" font-weight="600">duplicates</text>
-            <text x="690" y="235" fill="#e94560" font-size="14" font-weight="600">detected</text>
-        </svg>
-    </div>
-    <div class="code-block">df.duplicated().sum()  # Find exact duplicates<br>df.drop_duplicates()  # Remove them</div>
-    <p>Duplicates inflate accuracy by giving models "hints" they've seen before</p>
-    <footer>© mui-group</footer>
-    <div class="slide-number">4 / 15</div>
-</div>
-
-<!-- Slide 5: dropna() vs fillna() -->
-<div class="slide">
-    <h2>dropna() vs fillna()</h2>
-    <div class="visual-container">
-        <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
-            <!-- Decision tree -->
-            <g>
-                <!-- Root question -->
-                <rect x="300" y="30" width="200" height="60" fill="#e94560" rx="10"/>
-                <text x="400" y="55" text-anchor="middle" fill="#1a1a2e" font-size="14" font-weight="700">Is the field</text>
-                <text x="400" y="75" text-anchor="middle" fill="#1a1a2e" font-size="14" font-weight="700">CRITICAL?</text>
-
-                <!-- Left branch: YES -->
-                <line x1="350" y1="90" x2="250" y2="160" stroke="#888" stroke-width="2"/>
-                <text x="270" y="118" fill="#fafafa" font-size="14" font-weight="600">YES</text>
-
-                <rect x="150" y="160" width="200" height="80" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="250" y="193" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="700">dropna()</text>
-                <text x="250" y="218" text-anchor="middle" fill="#ccc" font-size="13">Can't train without it</text>
-
-                <text x="250" y="268" text-anchor="middle" fill="#e94560" font-size="13">Examples:</text>
-                <text x="250" y="290" text-anchor="middle" fill="#ccc" font-size="13">• Target variable</text>
-                <text x="250" y="310" text-anchor="middle" fill="#ccc" font-size="13">• Primary key</text>
-                <text x="250" y="330" text-anchor="middle" fill="#ccc" font-size="13">• Core features</text>
-
-                <!-- Right branch: NO -->
-                <line x1="450" y1="90" x2="550" y2="160" stroke="#888" stroke-width="2"/>
-                <text x="520" y="118" fill="#fafafa" font-size="14" font-weight="600">NO</text>
-
-                <rect x="450" y="160" width="200" height="80" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="550" y="193" text-anchor="middle" fill="#fafafa" font-size="16" font-weight="700">fillna()</text>
-                <text x="550" y="218" text-anchor="middle" fill="#ccc" font-size="13">Can infer or default</text>
-
-                <text x="550" y="268" text-anchor="middle" fill="#e94560" font-size="13">Examples:</text>
-                <text x="550" y="290" text-anchor="middle" fill="#ccc" font-size="13">• Optional metadata</text>
-                <text x="550" y="310" text-anchor="middle" fill="#ccc" font-size="13">• Counts (fill with 0)</text>
-                <text x="550" y="330" text-anchor="middle" fill="#ccc" font-size="13">• Categories (fill "unknown")</text>
-
-                <!-- Bottom note -->
-                <rect x="250" y="380" width="300" height="50" fill="rgba(233,69,96,0.1)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="400" y="410" text-anchor="middle" fill="#fafafa" font-size="13" font-weight="600">Dropping rows is safer when unsure</text>
-            </g>
-        </svg>
-    </div>
-    <footer>© mui-group</footer>
-    <div class="slide-number">5 / 15</div>
-</div>
-
-<!-- Slide 6: Boolean Indexing -->
-<div class="slide">
-    <h2>Boolean Indexing</h2>
-    <div class="visual-container">
-        <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
-            <!-- Original data -->
-            <g>
-                <text x="50" y="40" fill="#e94560" font-size="16" font-weight="700">Original Data</text>
-                <rect x="50" y="60" width="250" height="30" fill="#e94560"/>
-                <text x="80" y="80" fill="#1a1a2e" font-size="13" font-weight="700">temperature</text>
-                <text x="200" y="80" fill="#1a1a2e" font-size="13" font-weight="700">rating</text>
-
-                <rect x="50" y="90" width="250" height="30" fill="rgba(250,250,250,0.05)"/>
-                <text x="110" y="110" fill="#fafafa" font-size="13">0.7</text>
-                <text x="220" y="110" fill="#fafafa" font-size="13">4.2</text>
-
-                <rect x="50" y="120" width="250" height="30" fill="rgba(250,250,250,0.05)"/>
-                <text x="110" y="140" fill="#fafafa" font-size="13">0.5</text>
-                <text x="220" y="140" fill="#fafafa" font-size="13">4.8</text>
-
-                <rect x="50" y="150" width="250" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
-                <text x="110" y="170" fill="#fafafa" font-size="13">2.5</text>
-                <text x="220" y="170" fill="#fafafa" font-size="13">4.1</text>
-                <text x="320" y="170" fill="#e94560" font-size="13" font-weight="600">← INVALID</text>
-
-                <rect x="50" y="180" width="250" height="30" fill="rgba(250,250,250,0.05)"/>
-                <text x="110" y="200" fill="#fafafa" font-size="13">0.9</text>
-                <text x="220" y="200" fill="#fafafa" font-size="13">3.5</text>
-
-                <rect x="50" y="210" width="250" height="30" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2"/>
-                <text x="110" y="230" fill="#fafafa" font-size="13">3.0</text>
-                <text x="220" y="230" fill="#fafafa" font-size="13">4.7</text>
-                <text x="320" y="230" fill="#e94560" font-size="13" font-weight="600">← INVALID</text>
-            </g>
-
-            <!-- Boolean mask -->
-            <g>
-                <text x="420" y="40" fill="#e94560" font-size="16" font-weight="700">Boolean Mask</text>
-                <rect x="420" y="60" width="120" height="30" fill="#e94560"/>
-                <text x="460" y="80" fill="#1a1a2e" font-size="13" font-weight="700">Keep?</text>
-
-                <rect x="420" y="90" width="120" height="30" fill="rgba(100,255,100,0.3)"/>
-                <text x="465" y="110" fill="#90EE90" font-size="14" font-weight="700">TRUE</text>
-
-                <rect x="420" y="120" width="120" height="30" fill="rgba(100,255,100,0.3)"/>
-                <text x="465" y="140" fill="#90EE90" font-size="14" font-weight="700">TRUE</text>
-
-                <rect x="420" y="150" width="120" height="30" fill="rgba(233,69,96,0.3)"/>
-                <text x="465" y="170" fill="#e94560" font-size="14" font-weight="700">FALSE</text>
-
-                <rect x="420" y="180" width="120" height="30" fill="rgba(100,255,100,0.3)"/>
-                <text x="465" y="200" fill="#90EE90" font-size="14" font-weight="700">TRUE</text>
-
-                <rect x="420" y="210" width="120" height="30" fill="rgba(233,69,96,0.3)"/>
-                <text x="465" y="230" fill="#e94560" font-size="14" font-weight="700">FALSE</text>
-            </g>
-
-            <!-- Arrow -->
-            <text x="570" y="140" fill="#fafafa" font-size="30">→</text>
-
-            <!-- Filtered data -->
-            <g>
-                <text x="620" y="40" fill="#e94560" font-size="16" font-weight="700">Filtered Data</text>
-                <rect x="620" y="60" width="250" height="30" fill="#e94560"/>
-                <text x="650" y="80" fill="#1a1a2e" font-size="13" font-weight="700">temperature</text>
-                <text x="770" y="80" fill="#1a1a2e" font-size="13" font-weight="700">rating</text>
-
-                <rect x="620" y="90" width="250" height="30" fill="rgba(250,250,250,0.05)"/>
-                <text x="680" y="110" fill="#fafafa" font-size="13">0.7</text>
-                <text x="790" y="110" fill="#fafafa" font-size="13">4.2</text>
-
-                <rect x="620" y="120" width="250" height="30" fill="rgba(250,250,250,0.05)"/>
-                <text x="680" y="140" fill="#fafafa" font-size="13">0.5</text>
-                <text x="790" y="140" fill="#fafafa" font-size="13">4.8</text>
-
-                <rect x="620" y="150" width="250" height="30" fill="rgba(250,250,250,0.05)"/>
-                <text x="680" y="170" fill="#fafafa" font-size="13">0.9</text>
-                <text x="790" y="170" fill="#fafafa" font-size="13">3.5</text>
-            </g>
-
-            <!-- Code at bottom -->
-            <rect x="50" y="280" width="800" height="80" fill="rgba(233,69,96,0.1)" stroke="#e94560" stroke-width="2" rx="8"/>
-            <text x="400" y="310" text-anchor="middle" fill="#fafafa" font-size="14" font-family="monospace">mask = df['temperature'].between(0.0, 1.0)</text>
-            <text x="400" y="340" text-anchor="middle" fill="#fafafa" font-size="14" font-family="monospace">clean_df = df[mask]</text>
-        </svg>
-    </div>
-    <p>Boolean indexing creates a True/False mask, then keeps only True rows</p>
-    <footer>© mui-group</footer>
-    <div class="slide-number">6 / 15</div>
-</div>
-
-<!-- Slide 7: Fixing Formatting -->
-<div class="slide">
-    <h2>Fixing Formatting</h2>
-    <div class="comparison">
-        <div>
-            <h3>Before</h3>
-            <div class="stats-box">
-                <p>GPT-4</p>
-                <p>GPT4</p>
-                <p>gpt-4</p>
-                <p>   gpt-4   </p>
-                <p>Claude-3</p>
-                <p>Claude3</p>
-                <p>claude-3</p>
-            </div>
-            <p style="color: #e94560;">7 "different" values</p>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+    <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <div class="module-number">MODULE 06</div>
+            <h1>Cleaning &amp;<br>Transformation</h1>
+            <p class="subtitle">Turning a dirty dataset into ML-ready Train and Test splits</p>
+            <div class="spacer-large"></div>
+            <p style="font-size: 1.3rem; color: var(--text-secondary);">A step-by-step tutorial</p>
+            <p style="font-size: 1.3rem; color: var(--text-muted);">AI Research Foundations Minicourse</p>
+            <div class="footer">© mui-group</div>
+            <div class="nav-hint">Press → or click to advance</div>
         </div>
-        <div class="comparison-arrow">→</div>
-        <div>
-            <h3>After</h3>
-            <div class="stats-box">
-                <p>gpt-4</p>
-                <p>gpt-4</p>
-                <p>gpt-4</p>
-                <p>gpt-4</p>
-                <p>claude-3</p>
-                <p>claude-3</p>
-                <p>claude-3</p>
+
+        <!-- Slide 2: Welcome -->
+        <div class="slide">
+            <div class="slide-number">2 / 18</div>
+            <h2>Welcome</h2>
+            <p class="lead">Garbage in, garbage out: before a model can learn anything, someone has to make the data clean.</p>
+            <p>By the end you will be able to:</p>
+            <ul class="smaller">
+                <li>Detect and remove missing values, duplicates, and formatting errors in a pandas DataFrame</li>
+                <li>Use boolean indexing to filter out invalid or out-of-range data</li>
+                <li>Standardize inconsistent text values and fix wrong data types</li>
+                <li>Split a clean dataset into train and test sets and export them as CSV</li>
+                <li>Explain why each cleaning step matters for machine learning outcomes</li>
+            </ul>
+            <div class="callout tip">
+                <span class="callout-label">How to use these slides</span>
+                <p>Each concept comes with a small piece of code. Open the companion notebook <code>tutorial.ipynb</code> and run each snippet as you go. Learning by typing beats learning by reading.</p>
             </div>
-            <p style="color: #90EE90;">2 standardized values</p>
+            <div class="footer">© mui-group</div>
         </div>
-    </div>
-    <div class="code-block">
-df['model'] = df['model'].str.strip()  # Remove whitespace<br>
-df['model'] = df['model'].replace(mapping)  # Standardize
-    </div>
-    <footer>© mui-group</footer>
-    <div class="slide-number">7 / 15</div>
-</div>
 
-<!-- Slide 8: Data Type Corrections -->
-<div class="slide">
-    <h2>Data Type Corrections</h2>
-    <div class="visual-container">
-        <svg viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg">
-            <!-- Before -->
-            <g>
-                <text x="50" y="40" fill="#e94560" font-size="18" font-weight="700">Before</text>
-
-                <rect x="50" y="70" width="250" height="40" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="70" y="95" fill="#fafafa" font-size="14" font-weight="600">temperature:</text>
-                <text x="220" y="95" fill="#e94560" font-size="14">"0.7"</text>
-
-                <rect x="50" y="120" width="250" height="40" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="70" y="145" fill="#fafafa" font-size="14" font-weight="600">tokens_used:</text>
-                <text x="220" y="145" fill="#e94560" font-size="14">"45"</text>
-
-                <rect x="50" y="170" width="250" height="40" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="70" y="195" fill="#fafafa" font-size="14" font-weight="600">date:</text>
-                <text x="180" y="195" fill="#e94560" font-size="14">"2024-01-15"</text>
-
-                <text x="175" y="250" text-anchor="middle" fill="#e94560" font-size="14" font-weight="600">All stored as strings!</text>
-                <text x="175" y="275" text-anchor="middle" fill="#ccc" font-size="13">Can't do math or date operations</text>
-            </g>
-
-            <!-- Arrow -->
-            <g>
-                <path d="M 320 150 L 380 150" stroke="#888" stroke-width="3" marker-end="url(#arr)"/>
-                <text x="350" y="135" text-anchor="middle" fill="#fafafa" font-size="14" font-weight="600">astype()</text>
-            </g>
-
-            <!-- After -->
-            <g>
-                <text x="400" y="40" fill="#e94560" font-size="18" font-weight="700">After</text>
-
-                <rect x="400" y="70" width="250" height="40" fill="rgba(100,255,100,0.2)" stroke="#90EE90" stroke-width="2" rx="8"/>
-                <text x="420" y="95" fill="#fafafa" font-size="14" font-weight="600">temperature:</text>
-                <text x="570" y="95" fill="#90EE90" font-size="14">0.7</text>
-
-                <rect x="400" y="120" width="250" height="40" fill="rgba(100,255,100,0.2)" stroke="#90EE90" stroke-width="2" rx="8"/>
-                <text x="420" y="145" fill="#fafafa" font-size="14" font-weight="600">tokens_used:</text>
-                <text x="570" y="145" fill="#90EE90" font-size="14">45</text>
-
-                <rect x="400" y="170" width="250" height="40" fill="rgba(100,255,100,0.2)" stroke="#90EE90" stroke-width="2" rx="8"/>
-                <text x="420" y="195" fill="#fafafa" font-size="14" font-weight="600">date:</text>
-                <text x="520" y="195" fill="#90EE90" font-size="14">datetime</text>
-
-                <text x="525" y="250" text-anchor="middle" fill="#90EE90" font-size="14" font-weight="600">Proper types!</text>
-                <text x="525" y="275" text-anchor="middle" fill="#ccc" font-size="13">Can aggregate, compare, compute</text>
-            </g>
-
-            <defs>
-                <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                    <polygon points="0 0, 10 3, 0 6" fill="#888"/>
-                </marker>
-            </defs>
-        </svg>
-    </div>
-    <footer>© mui-group</footer>
-    <div class="slide-number">8 / 15</div>
-</div>
-
-<!-- Slide 9: Train/Test Split -->
-<div class="slide">
-    <h2>Train/Test Split</h2>
-    <div class="visual-container">
-        <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
-            <!-- Full dataset -->
-            <rect x="50" y="50" width="700" height="80" fill="rgba(250,250,250,0.1)" stroke="#fafafa" stroke-width="2" rx="8"/>
-            <text x="400" y="95" text-anchor="middle" fill="#fafafa" font-size="18" font-weight="700">Clean Dataset (100%)</text>
-
-            <!-- Arrow down -->
-            <path d="M 400 140 L 400 170" stroke="#888" stroke-width="2" marker-end="url(#arrowdown)"/>
-            <text x="450" y="160" fill="#e94560" font-size="14" font-weight="600">Random shuffle + split</text>
-
-            <!-- Train set -->
-            <rect x="50" y="180" width="560" height="80" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="3" rx="8"/>
-            <text x="330" y="215" text-anchor="middle" fill="#fafafa" font-size="18" font-weight="700">Training Set (80%)</text>
-            <text x="330" y="240" text-anchor="middle" fill="#fafafa" font-size="13">Model learns patterns here</text>
-
-            <!-- Test set -->
-            <rect x="620" y="180" width="130" height="80" fill="rgba(100,255,100,0.2)" stroke="#90EE90" stroke-width="3" rx="8"/>
-            <text x="685" y="215" text-anchor="middle" fill="#fafafa" font-size="14" font-weight="700">Test</text>
-            <text x="685" y="235" text-anchor="middle" fill="#fafafa" font-size="14" font-weight="700">Set</text>
-            <text x="685" y="255" text-anchor="middle" fill="#fafafa" font-size="11">(20%)</text>
-
-            <!-- Bottom note -->
-            <rect x="150" y="300" width="500" height="80" fill="rgba(233,69,96,0.1)" stroke="#e94560" stroke-width="2" rx="8"/>
-            <text x="400" y="330" text-anchor="middle" fill="#fafafa" font-size="15" font-weight="600">Why split?</text>
-            <text x="400" y="355" text-anchor="middle" fill="#fafafa" font-size="13">Train on 80%, test on unseen 20% to measure</text>
-            <text x="400" y="375" text-anchor="middle" fill="#fafafa" font-size="13">real-world generalization</text>
-
-            <defs>
-                <marker id="arrowdown" markerWidth="10" markerHeight="10" refX="3" refY="9" orient="auto">
-                    <polygon points="0 0, 6 0, 3 10" fill="#888"/>
-                </marker>
-            </defs>
-        </svg>
-    </div>
-    <footer>© mui-group</footer>
-    <div class="slide-number">9 / 15</div>
-</div>
-
-<!-- Slide 10: Why Split Matters -->
-<div class="slide">
-    <h2>Why Split Matters</h2>
-    <div class="visual-container">
-        <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
-            <!-- Without split -->
-            <g>
-                <text x="150" y="40" text-anchor="middle" fill="#e94560" font-size="18" font-weight="700">❌ Without Split</text>
-
-                <rect x="50" y="70" width="200" height="60" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="150" y="108" text-anchor="middle" fill="#fafafa" font-size="14" font-weight="600">Train on ALL data</text>
-
-                <path d="M 150 140 L 150 180" stroke="#888" stroke-width="2" marker-end="url(#down)"/>
-
-                <rect x="50" y="180" width="200" height="60" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="150" y="218" text-anchor="middle" fill="#fafafa" font-size="14" font-weight="600">Test on same data</text>
-
-                <path d="M 150 250 L 150 290" stroke="#888" stroke-width="2" marker-end="url(#down)"/>
-
-                <rect x="50" y="290" width="200" height="80" fill="rgba(233,69,96,0.5)" stroke="#e94560" stroke-width="3" rx="8"/>
-                <text x="150" y="320" text-anchor="middle" fill="#fafafa" font-size="15" font-weight="700">99% accuracy! 🎉</text>
-                <text x="150" y="345" text-anchor="middle" fill="#e94560" font-size="13">(But it's a lie...)</text>
-                <text x="150" y="365" text-anchor="middle" fill="#ccc" font-size="13">Model memorized the answers</text>
-            </g>
-
-            <!-- With split -->
-            <g>
-                <text x="600" y="40" text-anchor="middle" fill="#90EE90" font-size="18" font-weight="700">✓ With Split</text>
-
-                <rect x="500" y="70" width="200" height="60" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="600" y="108" text-anchor="middle" fill="#fafafa" font-size="14" font-weight="600">Train on 80%</text>
-
-                <path d="M 600 140 L 600 180" stroke="#888" stroke-width="2" marker-end="url(#down)"/>
-
-                <rect x="500" y="180" width="200" height="60" fill="rgba(100,255,100,0.2)" stroke="#90EE90" stroke-width="2" rx="8"/>
-                <text x="600" y="207" text-anchor="middle" fill="#fafafa" font-size="14" font-weight="600">Test on unseen 20%</text>
-                <text x="600" y="228" text-anchor="middle" fill="#90EE90" font-size="13">(Never trained on this!)</text>
-
-                <path d="M 600 250 L 600 290" stroke="#888" stroke-width="2" marker-end="url(#down)"/>
-
-                <rect x="500" y="290" width="200" height="80" fill="rgba(100,255,100,0.3)" stroke="#90EE90" stroke-width="3" rx="8"/>
-                <text x="600" y="320" text-anchor="middle" fill="#fafafa" font-size="15" font-weight="700">87% accuracy</text>
-                <text x="600" y="345" text-anchor="middle" fill="#90EE90" font-size="13">(Real performance)</text>
-                <text x="600" y="365" text-anchor="middle" fill="#ccc" font-size="13">Honest generalization score</text>
-            </g>
-
-            <!-- Center label -->
-            <text x="375" y="200" text-anchor="middle" fill="#e94560" font-size="20" font-weight="700">VS</text>
-
-            <defs>
-                <marker id="down" markerWidth="10" markerHeight="10" refX="3" refY="9" orient="auto">
-                    <polygon points="0 0, 6 0, 3 10" fill="#888"/>
-                </marker>
-            </defs>
-        </svg>
-    </div>
-    <footer>© mui-group</footer>
-    <div class="slide-number">10 / 15</div>
-</div>
-
-<!-- Slide 11: Before & After -->
-<div class="slide">
-    <h2>Before & After</h2>
-    <div class="two-column">
-        <div>
-            <h3>Before Cleaning</h3>
-            <div class="stats-box">
-                <p><span class="highlight">80</span> total rows</p>
-                <p><span class="highlight">5</span> exact duplicates</p>
-                <p><span class="highlight">12</span> cells with missing data</p>
-                <p><span class="highlight">7</span> invalid temperatures</p>
-                <p><span class="highlight">4</span> inconsistent model names</p>
-                <p><span class="highlight">Mixed</span> date formats</p>
+        <!-- Slide 3: Why should you care -->
+        <div class="slide">
+            <div class="slide-number">3 / 18</div>
+            <h2>Why should you care?</h2>
+            <p class="lead">You collected 80 rows of LLM prompt and response logs to train a quality-rating model, but the file is a mess.</p>
+            <ul class="smaller">
+                <li>Exact duplicate runs, plus missing prompts and ratings</li>
+                <li>Model names written five different ways (GPT-4, gpt4, GPT4)</li>
+                <li>Temperatures above 1.0 and dates in two formats</li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>Feed this straight into a model and duplicates will leak test data into training, missing values will crash it, and inconsistent labels will fragment what the model sees. Cleaning is the unglamorous work that decides whether your model learns <strong>real patterns</strong> or <strong>noise</strong>.</p>
             </div>
+            <div class="footer">© mui-group</div>
         </div>
-        <div>
-            <h3>After Cleaning</h3>
-            <div class="stats-box" style="border-color: #90EE90; background: rgba(100,255,100,0.1);">
-                <p><span class="highlight">64</span> clean rows</p>
-                <p><span class="highlight">0</span> duplicates</p>
-                <p><span class="highlight">0</span> missing critical data</p>
-                <p><span class="highlight">0</span> invalid values</p>
-                <p><span class="highlight">2</span> standardized model names</p>
-                <p><span class="highlight">Uniform</span> datetime objects</p>
+
+        <!-- Slide 4: Roadmap -->
+        <div class="slide">
+            <div class="slide-number">4 / 18</div>
+            <h2>Our roadmap</h2>
+            <p class="lead">We take the messy file through one deliberate step at a time, then export the result.</p>
+            <ul class="roadmap">
+                <li><strong>1.</strong> Inspect the mess (profile the data)</li>
+                <li><strong>2.</strong> Remove exact duplicates</li>
+                <li><strong>3.</strong> Handle missing values (drop vs fill)</li>
+                <li><strong>4.</strong> Fix formatting (strings and standardization)</li>
+                <li><strong>5.</strong> Boolean indexing to filter invalid data</li>
+                <li><strong>6.</strong> Fix data types (dates and numerics)</li>
+                <li><strong>7.</strong> Split into train and test, then export clean CSVs</li>
+            </ul>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 1: INSPECT ============ -->
+        <!-- Slide 5: Profile before you clean -->
+        <div class="slide">
+            <div class="slide-number">5 / 18</div>
+            <span class="step-badge">Part 1 · Inspect the Mess</span>
+            <h2>Profile before you clean</h2>
+            <p>You cannot fix what you have not measured. Load the data and take inventory: how many rows, which columns hold missing values, and how many exact duplicate rows exist. These counts become your <strong>baseline</strong>.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+df <span class="keyword">=</span> pd.<span class="keyword">read_csv</span>(<span class="string">"data/dirty_dataset.csv"</span>)
+<span class="keyword">print</span>(<span class="string">f"Loaded {len(df)} rows"</span>)
+
+<span class="comment"># Missing values per column (only those with any)</span>
+missing_counts <span class="keyword">=</span> df.<span class="keyword">isna</span>().<span class="keyword">sum</span>()
+<span class="keyword">print</span>(missing_counts[missing_counts <span class="keyword">&gt;</span> <span class="number">0</span>])
+<span class="keyword">print</span>(<span class="string">f"Cells missing: {df.isna().sum().sum()}"</span>)
+
+<span class="comment"># Count exact duplicate rows</span>
+<span class="keyword">print</span>(<span class="string">f"Found {df.duplicated().sum()} duplicates"</span>)</code></pre>
+                </div>
+                <div>
+                    <svg width="380" height="230">
+                        <text x="0" y="20" font-size="15" fill="#1a1a2e" font-weight="600">Data-quality scorecard</text>
+                        <rect x="0" y="35" width="380" height="45" fill="#1a1a2e" rx="6"/>
+                        <text x="15" y="63" font-size="15" fill="#fafafa">Rows</text>
+                        <text x="360" y="63" text-anchor="end" font-size="15" fill="#4ade80" font-weight="600">80</text>
+                        <rect x="0" y="90" width="380" height="45" fill="#1a1a2e" rx="6"/>
+                        <text x="15" y="118" font-size="15" fill="#fafafa">Duplicates</text>
+                        <text x="360" y="118" text-anchor="end" font-size="15" fill="#e94560" font-weight="600">to fix</text>
+                        <rect x="0" y="145" width="380" height="45" fill="#1a1a2e" rx="6"/>
+                        <text x="15" y="173" font-size="15" fill="#fafafa">Missing cells</text>
+                        <text x="360" y="173" text-anchor="end" font-size="15" fill="#e94560" font-weight="600">to fix</text>
+                        <rect x="0" y="200" width="380" height="45" fill="#1a1a2e" rx="6"/>
+                        <text x="15" y="228" font-size="15" fill="#fafafa">Invalid values</text>
+                        <text x="360" y="228" text-anchor="end" font-size="15" fill="#e94560" font-weight="600">to fix</text>
+                    </svg>
+                </div>
             </div>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>Save baseline stats (initial rows, missing cells, duplicates) up front. Tracking data loss after each step is how you catch a filter that silently deleted half your dataset.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 2: DUPLICATES ============ -->
+        <!-- Slide 6: Remove duplicates -->
+        <div class="slide">
+            <div class="slide-number">6 / 18</div>
+            <span class="step-badge">Part 2 · Remove Duplicates</span>
+            <h2>Drop exact duplicate rows</h2>
+            <p>Duplicate rows are the most dangerous kind of dirty data in ML: the same record can land in both training and test sets, leaking answers and inflating accuracy. <code>.duplicated()</code> flags repeats and <code>.drop_duplicates()</code> removes them, keeping the first occurrence by default.</p>
+            <pre class="tight"><code><span class="comment"># Peek at the duplicates before removing them</span>
+duplicated_mask <span class="keyword">=</span> df.<span class="keyword">duplicated</span>(keep<span class="keyword">=</span><span class="keyword">False</span>)
+<span class="keyword">print</span>(df[duplicated_mask].<span class="keyword">sort_values</span>(<span class="string">"prompt_id"</span>).<span class="keyword">head</span>(<span class="number">6</span>))
+
+<span class="comment"># Remove exact duplicates (keeps first occurrence)</span>
+df <span class="keyword">=</span> df.<span class="keyword">drop_duplicates</span>()
+<span class="keyword">print</span>(<span class="string">f"Remaining rows: {len(df)}"</span>)</code></pre>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p><code>keep=False</code> shows every copy including the first, which is great for inspection. <code>drop_duplicates(subset=[...])</code> lets you dedupe on an ID column when whole-row matching is too strict.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 3: MISSING VALUES ============ -->
+        <!-- Slide 7: Missing values -->
+        <div class="slide">
+            <div class="slide-number">7 / 18</div>
+            <span class="step-badge">Part 3 · Missing Values</span>
+            <h2>Drop critical fields, fill the rest</h2>
+            <p>Missing data has no single fix. The decision depends on the column's role. Drop rows for fields you cannot train without; fill non-critical fields with a sensible default.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code><span class="comment"># Drop rows missing critical fields</span>
+df <span class="keyword">=</span> df.<span class="keyword">dropna</span>(subset<span class="keyword">=</span>[
+    <span class="string">"prompt_text"</span>,
+    <span class="string">"response_text"</span>,
+    <span class="string">"rating"</span>,
+])
+
+<span class="comment"># Fill non-critical field with 0</span>
+df[<span class="string">"tokens_used"</span>] <span class="keyword">=</span> df[<span class="string">"tokens_used"</span>].<span class="keyword">fillna</span>(<span class="number">0</span>)
+
+<span class="keyword">print</span>(<span class="string">f"Remaining rows: {len(df)}"</span>)</code></pre>
+                </div>
+                <div>
+                    <table style="font-size: 1.05rem;">
+                        <thead><tr><th>Field role</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr><td>Critical (prompt, response, target)</td><td><code>dropna(subset=...)</code></td></tr>
+                            <tr><td>Non-critical (tokens_used)</td><td><code>fillna(default)</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="callout warn">
+                <span class="callout-label">Why it matters for ML</span>
+                <p>Never blanket-fill the target variable you are trying to predict. Imputing a rating would teach the model on made-up labels, which is worse than dropping the row.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 4: FORMATTING ============ -->
+        <!-- Slide 8: Standardize text -->
+        <div class="slide">
+            <div class="slide-number">8 / 18</div>
+            <span class="step-badge">Part 4 · Fix Formatting</span>
+            <h2>Standardize text so equal things look equal</h2>
+            <p>To a model, <code>'GPT-4'</code>, <code>'gpt4'</code>, and <code>'GPT4 '</code> are three different categories even though they mean the same thing. Strip whitespace and map variants to one canonical form.</p>
+            <svg width="820" height="115" style="margin: 0.5rem 0;">
+                <rect x="0" y="8" width="130" height="26" fill="#1a1a2e" opacity="0.2" rx="5"/>
+                <text x="65" y="26" text-anchor="middle" font-size="13" fill="#1a1a2e">"GPT-4"</text>
+                <rect x="0" y="40" width="130" height="26" fill="#1a1a2e" opacity="0.2" rx="5"/>
+                <text x="65" y="58" text-anchor="middle" font-size="13" fill="#1a1a2e">"GPT4"</text>
+                <rect x="0" y="72" width="130" height="26" fill="#1a1a2e" opacity="0.2" rx="5"/>
+                <text x="65" y="90" text-anchor="middle" font-size="13" fill="#1a1a2e">"gpt4 "</text>
+                <path d="M 140,52 L 320,52" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                <text x="230" y="42" text-anchor="middle" font-size="13" fill="#555">strip + map</text>
+                <rect x="330" y="35" width="180" height="40" fill="#16a34a" opacity="0.3" rx="6"/>
+                <text x="420" y="60" text-anchor="middle" font-size="16" fill="#1a1a2e" font-weight="600">"gpt-4"</text>
+                <defs>
+                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+                    </marker>
+                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                </defs>
+            </svg>
+            <pre class="tight"><code>model_mapping <span class="keyword">=</span> {
+    <span class="string">"GPT-4"</span>: <span class="string">"gpt-4"</span>, <span class="string">"GPT4"</span>: <span class="string">"gpt-4"</span>, <span class="string">"gpt4"</span>: <span class="string">"gpt-4"</span>,
+    <span class="string">"GPT-3.5"</span>: <span class="string">"gpt-3.5"</span>,
+    <span class="string">"Claude-3"</span>: <span class="string">"claude-3"</span>, <span class="string">"Claude3"</span>: <span class="string">"claude-3"</span>,
+    <span class="string">"Claude-3-Opus"</span>: <span class="string">"claude-3-opus"</span>,
+}
+
+df[<span class="string">"model"</span>] <span class="keyword">=</span> df[<span class="string">"model"</span>].str.<span class="keyword">strip</span>()      <span class="comment"># remove whitespace first</span>
+df[<span class="string">"model"</span>] <span class="keyword">=</span> df[<span class="string">"model"</span>].<span class="keyword">replace</span>(model_mapping)
+
+<span class="comment"># Strip stray whitespace from all text columns</span>
+<span class="keyword">for</span> col <span class="keyword">in</span> [<span class="string">"prompt_text"</span>, <span class="string">"response_text"</span>, <span class="string">"category"</span>]:
+    df[col] <span class="keyword">=</span> df[col].str.<span class="keyword">strip</span>()
+
+<span class="keyword">print</span>(df[<span class="string">"model"</span>].<span class="keyword">unique</span>())</code></pre>
+            <div class="callout warn">
+                <span class="callout-label">Common trap</span>
+                <p>Strip whitespace before mapping. A trailing space means <code>'gpt4 '</code> will not match your mapping key <code>'gpt4'</code> and the fix silently fails.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 5: BOOLEAN INDEXING ============ -->
+        <!-- Slide 9: Boolean indexing -->
+        <div class="slide">
+            <div class="slide-number">9 / 18</div>
+            <span class="step-badge">Part 5 · Boolean Indexing</span>
+            <h2>Filter invalid data with masks</h2>
+            <p>Boolean indexing is the workhorse of filtering. A comparison produces a True/False mask, and <code>df[mask]</code> keeps only the True rows. Combine conditions with <code>&amp;</code> (and) and <code>|</code> (or), wrapping each in parentheses.</p>
+            <div class="split">
+                <div>
+                    <pre class="tight"><code><span class="comment"># Inspect what is invalid first</span>
+invalid_temp <span class="keyword">=</span> df[<span class="keyword">~</span>df[<span class="string">"temperature"</span>].<span class="keyword">between</span>(<span class="number">0.0</span>, <span class="number">1.0</span>)]
+<span class="keyword">print</span>(invalid_temp[[<span class="string">"prompt_id"</span>, <span class="string">"model"</span>, <span class="string">"temperature"</span>]])
+
+<span class="comment"># Keep only rows that pass every rule</span>
+df <span class="keyword">=</span> df[
+    df[<span class="string">"temperature"</span>].<span class="keyword">between</span>(<span class="number">0.0</span>, <span class="number">1.0</span>) <span class="keyword">&amp;</span>
+    (df[<span class="string">"tokens_used"</span>] <span class="keyword">&gt;=</span> <span class="number">0</span>) <span class="keyword">&amp;</span>
+    df[<span class="string">"rating"</span>].<span class="keyword">between</span>(<span class="number">0.0</span>, <span class="number">5.0</span>)
+]
+<span class="keyword">print</span>(<span class="string">f"Remaining rows: {len(df)}"</span>)</code></pre>
+                </div>
+                <div>
+                    <svg width="340" height="230">
+                        <text x="0" y="18" font-size="14" fill="#1a1a2e" font-weight="600">Row</text>
+                        <text x="200" y="18" font-size="14" fill="#1a1a2e" font-weight="600">Mask</text>
+                        <rect x="0" y="30" width="150" height="30" fill="#1a1a2e" rx="4"/>
+                        <text x="10" y="50" font-size="13" fill="#fafafa">temp 0.7</text>
+                        <text x="200" y="50" font-size="14" fill="#16a34a" font-weight="600">True</text>
+                        <rect x="0" y="66" width="150" height="30" fill="#1a1a2e" opacity="0.25" rx="4"/>
+                        <text x="10" y="86" font-size="13" fill="#1a1a2e">temp 1.8</text>
+                        <text x="200" y="86" font-size="14" fill="#e94560" font-weight="600">False</text>
+                        <rect x="0" y="102" width="150" height="30" fill="#1a1a2e" rx="4"/>
+                        <text x="10" y="122" font-size="13" fill="#fafafa">temp 0.2</text>
+                        <text x="200" y="122" font-size="14" fill="#16a34a" font-weight="600">True</text>
+                        <rect x="0" y="138" width="150" height="30" fill="#1a1a2e" opacity="0.25" rx="4"/>
+                        <text x="10" y="158" font-size="13" fill="#1a1a2e">rating 9</text>
+                        <text x="200" y="158" font-size="14" fill="#e94560" font-weight="600">False</text>
+                        <rect x="0" y="174" width="150" height="30" fill="#1a1a2e" rx="4"/>
+                        <text x="10" y="194" font-size="13" fill="#fafafa">temp 0.5</text>
+                        <text x="200" y="194" font-size="14" fill="#16a34a" font-weight="600">True</text>
+                        <text x="0" y="224" font-size="12" fill="#555">False rows fall away</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="callout">
+                <span class="callout-label">Key insight</span>
+                <p>Each condition must be parenthesized and joined with <code>&amp;</code> or <code>|</code> (not the Python keywords and/or). Use <code>~</code> to negate a mask, which is handy for previewing exactly what you are about to drop.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 6: DATA TYPES ============ -->
+        <!-- Slide 10: Fix data types -->
+        <div class="slide">
+            <div class="slide-number">10 / 18</div>
+            <span class="step-badge">Part 6 · Fix Data Types</span>
+            <h2>Make columns the type they should be</h2>
+            <p>CSV loads everything loosely, so dates arrive as plain strings and numbers can end up as objects. <code>pd.to_datetime</code> with <code>format='mixed'</code> parses the two date formats, and <code>.astype()</code> coerces numeric columns so later math and comparisons behave.</p>
+            <pre class="tight"><code><span class="comment"># Dirty data mixes "2024-01-15" and "01/16/2024"</span>
+df[<span class="string">"date"</span>] <span class="keyword">=</span> pd.<span class="keyword">to_datetime</span>(df[<span class="string">"date"</span>], format<span class="keyword">=</span><span class="string">"mixed"</span>)
+
+df[<span class="string">"temperature"</span>] <span class="keyword">=</span> df[<span class="string">"temperature"</span>].<span class="keyword">astype</span>(<span class="keyword">float</span>)
+df[<span class="string">"tokens_used"</span>] <span class="keyword">=</span> df[<span class="string">"tokens_used"</span>].<span class="keyword">astype</span>(<span class="keyword">int</span>)
+df[<span class="string">"rating"</span>] <span class="keyword">=</span> df[<span class="string">"rating"</span>].<span class="keyword">astype</span>(<span class="keyword">float</span>)
+df[<span class="string">"prompt_id"</span>] <span class="keyword">=</span> df[<span class="string">"prompt_id"</span>].<span class="keyword">astype</span>(<span class="keyword">int</span>)
+
+<span class="keyword">print</span>(df.dtypes)</code></pre>
+            <div class="callout warn">
+                <span class="callout-label">Order matters</span>
+                <p>Fix types after filtering, not before. <code>astype(int)</code> throws if a column still contains NaN, so clean out missing and invalid rows first.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- ============ PART 7: SPLIT & EXPORT ============ -->
+        <!-- Slide 11: Split & export intro -->
+        <div class="slide">
+            <div class="slide-number">11 / 18</div>
+            <span class="step-badge">Part 7 · Split &amp; Export</span>
+            <h2>Shuffle, split 80/20, and save</h2>
+            <p class="lead">A model must be tested on data it has never seen. Shuffle with a fixed seed, slice at the 80% index, then write both files.</p>
+            <svg width="880" height="150" style="margin-top: 0.5rem;">
+                <text x="0" y="20" font-size="15" fill="#1a1a2e" font-weight="600">Shuffled clean rows</text>
+                <rect x="0" y="30" width="500" height="40" fill="#1a1a2e" rx="6"/>
+                <text x="250" y="55" text-anchor="middle" font-size="14" fill="#fafafa">df_shuffled (random_state=42)</text>
+                <path d="M 200,70 L 150,105" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                <path d="M 420,70 L 620,105" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrowblue)"/>
+                <rect x="0" y="105" width="300" height="40" fill="#16a34a" opacity="0.85" rx="6"/>
+                <text x="150" y="130" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">80% → Train.csv</text>
+                <rect x="560" y="105" width="180" height="40" fill="#3b82f6" opacity="0.85" rx="6"/>
+                <text x="650" y="130" text-anchor="middle" font-size="14" fill="#fafafa" font-weight="600">20% → Test.csv</text>
+                <defs>
+                    <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#3b82f6"/>
+                    </marker>
+                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                </defs>
+            </svg>
+            <div class="callout">
+                <span class="callout-label">Why shuffle</span>
+                <p>Raw logs are often ordered by time or category. Shuffling before slicing keeps the same mix of records in both the train and test halves.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 12: Split & export code -->
+        <div class="slide">
+            <div class="slide-number">12 / 18</div>
+            <span class="step-badge">Part 7 · Split &amp; Export</span>
+            <h2>The split in code</h2>
+            <p>Shuffling with a fixed <code>random_state</code> makes the split reproducible, then slicing at the 80% index gives a train and a test set. Finally <code>.to_csv(..., index=False)</code> writes clean, ready-to-use files.</p>
+            <pre class="tight"><code><span class="comment"># Shuffle reproducibly, then slice 80/20</span>
+df_shuffled <span class="keyword">=</span> df.<span class="keyword">sample</span>(frac<span class="keyword">=</span><span class="number">1</span>, random_state<span class="keyword">=</span><span class="number">42</span>).<span class="keyword">reset_index</span>(drop<span class="keyword">=</span><span class="keyword">True</span>)
+split_idx <span class="keyword">=</span> <span class="keyword">int</span>(<span class="number">0.8</span> <span class="keyword">*</span> <span class="keyword">len</span>(df_shuffled))
+
+train_df <span class="keyword">=</span> df_shuffled[:split_idx]
+test_df <span class="keyword">=</span> df_shuffled[split_idx:]
+
+train_df.<span class="keyword">to_csv</span>(<span class="string">"data/output/Train.csv"</span>, index<span class="keyword">=</span><span class="keyword">False</span>)
+test_df.<span class="keyword">to_csv</span>(<span class="string">"data/output/Test.csv"</span>, index<span class="keyword">=</span><span class="keyword">False</span>)
+<span class="keyword">print</span>(<span class="string">f"Train: {len(train_df)} rows, Test: {len(test_df)} rows"</span>)</code></pre>
+            <div class="callout tip">
+                <span class="callout-label">Two habits to keep</span>
+                <p>Always set <code>random_state</code> so your split is reproducible, and always pass <code>index=False</code> to <code>to_csv</code> so pandas does not write a phantom index column that reappears as junk when you reload.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 13: The full pipeline recap -->
+        <div class="slide">
+            <div class="slide-number">13 / 18</div>
+            <span class="step-badge">Recap</span>
+            <h2>The full pipeline</h2>
+            <svg width="900" height="290">
+                <g transform="translate(50, 30)">
+                    <rect x="0" y="0" width="200" height="52" fill="#1a1a2e" rx="8"/>
+                    <text x="100" y="31" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">1. Inspect the mess</text>
+                    <path d="M 100,52 L 100,84" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                    <rect x="0" y="84" width="200" height="52" fill="#1a1a2e" rx="8"/>
+                    <text x="100" y="115" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">2. Drop duplicates</text>
+                    <path d="M 100,136 L 100,168" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                    <rect x="0" y="168" width="200" height="52" fill="#1a1a2e" rx="8"/>
+                    <text x="100" y="199" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">3. Missing values</text>
+                </g>
+                <g transform="translate(350, 30)">
+                    <rect x="0" y="0" width="200" height="52" fill="#e94560" rx="8"/>
+                    <text x="100" y="31" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">4. Fix formatting</text>
+                    <path d="M 100,52 L 100,84" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                    <rect x="0" y="84" width="200" height="52" fill="#e94560" rx="8"/>
+                    <text x="100" y="115" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">5. Boolean filter</text>
+                    <path d="M 100,136 L 100,168" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                    <rect x="0" y="168" width="200" height="52" fill="#e94560" rx="8"/>
+                    <text x="100" y="199" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">6. Fix data types</text>
+                </g>
+                <g transform="translate(650, 30)">
+                    <rect x="0" y="0" width="200" height="52" fill="#16a34a" rx="8"/>
+                    <text x="100" y="31" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">7. Split 80/20</text>
+                    <path d="M 100,52 L 100,84" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                    <rect x="0" y="84" width="200" height="52" fill="#16a34a" rx="8"/>
+                    <text x="100" y="115" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">Train.csv</text>
+                    <path d="M 100,136 L 100,168" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                    <rect x="0" y="168" width="200" height="52" fill="#16a34a" rx="8"/>
+                    <text x="100" y="199" text-anchor="middle" font-size="15" fill="#fafafa" font-weight="600">Test.csv</text>
+                </g>
+                <path d="M 250,57 L 350,57" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                <path d="M 550,57 L 650,57" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
+                <defs>
+                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#e94560"/>
+                    </marker>
+                </defs>
+            </svg>
+            <p style="margin-top: 1rem; font-size: 1.2rem;">Every step is measured against the baseline, so no data goes missing by surprise.</p>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 14: What you learned (part 1) -->
+        <div class="slide">
+            <div class="slide-number">14 / 18</div>
+            <h2>What you learned</h2>
+            <ul class="smaller">
+                <li><strong>Profile first:</strong> count rows, missing cells, and duplicates so you can measure every step's impact</li>
+                <li><strong>Duplicates</strong> are the sneakiest ML risk because they leak test data into training and inflate accuracy</li>
+                <li>Handle missing values <strong>by role:</strong> drop rows for critical fields and the target, fill sensible defaults for the rest</li>
+                <li><strong>Standardize text</strong> (strip then map) so semantically equal values are not treated as different categories</li>
+            </ul>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 15: What you learned (part 2) -->
+        <div class="slide">
+            <div class="slide-number">15 / 18</div>
+            <h2>What you learned</h2>
+            <ul class="smaller">
+                <li><strong>Boolean indexing</strong> with parenthesized <code>&amp;</code> and <code>|</code> conditions is the standard way to filter invalid rows</li>
+                <li>Fix <strong>data types</strong> after filtering, since <code>astype(int)</code> fails on remaining NaN values</li>
+                <li>Use a fixed <code>random_state</code> for a reproducible train/test split and export with <code>index=False</code></li>
+                <li>Clean data is the prerequisite for real learning: <strong>garbage in, garbage out</strong></li>
+            </ul>
+            <div class="callout">
+                <span class="callout-label">The big idea</span>
+                <p>Cleaning is not busywork. It decides whether your model learns real signal or just memorizes the noise you forgot to remove.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 16: The curator lab -->
+        <div class="slide">
+            <div class="slide-number">16 / 18</div>
+            <span class="step-badge">The Lab</span>
+            <h2>The Curator</h2>
+            <p class="lead">Now put the whole pipeline together on the real dirty dataset.</p>
+            <p>The lab script runs all seven steps end to end, printing how many rows survive each stage and writing the final <code>Train.csv</code> and <code>Test.csv</code>.</p>
+            <pre class="tight"><code><span class="comment"># Run the full cleaning pipeline</span>
+python lab_the_curator.py
+
+<span class="comment"># Then confirm the outputs exist</span>
+<span class="comment"># data/output/Train.csv</span>
+<span class="comment"># data/output/Test.csv</span></code></pre>
+            <div class="callout tip">
+                <span class="callout-label">Watch the counts</span>
+                <p>As the script runs, compare the row count after each step to your baseline. A sudden large drop usually means a filter is too strict or a column name is wrong.</p>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 17: Practice -->
+        <div class="slide">
+            <div class="slide-number">17 / 18</div>
+            <h2>Practice &amp; next steps</h2>
+            <div class="split">
+                <div>
+                    <p class="smaller" style="margin-bottom: 0.75rem;"><strong>Try it yourself:</strong></p>
+                    <ul class="smaller">
+                        <li>Run the lab: <code>python lab_the_curator.py</code></li>
+                        <li>Change the split to 70/30 and compare row counts</li>
+                        <li>Add a new invalid rule to the boolean filter</li>
+                        <li>Dedupe on <code>prompt_id</code> using <code>subset=[...]</code></li>
+                    </ul>
+                    <p class="smaller" style="margin-top: 1rem;"><strong>Explore further:</strong></p>
+                    <ul class="smaller">
+                        <li>Try <code>fillna</code> with a column median instead of 0</li>
+                        <li>Profile the data with <code>df.describe()</code></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="callout tip">
+                        <span class="callout-label">Next module</span>
+                        <p><strong>Module 07: Feature Engineering &amp; Selection</strong><br>Where clean columns become the features a model actually learns from.</p>
+                    </div>
+                    <p class="smaller" style="color: var(--text-muted); margin-top: 1.5rem;">Questions? Bring them to the lab session.</p>
+                    <p class="smaller" style="color: var(--text-muted);">AI Research Foundations Minicourse<br>Module 06: Cleaning &amp; Transformation</p>
+                </div>
+            </div>
+            <div class="footer">© mui-group</div>
+        </div>
+
+        <!-- Slide 18: Closing -->
+        <div class="slide">
+            <div class="slide-number">18 / 18</div>
+            <h2>Clean data,<br>real learning</h2>
+            <p class="lead">You took 80 messy rows and turned them into reproducible Train and Test splits a model can trust.</p>
+            <div class="callout">
+                <span class="callout-label">Remember</span>
+                <p>Profile, dedupe, handle missing values by role, standardize, filter, fix types, then split. The unglamorous work up front is what makes everything downstream possible.</p>
+            </div>
+            <p class="smaller" style="color: var(--text-muted); margin-top: 1.5rem;">Onward to Module 07: Feature Engineering &amp; Selection.</p>
+            <div class="footer">© mui-group</div>
         </div>
     </div>
-    <p>Ready for machine learning: Train.csv (51 rows) + Test.csv (13 rows)</p>
-    <footer>© mui-group</footer>
-    <div class="slide-number">11 / 15</div>
-</div>
 
-<!-- Slide 12: Lab Intro -->
-<div class="slide">
-    <h2>Lab: The Curator</h2>
-    <p class="subtitle">Build a complete cleaning pipeline</p>
-    <ul>
-        <li>Load dirty_dataset.csv (80 rows of messy data)</li>
-        <li>Inspect what's broken (duplicates, missing, formatting)</li>
-        <li>Remove exact duplicates</li>
-        <li>Handle missing values (drop vs fill)</li>
-        <li>Standardize formatting (model names, whitespace)</li>
-        <li>Filter invalid data with boolean indexing</li>
-        <li>Fix data types (dates, numerics)</li>
-        <li>Split 80/20 into Train.csv and Test.csv</li>
-    </ul>
-    <p style="margin-top: 2rem; color: #e94560; font-weight: 600;">Run lab_the_curator.py to see the full pipeline in action</p>
-    <footer>© mui-group</footer>
-    <div class="slide-number">12 / 15</div>
-</div>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
 
-<!-- Slide 13: The Complete Pipeline -->
-<div class="slide">
-    <h2>The Complete Pipeline</h2>
-    <div class="visual-container">
-        <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
-            <!-- Step 1 -->
-            <g>
-                <rect x="50" y="40" width="150" height="60" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="125" y="66" text-anchor="middle" fill="#fafafa" font-size="13" font-weight="600">1. Inspect</text>
-                <text x="125" y="86" text-anchor="middle" fill="#ccc" font-size="11">.info(), .isna()</text>
-            </g>
-
-            <!-- Step 2 -->
-            <g>
-                <rect x="220" y="40" width="150" height="60" fill="rgba(233,69,96,0.3)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="295" y="66" text-anchor="middle" fill="#fafafa" font-size="13" font-weight="600">2. Deduplicate</text>
-                <text x="295" y="86" text-anchor="middle" fill="#ccc" font-size="11">drop_duplicates()</text>
-            </g>
-
-            <!-- Step 3 -->
-            <g>
-                <rect x="390" y="40" width="150" height="60" fill="rgba(233,69,96,0.4)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="465" y="66" text-anchor="middle" fill="#fafafa" font-size="13" font-weight="600">3. Missing Values</text>
-                <text x="465" y="86" text-anchor="middle" fill="#ccc" font-size="11">dropna(), fillna()</text>
-            </g>
-
-            <!-- Step 4 -->
-            <g>
-                <rect x="560" y="40" width="150" height="60" fill="rgba(233,69,96,0.5)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="635" y="66" text-anchor="middle" fill="#fafafa" font-size="13" font-weight="600">4. Formatting</text>
-                <text x="635" y="86" text-anchor="middle" fill="#ccc" font-size="11">.str.strip(), replace()</text>
-            </g>
-
-            <!-- Step 5 -->
-            <g>
-                <rect x="50" y="130" width="150" height="60" fill="rgba(233,69,96,0.6)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="125" y="156" text-anchor="middle" fill="#fafafa" font-size="13" font-weight="600">5. Filter Invalid</text>
-                <text x="125" y="176" text-anchor="middle" fill="#ccc" font-size="11">Boolean indexing</text>
-            </g>
-
-            <!-- Step 6 -->
-            <g>
-                <rect x="220" y="130" width="150" height="60" fill="rgba(233,69,96,0.7)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="295" y="156" text-anchor="middle" fill="#fafafa" font-size="13" font-weight="600">6. Data Types</text>
-                <text x="295" y="176" text-anchor="middle" fill="#ccc" font-size="11">astype(), to_datetime()</text>
-            </g>
-
-            <!-- Step 7 -->
-            <g>
-                <rect x="390" y="130" width="150" height="60" fill="rgba(233,69,96,0.8)" stroke="#e94560" stroke-width="2" rx="8"/>
-                <text x="465" y="156" text-anchor="middle" fill="#fafafa" font-size="13" font-weight="600">7. Train/Test Split</text>
-                <text x="465" y="176" text-anchor="middle" fill="#ccc" font-size="11">sample(), 80/20</text>
-            </g>
-
-            <!-- Step 8 -->
-            <g>
-                <rect x="560" y="130" width="150" height="60" fill="#e94560" rx="8"/>
-                <text x="635" y="156" text-anchor="middle" fill="#1a1a2e" font-size="13" font-weight="700">8. Export</text>
-                <text x="635" y="176" text-anchor="middle" fill="#1a1a2e" font-size="11">to_csv()</text>
-            </g>
-
-            <!-- Output files -->
-            <g>
-                <rect x="200" y="250" width="180" height="60" fill="rgba(100,255,100,0.2)" stroke="#90EE90" stroke-width="2" rx="8"/>
-                <text x="290" y="278" text-anchor="middle" fill="#fafafa" font-size="14" font-weight="600">Train.csv</text>
-                <text x="290" y="298" text-anchor="middle" fill="#90EE90" font-size="13">80% for training</text>
-            </g>
-
-            <g>
-                <rect x="420" y="250" width="180" height="60" fill="rgba(100,255,100,0.2)" stroke="#90EE90" stroke-width="2" rx="8"/>
-                <text x="510" y="278" text-anchor="middle" fill="#fafafa" font-size="14" font-weight="600">Test.csv</text>
-                <text x="510" y="298" text-anchor="middle" fill="#90EE90" font-size="13">20% for evaluation</text>
-            </g>
-
-            <!-- Bottom impact -->
-            <rect x="150" y="350" width="600" height="120" fill="rgba(233,69,96,0.1)" stroke="#e94560" stroke-width="2" rx="8"/>
-            <text x="450" y="385" text-anchor="middle" fill="#e94560" font-size="16" font-weight="700">Impact on Machine Learning</text>
-            <text x="450" y="410" text-anchor="middle" fill="#ccc" font-size="13">Clean data → Better features → Accurate patterns</text>
-            <text x="450" y="435" text-anchor="middle" fill="#ccc" font-size="13">Dirty data → Noise → Garbage predictions</text>
-            <text x="450" y="460" text-anchor="middle" fill="#90EE90" font-size="13">Your model is only as good as your data</text>
-        </svg>
-    </div>
-    <footer>© mui-group</footer>
-    <div class="slide-number">13 / 15</div>
-</div>
-
-<!-- Slide 14: Key Takeaways -->
-<div class="slide">
-    <h2>Key Takeaways</h2>
-    <ul style="font-size: 1.6rem; line-height: 2;">
-        <li>Duplicates inflate accuracy and cause data leakage</li>
-        <li>Drop critical missing fields, fill non-critical ones</li>
-        <li>Standardize formatting to prevent model confusion</li>
-        <li>Boolean indexing filters invalid data cleanly</li>
-        <li>Proper data types enable correct operations</li>
-        <li>80/20 train/test split measures real generalization</li>
-        <li>Every cleaning step directly impacts model quality</li>
-    </ul>
-    <div class="stats-box" style="margin-top: 3rem;">
-        <p style="font-size: 1.5rem; font-weight: 600; color: #e94560;">Remember: Garbage in, garbage out</p>
-        <p style="font-size: 1.3rem;">Clean data is the foundation of trustworthy AI</p>
-    </div>
-    <footer>© mui-group</footer>
-    <div class="slide-number">14 / 15</div>
-</div>
-
-<!-- Slide 15: Next Steps -->
-<div class="slide">
-    <h2>Next Steps</h2>
-    <p class="subtitle">You've learned the data cleaning fundamentals</p>
-    <ul style="font-size: 1.6rem;">
-        <li>Run lab_the_curator.py to see the pipeline in action</li>
-        <li>Inspect the output Train.csv and Test.csv files</li>
-        <li>Try modifying the cleaning criteria</li>
-        <li>Experiment with different fill strategies</li>
-        <li>Next module: Feature engineering and transformation</li>
-    </ul>
-    <div class="visual-container" style="margin-top: 3rem;">
-        <svg viewBox="0 0 600 150" xmlns="http://www.w3.org/2000/svg">
-            <rect x="50" y="40" width="500" height="70" fill="rgba(233,69,96,0.1)" stroke="#e94560" stroke-width="2" rx="8"/>
-            <text x="300" y="80" text-anchor="middle" fill="#fafafa" font-size="18" font-weight="600">Clean data is the price of admission</text>
-            <text x="300" y="105" text-anchor="middle" fill="#e94560" font-size="14">Everything else is built on this foundation</text>
-        </svg>
-    </div>
-    <footer>© mui-group</footer>
-    <div class="slide-number">15 / 15</div>
-</div>
-
-<script>
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.slide');
-    const totalSlides = slides.length;
-
-    function showSlide(n) {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (n + totalSlides) % totalSlides;
-        slides[currentSlide].classList.add('active');
-    }
-
-    function nextSlide() {
-        showSlide(currentSlide + 1);
-    }
-
-    function prevSlide() {
-        showSlide(currentSlide - 1);
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === ' ') {
-            e.preventDefault();
-            nextSlide();
-        } else if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            prevSlide();
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
         }
-    });
 
-    // Click handlers
-    document.addEventListener('click', (e) => {
-        const width = window.innerWidth;
-        if (e.clientX > width / 2) {
-            nextSlide();
-        } else {
-            prevSlide();
+        function nextSlide() {
+            showSlide(currentSlide + 1);
         }
-    });
 
-    // Theme toggle functionality
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
 
-    function setTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
-        localStorage.setItem('slide-theme', theme);
-        updateSVGColors(theme);
-    }
-
-    function updateSVGColors(theme) {
-        const svgs = document.querySelectorAll('svg');
-        svgs.forEach(svg => {
-            svg.querySelectorAll('text').forEach(text => {
-                const currentFill = text.getAttribute('fill');
-                if (theme === 'light') {
-                    if (['#eee', '#fafafa', '#ccc', '#fff', '#ddd'].includes(currentFill)) {
-                        text.setAttribute('data-dark-fill', currentFill);
-                        text.setAttribute('fill', '#333');
-                    } else if (['#aaa', '#888', '#999'].includes(currentFill)) {
-                        text.setAttribute('data-dark-fill', currentFill);
-                        text.setAttribute('fill', '#777');
-                    }
-                } else {
-                    const df = text.getAttribute('data-dark-fill');
-                    if (df) text.setAttribute('fill', df);
-                }
-            });
-            svg.querySelectorAll('line, path, rect, circle, polyline, polygon').forEach(el => {
-                const currentStroke = el.getAttribute('stroke');
-                const currentFill = el.getAttribute('fill');
-                if (theme === 'light') {
-                    if (currentStroke && ['#888', '#999', '#aaa', '#fafafa', '#fff', '#666'].includes(currentStroke)) {
-                        el.setAttribute('data-dark-stroke', currentStroke);
-                        el.setAttribute('stroke', '#444');
-                    }
-                    if (currentFill && ['#2d2d44', '#1a1a2e', '#16162a', '#252540'].includes(currentFill)) {
-                        el.setAttribute('data-dark-fill', currentFill);
-                        el.setAttribute('fill', '#f8f9fa');
-                    }
-                } else {
-                    const ds = el.getAttribute('data-dark-stroke');
-                    if (ds) el.setAttribute('stroke', ds);
-                    const df = el.getAttribute('data-dark-fill');
-                    if (df) el.setAttribute('fill', df);
-                }
-            });
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
         });
-    }
 
-    themeToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const current = document.documentElement.getAttribute('data-theme') || 'dark';
-        setTheme(current === 'light' ? 'dark' : 'light');
-    });
+        // Click navigation
+        document.querySelector('.slide-container').addEventListener('click', (e) => {
+            if (e.clientX > window.innerWidth / 2) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        });
 
-    // Initialize theme
-    const saved = localStorage.getItem('slide-theme');
-    if (saved) {
-        setTheme(saved);
-    } else {
-        setTheme('dark');
-    }
-</script>
+        // Touch navigation for mobile
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
 
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                prevSlide();
+            }
+        });
+
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+            localStorage.setItem('slide-theme', theme);
+            updateSVGColors(theme);
+        }
+
+        function updateSVGColors(theme) {
+            const svgs = document.querySelectorAll('svg');
+            svgs.forEach(svg => {
+                // Update text elements
+                svg.querySelectorAll('text').forEach(text => {
+                    const currentFill = text.getAttribute('fill');
+                    if (theme === 'dark') {
+                        if (currentFill === '#333' || currentFill === '#1a1a2e' || currentFill === '#555' || currentFill === '#444') {
+                            text.setAttribute('fill', '#eee');
+                            text.setAttribute('data-light-fill', currentFill);
+                        } else if (currentFill === '#777' || currentFill === '#666') {
+                            text.setAttribute('fill', '#aaa');
+                            text.setAttribute('data-light-fill', currentFill);
+                        }
+                    } else {
+                        const lightFill = text.getAttribute('data-light-fill');
+                        if (lightFill) {
+                            text.setAttribute('fill', lightFill);
+                        }
+                    }
+                });
+                // Update stroke elements (lines, paths, rects)
+                svg.querySelectorAll('line, path, rect, circle').forEach(el => {
+                    const currentStroke = el.getAttribute('stroke');
+                    const currentFill = el.getAttribute('fill');
+                    if (theme === 'dark') {
+                        if (currentStroke === '#444' || currentStroke === '#555' || currentStroke === '#333') {
+                            el.setAttribute('data-light-stroke', currentStroke);
+                            el.setAttribute('stroke', '#888');
+                        }
+                        if (currentFill === '#f8f9fa' || currentFill === '#f0f0f5' || currentFill === '#fff' || currentFill === '#ffffff') {
+                            el.setAttribute('data-light-fill', currentFill);
+                            el.setAttribute('fill', '#2d2d44');
+                        }
+                    } else {
+                        const lightStroke = el.getAttribute('data-light-stroke');
+                        if (lightStroke) el.setAttribute('stroke', lightStroke);
+                        const lightFill = el.getAttribute('data-light-fill');
+                        if (lightFill) el.setAttribute('fill', lightFill);
+                    }
+                });
+            });
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+
+        // Initialize theme from localStorage or system preference
+        const saved = localStorage.getItem('slide-theme');
+        if (saved) {
+            setTheme(saved);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    </script>
 </body>
 </html>
