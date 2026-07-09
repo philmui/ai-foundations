@@ -159,20 +159,6 @@ Batch size affects memory usage:
 
 GPU memory is limited (typically 4-24 GB). Start with smaller batches and increase if memory allows.
 
-## Slides
-
-View the presentation:
-```bash
-open slides.html
-```
-
-Navigation:
-- **Arrow Right / Space**: Next slide
-- **Arrow Left**: Previous slide
-- **Home**: First slide
-- **End**: Last slide
-- **Click right/left half**: Navigate slides
-
 ## Common Issues
 
 ### Issue: Images look weird colors

@@ -34,16 +34,6 @@ Self-contained, Colab-ready notebook (run it in Google Colab, or locally in Jupy
 - **Demo 6**: Big O notation comparison with timing tests
 - **Practical Example**: Text encoding/decoding with token IDs
 
-### 2. `slides.html`
-Self-contained HTML slide deck (15 slides) with:
-
-- Clean, educational design using Inter font
-- Interactive navigation (keyboard arrows or click)
-- Inline SVG diagrams and visualizations
-- Code snippets with syntax highlighting
-- Performance comparison charts
-- Tokenizer workflow flowchart
-
 ## Getting Started
 
 ## ▶️ Run in Google Colab (recommended)
@@ -69,21 +59,6 @@ source .venv/bin/activate  # macOS/Linux (use .venv\Scripts\activate on Windows)
 Then open `tutorial.ipynb` in Jupyter or VS Code and run the cells top-to-bottom. The first code cell installs any dependencies it needs into the kernel.
 
 </details>
-
-### Viewing the Slides
-
-Open `slides.html` in any modern web browser:
-
-```bash
-open slides.html  # macOS
-# or just double-click the file
-```
-
-**Navigation:**
-- Press → (right arrow) or click right half of screen to advance
-- Press ← (left arrow) or click left half of screen to go back
-- Press Space to advance
-- Swipe left/right on mobile devices
 
 ## Key Insights
 

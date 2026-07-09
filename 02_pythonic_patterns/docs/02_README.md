@@ -22,7 +22,6 @@ Learn Pythonic patterns that make AI data processing code cleaner, faster, and m
 | File | Purpose |
 |------|---------|
 | `tutorial.ipynb` | Self-contained, Colab-ready notebook with explanations, exercises, and all patterns demonstrated on an in-notebook mock corpus |
-| `slides.html` | Lecture slides covering the theory behind Pythonic patterns |
 
 ## Key Concepts Covered
 
