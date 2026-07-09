@@ -21,11 +21,8 @@ Learn Pythonic patterns that make AI data processing code cleaner, faster, and m
 
 | File | Purpose |
 |------|---------|
-| `tutorial.ipynb` | Interactive Jupyter notebook with explanations and exercises |
-| `lab_infinite_data_loader.py` | Complete lab demonstrating all patterns with a mock corpus |
+| `tutorial.ipynb` | Self-contained, Colab-ready notebook with explanations, exercises, and all patterns demonstrated on an in-notebook mock corpus |
 | `slides.html` | Lecture slides covering the theory behind Pythonic patterns |
-| `sample_corpus.txt` | Sample text data for testing (3KB) |
-| `pyproject.toml` | Project dependencies (uv/pip) |
 
 ## Key Concepts Covered
 
@@ -82,27 +79,30 @@ Process arbitrarily large files without running out of memory:
 
 ## How to Run
 
-### Setup Environment
-```bash
-# Install dependencies using uv (recommended)
-uv sync
+### ▶️ Run in Google Colab (recommended)
 
-# Or using pip
-pip install -r requirements.txt
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/02_pythonic_patterns/tutorial.ipynb)
+
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained — any data it uses is generated inside the notebook, so it runs end-to-end with no external files.
+
+<details><summary>Advanced: run locally</summary>
+
+```bash
+# Install dependencies (uv recommended)
+uv sync            # or: pip install -e .
 ```
 
-### Run the Lab
-```bash
-# Run the complete lab script
-python lab_infinite_data_loader.py
+Then open `tutorial.ipynb` in Jupyter or VS Code and run the cells top-to-bottom.
 
-# Or open the Jupyter notebook
-jupyter lab tutorial.ipynb
-```
+</details>
 
-### Expected Output
-The lab will:
-1. Generate a mock corpus file (configurable size)
+### What the Notebook Covers
+Working top-to-bottom, the notebook will:
+1. Generate a mock corpus in-memory (configurable size)
 2. Demonstrate list comprehensions vs for loops
 3. Build vocabularies with dict comprehensions
 4. Show the memory problem with loading large files

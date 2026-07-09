@@ -1,21 +1,27 @@
 # Quick Start: Module 7 Tutorial
 
-## Run the Tutorial in 3 Steps
+## ▶️ Run in Google Colab (recommended)
 
-### 1. Install Dependencies
-```bash
-cd module_07_images_as_data
-pip install -e .
-```
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/07_images_as_data/tutorial.ipynb)
 
-### 2. Launch Jupyter Notebook
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained — any data it uses is generated inside the notebook, so it runs end-to-end with no external files.
+
+<details><summary>Advanced: run locally</summary>
+
+Prefer local Jupyter/VS Code? Install the dependencies and launch the notebook:
+
 ```bash
+pip install numpy opencv-python matplotlib python-dotenv
 jupyter notebook tutorial.ipynb
 ```
 
-### 3. Run All Cells
-In Jupyter:
-- **Cell** → **Run All** (or use **Shift+Enter** for each cell)
+Then run **Cell → Run All** (or **Shift+Enter** for each cell). The notebook generates its own sample images.
+
+</details>
 
 That's it! 🎉
 
@@ -84,8 +90,8 @@ The tutorial includes:
 
 - **Setup issues**: Check `GETTING_STARTED.md`
 - **Detailed guide**: Read `TUTORIAL_GUIDE.md`
-- **Dependencies failing**: Run `python test_module.py`
-- **Jupyter not found**: Install with `pip install jupyter`
+- **Dependencies failing (Colab)**: Re-run the first code cell; use **Runtime → Restart and run all**
+- **Dependencies failing (local)**: Run `python test_module.py`; install Jupyter with `pip install jupyter`
 
 ---
 
@@ -112,4 +118,4 @@ batch = np.stack(images, axis=0)  # Shape: (N, 224, 224, 3)
 
 ---
 
-**Ready to start?** Run `jupyter notebook tutorial.ipynb` now! 🚀
+**Ready to start?** Click the **Open in Colab** badge above and **Runtime → Run all** now! 🚀

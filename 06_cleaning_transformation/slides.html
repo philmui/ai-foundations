@@ -840,13 +840,15 @@ test_df.<span class="keyword">to_csv</span>(<span class="string">"data/output/Te
             <span class="step-badge">The Lab</span>
             <h2>The Curator</h2>
             <p class="lead">Now put the whole pipeline together on the real dirty dataset.</p>
-            <p>The lab script runs all seven steps end to end, printing how many rows survive each stage and writing the final <code>Train.csv</code> and <code>Test.csv</code>.</p>
-            <pre class="tight"><code><span class="comment"># Run the full cleaning pipeline</span>
-python lab_the_curator.py
+            <p>The notebook runs all seven steps end to end, printing how many rows survive each stage and writing the final <code>Train.csv</code> and <code>Test.csv</code>.</p>
+            <pre class="tight"><code><span class="comment"># Open tutorial.ipynb in Google Colab, then Runtime &rarr; Run all</span>
+<span class="comment"># The first code cell installs all dependencies for you</span>
 
-<span class="comment"># Then confirm the outputs exist</span>
-<span class="comment"># data/output/Train.csv</span>
-<span class="comment"># data/output/Test.csv</span></code></pre>
+<span class="comment"># Confirm the outputs are written</span>
+<span class="comment">#   Train.csv</span>
+<span class="comment">#   Test.csv</span>
+
+<span class="comment"># (Local alternative: open tutorial.ipynb in Jupyter and run all)</span></code></pre>
             <div class="callout tip">
                 <span class="callout-label">Watch the counts</span>
                 <p>As the script runs, compare the row count after each step to your baseline. A sudden large drop usually means a filter is too strict or a column name is wrong.</p>
@@ -862,7 +864,7 @@ python lab_the_curator.py
                 <div>
                     <p class="smaller" style="margin-bottom: 0.75rem;"><strong>Try it yourself:</strong></p>
                     <ul class="smaller">
-                        <li>Run the lab: <code>python lab_the_curator.py</code></li>
+                        <li>Run the lab: open <code>tutorial.ipynb</code> in Google Colab and Run all (or run it locally in Jupyter)</li>
                         <li>Change the split to 70/30 and compare row counts</li>
                         <li>Add a new invalid rule to the boolean filter</li>
                         <li>Dedupe on <code>prompt_id</code> using <code>subset=[...]</code></li>

@@ -191,7 +191,7 @@ We will focus on the "Why" and "How" of data pipelines—using **Python Data Str
 
 * **Prerequisites Check:** A self-graded quiz will be deployed on Canvas prior to Day 1 to ensure students are comfortable with basic Python variables and loops.  
 * **Software Requirements:**  
-  * Google Colab (recommended for zero-setup environment).  
+  * **Google Colab (recommended):** each module's `tutorial.ipynb` is self-contained — open it via the **Open in Colab** badge, run the first code cell to install all dependencies into the kernel, then **Runtime → Run all**. No separate install or data download is required.  
   * Local Python installation (optional): Python 3.9+, Anaconda distribution.  
 * **Submission Format:**  
   * All labs will be submitted as .ipynb (Jupyter Notebooks) via Canvas.  

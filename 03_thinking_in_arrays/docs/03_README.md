@@ -42,19 +42,34 @@ This module introduces NumPy N-dimensional arrays and one-hot encoding, fundamen
    - From sparse one-hot to dense contextual embeddings
 
 ## Files
-- `pyproject.toml` - Python project dependencies (numpy, python-dotenv)
+- `tutorial.ipynb` - Self-contained, Colab-ready notebook (all data generated inside)
 - `lab_the_matrix.py` - Educational Python script with 8 demonstrations
 - `slides.html` - 14-slide HTML presentation with inline SVG diagrams
 
-## Running the Lab
+## ▶️ Run in Google Colab (recommended)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/03_thinking_in_arrays/tutorial.ipynb)
+
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained — any data it uses is generated inside the notebook, so it runs end-to-end with no external files.
+
+<details><summary>Advanced: run locally</summary>
 
 ```bash
-# Install dependencies
+# Install dependencies (from this module folder)
 pip install -e .
 
-# Run the lab
+# Then open tutorial.ipynb in Jupyter or VS Code
+jupyter notebook tutorial.ipynb
+
+# Optional: run the standalone script version
 python lab_the_matrix.py
 ```
+
+</details>
 
 ## Lab Structure
 The lab demonstrates:

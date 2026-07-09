@@ -432,7 +432,7 @@
             </ul>
             <div class="callout tip">
                 <span class="callout-label">How to use these slides</span>
-                <p>Each stage comes with a runnable piece of code. Open the companion notebook <code>tutorial.ipynb</code> and run each snippet as you go. Learning by typing beats learning by reading.</p>
+                <p>Each stage comes with a runnable piece of code. Open the companion notebook <code>tutorial.ipynb</code> in Google Colab and use <strong>Runtime → Run all</strong> — it installs everything and generates its own data. Then run each snippet as you follow along. Learning by typing beats learning by reading.</p>
             </div>
             <div class="footer">© mui-group</div>
         </div>
@@ -575,20 +575,19 @@ landscape_001.png,Mountain range with
             <div class="slide-number">7 / 18</div>
             <span class="step-badge">Part 3 · Setup and Sample Data</span>
             <h2>Generate the Dataset Before You Load It</h2>
-            <p>The module ships a script that reads the manifest and synthesizes a matching image for each row using OpenCV drawing primitives, so the pipeline has real files to work with.</p>
-            <pre class="tight"><code><span class="comment"># Run these in order from the module directory:</span>
-pip install -e .              <span class="comment"># numpy, pandas, opencv-python, python-dotenv</span>
-python create_sample_data.py  <span class="comment"># writes 20 images into data/images/</span>
-python lab_research_pipeline.py
+            <p>An early notebook cell synthesizes a matching image for each manifest row using OpenCV drawing primitives, so the pipeline has real files to work with — no separate scripts or downloads.</p>
+            <pre class="tight"><code><span class="comment"># Primary path: open tutorial.ipynb in Google Colab and Runtime → Run all.</span>
+<span class="comment"># The first cell installs deps; an early cell writes 20 images + manifest.csv.</span>
+<span class="comment"># (Local option: run all cells in Jupyter/VS Code — same result.)</span>
 
-<span class="comment"># create_sample_data.py builds each image programmatically, e.g.:</span>
+<span class="comment"># The notebook builds each image programmatically, e.g.:</span>
 img <span class="keyword">=</span> np.<span class="keyword">zeros</span>((h, w, <span class="number">3</span>), dtype<span class="keyword">=</span>np.uint8)
 center <span class="keyword">=</span> (h // <span class="number">2</span>, w // <span class="number">2</span>)
 cv2.<span class="keyword">circle</span>(img, center, <span class="number">40</span> + index * <span class="number">5</span>, (<span class="number">255</span>, <span class="number">240</span>, <span class="number">200</span>), -<span class="number">1</span>)  <span class="comment"># galaxy core</span>
 cv2.<span class="keyword">imwrite</span>(<span class="keyword">str</span>(output_path), img)</code></pre>
             <div class="callout warn">
                 <span class="callout-label">Common error</span>
-                <p>Skipping the generation step is the most common mistake, because the loader validates that every file actually exists. If you see "images not found", you forgot to run <code>create_sample_data.py</code>.</p>
+                <p>Skipping the generation cell is the most common mistake, because the loader validates that every file actually exists. If you see "images not found", run the notebook top-to-bottom (<strong>Runtime → Run all</strong>) so the data cell runs first.</p>
             </div>
             <div class="callout tip">
                 <span class="callout-label">Key insight</span>
@@ -950,9 +949,9 @@ output <span class="keyword">=</span> model(image_tensor)</code></pre>
                 <div>
                     <p class="smaller" style="margin-bottom: 0.75rem;"><strong>Run the full pipeline:</strong></p>
                     <ul class="smaller">
-                        <li><code>pip install -e .</code></li>
-                        <li><code>python create_sample_data.py</code></li>
-                        <li><code>python lab_research_pipeline.py</code></li>
+                        <li>Open <code>tutorial.ipynb</code> in Google Colab</li>
+                        <li><strong>Runtime → Run all</strong> — deps install and data generates automatically</li>
+                        <li>Local option: run all cells in Jupyter / VS Code</li>
                     </ul>
                     <p class="smaller" style="margin-top: 1rem;"><strong>Extend it:</strong></p>
                     <ul class="smaller">

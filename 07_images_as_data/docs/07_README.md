@@ -24,14 +24,28 @@ Learn how to work with images as numerical data using OpenCV and NumPy for compu
 - Python 3.10+
 - Basic understanding of arrays and matrices
 
-## Installation
+## ▶️ Run in Google Colab (recommended)
 
-1. Install dependencies:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/07_images_as_data/tutorial.ipynb)
+
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained — any data it uses is generated inside the notebook, so it runs end-to-end with no external files.
+
+<details><summary>Advanced: run locally</summary>
+
+Prefer local Jupyter/VS Code? Install the dependencies and open the notebook:
+
 ```bash
-pip install -e .
+pip install numpy opencv-python matplotlib python-dotenv
+jupyter notebook tutorial.ipynb
 ```
 
-2. The module will automatically generate sample images when you run the lab.
+The notebook generates its own sample images, so no separate data step is needed.
+
+</details>
 
 ## Lab: The Preprocessor
 

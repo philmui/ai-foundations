@@ -60,33 +60,35 @@ Each module is self-contained:
 
 ```
 <module>/
-├── tutorial.ipynb      # lesson notebook
-├── lab_*.py            # your lab starter file
+├── tutorial.ipynb      # self-contained lesson + lab notebook (Colab-ready)
 ├── slides.html         # slide deck
-├── pyproject.toml      # module dependencies
 └── docs/               # reference docs and quick guides
 ```
 
+The `tutorial.ipynb` leads with an **Open in Colab** badge and a first code cell that installs all dependencies, so each module runs with zero local setup.
+
 ---
 
-## Getting started
+## ▶️ Run in Google Colab (recommended)
 
-1. Clone the repo and enter a module directory:
+Every module's `tutorial.ipynb` is fully self-contained and Colab-ready.
 
-   ```bash
-   cd 01_architecture_of_data
-   pip install -e .
-   ```
+1. Open a module's `tutorial.ipynb` and click the **Open in Colab** badge at the top of the notebook (or upload the notebook via **File → Upload notebook** at [colab.research.google.com](https://colab.research.google.com)).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
 
-2. Open the tutorial notebook to follow the lesson:
+Each notebook generates any data it uses inside the notebook, so it runs end-to-end with no external files. Work through modules in order — each builds conceptually on the previous one.
 
-   ```bash
-   jupyter notebook tutorial.ipynb
-   ```
+<details><summary>Advanced: run locally</summary>
 
-3. Complete the lab in `lab_*.py` for that module.
+If you prefer a local Jupyter/VS Code setup, clone the repo, open a module's `tutorial.ipynb` in Jupyter or VS Code, and run it top-to-bottom. The first code cell installs the dependencies it needs, so you don't need any separate install step.
 
-Work through modules in order — each builds conceptually on the previous one, even though each module's dependencies can be installed independently.
+```bash
+cd 01_architecture_of_data
+jupyter notebook tutorial.ipynb
+```
+
+</details>
 
 ---
 

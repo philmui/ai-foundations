@@ -220,20 +220,23 @@ np.stack(batch)  # Works!
 6. Feed to model
 ```
 
-### Run the Lab
+### Run the Tutorial
+
+**Recommended:** open the notebook in Google Colab and run all cells:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/07_images_as_data/tutorial.ipynb)
+
+The first code cell installs all dependencies; then use **Runtime → Run all**. No `pip install` needed — the notebook is self-contained.
+
+<details><summary>Advanced: run locally</summary>
+
 ```bash
-# Install dependencies
-pip install -e .
-
-# Run lab
-python lab_the_preprocessor.py
-
-# View slides
-open slides.html
-
-# Test setup
-python test_module.py
+pip install numpy opencv-python matplotlib python-dotenv
+jupyter notebook tutorial.ipynb   # or run the standalone lab: python lab_the_preprocessor.py
+open slides.html                  # view the slides
 ```
+
+</details>
 
 ### Next Steps
 1. Try different target sizes

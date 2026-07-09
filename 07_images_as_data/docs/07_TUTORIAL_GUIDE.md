@@ -90,19 +90,30 @@ Three key diagrams illustrate:
 
 ### Setup
 
-1. **Install dependencies**:
-   ```bash
-   cd module_07_images_as_data
-   pip install -e .
-   ```
+**Recommended — Google Colab:**
 
-2. **Launch Jupyter**:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/07_images_as_data/tutorial.ipynb)
+
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained — it generates any sample images it needs inside the notebook, so it runs end-to-end with no external files.
+
+<details><summary>Advanced: run locally</summary>
+
+1. Install dependencies:
+   ```bash
+   pip install numpy opencv-python matplotlib python-dotenv
+   ```
+2. Launch Jupyter:
    ```bash
    jupyter notebook tutorial.ipynb
    ```
 
-3. **Generate sample images** (automatic on first run):
-   The notebook will create synthetic images in `data/images/` if none exist
+Sample images are generated automatically on first run.
+
+</details>
 
 ### Running the Notebook
 
