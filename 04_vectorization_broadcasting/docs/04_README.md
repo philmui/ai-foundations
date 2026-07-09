@@ -21,10 +21,8 @@ Master the core techniques that make NumPy fast: vectorization (avoiding loops) 
 
 | File | Purpose |
 |------|---------|
-| `tutorial.ipynb` | Interactive Jupyter notebook with explanations and exercises |
-| `lab_forward_pass.py` | Complete lab implementing a neural network forward pass |
+| `tutorial.ipynb` | Self-contained, Colab-ready notebook with explanations, exercises, and a neural network forward pass |
 | `slides.html` | Lecture slides covering vectorization and broadcasting theory |
-| `pyproject.toml` | Project dependencies (uv/pip) |
 
 ## Key Concepts Covered
 
@@ -150,26 +148,30 @@ result = W @ X + b  # ~0.1 ms (1000x faster!)
 
 ## How to Run
 
-### Setup Environment
+## ▶️ Run in Google Colab (recommended)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/04_vectorization_broadcasting/tutorial.ipynb)
+
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained — any data it uses is generated inside the notebook, so it runs end-to-end with no external files.
+
+<details><summary>Advanced: run locally</summary>
+
 ```bash
-# Install dependencies using uv (recommended)
+# Install dependencies with uv (or: pip install numpy)
 uv sync
 
-# Or using pip
-pip install -r requirements.txt
-```
-
-### Run the Lab
-```bash
-# Run the complete lab script
-python lab_forward_pass.py
-
-# Or open the Jupyter notebook
+# Open the notebook in Jupyter or VS Code
 jupyter lab tutorial.ipynb
 ```
 
+</details>
+
 ### Expected Output
-The lab will demonstrate:
+The notebook will demonstrate:
 1. Element-wise operations on arrays
 2. Scalar broadcasting examples
 3. Dot product computation (manual and vectorized)

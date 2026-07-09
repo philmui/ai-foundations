@@ -1,18 +1,29 @@
 # Module 8 Setup Guide for Instructors
 
-## Quick Start
+## ▶️ Run in Google Colab (recommended for students)
+
+Point students to the self-contained notebook — this is the primary path for the course:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/08_capstone_pipeline/tutorial.ipynb)
+
+1. Open `tutorial.ipynb` via the **Open in Colab** badge above (or **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained: it generates its own synthetic dataset and manifest, so students never need to run helper scripts or download data. Open `slides.html` in a browser for the presentation.
+
+## Advanced: Local Quick Start (instructors)
+
+If you want to run the material locally (e.g. to inspect or extend it), the notebook still works end-to-end — its first code cell installs dependencies and it generates its own data. For a project-level environment:
 
 ```bash
-# 1. Install dependencies
-pip install -e .
+# 1. Install dependencies (optional — the notebook also self-installs)
+uv sync            # or: pip install -e .
 
-# 2. Generate synthetic dataset
-python create_sample_data.py
+# 2. Open the self-contained notebook in Jupyter or VS Code
+jupyter lab tutorial.ipynb
 
-# 3. Run the capstone lab
-python lab_research_pipeline.py
-
-# 4. Open slides in browser
+# 3. Open slides in browser
 open slides.html
 ```
 
@@ -206,18 +217,11 @@ The lab script produces:
 
 ### Issue: `ModuleNotFoundError: No module named 'cv2'`
 
-**Solution:**
-```bash
-pip install opencv-python
-```
+**Solution:** Re-run the notebook's **first code cell** — it installs all dependencies (including `opencv-python`) into the kernel. If running locally outside the notebook, `pip install opencv-python`.
 
 ### Issue: Images not found
 
-**Solution:**
-```bash
-python create_sample_data.py
-```
-Must run before the lab script.
+**Solution:** The notebook generates its dataset in an early cell. Re-run the notebook top-to-bottom (**Runtime → Run all** in Colab) so the data-generation cell runs before the loader cells.
 
 ### Issue: Slides not displaying correctly
 

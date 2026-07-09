@@ -23,11 +23,8 @@ By the end of this module, students will be able to:
 
 ## Module Contents
 
-### 1. `pyproject.toml`
-Project configuration using `uv` package manager with Python >=3.10 and minimal dependencies.
-
-### 2. `lab_tokenizer_dictionary.py`
-Educational lab script demonstrating:
+### 1. `tutorial.ipynb`
+Self-contained, Colab-ready notebook (run it in Google Colab, or locally in Jupyter/VS Code). Its first code cell installs all dependencies into the kernel, and any data it uses is generated inside the notebook. It demonstrates:
 
 - **Demo 1**: List vs Dictionary lookup performance (O(n) vs O(1))
 - **Demo 2**: Mutable vs Immutable behavior with `id()` examples
@@ -37,7 +34,7 @@ Educational lab script demonstrating:
 - **Demo 6**: Big O notation comparison with timing tests
 - **Practical Example**: Text encoding/decoding with token IDs
 
-### 3. `slides.html`
+### 2. `slides.html`
 Self-contained HTML slide deck (15 slides) with:
 
 - Clean, educational design using Inter font
@@ -49,36 +46,29 @@ Self-contained HTML slide deck (15 slides) with:
 
 ## Getting Started
 
-### Prerequisites
+## ▶️ Run in Google Colab (recommended)
 
-- Python >=3.10
-- `uv` package manager (or use standard pip/venv)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/01_architecture_of_data/tutorial.ipynb)
 
-### Installation
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained — any data it uses is generated inside the notebook, so it runs end-to-end with no external files.
+
+<details><summary>Advanced: run locally</summary>
+
+Requires Python >=3.10.
 
 ```bash
-# Navigate to module directory
-cd module_01_architecture_of_data
-
-# Create virtual environment with uv
+# From the module directory, create and activate a virtual environment
 uv venv
-
-# Activate virtual environment
-source .venv/bin/activate  # On macOS/Linux
-# or
-.venv\Scripts\activate  # On Windows
-
-# Install dependencies
-uv pip install python-dotenv
+source .venv/bin/activate  # macOS/Linux (use .venv\Scripts\activate on Windows)
 ```
 
-### Running the Lab
+Then open `tutorial.ipynb` in Jupyter or VS Code and run the cells top-to-bottom. The first code cell installs any dependencies it needs into the kernel.
 
-```bash
-python lab_tokenizer_dictionary.py
-```
-
-Expected output: Six demonstrations showing list/dict performance, mutability, tokenization, frequency counting, nested structures, and Big O comparisons.
+</details>
 
 ### Viewing the Slides
 

@@ -42,9 +42,8 @@
   6. Big O complexity comparison at scale
 
 ### 3. Supporting Materials
-- **README.md**: Comprehensive documentation (9.3KB)
-- **QUICK_REFERENCE.md**: Cheat sheet for students (7.9KB)
-- **verify_module.sh**: Automated verification script
+- **01_README.md**: Comprehensive documentation
+- **01_QUICK_REFERENCE.md**: Cheat sheet for students
 
 ## Key Learning Outcomes
 
@@ -152,45 +151,38 @@ if word in large_vocab_dict:  # Fast!
 ## Files Included
 
 ```
-module_01_architecture_of_data/
-├── pyproject.toml                  # 297B - Project config
-├── lab_tokenizer_dictionary.py    # 12KB - Lab script (6 demos)
-├── slides.html                     # 35KB - Interactive slides (15 slides)
-├── README.md                       # 9.3KB - Full documentation
-├── QUICK_REFERENCE.md              # 7.9KB - Student cheat sheet
-├── MODULE_SUMMARY.md               # This file
-├── .gitignore                      # Standard Python gitignore
-├── verify_module.sh                # Automated verification
-└── .venv/                          # Virtual environment (created locally)
+01_architecture_of_data/
+├── tutorial.ipynb                  # Self-contained, Colab-ready notebook (6 demos)
+├── slides.html                     # Interactive slides (15 slides)
+└── docs/
+    ├── 01_README.md                # Full documentation
+    ├── 01_QUICK_REFERENCE.md       # Student cheat sheet
+    └── 01_MODULE_SUMMARY.md        # This file
 ```
 
 ## Setup Instructions
 
+## ▶️ Run in Google Colab (recommended)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/01_architecture_of_data/tutorial.ipynb)
+
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained — any data it uses is generated inside the notebook, so it runs end-to-end with no external files. Open `slides.html` in any modern browser to follow along with the lecture.
+
+<details><summary>Advanced: run locally</summary>
+
 ```bash
-# 1. Navigate to module directory
-cd module_01_architecture_of_data
-
-# 2. Create virtual environment
+# From the module directory, create and activate a virtual environment
 uv venv
-
-# 3. Activate virtual environment
-source .venv/bin/activate  # macOS/Linux
-# or
-.venv\Scripts\activate  # Windows
-
-# 4. Install dependencies
-uv pip install python-dotenv
-
-# 5. Run verification
-./verify_module.sh
-
-# 6. Run lab script
-python lab_tokenizer_dictionary.py
-
-# 7. Open slides in browser
-open slides.html  # macOS
-# or just double-click slides.html
+source .venv/bin/activate  # macOS/Linux (use .venv\Scripts\activate on Windows)
 ```
+
+Then open `tutorial.ipynb` in Jupyter or VS Code and run the cells top-to-bottom; the first code cell installs any dependencies it needs into the kernel.
+
+</details>
 
 ## Teaching Tips
 
@@ -299,21 +291,12 @@ Students should be able to:
 
 ## Module Verification
 
-Run the automated verification script:
-```bash
-./verify_module.sh
-```
+To verify the module, open `tutorial.ipynb` in Google Colab (or locally) and use **Runtime → Run all**. A healthy run means:
 
-Expected output:
 ```
-✅ Module 01 verification PASSED
-
-All checks:
-✓ Required files exist
-✓ Virtual environment configured
-✓ Dependencies installed
-✓ Lab script executes
-✓ Slides contain 14+ slides
+✓ First code cell installs dependencies with no errors
+✓ All 6 demos execute top-to-bottom
+✓ Slides.html opens in a browser with 15 slides
 ```
 
 ---

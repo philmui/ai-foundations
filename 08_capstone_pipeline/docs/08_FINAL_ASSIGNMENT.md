@@ -16,80 +16,34 @@ You will not be building a toy demonstration. The pattern you implement here is 
 
 By the time you submit, you will have:
 
-1. A working environment with all dependencies installed
-2. A synthetic dataset of 20 images and a manifest CSV
-3. A complete `MultimodalDataLoader` class that you built yourself
-4. A filled-in `tutorial.ipynb` notebook with all cells run and outputs visible
-5. A short video walkthrough explaining your code
+1. A synthetic dataset of 20 images and a manifest CSV — generated inside the notebook
+2. A complete `MultimodalDataLoader` class that you built yourself
+3. A filled-in `tutorial.ipynb` notebook with all cells run and outputs visible
+4. A short video walkthrough explaining your code
 
 ---
 
-## Before You Start: Read the Setup Guide
+## ▶️ Run in Google Colab (recommended)
 
-**Open `08_SETUP.pdf` first.** That document is your technical checklist. It tells you exactly what software to install, what commands to run, and what output to expect when everything is working correctly. Do not skip it — trying to work through the notebook without a functioning environment is frustrating and slow.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/08_capstone_pipeline/tutorial.ipynb)
 
-Here is a summary of what the setup guide covers, so you know what to expect:
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
 
-### What `08_SETUP.pdf` covers
+The notebook is fully self-contained. There is nothing to install by hand and no data to download or generate separately: the notebook synthesizes its own 20 images and the `manifest.csv` that links each image to its caption, category, and train/test split. You should be able to run it end-to-end with no external files.
 
-**1. Installing the dependencies**
+<details><summary>Advanced: run locally</summary>
 
-The project uses four libraries. You install all of them with a single command run from inside the `08_capstone_pipeline/` folder:
+You can also open `tutorial.ipynb` in Jupyter or VS Code and run all cells — the first code cell installs dependencies and the notebook generates its own dataset. If you prefer a project-level install first, run `uv sync` (or `pip install -e .`) from the `08_capstone_pipeline/` folder, then `jupyter lab tutorial.ipynb`. The instructor setup guide (`08_SETUP.pdf`) has a Troubleshooting section covering missing OpenCV, missing images, and slow performance.
 
-```bash
-pip install -e .
-```
-
-The `-e` flag means "editable install," which lets Python find the project files without you having to copy them anywhere. After this command, you should be able to `import numpy`, `import pandas`, and `import cv2` without errors.
-
-**2. Generating the sample data**
-
-The notebook needs a folder of images to work with. You create them by running:
-
-```bash
-python create_sample_data.py
-```
-
-This script generates 20 synthetic images — simple colored pictures, one per sample — and saves them into `data/images/`. It also creates `data/manifest.csv`, which is the index file that links each image to its text description and tells you whether it belongs to the training set or the test set. You will see a printout confirming each image was created, like this:
-
-```
-[ 1/20] Created astronomy_001.png (astronomy, train)
-[ 2/20] Created astronomy_002.png (astronomy, train)
-...
-[20/20] Created meteorology_004.png (meteorology, test)
-
-✓ Successfully generated 20 images in .../data/images
-```
-
-**3. Verifying that the lab script runs**
-
-Once the data exists, run the lab script to confirm the full pipeline works end-to-end before you open the notebook:
-
-```bash
-python lab_research_pipeline.py
-```
-
-If this runs to completion without errors, your environment is ready. If it fails, `08_SETUP.pdf` has a Troubleshooting section that addresses the most common problems, including missing OpenCV, missing images, and slow performance.
-
-> **Only once `lab_research_pipeline.py` runs cleanly should you open `tutorial.ipynb`.**
+</details>
 
 ---
 
 ## The Notebook: `tutorial.ipynb`
 
-The notebook is your main workspace. It walks you through the full pipeline in ten numbered sections, building up from scratch so you can see every moving part before they all connect at the end.
-
-Open it with:
-
-```bash
-jupyter notebook tutorial.ipynb
-```
-
-Or if you are using JupyterLab:
-
-```bash
-jupyter lab tutorial.ipynb
-```
+The notebook is your main workspace. It walks you through the full pipeline in ten numbered sections, building up from scratch so you can see every moving part before they all connect at the end. Run it top-to-bottom (in Colab, **Runtime → Run all**) — the early cells install dependencies and generate the dataset before the later cells use them.
 
 ### How the notebook is structured
 
@@ -108,7 +62,7 @@ The first cell imports all the libraries and prints their version numbers. Run i
   OpenCV version: 4.8.x
 ```
 
-If any import fails, go back to `08_SETUP.pdf` and re-run `pip install -e .`. A missing import at this stage will cause every later cell to fail.
+If any import fails, re-run the notebook's **first code cell** (the one that installs dependencies) and then this cell again. A missing import at this stage will cause every later cell to fail.
 
 ---
 
@@ -447,35 +401,19 @@ The video does not need to be polished. What matters is that you can explain the
 
 **The notebook fails at the first import cell**
 
-This means a library is missing. Go to your terminal, navigate to the `08_capstone_pipeline/` folder, and run:
-
-```bash
-pip install -e .
-```
-
-Then restart the Jupyter kernel and run the cell again.
+This means the dependency-install cell has not run yet. Re-run the notebook's **first code cell** (which installs all dependencies into the kernel), then run the import cell again. In Colab you can also just use **Runtime → Run all**.
 
 ---
 
 **`ModuleNotFoundError: No module named 'cv2'`**
 
-OpenCV has an unusual package name — the Python module is called `cv2` but the package you install is called `opencv-python`. Install it directly:
-
-```bash
-pip install opencv-python
-```
+OpenCV has an unusual package name — the Python module is called `cv2` but the package installed is called `opencv-python`. Re-run the notebook's first code cell to install it. If you are running locally outside the notebook, `pip install opencv-python`.
 
 ---
 
 **Images load as None / "Images not found" error**
 
-You need to generate the images before running the notebook. Open a terminal in the `08_capstone_pipeline/` folder and run:
-
-```bash
-python create_sample_data.py
-```
-
-This only takes a few seconds and only needs to be done once.
+The images are generated by an early cell in the notebook, not stored on disk beforehand. Re-run the notebook top-to-bottom (**Runtime → Run all** in Colab) so the data-generation cell runs before the loader cells. It only takes a few seconds.
 
 ---
 
@@ -493,7 +431,7 @@ Check every place you call `cv2.imread` and make sure you have the `cvtColor` ca
 
 **`ValueError: No valid samples found for split 'train'`**
 
-This usually means the manifest CSV does not exist yet, or the split column has a typo. Check that `data/manifest.csv` exists. If it does not, run `python create_sample_data.py` first. If it does exist, open it and verify the `split` column contains exactly the strings `train` and `test` (lowercase, no extra spaces).
+This usually means the data-generation cell has not run yet, or the split column has a typo. Re-run the notebook top-to-bottom (**Runtime → Run all** in Colab) so the cell that builds `manifest.csv` runs first. If the manifest exists, verify its `split` column contains exactly the strings `train` and `test` (lowercase, no extra spaces).
 
 ---
 
@@ -531,9 +469,9 @@ If any of these feel unclear, re-read the corresponding section of the notebook 
 ## You Are Ready
 
 If you have:
-- ✓ Read `08_SETUP.pdf` and confirmed your environment works
-- ✓ Run `python create_sample_data.py` to generate the dataset
-- ✓ Opened `tutorial.ipynb` and worked through all ten sections
+- ✓ Opened `tutorial.ipynb` in Colab and run the first code cell (dependencies installed)
+- ✓ Let the notebook generate its own dataset via the early data-generation cell
+- ✓ Worked through all ten sections
 - ✓ Completed all three tasks in Section 10 with correct outputs
 - ✓ Run **Kernel → Restart & Run All** as a final check
 

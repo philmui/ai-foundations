@@ -1,34 +1,37 @@
 # Getting Started with Module 7: Images as Data
 
-## Quick Start (3 Steps)
+## ▶️ Run in Google Colab (recommended)
 
-### 1. Install Dependencies
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/07_images_as_data/tutorial.ipynb)
+
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained — any data it uses is generated inside the notebook, so it runs end-to-end with no external files.
+
+Then open `slides.html` in your browser for the presentation.
+
+<details><summary>Advanced: run locally</summary>
+
+Prefer a local Jupyter/VS Code setup? Install the dependencies and open the notebook:
+
 ```bash
-cd module_07_images_as_data
-pip install -e .
+pip install numpy opencv-python matplotlib python-dotenv
+jupyter notebook tutorial.ipynb
 ```
 
-### 2. Run the Lab
-```bash
-python lab_the_preprocessor.py
-```
+The notebook still generates its own sample data, so no separate data step is required.
 
-### 3. View the Slides
-```bash
-# macOS/Linux
-open slides.html
-
-# Windows
-start slides.html
-
-# Or just open slides.html in your browser
-```
+</details>
 
 That's it! 🎉
 
 ---
 
-## Detailed Setup Guide
+## Detailed Setup Guide (local / secondary path)
+
+> The Colab workflow above is the recommended way to run this module. The instructions below are for readers who want to run everything locally. Note the tutorial notebook is self-contained and installs its own dependencies in its first cell and generates its own sample data — the local `pip install -e .` / helper-script steps below are optional and apply mainly to the standalone lab scripts.
 
 ### Prerequisites
 
@@ -393,6 +396,4 @@ If you can check all boxes, you're ready to proceed! 🚀
 
 ---
 
-**Need help?** Re-run `python test_module.py` to diagnose issues.
-
-**Ready to go?** Run `python lab_the_preprocessor.py` to start learning!
+**Ready to go?** Click the **Open in Colab** badge at the top and **Runtime → Run all** to start learning! (Or, locally, re-run `python test_module.py` to diagnose issues and `python lab_the_preprocessor.py` to run the lab.)

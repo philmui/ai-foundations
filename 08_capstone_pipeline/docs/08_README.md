@@ -18,45 +18,16 @@ The final module integrating all concepts from Modules 1-7 into a production-rea
 - Generator patterns for memory-efficient iteration
 - Connection points to PyTorch and TensorFlow
 
-## Prerequisites
+## ▶️ Run in Google Colab (recommended)
 
-Install dependencies:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/08_capstone_pipeline/tutorial.ipynb)
 
-```bash
-pip install -e .
-```
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
 
-This installs:
-- `python-dotenv` - Environment variable management
-- `numpy>=1.26.0` - Array operations
-- `pandas>=2.1.0` - DataFrame operations
-- `opencv-python>=4.8.0` - Image processing
+The notebook is fully self-contained — any data it uses is generated inside the notebook, so it runs end-to-end with no external files. This includes the synthetic multimodal dataset (20 images across 5 categories — astronomy, biology, geography, engineering, meteorology — with train/test splits and a manifest CSV) and the full pipeline it demonstrates:
 
-## Setup
-
-### 1. Generate Sample Data
-
-First, create the synthetic multimodal dataset:
-
-```bash
-python create_sample_data.py
-```
-
-This generates:
-- 20 synthetic images in `data/images/`
-- Images match the filenames in `data/manifest.csv`
-- 5 categories: astronomy, biology, geography, engineering, meteorology
-- Train/test splits
-
-### 2. Run the Pipeline
-
-Execute the capstone lab to see the full pipeline in action:
-
-```bash
-python lab_research_pipeline.py
-```
-
-This demonstrates:
 - Loading and cleaning the manifest with Pandas
 - Filtering by train/test split
 - Generator-based batch iteration
@@ -64,6 +35,12 @@ This demonstrates:
 - NumPy array stacking for batches
 - Performance timing
 - Connection to PyTorch/TensorFlow (pseudocode)
+
+<details><summary>Advanced: run locally</summary>
+
+The dependencies (`numpy>=1.26.0`, `pandas>=2.1.0`, `opencv-python>=4.8.0`, `python-dotenv`) are installed by the notebook's first code cell, so you can simply open `tutorial.ipynb` in Jupyter or VS Code and run all cells — the dataset is generated inside the notebook. If you prefer a project-level install, run `uv sync` (or `pip install -e .`) from the module folder first, then launch Jupyter.
+
+</details>
 
 ## Module Integration
 
@@ -83,20 +60,13 @@ This capstone integrates all 8 modules:
 ## File Structure
 
 ```
-module_08_capstone_pipeline/
-├── pyproject.toml              # Dependencies
-├── README.md                   # This file
-├── create_sample_data.py       # Generate synthetic dataset
-├── lab_research_pipeline.py    # Main capstone lab
+08_capstone_pipeline/
+├── tutorial.ipynb              # Self-contained capstone notebook (Colab-ready)
 ├── slides.html                 # Educational slides
-└── data/
-    ├── manifest.csv            # Data manifest (images + metadata)
-    └── images/                 # Generated images
-        ├── galaxy_001.png
-        ├── galaxy_002.png
-        ├── cell_001.png
-        └── ...
+└── docs/                       # README, setup, assignment, rubric
 ```
+
+The notebook generates its own synthetic dataset (20 images across 5 categories plus a manifest CSV) at runtime, so there are no separate data files or helper scripts to run first.
 
 ## The Manifest Pattern
 
@@ -129,7 +99,7 @@ OpenCV (load/resize/normalize) → NumPy (stack) → Batch Dict
 
 ```python
 from pathlib import Path
-from lab_research_pipeline import MultimodalDataLoader
+# The MultimodalDataLoader class is defined in tutorial.ipynb
 
 # Initialize
 loader = MultimodalDataLoader(

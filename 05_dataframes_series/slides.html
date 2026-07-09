@@ -432,7 +432,7 @@
             </ul>
             <div class="callout tip">
                 <span class="callout-label">How to use these slides</span>
-                <p>Each concept comes with a small piece of code. Open the companion notebook <code>tutorial.ipynb</code> and run each snippet as you go. Learning by typing beats learning by reading.</p>
+                <p>Each concept comes with a small piece of code. Open the companion notebook <code>tutorial.ipynb</code> in Google Colab and use <strong>Runtime → Run all</strong> (or run each snippet as you go). Learning by typing beats learning by reading.</p>
             </div>
             <div class="footer">© mui-group</div>
         </div>
@@ -858,8 +858,8 @@ pivot <span class="keyword">=</span> df.<span class="keyword">groupby</span>([<s
             <div class="slide-number">15 / 18</div>
             <span class="step-badge">Part 9 · The Lab</span>
             <h2>Dataset detective &amp; the ML connection</h2>
-            <p>The <code>lab_dataset_detective.py</code> script walks the full workflow end to end, then ties each finding to a concrete ML preparation step.</p>
-            <pre class="tight"><code><span class="comment"># From lab_dataset_detective.py, the core detective flow</span>
+            <p>The lab section of <code>tutorial.ipynb</code> walks the full workflow end to end, then ties each finding to a concrete ML preparation step.</p>
+            <pre class="tight"><code><span class="comment"># The core detective flow (in tutorial.ipynb)</span>
 df <span class="keyword">=</span> pd.<span class="keyword">read_csv</span>(data_path)
 <span class="keyword">print</span>(df.shape)
 df.<span class="keyword">info</span>()
@@ -924,7 +924,7 @@ df.<span class="keyword">info</span>()
                 <div>
                     <p class="smaller" style="margin-bottom: 0.75rem;"><strong>Try it yourself:</strong></p>
                     <ul class="smaller">
-                        <li>Run the lab: <code>python lab_dataset_detective.py</code></li>
+                        <li>Open <code>tutorial.ipynb</code> in Google Colab and <strong>Runtime → Run all</strong> (locally: <code>python -m notebook</code>)</li>
                         <li>Load the data with <code>parse_dates</code> and sort by <code>timestamp</code></li>
                         <li>Filter high-rated prompts per category with boolean indexing</li>
                         <li>Build a <code>model</code> by <code>category</code> pivot of mean rating</li>

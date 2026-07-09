@@ -7,9 +7,10 @@
 ## 🚀 Start Here
 
 ### For Students
-1. **[GETTING_STARTED.md](GETTING_STARTED.md)** - Setup and installation guide
-2. **[slides.html](slides.html)** - Open in browser for presentation
-3. **Run the lab**: `python lab_the_preprocessor.py`
+1. **Run the tutorial in Google Colab (recommended)**: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/07_images_as_data/tutorial.ipynb) — run the first code cell to install deps, then **Runtime → Run all**. Self-contained; no local install needed.
+2. **[GETTING_STARTED.md](GETTING_STARTED.md)** - Setup guide (Colab-first, with local as a secondary path)
+3. **[slides.html](slides.html)** - Open in browser for presentation
+4. **Run locally (optional)**: `python lab_the_preprocessor.py`
 
 ### For Instructors
 1. **[README.md](README.md)** - Complete module documentation
@@ -118,13 +119,13 @@
 2. Navigate through all 15 slides
 3. Understand concepts before coding
 
-**Step 2: Quick Setup** (5 min)
-1. Read [GETTING_STARTED.md](GETTING_STARTED.md) (first section only)
-2. Run `pip install -e .`
-3. Run `python test_module.py` to verify
+**Step 2: Quick Setup** (2 min)
+1. Open `tutorial.ipynb` in Google Colab (badge above) — no install needed
+2. Run the first code cell to install dependencies into the kernel
+3. (Local, optional) Read [GETTING_STARTED.md](GETTING_STARTED.md), then `pip install -e .` and `python test_module.py`
 
 **Step 3: Hands-On Practice** (30 min)
-1. Run `python lab_the_preprocessor.py`
+1. In Colab, use **Runtime → Run all** (or, locally, `python lab_the_preprocessor.py`)
 2. Read output carefully
 3. Review code in editor
 
@@ -283,6 +284,8 @@ module_07_images_as_data/
 
 ## ⚡ Quick Commands
 
+> Recommended path is Google Colab (open `tutorial.ipynb`, run the first cell, then **Runtime → Run all**). The commands below are for running locally.
+
 ```bash
 # Setup
 pip install -e .
@@ -324,9 +327,9 @@ xdg-open slides.html  # Linux
 ## ✅ Checklist
 
 Before starting:
-- [ ] Python 3.10+ installed
-- [ ] Can run `pip install -e .`
-- [ ] [test_module.py](test_module.py) passes
+- [ ] Can open `tutorial.ipynb` in Google Colab (recommended)
+- [ ] First code cell runs and installs dependencies
+- [ ] (Local, optional) Python 3.10+ installed and `pip install -e .` works; [test_module.py](test_module.py) passes
 - [ ] [slides.html](slides.html) opens in browser
 
 After completing:

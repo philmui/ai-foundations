@@ -1,13 +1,20 @@
 # Module 8: Quick Reference Card
 
-## 🚀 Quick Start
+## ▶️ Run in Google Colab (recommended)
 
-```bash
-pip install -e .                    # Install dependencies
-python create_sample_data.py        # Generate dataset
-python lab_research_pipeline.py    # Run pipeline
-open slides.html                    # View slides
-```
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/08_capstone_pipeline/tutorial.ipynb)
+
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained — any data it uses (the synthetic dataset and manifest) is generated inside the notebook, so it runs end-to-end with no external files.
+
+<details><summary>Advanced: run locally</summary>
+
+Open `tutorial.ipynb` in Jupyter or VS Code and run all cells — the first code cell installs dependencies and the notebook generates its own dataset. If you prefer a project-level install first, run `uv sync` (or `pip install -e .`) from the module folder, then launch Jupyter. View the slides by opening `slides.html` in a browser.
+
+</details>
 
 ## 📊 The Manifest Pattern
 
@@ -38,7 +45,7 @@ CSV → Pandas → Generator → OpenCV → NumPy → Batch
 
 ```python
 from pathlib import Path
-from lab_research_pipeline import MultimodalDataLoader
+# The MultimodalDataLoader class is defined in tutorial.ipynb
 
 # Initialize
 loader = MultimodalDataLoader(
@@ -161,15 +168,10 @@ output = model(tensor)
 ## 🐛 Common Issues
 
 ### Images not found
-```bash
-# Run this first!
-python create_sample_data.py
-```
+The notebook generates its dataset in an early cell. Re-run the notebook top-to-bottom (**Runtime → Run all** in Colab) so the data-generation cell runs before the loader cells.
 
 ### ModuleNotFoundError: cv2
-```bash
-pip install opencv-python
-```
+Re-run the **first code cell** — it installs all dependencies (including `opencv-python`) into the kernel.
 
 ### Slow performance
 - Reduce `target_size=(128, 128)`

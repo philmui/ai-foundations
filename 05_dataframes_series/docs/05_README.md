@@ -28,11 +28,8 @@ By the end of this module, you will be able to:
 
 | File | Description |
 |------|-------------|
-| `tutorial.ipynb` | Interactive Jupyter notebook with step-by-step lessons |
+| `tutorial.ipynb` | Self-contained Jupyter/Colab notebook with step-by-step lessons (installs deps and generates its data in-notebook) |
 | `slides.html` | Presentation slides covering key concepts |
-| `lab_dataset_detective.py` | Hands-on lab script for exploring LLM datasets |
-| `data/llm_prompts.csv` | Sample dataset with AI model prompt-response data |
-| `pyproject.toml` | Python dependencies (pandas, matplotlib, jupyter) |
 
 ## Key Concepts Covered
 
@@ -103,38 +100,31 @@ This mirrors real AI research workflows where you analyze model performance acro
 
 ## How to Run
 
-### Option 1: Interactive Jupyter Notebook (Recommended)
+## ▶️ Run in Google Colab (recommended)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/philmui/ai-foundations/blob/main/05_dataframes_series/tutorial.ipynb)
+
+1. Click the **Open in Colab** badge above (or upload `tutorial.ipynb` via **File → Upload notebook** at colab.research.google.com).
+2. Run the **first code cell** — it installs all dependencies into the Colab kernel. No `pip install`, `uv sync`, or `pyproject.toml` needed.
+3. Run the rest top-to-bottom via **Runtime → Run all**.
+
+The notebook is fully self-contained — any data it uses is generated inside the notebook, so it runs end-to-end with no external files.
+
+Work through the notebook cells sequentially, executing each with `Shift+Enter`.
+
+<details><summary>Advanced: run locally</summary>
 
 ```bash
-# Install dependencies
-uv pip install -e .
+# Install dependencies (from the repo root)
+uv sync   # or: pip install -e .
 
-# Launch Jupyter
-jupyter notebook tutorial.ipynb
+# Open the notebook in Jupyter or VS Code
+jupyter notebook 05_dataframes_series/tutorial.ipynb
 ```
 
-Work through the notebook cells sequentially. Execute each cell with `Shift+Enter`.
+You can also open `slides.html` in your browser for a visual overview of key concepts.
 
-### Option 2: Run the Lab Script
-
-```bash
-# Install dependencies
-uv pip install -e .
-
-# Run the dataset detective lab
-python lab_dataset_detective.py
-```
-
-This script demonstrates all inspection methods in sequence and prints insights to the console.
-
-### Option 3: View the Slides
-
-```bash
-# Open slides in your browser
-open slides.html
-```
-
-The slides provide a visual overview of key concepts.
+</details>
 
 ## Next Steps
 
