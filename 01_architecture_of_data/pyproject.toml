@@ -4,6 +4,9 @@ version = "0.1.0"
 description = "Module 1: The Architecture of Data - Lists, Dicts, & Complexity"
 requires-python = ">=3.10"
 dependencies = [
+    "ipykernel>=7.3.0",
+    'matplotlib>=3.7',
+    'numpy>=1.26.0',
     "python-dotenv>=1.0.0",
 ]
 

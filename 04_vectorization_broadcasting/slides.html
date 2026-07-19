@@ -9,46 +9,52 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #fafafa;
-            --bg-secondary: #f0f0f5;
-            --bg-code: #1a1a2e;
-            --text-primary: #1a1a2e;
-            --text-secondary: #555;
-            --text-muted: #999;
-            --accent: #e94560;
-            --accent-hover: #d63851;
-            --green: #16a34a;
-            --blue: #2563eb;
-            --border: #e0e0e0;
+            --bg-primary: #fffafb;
+            --bg-secondary: #f4f1ff;
+            --bg-code: #22233a;
+            --text-primary: #20213a;
+            --text-secondary: #4f5068;
+            --text-muted: #76778e;
+            --accent: #c92f67;
+            --accent-hover: #ad2455;
+            --green: #177a4d;
+            --blue: #245cba;
+            --pastel-coral: #ff9fba;
+            --pastel-mint: #9be7c4;
+            --pastel-blue: #a9d2ff;
+            --pastel-lavender: #cfc2ff;
+            --pastel-yellow: #ffe59a;
+            --pastel-ink: #20213a;
+            --border: #ddd6fe;
             --code-text: #fafafa;
-            --svg-text: #333;
-            --svg-stroke: #444;
-            --svg-fill-light: #f8f9fa;
-            --svg-fill-accent: rgba(233, 69, 96, 0.1);
-            --shadow: rgba(0, 0, 0, 0.08);
-            --toggle-bg: #e0e0e0;
+            --svg-text: #292a42;
+            --svg-stroke: #66677e;
+            --svg-fill-light: #f4f1ff;
+            --svg-fill-accent: #ffe0e9;
+            --shadow: rgba(76, 29, 149, 0.1);
+            --toggle-bg: var(--pastel-lavender);
             --toggle-knob: #fff;
         }
 
         [data-theme="dark"] {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16162a;
-            --bg-code: #0d0d1a;
-            --text-primary: #fafafa;
-            --text-secondary: #ccc;
-            --text-muted: rgba(250, 250, 250, 0.4);
-            --accent: #e94560;
-            --accent-hover: #ff6b81;
-            --green: #4ade80;
-            --blue: #60a5fa;
-            --border: #2d2d44;
+            --bg-primary: #20213a;
+            --bg-secondary: #2a2946;
+            --bg-code: #151629;
+            --text-primary: #fffafb;
+            --text-secondary: #dedcf2;
+            --text-muted: #aaa8c1;
+            --accent: #ff9fba;
+            --accent-hover: #ffb4c8;
+            --green: #9be7c4;
+            --blue: #a9d2ff;
+            --border: #4b486e;
             --code-text: #fafafa;
-            --svg-text: #eee;
-            --svg-stroke: #888;
-            --svg-fill-light: #2d2d44;
-            --svg-fill-accent: rgba(233, 69, 96, 0.15);
+            --svg-text: #f7f3ff;
+            --svg-stroke: #aaa8c1;
+            --svg-fill-light: #343353;
+            --svg-fill-accent: #55354f;
             --shadow: rgba(0, 0, 0, 0.3);
-            --toggle-bg: #2d2d44;
+            --toggle-bg: #56527c;
             --toggle-knob: #fafafa;
         }
 
@@ -399,6 +405,109 @@
         .smaller li, .smaller p { font-size: 1.3rem; }
 
         pre.tight { font-size: 1rem; line-height: 1.45; }
+
+        pre.neuron-code {
+            padding: 0.75rem 1.5rem;
+            margin: 0.75rem 0;
+            font-size: 0.9rem;
+            line-height: 1.3;
+        }
+
+        /* Neural-network grounding visual */
+        .neural-grounding {
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+            gap: 2.5rem;
+            align-items: center;
+            margin: 0.75rem 0 1rem;
+        }
+
+        .neural-grounding .lead { margin-bottom: 1rem; }
+        .neural-grounding ul { margin-left: 0; }
+
+        .network-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem 1.25rem 1.15rem;
+            box-shadow: 0 12px 30px var(--shadow);
+        }
+
+        .network-card svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 310px;
+        }
+
+        .network-edge { stroke: var(--svg-stroke); stroke-width: 2; opacity: 0.28; }
+        .network-edge.hot { stroke: var(--accent); stroke-width: 3; opacity: 0.8; }
+        .network-node { fill: var(--bg-primary); stroke: var(--svg-stroke); stroke-width: 2.5; }
+        .network-node.hidden { fill: var(--pastel-lavender); stroke: var(--accent); }
+        .network-node.output { fill: var(--pastel-coral); stroke: var(--accent); }
+        .network-label { fill: var(--svg-text); font: 600 15px Inter, sans-serif; text-anchor: middle; }
+        .network-node.hidden + .network-label { fill: var(--pastel-ink); }
+        .network-caption { fill: var(--svg-text); font: 400 13px Inter, sans-serif; text-anchor: middle; opacity: 0.75; }
+        .network-output-label { fill: var(--pastel-ink); font: 700 14px Inter, sans-serif; text-anchor: middle; }
+
+        .network-equation {
+            text-align: center;
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            font-weight: 400;
+        }
+
+        .network-equation code { font-size: 1rem; }
+
+        /* Shared styling keeps every teaching diagram responsive and legible. */
+        .diagram-svg {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            margin-inline: auto;
+        }
+
+        .split > div:last-child .diagram-svg { max-width: 420px; }
+        .diagram-svg text[fill="#555"],
+        .diagram-svg text[fill="#1a1a2e"] { fill: var(--svg-text); }
+        .diagram-svg text[fill="#16a34a"] { fill: var(--green); }
+        .diagram-svg text[fill="#e94560"] { fill: var(--accent); }
+        .diagram-svg text[fill="#3b82f6"] { fill: var(--blue); }
+        .diagram-svg line[stroke="#1a1a2e"] { stroke: var(--svg-stroke); }
+        .diagram-svg [stroke="#e94560"] { stroke: var(--accent); }
+        .diagram-svg [stroke="#3b82f6"] { stroke: var(--blue); }
+        .diagram-svg path[fill="#e94560"] { fill: var(--accent); }
+        .diagram-svg rect[fill="#e94560"] { fill: var(--pastel-coral); }
+        .diagram-svg rect[fill="#16a34a"] { fill: var(--pastel-mint); }
+        .diagram-svg rect[fill="#3b82f6"] { fill: var(--pastel-blue); }
+        .diagram-svg rect[fill="#e94560"] + text[fill="#fafafa"],
+        .diagram-svg rect[fill="#16a34a"] + text[fill="#fafafa"] {
+            fill: var(--pastel-ink);
+        }
+        .diagram-svg rect[fill="#1a1a2e"] {
+            fill: var(--bg-code);
+            stroke: var(--svg-stroke);
+            stroke-width: 1;
+            stroke-opacity: 0.35;
+        }
+        .diagram-svg rect[fill="#1a1a2e"][opacity] {
+            fill: var(--svg-text);
+            opacity: 0.14;
+        }
+
+        .chart-loop-bar {
+            fill: var(--pastel-coral) !important;
+            opacity: 1 !important;
+        }
+
+        .chart-loop-value { fill: var(--pastel-ink) !important; }
+
+        @media (max-width: 850px) {
+            .neural-grounding { grid-template-columns: 1fr; gap: 1rem; }
+            .network-card svg { max-height: 230px; }
+        }
     </style>
 </head><body>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
@@ -440,16 +549,62 @@
         <div class="slide">
             <div class="slide-number">3 / 18</div>
             <h2>Why should you care?</h2>
-            <p class="lead">A neural network layer computes a weighted sum for hundreds of neurons over hundreds of features.</p>
-            <p>Doing that with nested Python loops can be a <strong>thousand times slower</strong> than the vectorized version. In this module you build:</p>
-            <ul class="smaller">
-                <li>The forward pass of a single artificial neuron</li>
-                <li>Then a whole layer of neurons at once</li>
-                <li>And discover the math powering PyTorch and TensorFlow</li>
-            </ul>
+            <div class="neural-grounding">
+                <div>
+                    <p class="lead">A neural network layer transforms many input features into useful signals.</p>
+                    <p style="font-size: 1.3rem;">Each connection has a <strong>weight</strong>. Each neuron combines its inputs, adds a <strong>bias</strong>, then applies an activation.</p>
+                    <ul class="smaller">
+                        <li>One dot product computes one neuron</li>
+                        <li>One matrix multiplication computes a whole layer</li>
+                        <li>Broadcasting adds every neuron's bias at once</li>
+                    </ul>
+                </div>
+                <div class="network-card" role="img" aria-label="Neural network diagram with four input features, three hidden neurons, and two output neurons connected by weighted edges">
+                    <svg viewBox="0 0 560 300" aria-hidden="true">
+                        <text class="network-label" x="75" y="24">Input features</text>
+                        <text class="network-label" x="280" y="24">Hidden layer</text>
+                        <text class="network-label" x="485" y="24">Output</text>
+
+                        <g>
+                            <line class="network-edge hot" x1="100" y1="70" x2="250" y2="90"/>
+                            <line class="network-edge" x1="100" y1="70" x2="250" y2="150"/>
+                            <line class="network-edge" x1="100" y1="70" x2="250" y2="210"/>
+                            <line class="network-edge" x1="100" y1="120" x2="250" y2="90"/>
+                            <line class="network-edge hot" x1="100" y1="120" x2="250" y2="150"/>
+                            <line class="network-edge" x1="100" y1="120" x2="250" y2="210"/>
+                            <line class="network-edge" x1="100" y1="170" x2="250" y2="90"/>
+                            <line class="network-edge" x1="100" y1="170" x2="250" y2="150"/>
+                            <line class="network-edge hot" x1="100" y1="170" x2="250" y2="210"/>
+                            <line class="network-edge" x1="100" y1="220" x2="250" y2="90"/>
+                            <line class="network-edge" x1="100" y1="220" x2="250" y2="150"/>
+                            <line class="network-edge" x1="100" y1="220" x2="250" y2="210"/>
+                            <line class="network-edge hot" x1="310" y1="90" x2="455" y2="115"/>
+                            <line class="network-edge" x1="310" y1="90" x2="455" y2="185"/>
+                            <line class="network-edge" x1="310" y1="150" x2="455" y2="115"/>
+                            <line class="network-edge hot" x1="310" y1="150" x2="455" y2="185"/>
+                            <line class="network-edge" x1="310" y1="210" x2="455" y2="115"/>
+                            <line class="network-edge" x1="310" y1="210" x2="455" y2="185"/>
+                        </g>
+
+                        <g>
+                            <circle class="network-node" cx="75" cy="70" r="25"/><text class="network-label" x="75" y="76">x₁</text>
+                            <circle class="network-node" cx="75" cy="120" r="25"/><text class="network-label" x="75" y="126">x₂</text>
+                            <circle class="network-node" cx="75" cy="170" r="25"/><text class="network-label" x="75" y="176">x₃</text>
+                            <circle class="network-node" cx="75" cy="220" r="25"/><text class="network-label" x="75" y="226">x₄</text>
+                            <circle class="network-node hidden" cx="280" cy="90" r="30"/><text class="network-label" x="280" y="96">h₁</text>
+                            <circle class="network-node hidden" cx="280" cy="150" r="30"/><text class="network-label" x="280" y="156">h₂</text>
+                            <circle class="network-node hidden" cx="280" cy="210" r="30"/><text class="network-label" x="280" y="216">h₃</text>
+                            <circle class="network-node output" cx="485" cy="115" r="30"/><text class="network-output-label" x="485" y="120">cat</text>
+                            <circle class="network-node output" cx="485" cy="185" r="30"/><text class="network-output-label" x="485" y="190">dog</text>
+                        </g>
+                        <text class="network-caption" x="280" y="274">lines = learned weights</text>
+                    </svg>
+                    <div class="network-equation"><code>H = activation(X @ W + b)</code></div>
+                </div>
+            </div>
             <div class="callout">
                 <span class="callout-label">Key insight</span>
-                <p>That math is really just matrix multiplication, broadcasting, and an activation function. Master these patterns now and every later module (data pipelines, images, models) becomes fast and natural.</p>
+                <p>The picture may look complex, but the whole middle layer is one vectorized expression: matrix multiplication, broadcasting, and an activation function.</p>
             </div>
             <div class="footer">© mui-group</div>
         </div>
@@ -494,7 +649,7 @@ arr2 <span class="keyword">=</span> np.<span class="keyword">array</span>([<span
 <span class="keyword">print</span>(arr1 ** <span class="number">2</span>)     <span class="comment"># [ 1  4  9 16]</span></code></pre>
                 </div>
                 <div>
-                    <svg width="360" height="220">
+                    <svg class="diagram-svg" viewBox="0 0 360 220" role="img" aria-label="Matching elements of two arrays combine position by position">
                         <text x="0" y="20" font-size="14" fill="#555">arr1</text>
                         <rect x="0" y="30" width="50" height="40" fill="#1a1a2e" rx="5"/>
                         <text x="25" y="55" text-anchor="middle" font-size="16" fill="#fafafa">1</text>
@@ -520,9 +675,7 @@ arr2 <span class="keyword">=</span> np.<span class="keyword">array</span>([<span
                         <path d="M 145,70 L 145,110" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
                         <path d="M 205,70 L 205,110" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
 
-                        <text x="0" y="190" font-size="14" fill="#e94560" font-weight="600">arr1 + arr2</text>
-                        <rect x="0" y="180" width="50" height="30" fill="#e94560" rx="5" opacity="0"/>
-                        <text x="115" y="205" text-anchor="middle" font-size="15" fill="#e94560" font-weight="600">[11  22  33  44]</text>
+                        <text x="115" y="198" text-anchor="middle" font-size="14" fill="#e94560" font-weight="600">arr1 + arr2 = [11  22  33  44]</text>
 
                         <defs>
                             <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
@@ -562,7 +715,7 @@ array <span class="keyword">=</span> np.<span class="keyword">array</span>([<spa
 <span class="comment"># the element-wise operation</span></code></pre>
                 </div>
                 <div>
-                    <svg width="360" height="200">
+                    <svg class="diagram-svg" viewBox="0 0 360 200" role="img" aria-label="A scalar value conceptually stretches to match four array elements">
                         <rect x="140" y="10" width="60" height="40" fill="#e94560" rx="5"/>
                         <text x="170" y="36" text-anchor="middle" font-size="18" fill="#fafafa" font-weight="600">5</text>
                         <text x="215" y="36" font-size="14" fill="#555">scalar</text>
@@ -609,7 +762,7 @@ vec2 <span class="keyword">=</span> np.<span class="keyword">array</span>([<span
 <span class="keyword">print</span>(vec1 @ vec2)          <span class="comment"># 32 (same)</span></code></pre>
                 </div>
                 <div>
-                    <svg width="360" height="190">
+                    <svg class="diagram-svg" viewBox="0 0 360 190" role="img" aria-label="A dot product multiplies matching vector elements and sums the products to get 32">
                         <rect x="0" y="20" width="40" height="35" fill="#1a1a2e" rx="4"/>
                         <text x="20" y="43" text-anchor="middle" font-size="15" fill="#fafafa">1</text>
                         <rect x="50" y="20" width="40" height="35" fill="#1a1a2e" rx="4"/>
@@ -650,7 +803,7 @@ vec2 <span class="keyword">=</span> np.<span class="keyword">array</span>([<span
             <span class="step-badge">Part 4 · Matrix multiplication</span>
             <h2>Many dot products at once</h2>
             <p>Matrix multiplication computes a dot product between every row of the first matrix and every column of the second. The <strong>inner dimensions must match</strong>: an <code>(m, n)</code> matrix times an <code>(n, p)</code> matrix gives an <code>(m, p)</code> result.</p>
-            <svg width="820" height="120" style="margin: 0.5rem 0;">
+            <svg class="diagram-svg" viewBox="0 0 820 120" style="margin: 0.5rem 0;" role="img" aria-label="Matrix multiplication shape rule: a 2 by 3 matrix times a 3 by 2 matrix produces a 2 by 2 result">
                 <rect x="0" y="30" width="120" height="55" fill="#1a1a2e" opacity="0.2" rx="6"/>
                 <text x="60" y="55" text-anchor="middle" font-size="15" fill="#1a1a2e">mat_a</text>
                 <text x="60" y="75" text-anchor="middle" font-size="14" fill="#e94560" font-weight="600">(2, 3)</text>
@@ -734,7 +887,7 @@ col_vec <span class="keyword">=</span> np.<span class="keyword">array</span>([[<
 <span class="keyword">print</span>(arr_2d + col_vec)  <span class="comment"># col across</span></code></pre>
                 </div>
                 <div>
-                    <svg width="360" height="220">
+                    <svg class="diagram-svg" viewBox="0 0 360 220" role="img" aria-label="A row vector broadcasts down and a column vector broadcasts across to fill a 2 by 3 grid">
                         <text x="0" y="18" font-size="13" fill="#555">(3,) row broadcasts down</text>
                         <rect x="0" y="25" width="40" height="30" fill="#3b82f6" opacity="0.3" rx="4"/>
                         <rect x="42" y="25" width="40" height="30" fill="#3b82f6" opacity="0.3" rx="4"/>
@@ -747,7 +900,7 @@ col_vec <span class="keyword">=</span> np.<span class="keyword">array</span>([[<
                         <rect x="42" y="107" width="40" height="30" fill="#1a1a2e" rx="4"/>
                         <rect x="84" y="107" width="40" height="30" fill="#1a1a2e" rx="4"/>
 
-                        <text x="200" y="18" font-size="13" fill="#555">(2,1) col broadcasts across</text>
+                        <text x="272" y="18" text-anchor="middle" font-size="13" fill="#555">(2, 1) column → across</text>
                         <rect x="200" y="75" width="30" height="30" fill="#16a34a" opacity="0.35" rx="4"/>
                         <rect x="200" y="107" width="30" height="30" fill="#16a34a" opacity="0.35" rx="4"/>
                         <path d="M 233,90 L 247,90" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
@@ -776,7 +929,7 @@ col_vec <span class="keyword">=</span> np.<span class="keyword">array</span>([[<
             <span class="step-badge">Part 6 · The artificial neuron</span>
             <h2>output = activation(w · x + b)</h2>
             <p>A neuron multiplies input features by learned weights, sums them (a dot product), adds a bias, then passes the result through a non-linear activation such as ReLU, which is simply <code>max(0, x)</code>.</p>
-            <svg width="820" height="150" style="margin: 0.5rem 0;">
+            <svg class="diagram-svg" viewBox="0 8 700 128" style="margin: 0.5rem 0;" role="img" aria-label="Three weighted inputs flow into a neuron, then through a ReLU activation to produce an output">
                 <rect x="0" y="20" width="70" height="30" fill="#1a1a2e" rx="4"/>
                 <text x="35" y="40" text-anchor="middle" font-size="13" fill="#fafafa">x1=1.5</text>
                 <rect x="0" y="60" width="70" height="30" fill="#1a1a2e" rx="4"/>
@@ -787,9 +940,9 @@ col_vec <span class="keyword">=</span> np.<span class="keyword">array</span>([[<
                 <path d="M 70,35 L 300,70" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
                 <path d="M 70,75 L 300,75" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
                 <path d="M 70,115 L 300,80" stroke="#e94560" stroke-width="2" marker-end="url(#arrowred)"/>
-                <text x="150" y="40" font-size="12" fill="#555">w1=0.2</text>
-                <text x="150" y="70" font-size="12" fill="#555">w2=0.8</text>
-                <text x="150" y="115" font-size="12" fill="#555">w3=-0.5</text>
+                <text x="150" y="30" font-size="12" fill="#555">w1=0.2</text>
+                <text x="150" y="66" font-size="12" fill="#555">w2=0.8</text>
+                <text x="150" y="127" font-size="12" fill="#555">w3=-0.5</text>
 
                 <circle cx="340" cy="75" r="40" fill="#1a1a2e"/>
                 <text x="340" y="70" text-anchor="middle" font-size="16" fill="#fafafa">Σ</text>
@@ -801,15 +954,11 @@ col_vec <span class="keyword">=</span> np.<span class="keyword">array</span>([[<
                 <path d="M 555,75 L 615,75" stroke="#e94560" stroke-width="3" marker-end="url(#arrowred)"/>
                 <text x="625" y="80" font-size="15" fill="#e94560" font-weight="600">output</text>
             </svg>
-            <pre class="tight"><code>inputs <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">1.5</span>, <span class="number">2.0</span>, <span class="number">3.5</span>])    <span class="comment"># 3 features</span>
+            <pre class="tight neuron-code"><code>inputs <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">1.5</span>, <span class="number">2.0</span>, <span class="number">3.5</span>])    <span class="comment"># 3 features</span>
 weights <span class="keyword">=</span> np.<span class="keyword">array</span>([<span class="number">0.2</span>, <span class="number">0.8</span>, -<span class="number">0.5</span>])  <span class="comment"># 3 weights</span>
 bias <span class="keyword">=</span> <span class="number">2.0</span>
 
-<span class="keyword">def</span> <span class="keyword">relu</span>(x):
-    <span class="keyword">return</span> np.<span class="keyword">maximum</span>(<span class="number">0</span>, x)           <span class="comment"># ReLU: max(0, x)</span>
-
-z <span class="keyword">=</span> np.<span class="keyword">dot</span>(weights, inputs) + bias    <span class="comment"># weighted sum w.x + b</span>
-output <span class="keyword">=</span> relu(z)                      <span class="comment"># non-linear activation</span></code></pre>
+output <span class="keyword">=</span> np.<span class="keyword">maximum</span>(<span class="number">0</span>, np.<span class="keyword">dot</span>(weights, inputs) + bias)  <span class="comment"># ReLU(w.x + b)</span></code></pre>
             <div class="callout tip">
                 <span class="callout-label">You already know this</span>
                 <p>The whole neuron is one dot product, one broadcast add, and one element-wise activation, three vectorized ideas you already learned.</p>
@@ -838,7 +987,7 @@ A <span class="keyword">=</span> relu(Z)     <span class="comment"># element-wis
 <span class="keyword">print</span>(Z.shape, A)</code></pre>
                 </div>
                 <div>
-                    <svg width="360" height="200">
+                    <svg class="diagram-svg" viewBox="0 0 360 200" role="img" aria-label="A 4 by 3 weight matrix multiplies a 3 element input vector, adds a 4 element bias vector, and produces 4 neuron outputs">
                         <text x="0" y="18" font-size="13" fill="#555">W (4, 3)</text>
                         <rect x="0" y="25" width="90" height="90" fill="#e94560" opacity="0.25" rx="5"/>
                         <text x="45" y="75" text-anchor="middle" font-size="14" fill="#1a1a2e">W</text>
@@ -901,16 +1050,16 @@ loop_time <span class="keyword">=</span> time.<span class="keyword">time</span>(
             <h2>The result: not even close</h2>
             <p>The vectorized version runs in a fraction of a millisecond while the loop crawls, and <code>np.allclose</code> confirms both produce the same answer.</p>
             <div class="chart-container">
-                <svg width="800" height="260">
+                <svg class="diagram-svg" viewBox="0 0 800 260" role="img" aria-label="Bar chart showing vectorized matrix multiplication much faster than nested Python loops">
                     <text x="0" y="25" font-size="18" fill="#1a1a2e" font-weight="600">Time to compute the same layer</text>
                     <line x1="200" y1="50" x2="200" y2="210" stroke="#1a1a2e" stroke-width="2"/>
 
                     <rect x="200" y="70" width="30" height="30" fill="#16a34a" rx="4"/>
                     <text x="245" y="90" font-size="15" fill="#16a34a" font-weight="600">Vectorized: W @ X + b</text>
 
-                    <rect x="200" y="130" width="560" height="45" fill="#e94560" opacity="0.7" rx="4"/>
+                    <rect class="chart-loop-bar" x="200" y="130" width="560" height="45" fill="#e94560" opacity="0.7" rx="4"/>
                     <text x="200" y="120" font-size="15" fill="#e94560" font-weight="600">Nested for loops</text>
-                    <text x="480" y="158" text-anchor="middle" font-size="16" fill="#fafafa" font-weight="600">500,000 multiply-adds in Python</text>
+                    <text class="chart-loop-value" x="480" y="158" text-anchor="middle" font-size="16" fill="#fafafa" font-weight="600">500,000 multiply-adds in Python</text>
 
                     <text x="400" y="235" text-anchor="middle" font-size="20" fill="#1a1a2e" font-weight="700">Typically 10 to 1000x faster</text>
                 </svg>
@@ -943,7 +1092,7 @@ A_batch <span class="keyword">=</span> relu(Z_batch)
 <span class="comment"># 3 samples, 4 neuron outputs</span></code></pre>
                 </div>
                 <div>
-                    <svg width="360" height="180">
+                    <svg class="diagram-svg" viewBox="0 0 360 180" role="img" aria-label="A batch with three samples passes through one matrix multiplication to produce four outputs per sample">
                         <text x="0" y="18" font-size="13" fill="#555">X_batch (3, 3)</text>
                         <rect x="0" y="25" width="80" height="70" fill="#1a1a2e" opacity="0.25" rx="5"/>
                         <text x="40" y="65" text-anchor="middle" font-size="13" fill="#1a1a2e">3 rows</text>
